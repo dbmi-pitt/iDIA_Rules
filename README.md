@@ -20,11 +20,14 @@ There is a maven __pom.xml__ file used to build the application
 
 NOTE: If you are connecting to an Oracle OHDSI CDM database then you need to acquire the Oracle ojdbc driver and install it in your local repository like this BEFORE running the 'install' target:
 
+```
 mvn install:install-file -Dfile=<Path to ojdbc jar> -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=<version> -Dpackaging=jar
+```
 
 Example:
+```
 mvn install:install-file -Dfile=/tmp/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.3 -Dpackaging=jar
-
+```
 
 __RUN__
 
