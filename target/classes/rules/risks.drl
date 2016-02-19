@@ -1,0 +1,98 @@
+//created on: Feb 12, 2016
+package com.sample
+
+//list any import classes here.
+import function com.sample.DRLLogger.*;
+import com.sample.model.Risk;
+import com.sample.model.RiskScore;
+import com.sample.model.Cns;
+import com.sample.model.Observation;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+
+
+//declare any global variables here
+global Map<Integer, Risk> risks;
+global Map<Integer, RiskScore> riskscores;
+
+/*
+declare Risk 
+	id : Integer
+	cns : boolean
+	fallHx : boolean
+end
+*/
+
+rule "CNS Exposures"
+	no-loop true
+    when
+       // $cns : Cns( exposures > 0)
+       $cns : Cns()
+    then
+		//info(drools, "Rule:", "CNS Exposures");
+        //System.out.println("Patient #" + $cns.getId() + " has " + $cns.getExposures() + " drug exposures");
+        
+        Risk r = (Risk)risks.get($cns.getId());
+        if (r == null) {
+        	r = new Risk();
+        	r.setId($cns.getId());
+        }
+        boolean b = ($cns.getExposures() > 0?true:false);
+        r.setCns(b);
+        risks.put($cns.getId(), r);
+end
+
+
+rule "Fall Hx 2 to 6 months or last month"
+	no-loop true
+    when  
+    	$obs : Observation( (type == "MDS_FALL_2_TO_6_MNTH" && 
+        					valueConceptId == 45877994) ||
+        					(type == "MDS_FALL_LAST_MNTH" && 
+        					valueConceptId == 45877994))
+           					
+    then
+		
+//		info(drools, "Rule:", "Fall Hx 2 to 6 months or last month");
+//        System.out.println("Patient #" + $obs.getId() + " has a " + $obs.getType());
+  		Risk r =(Risk) risks.get($obs.getId());
+        if (r == null) {
+        	r = new Risk();
+        	r.setId($obs.getId());
+        }
+        
+        r.setFallHx(true);
+        risks.put($obs.getId(), r);        
+end
+
+rule "high risk"
+	salience -50
+	when
+		$rsk : Risk(fallHx == true, cns == true)
+	then
+		//System.out.println("pt: " + $rsk.getId() + " risk: high");
+		RiskScore rs = new RiskScore($rsk.getId(), "high");
+		riskscores.put($rsk.getId(), rs);
+end
+
+rule "med risk"
+	salience -50
+	when
+		$rsk : Risk(fallHx == false, cns == true)
+	then
+		//System.out.println("pt: " + $rsk.getId() + " risk: med");
+		RiskScore rs = new RiskScore($rsk.getId(), "med");
+		riskscores.put($rsk.getId(), rs);
+end
+
+rule "low risk"
+	salience -50
+	when
+		$rsk : Risk(fallHx == false, cns == false)
+	then
+		//System.out.println("pt: " + $rsk.getId() + " risk: low");
+		RiskScore rs = new RiskScore($rsk.getId(), "low");
+		riskscores.put($rsk.getId(), rs);		
+end
