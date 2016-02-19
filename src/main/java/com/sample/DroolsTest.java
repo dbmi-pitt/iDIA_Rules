@@ -14,9 +14,9 @@ import java.util.*;
 
 public class DroolsTest {
 
-    private static final String USERNAME = "<username>";    
-    private static final String PASS = "<password>";
-    private static final String IP = "<IP>";
+    private static final String USERNAME = "";    
+    private static final String PASS = "";
+    private static final String IP = "";
     
     private static final String DATABASE = "dikb";
 	private static final String SID = "DBMI01";
@@ -128,7 +128,7 @@ public class DroolsTest {
             System.out.println("Inserting results into the RISK_ANALYSIS table ...");
             // get the risk scores
             Map<Integer, RiskScore> computedRiskScores = (HashMap<Integer, RiskScore>)kSession.getGlobal("riskscores");
-            insertRisksAnalysis(connection, patientMap, computedRiskScores);           
+            //insertRisksAnalysis(connection, patientMap, computedRiskScores);           
 
             
             
