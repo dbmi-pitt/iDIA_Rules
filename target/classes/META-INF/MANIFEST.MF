@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
-Built-By: midavis
-Build-Jdk: 1.8.0_71
-Created-By: Maven Integration for Eclipse
-
+               # Replace Windows newlines with Unix newlinesBuilt-By: midavis
+               # Replace Windows newlines with Unix newlinesBuild-Jdk: 1.8.0_72
+               # Replace Windows newlines with Unix newlinesCreated-By: Maven Integration for Eclipse
+               # Replace Windows newlines with Unix newlines
+               # Replace Windows newlines with Unix newlines
