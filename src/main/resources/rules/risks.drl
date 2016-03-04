@@ -7,10 +7,12 @@ import com.sample.model.Risk;
 import com.sample.model.RiskScore;
 import com.sample.model.Cns;
 import com.sample.model.Observation;
+import com.sample.model.Concept;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.lang.String;
 
 
 //declare any global variables here
@@ -24,6 +26,16 @@ declare Risk
 	fallHx : boolean
 end
 */
+
+rule "test list"
+	no-loop true
+	when
+		$list : Concept(type == "obs")
+		Observation( $list.concepts contains valueConceptId ) 
+		
+	then	
+		System.out.println("matched in the list");
+end
 
 rule "CNS Exposures"
 	no-loop true
@@ -65,6 +77,16 @@ rule "Fall Hx 2 to 6 months or last month"
         
         r.setFallHx(true);
         risks.put($obs.getId(), r);        
+end
+
+rule "test"
+	no-loop true
+	when
+		$list : List()
+		$r : Observation (type memberOf $list)
+		
+	then
+		System.out.println("type is one of them");
 end
 
 rule "high risk"
