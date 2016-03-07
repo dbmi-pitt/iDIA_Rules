@@ -55,6 +55,10 @@ public class DroolsTest {
 	String startDateStr = "2008-03-12";
 	String endDateStr = "2008-03-14";
 
+	//List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person AS p WHERE p.personId IN (SELECT DISTINCT o.personId FROM Observation o WHERE o.obsDate <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND o.obsDate >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))").list();
+	List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person").list();
+	System.out.println("INFO: number of persons with observations during the date range: " + persons.size());
+	
 	List<DrugEra> deras = (List<DrugEra>) hibernateSession.createQuery("FROM DrugEra WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd'))").list();
 	System.out.println("INFO: number of deras: " + deras.size());
 	    
@@ -75,6 +79,10 @@ public class DroolsTest {
 	// Load all the facts
 	System.out.println("Asserting facts...");
 	int cnt = 0;
+	for (Person p : persons) {           	
+	    kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));            	
+	    cnt++;
+	}
 	for (DrugExposure dex : dexps) {           	
 	    kSession.insert((DrugExposure) hibernateSession.get(DrugExposure.class, dex.getDrugExposureId()));            	
 	    cnt++;

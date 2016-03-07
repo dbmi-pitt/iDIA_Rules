@@ -3,8 +3,6 @@ package com.sample
 
 //list any import classes here.
 import function com.sample.DRLLogger.*;
-//import com.sample.model.Risk;
-//import com.sample.model.RiskScore;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,110 +11,18 @@ import java.lang.String;
 
 import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
 import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
+import edu.pitt.dbmi.ohdsiv5.db.Person;
 
 //declare any global variables here
 global org.hibernate.Session hibernateSession;
 
-//global Map<Integer, Risk> risks;
-//global Map<Integer, RiskScore> riskscores;
 
-/*
-declare Risk 
-	id : Integer
-	cns : boolean
-	fallHx : boolean
+rule "warfarin - ibuprofen ingredient exposure"
+    no-loop true
+    when
+      $de1 : DrugEra(drugConceptId == 1310149)
+      $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == 1177480)
+      $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
+    then	
+      System.out.println("matched drug era ids for patient: " + $de1.getPersonId() + " " + $person.getYearOfBirth());
 end
-*/
-
-rule "test list"
-	no-loop true
-	when
-           //$de1 : DrugEra(drugConceptId == 1310149)
-           $de1 : DrugEra()
-//eval(true)
-	then	
-          System.out.println("matched drug era ids for patient: " + $de1.getPersonId());
-//System.out.println("rule engine worked!");
-end
-
-// rule "CNS Exposures"
-// 	no-loop true
-//     when
-//        // $cns : Cns( exposures > 0)
-//        $cns : Cns()
-//     then
-// 		//info(drools, "Rule:", "CNS Exposures");
-//         //System.out.println("Patient #" + $cns.getId() + " has " + $cns.getExposures() + " drug exposures");
-        
-//         Risk r = (Risk)risks.get($cns.getId());
-//         if (r == null) {
-//         	r = new Risk();
-//         	r.setId($cns.getId());
-//         }
-//         boolean b = ($cns.getExposures() > 0?true:false);
-//         r.setCns(b);
-//         risks.put($cns.getId(), r);
-// end
-
-
-// rule "Fall Hx 2 to 6 months or last month"
-// 	no-loop true
-//     when  
-//     	$obs : Observation( (type == "MDS_FALL_2_TO_6_MNTH" && 
-//         					valueConceptId == 45877994) ||
-//         					(type == "MDS_FALL_LAST_MNTH" && 
-//         					valueConceptId == 45877994))
-           					
-//     then
-		
-// //		info(drools, "Rule:", "Fall Hx 2 to 6 months or last month");
-// //        System.out.println("Patient #" + $obs.getId() + " has a " + $obs.getType());
-//   		Risk r =(Risk) risks.get($obs.getId());
-//         if (r == null) {
-//         	r = new Risk();
-//         	r.setId($obs.getId());
-//         }
-        
-//         r.setFallHx(true);
-//         risks.put($obs.getId(), r);        
-// end
-
-// rule "test"
-// 	no-loop true
-// 	when
-// 		$list : List()
-// 		$r : Observation (type memberOf $list)
-		
-// 	then
-// 		System.out.println("type is one of them");
-// end
-
-// rule "high risk"
-// 	salience -50
-// 	when
-// 		$rsk : Risk(fallHx == true, cns == true)
-// 	then
-// 		//System.out.println("pt: " + $rsk.getId() + " risk: high");
-// 		RiskScore rs = new RiskScore($rsk.getId(), "high");
-// 		riskscores.put($rsk.getId(), rs);
-// end
-
-// rule "med risk"
-// 	salience -50
-// 	when
-// 		$rsk : Risk(fallHx == false, cns == true)
-// 	then
-// 		//System.out.println("pt: " + $rsk.getId() + " risk: med");
-// 		RiskScore rs = new RiskScore($rsk.getId(), "med");
-// 		riskscores.put($rsk.getId(), rs);
-// end
-
-// rule "low risk"
-// 	salience -50
-// 	when
-// 		$rsk : Risk(fallHx == false, cns == false)
-// 	then
-// 		//System.out.println("pt: " + $rsk.getId() + " risk: low");
-// 		RiskScore rs = new RiskScore($rsk.getId(), "low");
-// 		riskscores.put($rsk.getId(), rs);		
-// end
