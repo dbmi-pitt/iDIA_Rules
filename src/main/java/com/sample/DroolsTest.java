@@ -4,10 +4,8 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
-// import com.sample.model.Cns;
 // import com.sample.model.Risk;
 // import com.sample.model.RiskScore;
-// import com.sample.model.Observation;
 
 import java.sql.*;
 import java.util.*;
@@ -17,30 +15,19 @@ import org.hibernate.SessionFactory;
 
 import edu.pitt.dbmi.ohdsiv5.Upia2Omop;
 import edu.pitt.dbmi.ohdsiv5.db.util.HibernateUtil;
+import edu.pitt.dbmi.ohdsiv5.db.Concept;
+import edu.pitt.dbmi.ohdsiv5.db.ConceptRelationship;
+import edu.pitt.dbmi.ohdsiv5.db.ConditionOccurrence;
+import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
+import edu.pitt.dbmi.ohdsiv5.db.Observation;
+import edu.pitt.dbmi.ohdsiv5.db.ObservationPeriod;
+import edu.pitt.dbmi.ohdsiv5.db.ProcedureOccurrence;
+import edu.pitt.dbmi.ohdsiv5.db.Person;
 
 public class DroolsTest {
-    static SessionFactory session = HibernateUtil.getSession().getSessionFactory();
-
-    // private static final String USERNAME = "student";    
-    // private static final String PASS = "student";
-    // private static final String IP = "localhost";
-    
-    // private static final String DATABASE = "testohdsi";
-    // private static final String PORT = "5432";    
-    // private static final String DRIVER = "org.postgresql.Driver";
-    // private static final String URL = "jdbc:postgresql://"+IP+":"+PORT+"/"+DATABASE;
-    
-    // private static final String SQL = "SELECT DISTINCT D1.person_id, D1.drug_concept_id, D1.days_supply FROM drug_exposure D1 ORDER BY D1.person_id;";
-
-    // private static final String cnsSQL = "SELECT person_id, location_id, " +
-    // 	"(SELECT count(D1.drug_concept_id) " + 
-    // 	"FROM drug_exposure D1 "+ 
-    // 	"where D1.person_id = p.person_id) as exposures FROM person p";
-    
-    // private static final String fallsSQL = "select DISTINCT person_id, observation_source_value, value_as_concept_id " +
-    // 	"from observation x " +
-    // 	"where (observation_source_value='MDS_FALL_2_TO_6_MNTH' or observation_source_value='MDS_FALL_LAST_MNTH') order by person_id ";
-    
+    static SessionFactory session = HibernateUtil.getSession().getSessionFactory();  
     
     @SuppressWarnings({ "unchecked" })
     public static void main(String[] args) throws ClassNotFoundException {
@@ -51,9 +38,18 @@ public class DroolsTest {
 
 	Session sess = session.getCurrentSession();
 	sess.beginTransaction();
-	List<Long> personIds = (List<Long>) sess.createQuery("SELECT personId FROM Person WHERE personId in (3,63,123,183)").list();
-	System.out.println("INFO: personIds: " + personIds.toString());
-	
+
+	// simple debugging query
+	//List<Long> personIds = (List<Long>) sess.createQuery("SELECT personId FROM Person WHERE personId in (3,63,123,183)").list();
+	//System.out.println("INFO: personIds: " + personIds.toString());
+
+	// pull data from a specific date
+	String startDateStr = "2008-03-12";
+	String endDateStr = "2008-03-14";
+
+	List<DrugExposure> dexps = (List<DrugExposure>) sess.createQuery("FROM DrugExposure WHERE DRUG_EXPOSURE_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_EXPOSURE_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd'))").list();
+	System.out.println("INFO: number of dexps: " + dexps.size());
+
 	upiaToOmop.closeDbSession();
 	System.out.println("INFO: Hibernate session closed!");
 
