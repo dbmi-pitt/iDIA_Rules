@@ -11,8 +11,12 @@ import org.kie.api.runtime.KieSession;
 import java.sql.*;
 import java.util.*;
 
+import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+import com.sample.model.ConceptSetItem;
 
 import edu.pitt.dbmi.ohdsiv5.db.util.HibernateUtil;
 import edu.pitt.dbmi.ohdsiv5.db.Concept;
@@ -47,23 +51,34 @@ public class DroolsTest {
 	Session hibernateSession = session.getCurrentSession();
 	hibernateSession.beginTransaction();
 
-	// simple debugging query
+	//***** simple debugging query *****
 	//List<Long> personIds = (List<Long>) hibernateSession.createQuery("SELECT personId FROM Person WHERE personId in (3,63,123,183)").list();
 	//System.out.println("INFO: personIds: " + personIds.toString());
 
+	//**** Pull data to be loaded into Drools working memory *****
 	// pull data from a specific date
 	String startDateStr = "2008-03-12";
 	String endDateStr = "2008-03-14";
 
-	//List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person AS p WHERE p.personId IN (SELECT DISTINCT o.personId FROM Observation o WHERE o.obsDate <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND o.obsDate >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))").list();
-	List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person").list();
-	System.out.println("INFO: number of persons with observations during the date range: " + persons.size());
-	
+	// Get concept ids and names from the defined concept sets. There is currently no hibernate mapping for this.
+	SQLQuery query = hibernateSession.createSQLQuery("SELECT concept_set_name,concept_id FROM ohdsi.concept_set cs INNER JOIN ohdsi.concept_set_item csi ON cs.concept_set_id = csi.concept_set_id");
+	query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+	List csItemResults =  query.list();
+	System.out.println("INFO: number of conceptTpls: " + csItemResults.size()); // this is a list of Map objects  [{concept_id=40163566, concept_set_name=Anticoagulants}, {concept_id=40163560, concept_set_name=Anticoagulants}, ...}
+
+	// The dataset records drug exposures as single day events and then creates drug era for exposures with <= 30 day gaps. So, we have to query first the drug eras (wich are coded as ingredients) and then the drug exposures (coded as clinical drugs) 
 	List<DrugEra> deras = (List<DrugEra>) hibernateSession.createQuery("FROM DrugEra WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd'))").list();
 	System.out.println("INFO: number of deras: " + deras.size());
-	    
-	List<DrugExposure> dexps = (List<DrugExposure>) hibernateSession.createQuery("FROM DrugExposure WHERE DRUG_EXPOSURE_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_EXPOSURE_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd'))").list();
-	System.out.println("INFO: number of dexps: " + dexps.size());
+
+	// The query for drug exposures is limited to exposures for those persons with drug eras overlapping the target date
+	List<DrugExposure> dexps = (List<DrugExposure>) hibernateSession.createQuery("FROM DrugExposure AS dexp WHERE personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))").list();
+	System.out.println("INFO: number of dexps for persons with drug eras during the date range: " + dexps.size());
+
+	// The query for person data is limited to exposures for those persons with drug eras overlapping the target date
+	List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person AS p WHERE p.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))").list();
+	//List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person").list();
+	System.out.println("INFO: number of persons with drug eras during the date range: " + persons.size());
+
 
 	System.out.println("Done gathering data...");
 	//-------------------------------------------------
@@ -79,6 +94,12 @@ public class DroolsTest {
 	// Load all the facts
 	System.out.println("Asserting facts...");
 	int cnt = 0;
+	Iterator iter = csItemResults.iterator();
+	while (iter.hasNext()){
+	    Map map = (Map) iter.next();
+	    kSession.insert( new ConceptSetItem((String) map.get("concept_set_name"), (Integer) map.get("concept_id")));
+	    cnt++;
+	}
 	for (Person p : persons) {           	
 	    kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));            	
 	    cnt++;
@@ -92,44 +113,11 @@ public class DroolsTest {
 	    cnt++;
 	}
 	System.out.println("Facts asserted: " + cnt);
-                        
-	//kSession.setGlobal("risks", new HashMap<Integer, Risk>() );
-	//Session.setGlobal("riskscores", new HashMap<Integer, RiskScore>() );
             
 	System.out.println("Firing rules for assessment...");
 	// fire rules
 	kSession.fireAllRules();            
  
-	// get all the calculated risks and assert them to be
-	// Map<Integer, Risk> riskList = (HashMap<Integer, Risk>)kSession.getGlobal("risks");
-	// for (Map.Entry<Integer, Risk> e : riskList.entrySet()) {
-	// 	// System.out.println(e.getKey() + ": " + e.getValue());
-	// 	Risk r = (Risk)e.getValue();
-	// 	kSession.insert(r); 
-	/*if (r.isCns() && r.isFallHx()) {
-	  System.out.println(r.getId() + " high risk");
-	  } else if (r.isCns()== false && r.isFallHx() == false){
-	  System.out.println(r.getId() + " low risk");
-	  } else {
-	  System.out.println(r.getId() + " med risk");
-	  }
-	*/
-	//}
-            
-	//   System.out.println("Firing rules to compute risk scores...");
-	// refire rules to compute the riskscores
-	//kSession.fireAllRules();
-            
-	//     System.out.println("Inserting results into the RISK_ANALYSIS table ...");
-	//     // get the risk scores
-	//     Map<Integer, RiskScore> computedRiskScores = (HashMap<Integer, RiskScore>)kSession.getGlobal("riskscores");
-	//     //insertRisksAnalysis(connection, patientMap, computedRiskScores);           
-
-            
-            
-	//     ps.close();
-	//     rs.close();
-	//     connection.close();
             
 	closeDbSession();
 	System.out.println("INFO: Hibernate session closed!");
@@ -138,50 +126,5 @@ public class DroolsTest {
 	System.out.println("INFO: Rule engine session closed!");
 	//     System.out.println("Patient Count: " + cnt);           
             
-    }
-    
-    // public static void insertRisksAnalysis(Connection conn, Map<Integer, Patient> patientMap, Map<Integer, RiskScore> computedRiskScores) {
-    // 	Statement stmt;
-    // 	try {
-
-    // 	    stmt = conn.createStatement();
-    // 	    for (Map.Entry<Integer, Patient> pm : patientMap.entrySet()) {
-    //     	Patient p = (Patient)pm.getValue();
-        	
-    //     	RiskScore rs = (RiskScore)computedRiskScores.get(p.id);
-    //     	if (rs != null) {
-				
-    // 		    String sql = "INSERT INTO ohdsi.RISK_ANALYSIS " +
-    // 			"(risk_analysis_id, rule_id, subject_id, location_id, risk_score_type ) " +
-    // 			"VALUES (ohdsi.RISK_ANALYSIS_SEQ.nextval, 1, " + p.id + "," + p.location + ", '" + rs.getScore() + "')"; 
-	        	    
-    // 		    stmt.executeUpdate(sql);
-    //     	}        	
-    // 	    } // for        
-    // 	} catch (SQLException e) {
-    // 	    // TODO Auto-generated catch block
-    // 	    e.printStackTrace();
-    // 	} finally {
-
-    // 	}
-    // }
-    
-    
-    // public static class Patient {    	
-    // 	Integer id;
-    // 	Integer location;
-    // 	public Integer getId() {
-    // 	    return id;
-    // 	}
-    // 	public void setId(Integer id) {
-    // 	    this.id = id;
-    // 	}
-    // 	public Integer getLocation() {
-    // 	    return location;
-    // 	}
-    // 	public void setLocation(Integer location) {
-    // 	    this.location = location;
-    // 	}
-    // }
-
+    }       
 }
