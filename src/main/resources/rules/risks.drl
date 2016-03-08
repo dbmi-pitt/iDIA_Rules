@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.lang.String;
 
+import com.sample.model.ConceptSetItem;
+
 import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
 import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
 import edu.pitt.dbmi.ohdsiv5.db.Person;
@@ -17,12 +19,38 @@ import edu.pitt.dbmi.ohdsiv5.db.Person;
 global org.hibernate.Session hibernateSession;
 
 
-rule "warfarin - ibuprofen ingredient exposure"
+rule "warfarin - ibuprofen INGREDIENT exposure"
     no-loop true
     when
       $de1 : DrugEra(drugConceptId == 1310149)
       $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == 1177480)
       $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
     then	
-      System.out.println("matched drug era ids for patient: " + $de1.getPersonId() + " " + $person.getYearOfBirth());
+      System.out.println("matched drug era ids for patient (ingredient): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
 end
+
+
+rule "warfarin - ibuprofen CLINICAL DRUG exposure"
+    no-loop true
+    when
+      $ingrConcept1 : ConceptSetItem(csName == "Anticoagulants")
+      $de1 : DrugEra(drugConceptId == $ingrConcept1.getConceptId()) 
+
+      $ingrConcept2 : ConceptSetItem(csName == "Ibuprofens")
+      $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == $ingrConcept2.getConceptId())
+
+      $clinDrugConcept1 : ConceptSetItem(csName == "Anticoagulants")
+      $dexp1 : DrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept1.getConceptId())
+
+      $clinDrugConcept2 : ConceptSetItem(csName == "Ibuprofens")
+      $dexp2 : DrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId())
+
+      $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
+    then	
+      System.out.println("matched drug EXPOSURE ids for patient (clinical drug): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth() + "; anticoagulant: " + $clinDrugConcept1.getConceptId() + "; ibuprofen: " + $clinDrugConcept2.getConceptId());
+end
+
+
+
+
+ 

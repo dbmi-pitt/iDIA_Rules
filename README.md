@@ -1,37 +1,36 @@
-This is a sample application to demonstrates using Drools rules against the OHDSI data structure.  
+This is a sample application to demonstrates using Drools rules
+against the OHDSI data structure for the AHRQ funded Individualized
+Drug Interaction Alerts (IDIA) project (https://goo.gl/t4eqGw). 
 
 A few simple drools rules are contained within the ```src/main/resources/rules/risk.drl``` directory.
 
 __SETUP__
 
-You must change the following in the __DroolsTest.java__ file
+You must change the following in the __src/main/java/edu/pitt/dbmi/ohdsiv5/db/util/HibernateUtil.java__ file
 
 ```
-private static final String USERNAME = "<username>";    
-private static final String PASS = "<password>";
-private static final String IP = "<IP>";
+private static String defaultConnectionURL  = "jdbc:postgresql://<IP>:<PORT>/<DATABASE>";
 ```
 
 __BUILD__
 
-There is a maven __pom.xml__ file used to build the application
+Note this requires Java <= 8.
 
+There is a maven __pom.xml__ file used to build the application. Before running that, execute the following statements:
+
+```
+mvn install:install-file -Dfile=./lib/opencsv-2.3.jar -DgroupId=org.opencsv -DartifactId=opencsv -Dversion=2.3 -Dpackaging=jar
+mvn install:install-file -Dfile=./lib/hibernate-core-3.3.0.SP1.jar -DgroupId=hibernate -DartifactId=hibernate -Dversion=3.3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=./lib/hibernate-annotations-3.4.0.GA.jar -DgroupId=hibernate -DartifactId=hibernate-annotations -Dversion=3.4.0 -Dpackaging=jar
+mvn install:install-file -Dfile=./lib/hibernate-commons-annotations-3.1.0.GA.jar -DgroupId=hibernate -DartifactId=hibernate-commons-annotations -Dversion=3.1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=./lib/ehcache-core-2.1.0.jar -DgroupId=ehcache -DartifactId=ehcache-core -Dversion=2.1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=./lib/antlr.jar -DgroupId=antlr -DartifactId=antlr -Dversion=unknown -Dpackaging=jar
+```
+
+Then you should be able to run:
 ```mvn install```
-
-NOTE: If you are connecting to an Oracle OHDSI CDM database then you need to acquire the Oracle ojdbc driver and install it in your local repository like this BEFORE running the 'install' target:
-
-```
-mvn install:install-file -Dfile=<Path to ojdbc jar> -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=<version> -Dpackaging=jar
-```
-
-Example:
-```
-mvn install:install-file -Dfile=/tmp/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.3 -Dpackaging=jar
-```
 
 __RUN__
 
 ```java -jar target/droolstest-1.0.jar```
 
-
-The results can be viewed in the __OHDSI.RISK_ANALYSIS__ table
