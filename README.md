@@ -14,7 +14,7 @@ private static String defaultConnectionURL  = "jdbc:postgresql://<IP>:<PORT>/<DA
 
 __BUILD__
 
-Note this requires Java <= 8.
+Note this requires Java >= 8.
 
 There is a maven __pom.xml__ file used to build the application. Before running that, execute the following statements:
 
