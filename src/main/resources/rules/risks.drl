@@ -10,16 +10,19 @@ import java.util.Map;
 import java.lang.String;
 
 import com.sample.model.ConceptSetItem;
+import com.sample.model.RHSState;
 
 import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
 import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
 import edu.pitt.dbmi.ohdsiv5.db.Person;
 
-//declare any global variables here
+/////////// 
+// declare any global variables here
+/////////// 
 global org.hibernate.Session hibernateSession;
 
 
-rule "warfarin - ibuprofen INGREDIENT exposure"
+rule "DEBUGGING ONLY -- warfarin - ibuprofen INGREDIENT exposure"
     no-loop true
     when
       $de1 : DrugEra(drugConceptId == 1310149)
@@ -30,27 +33,47 @@ rule "warfarin - ibuprofen INGREDIENT exposure"
 end
 
 
-rule "warfarin - ibuprofen CLINICAL DRUG exposure"
+rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac
     no-loop true
     when
-      $ingrConcept1 : ConceptSetItem(csName == "Anticoagulants")
-      $de1 : DrugEra(drugConceptId == $ingrConcept1.getConceptId()) 
+      // Warfarin ingredient drug era
+      $de1 : DrugEra(drugConceptId == 1310149) 
+      
+      // Overlapping NSAID ingredient drug era
+      $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == 1177480 && 
+                     drugEraStartDate <= $de1.getDrugEraEndDate() && drugEraEndDate >= $de1.getDrugEraStartDate())
 
-      $ingrConcept2 : ConceptSetItem(csName == "Ibuprofens")
-      $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == $ingrConcept2.getConceptId())
-
-      $clinDrugConcept1 : ConceptSetItem(csName == "Anticoagulants")
+      // Specific warfarin exposure
+      $clinDrugConcept1 : ConceptSetItem(csName == 'Warfarins')
       $dexp1 : DrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept1.getConceptId())
-
-      $clinDrugConcept2 : ConceptSetItem(csName == "Ibuprofens")
+   
+      // Specific NSAID exposure
+      $clinDrugConcept2 : ConceptSetItem(csName == 'NSAIDs')
       $dexp2 : DrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId())
 
-      $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
+      $person : Person(personId == $de1.getPersonId())
     then	
-      System.out.println("matched drug EXPOSURE ids for patient (clinical drug): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth() + "; anticoagulant: " + $clinDrugConcept1.getConceptId() + "; ibuprofen: " + $clinDrugConcept2.getConceptId());
+      // Create a state object to be used by other LHS
+      RHSState rhs = new RHSState();
+      rhs.setStateName('basic concomitant exposure of warfarin and NSAID');
+      rhs.setPerson($person);
+      rhs.setDexp1($dexp1);
+      rhs.setDexp2($dexp2);
+      insert(rhs);
+      
+      System.out.println("matched drug EXPOSURE ids for patient (clinical drug): " + $de1.getPersonId() + "; anticoagulant: " + $clinDrugConcept1.getConceptId() + "; ibuprofen: " + $clinDrugConcept2.getConceptId());
+end
+
+
+rule "WARFARIN - NSAID -- test proton pump inhibitor or misoprostol"
+    no-loop true
+    when
+        $rhs : RHSState(stateName == 'basic concomitant exposure of warfarin and NSAID')
+    then	
+      System.out.println("acquired RHSState: " + $rhs.getPerson().getPersonId());
 end
 
 
 
-
  
+
