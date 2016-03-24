@@ -12,6 +12,7 @@ import java.lang.String;
 import com.sample.model.ConceptSetItem;
 import com.sample.model.RHSState;
 
+import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
 import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
 import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
 import edu.pitt.dbmi.ohdsiv5.db.Person;
@@ -22,8 +23,15 @@ import edu.pitt.dbmi.ohdsiv5.db.Person;
 global org.hibernate.Session hibernateSession;
 
 
+/////////// 
+// declare any types here
+/////////// 
+
+
+/////////// 
+// Rules
+/////////// 
 rule "DEBUGGING ONLY -- warfarin - ibuprofen INGREDIENT exposure"
-    no-loop true
     when
       $de1 : DrugEra(drugConceptId == 1310149)
       $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == 1177480)
@@ -33,47 +41,87 @@ rule "DEBUGGING ONLY -- warfarin - ibuprofen INGREDIENT exposure"
 end
 
 
-rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac
-    no-loop true
+rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac so no need to include the related logic
     when
       // Warfarin ingredient drug era
       $de1 : DrugEra(drugConceptId == 1310149) 
       
-      // Overlapping NSAID ingredient drug era
-      $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == 1177480 && 
-                     drugEraStartDate <= $de1.getDrugEraEndDate() && drugEraEndDate >= $de1.getDrugEraStartDate())
+      // NSAID ingredient drug era -- NOTE: the data is loaded for a
+      //specific date. So, that the presence of this drug era
+      //indicates concomitant exposure
+      $de2 : DrugEra(personId == $de1.getPersonId() && 
+                     drugConceptId == 1177480)
 
-      // Specific warfarin exposure
-      $clinDrugConcept1 : ConceptSetItem(csName == 'Warfarins')
-      $dexp1 : DrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept1.getConceptId())
+      // Specific warfarin exposure - DrugExposures often only have
+      //the start date so the DrugEra is used to infer the exposure
+      //period
+      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins")
+      $dexp1 : DrugExposure(personId == $de1.getPersonId() && 
+                            drugExposureStartDate == $de1.getDrugEraStartDate() && 
+                            drugConceptId == $clinDrugConcept1.getConceptId())
    
       // Specific NSAID exposure
-      $clinDrugConcept2 : ConceptSetItem(csName == 'NSAIDs')
-      $dexp2 : DrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId())
+      $clinDrugConcept2 : ConceptSetItem(csName == "NSAIDs")
+      $dexp2 : DrugExposure(personId == $de1.getPersonId() && 
+                            drugExposureStartDate == $de2.getDrugEraStartDate() && 
+                            drugConceptId == $clinDrugConcept2.getConceptId())
 
       $person : Person(personId == $de1.getPersonId())
     then	
-      // Create a state object to be used by other LHS
-      RHSState rhs = new RHSState();
-      rhs.setStateName('basic concomitant exposure of warfarin and NSAID');
-      rhs.setPerson($person);
-      rhs.setDexp1($dexp1);
-      rhs.setDexp2($dexp2);
-      insert(rhs);
-      
+      // Create a state object for the current node in the decision tree to be used by other LHS
+      RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and NSAID", "yes", $person);
+      insertLogical(rhsCur);
+    
       System.out.println("matched drug EXPOSURE ids for patient (clinical drug): " + $de1.getPersonId() + "; anticoagulant: " + $clinDrugConcept1.getConceptId() + "; ibuprofen: " + $clinDrugConcept2.getConceptId());
 end
 
-
-rule "WARFARIN - NSAID -- test proton pump inhibitor or misoprostol"
-    no-loop true
+rule "WARFARIN - NSAID -- PPI or misoprostol"
     when
-        $rhs : RHSState(stateName == 'basic concomitant exposure of warfarin and NSAID')
+        $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and NSAID" && state == "yes")
+        
+        // PPI or Misoprostol drug era
+        $clinDrugConcept1 : ConceptSetItem(csName == "Proton Pump Inhibitor Ingredients")
+        $clinDrugConcept2 : ConceptSetItem(csName == "Misoprostols Ingredients")
+        $de1 : DrugEra(personId == $rhs.getPerson().getPersonId() && 
+                              (drugConceptId == $clinDrugConcept1.getConceptId() || drugConceptId == $clinDrugConcept2.getConceptId())
+                              )
+        
+        // Specific PPI or Misoprostol exposure 
+        $clinDrugConcept3 : ConceptSetItem(csName == "Proton Pump Inhibitors")
+        $clinDrugConcept4 : ConceptSetItem(csName == "Misoprostols Ingredients")
+        $dexp1 : DrugExposure(personId == $rhs.getPerson().getPersonId() && 
+                              drugExposureStartDate == $de1.getDrugEraStartDate() &&
+                              (drugConceptId == $clinDrugConcept3.getConceptId() || drugConceptId == $clinDrugConcept4.getConceptId())
+                             )                
     then	
-      System.out.println("acquired RHSState: " + $rhs.getPerson().getPersonId());
+        RHSState rhsNN = new RHSState("proton pump inhibitor or misoprostol", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        // TODO: write out recommendation...
+end
+
+rule "WARFARIN - NSAID -- no PPI or misoprostol - yes age or conditions"
+    when
+        $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and NSAID" && 
+                         state == "yes",
+                         $person : person)
+
+        not ($rhs2 : RHSState(stateName == "proton pump inhibitor or misoprostol" && 
+                                    state == "yes" && 
+                                    person.getPersonId() == $person.getPersonId())
+                   )
+        
+        $condConcept : ConceptSetItem(csName == "Upper GI Bleeds" || 
+                                      csName == "Peptic Ulcer")
+
+        (Person(personId == $person.getPersonId() &&
+                yearOfBirth <= 1951) or
+        ConditionEra(personId == $person.getPersonId() && 
+                      conditionConceptId == $condConcept.getConceptId())
+        )
+    then	
+        RHSState rhsNN = new RHSState("no PPI or misoprostol - yes age or conditions", "yes", $person);
+        insertLogical(rhsNN);
 end
 
 
-
- 
 

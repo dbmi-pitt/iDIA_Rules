@@ -71,15 +71,19 @@ public class DroolsTest {
 	System.out.println("INFO: number of deras: " + deras.size());
 
 	// The query for drug exposures is limited to exposures for those persons with drug eras overlapping the target date
-	List<DrugExposure> dexps = (List<DrugExposure>) hibernateSession.createQuery("FROM DrugExposure AS dexp WHERE personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))").list();
+	List<DrugExposure> dexps = (List<DrugExposure>) hibernateSession.createQuery("FROM DrugExposure AS dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))").list();
 	System.out.println("INFO: number of dexps for persons with drug eras during the date range: " + dexps.size());
 
 	// The query for person data is limited to exposures for those persons with drug eras overlapping the target date
 	List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person AS p WHERE p.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))").list();
-	//List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person").list();
 	System.out.println("INFO: number of persons with drug eras during the date range: " + persons.size());
 
+	// The query for condition eras is limited to condition eras overlapping the target date and drug eras overlapping the target date
+	List<ConditionEra> ceras = (List<ConditionEra>) hibernateSession.createQuery("FROM ConditionEra AS cera WHERE cera.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd'))) AND cera.conditionEraStartDate <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND cera.conditionEraEndDate >= TO_DATE('" + startDateStr + "','yyyy-MM-dd')").list();
+	System.out.println("INFO: number of ceras for persons with drug eras during the date range and with condistions that similarly overlap: " + ceras.size());
 
+
+	
 	System.out.println("Done gathering data...");
 	//-------------------------------------------------
 
