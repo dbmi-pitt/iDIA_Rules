@@ -12,6 +12,11 @@ import javax.persistence.Table;
 public class DrugStrength implements java.io.Serializable {
     
     // Constructor
+
+    /** default constructor */
+    public DrugStrength() {
+    }
+
     public DrugStrength(
 			Integer drugConceptId,
 			Integer ingredientConceptId,

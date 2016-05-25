@@ -37,7 +37,7 @@ rule "DEBUGGING ONLY -- warfarin - ibuprofen INGREDIENT exposure"
       $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == 1177480)
       $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
     then	
-      System.out.println("matched drug era ids for patient (ingredient): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
+      System.out.println("Matched drug era ids for patient (ingredient): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
 end
 
 
@@ -73,7 +73,7 @@ rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac 
       insertLogical(rhsCur);
     
       String s = String.format(
-          "matched drug EXPOSURE ids for patient (clinical drug): %s; anticoagulant: %s; ibuprofen: %s", 
+          "Matched drug EXPOSURE ids for patient (clinical drug): %s; anticoagulant: %s; ibuprofen: %s", 
           $de1.getPersonId(), 
           $clinDrugConcept1.getConceptId(), 
           $clinDrugConcept2.getConceptId());
@@ -265,5 +265,48 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - NO oth
         System.out.println(s);
 end
 
+rule "DEBUGGING ONLY -- OPIOIDS FLUCONAZOLE INGREDIENT exposure"
+    when
+      $de1 : DrugEra(drugConceptId == 1124957)
+      $de2 : DrugEra(personId == $de1.getPersonId() && (drugConceptId == 1124957 || drugConceptId == 1154029))
+      $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
+    then	
+      System.out.println("matched drug era ids for patient (ingredient): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
+end
 
+rule "OPIOIDS FLUCONAZOLE -- NO FILTER"
+    when
+      // FLUCONAZOLE ingredient drug era
+      $de1 : DrugEra(drugConceptId == 1754994) 
+      
+      // OPIOIDs ingredient drug era
+      $clinDrugConcept1: ConceptSetItem(csName == "Opioids Ingredients")
+      $de2 : DrugEra(personId == $de1.getPersonId() && 
+                     drugConceptId == $clinDrugConcept1.getConceptId())
+
+      // Specific FLUCONAZOLE exposure
+      $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles")
+      $dexp1 : DrugExposure(personId == $de1.getPersonId() && 
+                            drugExposureStartDate == $de1.getDrugEraStartDate() && 
+                            drugConceptId == $clinDrugConcept2.getConceptId())
+   
+      // Specific NSAID exposure
+      $clinDrugConcept3 : ConceptSetItem(csName == "Opioids")
+      $dexp2 : DrugExposure(personId == $de1.getPersonId() && 
+                            drugExposureStartDate == $de2.getDrugEraStartDate() && 
+                            drugConceptId == $clinDrugConcept3.getConceptId())
+
+      $person : Person(personId == $de1.getPersonId())
+    then	
+      // Create a state object for the current node in the decision tree to be used by other LHS
+      RHSState rhsCur = new RHSState("basic concomitant exposure of fluconazole and an opioid", "yes", $person);
+      insertLogical(rhsCur);
+    
+      String s = String.format(
+          "matched drug EXPOSURE ids for patient (clinical drug): %s; anticoagulant: %s; ibuprofen: %s", 
+          $de1.getPersonId(), 
+          $clinDrugConcept2.getConceptId(), 
+          $clinDrugConcept3.getConceptId());
+      System.out.println(s);
+end
 
