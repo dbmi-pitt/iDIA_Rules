@@ -46,7 +46,7 @@ package edu.pitt.dbmi.ohdsiv5.db.util;
                # Replace Windows newlines with Unix newlines	    ((AnnotationConfiguration)hibernateConf).addAnnotatedClass(Class.forName("edu.pitt.dbmi.ohdsiv5.db.ConditionEra"));
                # Replace Windows newlines with Unix newlines	    ((AnnotationConfiguration)hibernateConf).addAnnotatedClass(Class.forName("edu.pitt.dbmi.ohdsiv5.db.ConceptAncestor"));
                # Replace Windows newlines with Unix newlines	    ((AnnotationConfiguration)hibernateConf).addAnnotatedClass(Class.forName("edu.pitt.dbmi.ohdsiv5.db.DrugStrength"));
-               # Replace Windows newlines with Unix newlines	  
+               # Replace Windows newlines with Unix newlines	    ((AnnotationConfiguration)hibernateConf).addAnnotatedClass(Class.forName("edu.pitt.dbmi.ohdsiv5.db.Measurement"));	  
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines	    // hibernateConf.configure().buildSessionFactory();
