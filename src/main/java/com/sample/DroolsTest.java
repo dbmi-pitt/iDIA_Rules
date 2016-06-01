@@ -26,6 +26,7 @@ import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
 import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
 import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
 import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
+import edu.pitt.dbmi.ohdsiv5.db.Measurement;
 import edu.pitt.dbmi.ohdsiv5.db.Observation;
 import edu.pitt.dbmi.ohdsiv5.db.ObservationPeriod;
 import edu.pitt.dbmi.ohdsiv5.db.ProcedureOccurrence;
@@ -83,9 +84,13 @@ public class DroolsTest {
 	List<ConditionEra> ceras = (List<ConditionEra>) hibernateSession.createQuery("FROM ConditionEra AS cera WHERE cera.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd'))) AND cera.conditionEraStartDate <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND cera.conditionEraEndDate >= TO_DATE('" + startDateStr + "','yyyy-MM-dd')").list();
 	System.out.println("INFO: number of ceras for persons with drug eras during the date range and with condistions that similarly overlap: " + ceras.size());
 
-	// The query to get drug strength - overlap with the drugs that are in the above queries?
-	List<DrugStrength> dstrs = (List<DrugStrength>) hibernateSession.createQuery("FROM DrugStrength AS dstr WHERE dstr.drugConceptId IN (SELECT DISTINCT dexp.drugConceptId FROM DrugExposure AS dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))) AND dstr.validStartDate <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND dstr.validEndDate >= TO_DATE('" + startDateStr + "','yyyy-MM-dd')").list();
+	// The query to get drug strength - overlaps with the drugs that are in the above queries?
+	List<DrugStrength> dstrs = (List<DrugStrength>) hibernateSession.createQuery("FROM DrugStrength AS dstr WHERE dstr.drugConceptId IN (SELECT DISTINCT dexp.drugConceptId FROM DrugExposure AS dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd'))))").list();
 	System.out.println("INFO: number of dstrs for persons with drug eras during the date range: " + dstrs.size());
+
+	// The query to get drug strength - overlaps with the drugs that are in the above queries?
+	List<Measurement> msnts = (List<Measurement>) hibernateSession.createQuery("FROM Measurement as msnt WHERE msnt.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + endDateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + startDateStr + "','yyyy-MM-dd')))").list();
+	System.out.println("INFO: number of measurements for persons with drug eras during the date range: " + msnts.size());
 
 	System.out.println("Done gathering data...");
 	//-------------------------------------------------

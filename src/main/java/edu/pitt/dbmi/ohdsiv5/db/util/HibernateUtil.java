@@ -46,7 +46,7 @@ public class HibernateUtil {
 	    ((AnnotationConfiguration)hibernateConf).addAnnotatedClass(Class.forName("edu.pitt.dbmi.ohdsiv5.db.ConditionEra"));
 	    ((AnnotationConfiguration)hibernateConf).addAnnotatedClass(Class.forName("edu.pitt.dbmi.ohdsiv5.db.ConceptAncestor"));
 	    ((AnnotationConfiguration)hibernateConf).addAnnotatedClass(Class.forName("edu.pitt.dbmi.ohdsiv5.db.DrugStrength"));
-	  
+	    ((AnnotationConfiguration)hibernateConf).addAnnotatedClass(Class.forName("edu.pitt.dbmi.ohdsiv5.db.Measurement"));	  
 
 
 	    // hibernateConf.configure().buildSessionFactory();
