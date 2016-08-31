@@ -17,9 +17,9 @@ package edu.pitt.dbmi.ohdsiv5.db.util;
                # Replace Windows newlines with Unix newlines	
                # Replace Windows newlines with Unix newlines	//TODO put in property file
                # Replace Windows newlines with Unix newlines	// Work Computer
-               # Replace Windows newlines with Unix newlines	private static String defaultUsername = "student";
-               # Replace Windows newlines with Unix newlines	private static String defaultPassword = "student";
-               # Replace Windows newlines with Unix newlines	private static String defaultConnectionURL  = "jdbc:postgresql://localhost:5432/testohdsi";
+               # Replace Windows newlines with Unix newlines	private static String defaultUsername = "scr25";
+               # Replace Windows newlines with Unix newlines	private static String defaultPassword = "cyberpeacock-";
+               # Replace Windows newlines with Unix newlines	private static String defaultConnectionURL  = "jdbc:postgresql://localhost:5432/rosko_ohdsi";
                # Replace Windows newlines with Unix newlines	//TODO set up port, hostname, etc. for later
                # Replace Windows newlines with Unix newlines	private static Configuration hibernateConf = null;
                # Replace Windows newlines with Unix newlines	private static boolean validConnection = false;
