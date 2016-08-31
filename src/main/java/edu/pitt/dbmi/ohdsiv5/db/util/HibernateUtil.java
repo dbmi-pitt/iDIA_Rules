@@ -17,9 +17,9 @@ public class HibernateUtil {
 	
 	//TODO put in property file
 	// Work Computer
-	private static String defaultUsername = "student";
-	private static String defaultPassword = "student";
-	private static String defaultConnectionURL  = "jdbc:postgresql://localhost:5432/testohdsi";
+	private static String defaultUsername = "scr25";
+	private static String defaultPassword = "cyberpeacock-";
+	private static String defaultConnectionURL  = "jdbc:postgresql://localhost:5432/rosko_ohdsi";
 	//TODO set up port, hostname, etc. for later
 	private static Configuration hibernateConf = null;
 	private static boolean validConnection = false;
