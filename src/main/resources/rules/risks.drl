@@ -269,12 +269,12 @@ rule "DEBUGGING ONLY -- KCL/K-SPARING DIURETIC INGREDIENT exposure"
     when
       $de1 : DrugEra(drugConceptId == 19049105)
       $de2 : DrugEra(personId == $de1.getPersonId() && (drugConceptId == 991382 || drugConceptId == 970250 || drugConceptId == 904542))
-      $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
+      $person : Person(personId == $de1.getPersonId())
     then	
       System.out.println("matched drug era ids for patient (ingredient): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
 end
 
-rule "KCL/K-SPARING DIURETIC  -- NO FILTER"
+rule "KCL/K-SPARING DIURETIC -- NO FILTER"
     when
       // KCL ingredient drug era
       $de1 : DrugEra(drugConceptId == 19049105) 
@@ -283,13 +283,13 @@ rule "KCL/K-SPARING DIURETIC  -- NO FILTER"
       $de2 : DrugEra(personId == $de1.getPersonId() && (drugConceptId == 991382 || drugConceptId == 970250 || drugConceptId == 904542))
 
       // Specific FLUCONAZOLE exposure
-      $clinDrugConcept1 : ConceptSetItem(csName == "Potassium Chlorides")
+      $clinDrugConcept1 : ConceptSetItem(csName == "Updated Potassium Chlorides")
       $dexp1 : DrugExposure(personId == $de1.getPersonId() && 
                             drugExposureStartDate == $de1.getDrugEraStartDate() && 
                             drugConceptId == $clinDrugConcept1.getConceptId())
    
       // Specific NSAID exposure
-      $clinDrugConcept2 : ConceptSetItem(csName == "K-sparing Diuretic")
+      $clinDrugConcept2 : ConceptSetItem(csName == "Updated K-sparing Diuretics")
       $dexp2 : DrugExposure(personId == $de1.getPersonId() && 
                             drugExposureStartDate == $de2.getDrugEraStartDate() && 
                             drugConceptId == $clinDrugConcept2.getConceptId())
@@ -308,3 +308,31 @@ rule "KCL/K-SPARING DIURETIC  -- NO FILTER"
       System.out.println(s);
 end
 
+rule "KCL/K-SPARING DIURETIC -- ACEi or ARB"
+    when
+        $rhs : RHSState(stateName == "basic concomitant exposure of kcl and a k-sparing diuretic" && state == "yes")
+        
+        // PPI or Misoprostol drug era
+        $clinDrugConcept1 : ConceptSetItem(csName == "Ace Inhibitors Ingredients")
+        $clinDrugConcept2 : ConceptSetItem(csName == "Angiotension II Receptor Blockers Ingredients")
+        $de1 : DrugEra(personId == $rhs.getPerson().getPersonId() && 
+                              (drugConceptId == $clinDrugConcept1.getConceptId() || drugConceptId == $clinDrugConcept2.getConceptId())
+                              )
+        
+        // Specific PPI or Misoprostol exposure 
+        $clinDrugConcept3 : ConceptSetItem(csName == "Ace Inhibitors")
+        $clinDrugConcept4 : ConceptSetItem(csName == "Angiotension II Receptor Blockers")
+        $dexp1 : DrugExposure(personId == $rhs.getPerson().getPersonId() && 
+                              drugExposureStartDate == $de1.getDrugEraStartDate() &&
+                              (drugConceptId == $clinDrugConcept3.getConceptId() || drugConceptId == $clinDrugConcept4.getConceptId())
+                             )                
+    then	
+        RHSState rhsNN = new RHSState("ACEi or ARB", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+          "KCL - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Possible increased risk of hyperkalemia\n\tMitigating factor: presence of ACEi or ARB (%s).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation:  ACEi and ARB are considered risk factors that increase chance of hyperkalemia in patients on both KCL and a K-sparing diuretic.", 
+          $de1.getPersonId(), 
+          $dexp1.getDrugConceptId());
+        System.out.println(s);
+end
