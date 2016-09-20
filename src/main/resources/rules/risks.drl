@@ -31,14 +31,23 @@ global org.hibernate.Session hibernateSession;
 /////////// 
 // Rules
 /////////// 
+/*rule "DEBUGGING ONLY -- GI bleeds"
+    when
+      $ce1 : ConditionEra(conditionConceptId == 4046500)
+      $person : Person(personId == $ce1.getPersonId())
+    then	
+      System.out.println("Matched GI bleed for patient: " + $ce1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
+end
+
 rule "DEBUGGING ONLY -- warfarin - ibuprofen INGREDIENT exposure"
     when
       $de1 : DrugEra(drugConceptId == 1310149)
-      $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == 1177480)
+      $clinDrugConcept1 : ConceptSetItem(csName == "NSAIDs Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
       $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
     then	
       System.out.println("Matched drug era ids for patient (ingredient): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
-end
+end*/
 
 
 rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac so no need to include the related logic
@@ -46,25 +55,23 @@ rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac 
       // Warfarin ingredient drug era
       $de1 : DrugEra(drugConceptId == 1310149) 
       
-      // NSAID ingredient drug era -- NOTE: the data is loaded for a
-      //specific date. So, that the presence of this drug era
-      //indicates concomitant exposure
-      $de2 : DrugEra(personId == $de1.getPersonId() && 
-                     drugConceptId == 1177480)
+      // NSAID ingredient drug era
+      $clinDrugConcept1 : ConceptSetItem(csName == "NSAIDs Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
 
       // Specific warfarin exposure - DrugExposures often only have
       //the start date so the DrugEra is used to infer the exposure
       //period
-      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins")
+      $clinDrugConcept2 : ConceptSetItem(csName == "Warfarins")
       $dexp1 : DrugExposure(personId == $de1.getPersonId() && 
                             drugExposureStartDate == $de1.getDrugEraStartDate() && 
-                            drugConceptId == $clinDrugConcept1.getConceptId())
+                            drugConceptId == $clinDrugConcept2.getConceptId())
    
       // Specific NSAID exposure
-      $clinDrugConcept2 : ConceptSetItem(csName == "NSAIDs")
+      $clinDrugConcept3 : ConceptSetItem(csName == "NSAIDs")
       $dexp2 : DrugExposure(personId == $de1.getPersonId() && 
                             drugExposureStartDate == $de2.getDrugEraStartDate() && 
-                            drugConceptId == $clinDrugConcept2.getConceptId())
+                            drugConceptId == $clinDrugConcept3.getConceptId())
 
       $person : Person(personId == $de1.getPersonId())
     then	
@@ -73,10 +80,10 @@ rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac 
       insertLogical(rhsCur);
     
       String s = String.format(
-          "Matched drug EXPOSURE ids for patient (clinical drug): %s; anticoagulant: %s; ibuprofen: %s", 
+          "Matched drug EXPOSURE ids for patient (clinical drug): %s; anticoagulant: %s; NSAID: %s", 
           $de1.getPersonId(), 
-          $clinDrugConcept1.getConceptId(), 
-          $clinDrugConcept2.getConceptId());
+          $clinDrugConcept2.getConceptId(), 
+          $clinDrugConcept3.getConceptId());
       System.out.println(s);
 end
 
@@ -85,19 +92,14 @@ rule "WARFARIN - NSAID -- PPI or misoprostol"
         $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and NSAID" && state == "yes")
         
         // PPI or Misoprostol drug era
-        $clinDrugConcept1 : ConceptSetItem(csName == "Proton Pump Inhibitor Ingredients")
-        $clinDrugConcept2 : ConceptSetItem(csName == "Misoprostols Ingredients")
-        $de1 : DrugEra(personId == $rhs.getPerson().getPersonId() && 
-                              (drugConceptId == $clinDrugConcept1.getConceptId() || drugConceptId == $clinDrugConcept2.getConceptId())
-                              )
-        
+        $clinDrugConcept1 : ConceptSetItem(csName == "PPIs Ingredients")
+        $de1 : DrugEra(personId == $rhs.getPerson().getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+                                      
         // Specific PPI or Misoprostol exposure 
-        $clinDrugConcept3 : ConceptSetItem(csName == "Proton Pump Inhibitors")
-        $clinDrugConcept4 : ConceptSetItem(csName == "Misoprostols")
+        $clinDrugConcept2 : ConceptSetItem(csName == "PPIs")
         $dexp1 : DrugExposure(personId == $rhs.getPerson().getPersonId() && 
                               drugExposureStartDate == $de1.getDrugEraStartDate() &&
-                              (drugConceptId == $clinDrugConcept3.getConceptId() || drugConceptId == $clinDrugConcept4.getConceptId())
-                             )                
+                              drugConceptId == $clinDrugConcept2.getConceptId())                
     then	
         RHSState rhsNN = new RHSState("proton pump inhibitor or misoprostol", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
@@ -127,7 +129,7 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES AGE"
         insertLogical(rhsNN);
         
         String s = String.format(
-            "Warfarin - NSAID interaction - matched 'no PPI or misoprostol - YES AGE' for patient: %s.)", 
+            "Warfarin - NSAID interaction - matched 'no PPI or misoprostol - YES AGE' for patient: (%s.)", 
             $person.getPersonId());
         System.out.println(s);
 end
@@ -142,17 +144,14 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES CONDITIONS"
                                     state == "yes" && 
                                     person.getPersonId() == $person.getPersonId())
                    )
-        
-        $condConcept : ConceptSetItem(csName == "Upper GI Bleeds" || 
-                                      csName == "Peptic Ulcer")
-        ConditionEra(personId == $person.getPersonId() && 
-                     conditionConceptId == $condConcept.getConceptId())
+	$condConcept1 : ConceptSetItem(csName == "History of GI Bleeds")
+        $ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId())
     then	
         RHSState rhsNN = new RHSState("no PPI or misoprostol - yes age or conditions", "yes", $person);
         insertLogical(rhsNN);
         
         String s = String.format(
-            "Warfarin - NSAID interaction - matched 'no PPI or misoprostol - YES CONDITIONS' for patient: %s.)", 
+            "Warfarin - NSAID interaction - matched 'no PPI or misoprostol - YES CONDITIONS' for patient: (%s.)", 
             $person.getPersonId());
         System.out.println(s);
 end
@@ -173,8 +172,8 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - YES oth
                          person.getPersonId() == $person.getPersonId())
              )
         
-        $clinDrugConcept1 : ConceptSetItem(csName == "Systemic Corticosteroids Ingredients" || 
-                                      csName == "Aldosterone Antagonists Ingredients")     // TODO: high dose or multiple NSAIDs 
+        $clinDrugConcept1 : ConceptSetItem(csName == "Corticosteroids Ingredients" || 
+                                      csName == "Aldosterone Antagonists Ingredients")
         $de1 : DrugEra(personId == $rhs1.getPerson().getPersonId() && 
                        drugConceptId == $clinDrugConcept1.getConceptId()
                        )
@@ -190,12 +189,11 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - YES oth
         insertLogical(rhsNN);
         
         String s = String.format(
-            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding\n\tContextual factor: no age or condition risks but risk increasing drug factor (%s).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Both corticosteroids and aldosterone antagonists have been shown to substantially increase the risk of UGIB in patients on NSAIDs, with relative risks of 12.8 and 11 respectively compared to a risk of 4.3 with NSAIDs alone (Masclee et al. Gastroenterology 2014;147:784-92.)", 
+            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding\n\tContextual factor: no age or condition risks but risk increasing drug factor (%s).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Both corticosteroids and aldosterone antagonists have been shown to substantially increase the risk of UGIB in patients on NSAIDs, with relative risks of 12.8 and 11 respectively compared to a risk of 4.3 with NSAIDs \talone (Masclee et al. Gastroenterology 2014;147:784-92.)", 
             $person.getPersonId(), 
             $dexp1.getDrugConceptId());
         System.out.println(s);
 end
-
 
 rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - YES other risk drugs"
     when
@@ -212,8 +210,8 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - YES ot
                          state == "yes" && 
                          person.getPersonId() == $person.getPersonId())
         
-        $clinDrugConcept1 : ConceptSetItem(csName == "Systemic Corticosteroids Ingredients" || 
-                                      csName == "Aldosterone Antagonists Ingredients")     // TODO: high dose or multiple NSAIDs 
+        $clinDrugConcept1 : ConceptSetItem(csName == "Corticosteroids Ingredients" || 
+                                      csName == "Aldosterone Antagonists Ingredients")
         $de1 : DrugEra(personId == $rhs1.getPerson().getPersonId() && 
                        drugConceptId == $clinDrugConcept1.getConceptId()
                        )
@@ -229,12 +227,11 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - YES ot
         insertLogical(rhsNN);
         
         String s = String.format(
-            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Substantially increased risk of UGIB or other bleeding\n\tContextual factor: age or condition risks AND risk increasing drug factor (%s).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: \n\t\tPatients with a history of UGIB or peptic ulcer may have an increased risk of UGIB from this interaction. The extent to which older age is an independent risk factor for UGIB due to these interactions is not firmly established, but UGIB in general is known to increase with age.\n\t\tBoth corticosteroids and aldosterone antagonists have been shown to substantially increase the risk of UGIB in patients on NSAIDs, with relative risks of 12.8 and 11 respectively compared to a risk of 4.3 with NSAIDs alone (Masclee et al. Gastroenterology 2014;147:784-92.)", 
+            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Substantially increased risk of UGIB or other bleeding\n\tContextual factor: age or condition risks AND risk increasing drug factor (%s).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Patients with a history of UGIB or peptic ulcer may have an increased risk of UGIB from this interaction. The extent to which older age is an independent risk factor for UGIB due to these interactions is not firmly \n\testablished, but UGIB in general is known to increase with age. Both corticosteroids and aldosterone antagonists have been shown to substantially increase the risk of UGIB in patients on NSAIDs, with relative risks of 12.8 and \n\t11 respectively compared to a risk of 4.3 with NSAIDs alone (Masclee et al. Gastroenterology 2014;147:784-92.)", 
             $person.getPersonId(), 
             $dexp1.getDrugConceptId());
         System.out.println(s);
 end
-
 
 rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - NO other risk drugs"
     when
@@ -260,11 +257,43 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - NO oth
         insertLogical(rhsNN);
         
         String s = String.format(
-            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding\n\tContextual factor: age or condition risks but NO risk increasing drug factor.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: \n\t\tPatients with a history of UGIB or peptic ulcer may have an increased risk of UGIB from this interaction. The extent to which older age is an independent risk factor for UGIB due to these interactions is not firmly established, but UGIB in general is known to increase with age.", 
+            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding\n\tContextual factor: age or condition risks but NO risk increasing drug factor.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Patients with a history of UGIB or peptic ulcer may have an increased risk of UGIB from this interaction. The extent to which older age is an independent risk factor for UGIB due to these interactions \n\tis not firmly established, but UGIB in general is known to increase with age.", 
             $person.getPersonId());
         System.out.println(s);
 end
 
+rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - NO other risk drugs"
+    when
+        $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and NSAID" && 
+                         state == "yes",
+                         $person : person)
+
+        not (RHSState(stateName == "proton pump inhibitor or misoprostol" && 
+                                    state == "yes" && 
+                                    person.getPersonId() == $person.getPersonId())
+             )
+        
+        not (RHSState(stateName == "no PPI or misoprostol - yes age or conditions" && 
+                         state == "yes" && 
+                         person.getPersonId() == $person.getPersonId())
+             )
+	
+	not (RHSState(stateName == "no PPI or misoprostol - NO age or conditions - YES other risk drugs" && 
+                         state == "yes" && 
+                         person.getPersonId() == $person.getPersonId())
+             )
+     
+    then	
+        RHSState rhsNN = new RHSState("no PPI or misoprostol - NO age or conditions - NO other risk drugs", "yes", $person);
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding\n\tContextual factor: no age, condition, or drug factor risks.\n\tRecommendation: Use only if benefit outweighs risk.", 
+            $person.getPersonId());
+        System.out.println(s);
+end
+
+/*
 rule "DEBUGGING ONLY -- KCL/K-SPARING DIURETIC INGREDIENT exposure"
     when
       $de1 : DrugEra(drugConceptId == 19049105)
@@ -335,4 +364,4 @@ rule "KCL/K-SPARING DIURETIC -- ACEi or ARB"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-end
+end*/
