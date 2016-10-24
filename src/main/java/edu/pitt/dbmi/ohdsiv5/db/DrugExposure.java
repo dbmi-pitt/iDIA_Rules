@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -23,7 +24,8 @@ public class DrugExposure  implements java.io.Serializable {
     public DrugExposure() {
     }
     /** full constructor */
-    public DrugExposure(Calendar drugExposureStartDate,
+    public DrugExposure(Long drugExposureId,
+			Calendar drugExposureStartDate,
 			Calendar drugExposureEndDate,
 			Long personId,
 			Integer drugConceptId,
@@ -38,12 +40,13 @@ public class DrugExposure  implements java.io.Serializable {
 			Integer doseUnitConceptId,
 			String lotNumber,
 			Integer providerId,
-			Integer visitOccurrenceId,
+			Long visitOccurrenceId,
 			String drugSourceValue,
-			Integer drugSoureConceptId,
+			Integer drugSourceConceptId,
 			String routeSourceValue,
 			String doseUnitSourceValue
 			) {
+	this.drugExposureId = drugExposureId;
         this.drugExposureStartDate = drugExposureStartDate;
         this.drugExposureEndDate = drugExposureEndDate;
         this.personId = personId;
@@ -54,8 +57,7 @@ public class DrugExposure  implements java.io.Serializable {
         this.drugQuantity = drugQuantity;
         this.daysSupply = daysSupply;
 	this.sig = sig;
-	// this.sourceDrugCode = sourceDrugCode;
-
+	
 	// v5 additions
 	this.routeConceptId = routeConceptId;
 	this.effectiveDrugDose = effectiveDrugDose;
@@ -68,9 +70,7 @@ public class DrugExposure  implements java.io.Serializable {
 	this.routeSourceValue = routeSourceValue;
 	this.doseUnitSourceValue = doseUnitSourceValue;
     }
-    
-
-   
+     
     // Property accessors
     @Id
     @Column(name="DRUG_EXPOSURE_ID", unique=true, nullable=false, insertable=false, updatable=false, precision=15, scale=0)
@@ -222,11 +222,11 @@ public class DrugExposure  implements java.io.Serializable {
     }
 
     @Column(name="VISIT_OCCURRENCE_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-    Integer visitOccurrenceId;
-    public Integer getVisitOccurrenceId() {
+    Long visitOccurrenceId;
+    public Long getVisitOccurrenceId() {
 	return this.visitOccurrenceId;
     }
-    public void setVisitOccurrenceId(Integer visitOccurrenceId) {
+    public void setVisitOccurrenceId(Long visitOccurrenceId) {
 	this.visitOccurrenceId = visitOccurrenceId;
     }
 
@@ -265,4 +265,5 @@ public class DrugExposure  implements java.io.Serializable {
     public void setDoseUnitSourceValue(String doseUnitSourceValue) {
 	this.doseUnitSourceValue = doseUnitSourceValue;
     }
+
 }

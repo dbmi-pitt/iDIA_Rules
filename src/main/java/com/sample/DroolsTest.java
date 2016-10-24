@@ -10,6 +10,7 @@ import org.kie.api.runtime.KieSession;
 
 import java.sql.*;
 import java.util.*;
+import java.text.*;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
@@ -31,6 +32,7 @@ import edu.pitt.dbmi.ohdsiv5.db.Observation;
 import edu.pitt.dbmi.ohdsiv5.db.ObservationPeriod;
 import edu.pitt.dbmi.ohdsiv5.db.ProcedureOccurrence;
 import edu.pitt.dbmi.ohdsiv5.db.Person;
+import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
 
 public class DroolsTest {
     static SessionFactory session = HibernateUtil.getSession().getSessionFactory();  
@@ -72,8 +74,8 @@ public class DroolsTest {
 	System.out.println("INFO: number of deras: " + deras.size());
 
 	// The query for drug exposures is limited to exposures for those persons with drug eras overlapping the target date
-	List<DrugExposure> dexps = (List<DrugExposure>) hibernateSession.createQuery("FROM DrugExposure AS dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
-	System.out.println("INFO: number of dexps for persons with drug eras during the date range: " + dexps.size());
+	// List<DrugExposure> dexps = (List<DrugExposure>) hibernateSession.createQuery("FROM DrugExposure dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
+	// System.out.println("INFO: number of dexps for persons with drug eras during the date range: " + dexps.size());
 
 	// The query for person data is limited to exposures for those persons with drug eras overlapping the target date
 	List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person AS p WHERE p.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
@@ -84,15 +86,96 @@ public class DroolsTest {
 	System.out.println("INFO: number of ceras for persons with drug eras during the date range and with conditions that similarly overlap: " + ceras.size());
 
 	// The query to get drug strength - overlaps with the drugs that are in the above queries?
-	List<DrugStrength> dstrs = (List<DrugStrength>) hibernateSession.createQuery("FROM DrugStrength AS dstr WHERE dstr.drugConceptId IN (SELECT DISTINCT dexp.drugConceptId FROM DrugExposure AS dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))))").list();
-	System.out.println("INFO: number of dstrs for persons with drug eras during the date range: " + dstrs.size());
+	// List<DrugStrength> dstrs = (List<DrugStrength>) hibernateSession.createQuery("FROM DrugStrength AS dstr WHERE dstr.drugConceptId IN (SELECT DISTINCT dexp.drugConceptId FROM DrugExposure AS dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))))").list();
+	// System.out.println("INFO: number of dstrs for persons with drug eras during the date range: " + dstrs.size());
 
 	// The query to get drug strength - overlaps with the drugs that are in the above queries?
 	List<Measurement> msnts = (List<Measurement>) hibernateSession.createQuery("FROM Measurement as msnt WHERE msnt.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
 	System.out.println("INFO: number of measurements for persons with drug eras during the date range: " + msnts.size());
 
+	// Query to create the "extended drug exposure" that includes drug strength
+	List<Object> temps = (List<Object>) hibernateSession.createQuery("SELECT dexp.drugExposureId, dexp.personId, dexp.drugConceptId, to_char(dexp.drugExposureStartDate, 'yyyy-MM-dd') as drugExposureStartDate, to_char(dexp.drugExposureEndDate, 'yyyy-MM-dd') as drugExposureEndDate,dexp.drugExposureTypeConceptId, dexp.stopReason, dexp.refills, dexp.drugQuantity, dexp.daysSupply, dexp.sig, dexp.routeConceptId, dexp.effectiveDrugDose, dexp.doseUnitConceptId, dexp.lotNumber, dexp.providerId, dexp.visitOccurrenceId, dexp.drugSourceValue, dexp.drugSourceConceptId, dexp.routeSourceValue, dexp.doseUnitSourceValue, dstr.amountValue, dstr.amountUnitConceptId, dstr.numeratorValue, dstr.numeratorUnitConceptId, dstr.denominatorValue, dstr.denominatorUnitConceptId FROM DrugExposure dexp, DrugStrength dstr WHERE dexp.drugConceptId = dstr.drugConceptId AND dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
+	
+	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	List<ExtendedDrugExposure> ex_dexps = new ArrayList<ExtendedDrugExposure>();	
+	Iterator itr = temps.iterator();
+	while(itr.hasNext())
+	{
+	    Object[] obj = (Object[]) itr.next();
+	    ExtendedDrugExposure ex_dexp = new ExtendedDrugExposure();
+	    ex_dexp.setDrugExposureId(Long.parseLong(String.valueOf(obj[0])));
+	    ex_dexp.setPersonId(Long.parseLong(String.valueOf(obj[1])));
+	    ex_dexp.setDrugConceptId(Integer.parseInt(String.valueOf(obj[2])));
+	    try 
+	    {
+		java.util.Date date = df.parse(String.valueOf(obj[3]));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		ex_dexp.setDrugExposureStartDate(cal);
+	    } 
+	    catch (ParseException e) 
+	    {
+		e.printStackTrace();}
+	    if(String.valueOf(obj[4]) != "null"){
+	      try 
+	      {
+		  java.util.Date date2 = df.parse(String.valueOf(obj[4]));
+		  Calendar cal2 = Calendar.getInstance();
+		  cal2.setTime(date2);
+		  ex_dexp.setDrugExposureEndDate(cal2);
+	      } 
+	      catch (ParseException e) 
+	      {
+		  e.printStackTrace();}}
+	    ex_dexp.setDrugExposureTypeConceptId(Integer.parseInt(String.valueOf(obj[5])));
+	    ex_dexp.setStopReason(String.valueOf(obj[6]));
+	    if(String.valueOf(obj[7]) != "null"){
+		ex_dexp.setRefills(Short.parseShort(String.valueOf(obj[7])));}
+	    if(String.valueOf(obj[8]) != "null"){
+	      ex_dexp.setDrugQuantity(Integer.parseInt(String.valueOf(obj[8])));}	   
+	    if(String.valueOf(obj[9]) != "null"){
+	      ex_dexp.setDaysSupply(Short.parseShort(String.valueOf(obj[9])));}
+	    ex_dexp.setSig(String.valueOf(obj[10]));
+	    if(String.valueOf(obj[11]) != "null"){
+		ex_dexp.setRouteConceptId(Integer.parseInt(String.valueOf(obj[11])));}
+	    if(String.valueOf(obj[12]) != "null"){
+		ex_dexp.setEffectiveDrugDose(Integer.parseInt(String.valueOf(obj[12])));}
+	    if(String.valueOf(obj[13]) != "null"){
+		ex_dexp.setDoseUnitConceptId(Integer.parseInt(String.valueOf(obj[13])));}
+	    ex_dexp.setLotNumber(String.valueOf(obj[14]));
+	    if(String.valueOf(obj[15]) != "null"){
+		ex_dexp.setProviderId(Integer.parseInt(String.valueOf(obj[15])));}
+	    if(String.valueOf(obj[16]) != "null"){
+		ex_dexp.setVisitOccurrenceId(Long.parseLong(String.valueOf(obj[16])));}
+	    ex_dexp.setDrugSourceValue(String.valueOf(obj[17]));
+	    if(String.valueOf(obj[18]) != "null"){
+		ex_dexp.setDrugSourceConceptId(Integer.parseInt(String.valueOf(obj[18])));}
+	    ex_dexp.setRouteSourceValue(String.valueOf(obj[19]));
+	    ex_dexp.setDoseUnitSourceValue(String.valueOf(obj[20]));
+	    if(String.valueOf(obj[21]) != "null"){
+	      ex_dexp.setAmountValue(Double.parseDouble(String.valueOf(obj[21])));}
+	    if(String.valueOf(obj[22]) != "null"){
+	      ex_dexp.setAmountUnitConceptId(Integer.parseInt(String.valueOf(obj[22])));}	    
+	    if(String.valueOf(obj[23]) != "null"){
+	      ex_dexp.setNumeratorValue(Double.parseDouble(String.valueOf(obj[23])));}	
+	    if(String.valueOf(obj[24]) != "null"){
+	      ex_dexp.setNumeratorUnitConceptId(Integer.parseInt(String.valueOf(obj[24])));}	    
+	    if(String.valueOf(obj[25]) != "null"){
+	      ex_dexp.setDenominatorValue(Double.parseDouble(String.valueOf(obj[25])));}
+	    if(String.valueOf(obj[26]) != "null"){
+	      ex_dexp.setDenominatorUnitConceptId(Integer.parseInt(String.valueOf(obj[26])));}	      
+	    if(String.valueOf(obj[8]) != "null" && String.valueOf(obj[9]) != "null" && String.valueOf(obj[21]) != "null"){
+	      ex_dexp.setRegDailyDosage(Integer.parseInt(String.valueOf(obj[8])), Short.parseShort(String.valueOf(obj[9])), Double.parseDouble(String.valueOf(obj[21])));}
+	    else if(String.valueOf(obj[23]) != "null" && String.valueOf(obj[24]) != "null" && String.valueOf(obj[25]) != "null" && String.valueOf(obj[25]) != "null"){
+	      ex_dexp.setComplexDailyDosage(Integer.parseInt(String.valueOf(obj[8])), Short.parseShort(String.valueOf(obj[9])), Double.parseDouble(String.valueOf(obj[23])), Double.parseDouble(String.valueOf(obj[25])));}
+	    else{
+	      ex_dexp.setNullDailyDosage(0.00);}
+	    ex_dexps.add(ex_dexp);
+	}	
+	System.out.println("INFO: number of ex_dexps for persons with drug eras during the date range: " + ex_dexps.size());	   
+	
 	System.out.println("Done gathering data...");
-	int total_cnt = (csItemResults.size() + deras.size() + dexps.size() + persons.size() + ceras.size() + dstrs.size() + msnts.size());
+	int total_cnt = (csItemResults.size() + deras.size() + persons.size() + ceras.size() + msnts.size() + ex_dexps.size());
 	//-------------------------------------------------
 
 	// Run the rule engine
@@ -116,10 +199,6 @@ public class DroolsTest {
 	    kSession.insert((DrugEra) hibernateSession.get(DrugEra.class, dera.getDrugEraId()));            	
 	    cnt++;
 	}
-	for (DrugExposure dex : dexps) {           	
-	    kSession.insert((DrugExposure) hibernateSession.get(DrugExposure.class, dex.getDrugExposureId()));            	
-	    cnt++;
-	}
 	for (Person p : persons) {           	
 	    kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));            	
 	    cnt++;
@@ -132,8 +211,8 @@ public class DroolsTest {
 	    kSession.insert((Measurement) hibernateSession.get(Measurement.class, msnt.getMeasurementId()));
 	    cnt++;
 	}
-	for (DrugStrength dstr : dstrs){
-	    kSession.insert((DrugStrength) hibernateSession.get(DrugStrength.class, dstr.getDrugConceptId()));
+	for (ExtendedDrugExposure ex_dexp : ex_dexps){
+	    kSession.insert((ExtendedDrugExposure) ex_dexp);
 	    cnt++;
 	}
 	System.out.println("Number of facts asserted: " + cnt);	
@@ -142,14 +221,12 @@ public class DroolsTest {
 	System.out.println("Firing rules for assessment...");
 	// fire rules
 	kSession.fireAllRules();            
- 
-            
+             
 	closeDbSession();
 	System.out.println("INFO: Hibernate session closed!");
 	
 	kSession.dispose();
-	System.out.println("INFO: Rule engine session closed!");
-	//     System.out.println("Patient Count: " + cnt);           
+	System.out.println("INFO: Rule engine session closed!");    
             
     }       
 }

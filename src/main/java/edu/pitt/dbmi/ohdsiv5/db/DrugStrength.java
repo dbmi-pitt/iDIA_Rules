@@ -24,6 +24,7 @@ public class DrugStrength implements java.io.Serializable {
 			Integer amountUnitConceptId,
 			Double numeratorValue,
 			Integer numeratorUnitConceptId,
+			Double denominatorValue,
 			Integer denominatorUnitConceptId,
 			Calendar validEndDate,
 			Calendar validStartDate,
@@ -35,6 +36,7 @@ public class DrugStrength implements java.io.Serializable {
 	this.amountUnitConceptId = amountUnitConceptId;
 	this.numeratorValue = numeratorValue;
 	this.numeratorUnitConceptId = numeratorUnitConceptId;
+	this.denominatorValue = denominatorValue;
 	this.denominatorUnitConceptId = denominatorUnitConceptId;
 	this.validEndDate = validEndDate;
 	this.validStartDate = validStartDate;
@@ -75,7 +77,7 @@ public class DrugStrength implements java.io.Serializable {
     public Integer getAmountUnitConceptId() {
 	return this.amountUnitConceptId;
     }
-    public void setAmountUnitConcetpId(Integer amountUnitConceptId) {
+    public void setAmountUnitConceptId(Integer amountUnitConceptId) {
 	this.amountUnitConceptId = amountUnitConceptId;
     }
 
@@ -97,6 +99,15 @@ public class DrugStrength implements java.io.Serializable {
 	this.numeratorUnitConceptId = numeratorUnitConceptId;
     }
 
+    @Column(name="DENOMINATOR_VALUE", unique=false,nullable=true, updatable=true, insertable=true, precision=8, scale=0)
+    Double denominatorValue;
+    public Double getDenominatorValue() {
+	return this.denominatorValue;
+    }
+    public void setDenominatorValue(Double denominatorValue) {
+	this.denominatorValue = denominatorValue;
+    }
+    
     @Column(name="DENOMINATOR_UNIT_CONCEPT_ID", unique=false, nullable=true, updatable=true, insertable=true, precision=8, scale=0)
     Integer denominatorUnitConceptId;
     public Integer getDenominatorUnitConceptId() {
