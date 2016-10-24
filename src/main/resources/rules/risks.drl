@@ -1,4 +1,4 @@
-//created on: Feb 12, 2016
+//Last Updated 2016-10-23
 package com.sample
 
 //list any import classes here.
@@ -12,10 +12,12 @@ import java.lang.String;
 import com.sample.model.ConceptSetItem;
 import com.sample.model.RHSState;
 
+import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
 import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
 import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
 import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
 import edu.pitt.dbmi.ohdsiv5.db.Person;
+import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
 
 /////////// 
 // declare any global variables here
@@ -31,24 +33,6 @@ global org.hibernate.Session hibernateSession;
 /////////// 
 // Rules
 /////////// 
-/*rule "DEBUGGING ONLY -- GI bleeds"
-    when
-      $ce1 : ConditionEra(conditionConceptId == 4046500)
-      $person : Person(personId == $ce1.getPersonId())
-    then	
-      System.out.println("Matched GI bleed for patient: " + $ce1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
-end
-
-rule "DEBUGGING ONLY -- warfarin - ibuprofen INGREDIENT exposure"
-    when
-      $de1 : DrugEra(drugConceptId == 1310149)
-      $clinDrugConcept1 : ConceptSetItem(csName == "NSAIDs Ingredients")
-      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
-      $person : Person(personId == $de1.getPersonId() && yearOfBirth <= 1951)
-    then	
-      System.out.println("Matched drug era ids for patient (ingredient): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
-end*/
-
 
 rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac so no need to include the related logic
     when
@@ -63,15 +47,11 @@ rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac 
       //the start date so the DrugEra is used to infer the exposure
       //period
       $clinDrugConcept2 : ConceptSetItem(csName == "Warfarins")
-      $dexp1 : DrugExposure(personId == $de1.getPersonId() && 
-                            drugExposureStartDate == $de1.getDrugEraStartDate() && 
-                            drugConceptId == $clinDrugConcept2.getConceptId())
+      $dexp1 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId())
    
       // Specific NSAID exposure
       $clinDrugConcept3 : ConceptSetItem(csName == "NSAIDs")
-      $dexp2 : DrugExposure(personId == $de1.getPersonId() && 
-                            drugExposureStartDate == $de2.getDrugEraStartDate() && 
-                            drugConceptId == $clinDrugConcept3.getConceptId())
+      $dexp2 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept3.getConceptId())
 
       $person : Person(personId == $de1.getPersonId())
     then	
@@ -80,10 +60,11 @@ rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical diclofenac 
       insertLogical(rhsCur);
     
       String s = String.format(
-          "Matched drug EXPOSURE ids for patient (clinical drug): %s; anticoagulant: %s; NSAID: %s", 
+          "Matched drug EXPOSURE ids for patient (clinical drug): %s; Anticoagulant: %s; NSAID: %s.", 
           $de1.getPersonId(), 
           $clinDrugConcept2.getConceptId(), 
-          $clinDrugConcept3.getConceptId());
+          $clinDrugConcept3.getConceptId(),
+	  $dexp1.getDailyDosage());
       System.out.println(s);
 end
 
@@ -97,7 +78,7 @@ rule "WARFARIN - NSAID -- PPI or misoprostol"
                                       
         // Specific PPI or Misoprostol exposure 
         $clinDrugConcept2 : ConceptSetItem(csName == "PPIs")
-        $dexp1 : DrugExposure(personId == $rhs.getPerson().getPersonId() && 
+        $dexp1 : ExtendedDrugExposure(personId == $rhs.getPerson().getPersonId() && 
                               drugExposureStartDate == $de1.getDrugEraStartDate() &&
                               drugConceptId == $clinDrugConcept2.getConceptId())                
     then	
@@ -180,7 +161,7 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - YES oth
         
         $clinDrugConcept2 : ConceptSetItem(csName == "Systemic Corticosteroids" || 
                                            csName == "Aldosterone Antagonists")
-        $dexp1 : DrugExposure(personId == $rhs1.getPerson().getPersonId() && 
+        $dexp1 : ExtendedDrugExposure(personId == $rhs1.getPerson().getPersonId() && 
                               drugExposureStartDate == $de1.getDrugEraStartDate() &&
                               drugConceptId == $clinDrugConcept2.getConceptId()
                               )        
@@ -218,7 +199,7 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - YES ot
         
         $clinDrugConcept2 : ConceptSetItem(csName == "Systemic Corticosteroids" || 
                                            csName == "Aldosterone Antagonists")
-        $dexp1 : DrugExposure(personId == $rhs1.getPerson().getPersonId() && 
+        $dexp1 : ExtendedDrugExposure(personId == $rhs1.getPerson().getPersonId() && 
                               drugExposureStartDate == $de1.getDrugEraStartDate() &&
                               drugConceptId == $clinDrugConcept2.getConceptId()
                               )        
@@ -288,55 +269,30 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - NO othe
         insertLogical(rhsNN);
         
         String s = String.format(
-            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding\n\tContextual factor: no age, condition, or drug factor risks.\n\tRecommendation: Use only if benefit outweighs risk.", 
+            "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding.\n\tContextual factor: No age, condition, or drug factor risks.\n\tRecommendation: Use only if benefit outweighs risk.", 
             $person.getPersonId());
         System.out.println(s);
 end
 
-/*
-rule "DEBUGGING ONLY -- KCL/K-SPARING DIURETIC INGREDIENT exposure"
+rule "Potassium/K-SPARING DIURETIC -- NO FILTER"
     when
-      $de1 : DrugEra(drugConceptId == 19049105)
-      $de2 : DrugEra(personId == $de1.getPersonId() && (drugConceptId == 991382 || drugConceptId == 970250 || drugConceptId == 904542))
-      $person : Person(personId == $de1.getPersonId())
-    then	
-      System.out.println("matched drug era ids for patient (ingredient): " + $de1.getPersonId() + "; year of birth: " + $person.getYearOfBirth());
-end
-
-rule "KCL/K-SPARING DIURETIC -- NO FILTER"
-    when
-      // KCL ingredient drug era
-      $de1 : DrugEra(drugConceptId == 19049105) 
-      
+      // Potassium prep ingredient drug era
+      $de1 : DrugEra(drugConceptId == 19049105 || drugConceptId == 19059547)       
       // Diuretics ingredient drug era
       $de2 : DrugEra(personId == $de1.getPersonId() && (drugConceptId == 991382 || drugConceptId == 970250 || drugConceptId == 904542))
-
-      // Specific FLUCONAZOLE exposure
-      $clinDrugConcept1 : ConceptSetItem(csName == "Updated Potassium Chlorides")
-      $dexp1 : DrugExposure(personId == $de1.getPersonId() && 
-                            drugExposureStartDate == $de1.getDrugEraStartDate() && 
-                            drugConceptId == $clinDrugConcept1.getConceptId())
-   
-      // Specific NSAID exposure
-      $clinDrugConcept2 : ConceptSetItem(csName == "Updated K-sparing Diuretics")
-      $dexp2 : DrugExposure(personId == $de1.getPersonId() && 
-                            drugExposureStartDate == $de2.getDrugEraStartDate() && 
-                            drugConceptId == $clinDrugConcept2.getConceptId())
-
-      $person : Person(personId == $de1.getPersonId())
+      // Load concept sets
+      $clinDrugConcept1 : ConceptSetItem(csName == "Potassiums")
+      $clinDrugConcept2 : ConceptSetItem(csName == "K-sparing Diuretics")
+      // Check exposure to a potassium preparation
+      $dexp1 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept1.getConceptId())
+      $dexp2 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId())
     then	
-      // Create a state object for the current node in the decision tree to be used by other LHS
-      RHSState rhsCur = new RHSState("basic concomitant exposure of kcl and a k-sparing diuretic", "yes", $person);
-      insertLogical(rhsCur);
-    
       String s = String.format(
-          "matched drug EXPOSURE ids for patient (clinical drug): %s; kcl: %s; k-sparing diuretic: %s", 
-          $de1.getPersonId(), 
-          $clinDrugConcept1.getConceptId(), 
-          $clinDrugConcept2.getConceptId());
+          "Matched drug EXPOSURE ids for patient (clinical drug): %s; ExposureID-1: %s; ExposureID-2: %s.", 
+          $de1.getPersonId(), $dexp1.getDrugExposureId(), $dexp2.getDrugExposureId());
       System.out.println(s);
 end
-
+/*
 rule "KCL/K-SPARING DIURETIC -- ACEi or ARB"
     when
         $rhs : RHSState(stateName == "basic concomitant exposure of kcl and a k-sparing diuretic" && state == "yes")

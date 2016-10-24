@@ -8,6 +8,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlinesimport javax.persistence.Id;
                # Replace Windows newlines with Unix newlinesimport javax.persistence.SequenceGenerator;
                # Replace Windows newlines with Unix newlinesimport javax.persistence.Table;
+               # Replace Windows newlines with Unix newlinesimport javax.persistence.Transient;
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines/**
@@ -23,7 +24,8 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    public DrugExposure() {
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines    /** full constructor */
-               # Replace Windows newlines with Unix newlines    public DrugExposure(Calendar drugExposureStartDate,
+               # Replace Windows newlines with Unix newlines    public DrugExposure(Long drugExposureId,
+               # Replace Windows newlines with Unix newlines			Calendar drugExposureStartDate,
                # Replace Windows newlines with Unix newlines			Calendar drugExposureEndDate,
                # Replace Windows newlines with Unix newlines			Long personId,
                # Replace Windows newlines with Unix newlines			Integer drugConceptId,
@@ -38,12 +40,13 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines			Integer doseUnitConceptId,
                # Replace Windows newlines with Unix newlines			String lotNumber,
                # Replace Windows newlines with Unix newlines			Integer providerId,
-               # Replace Windows newlines with Unix newlines			Integer visitOccurrenceId,
+               # Replace Windows newlines with Unix newlines			Long visitOccurrenceId,
                # Replace Windows newlines with Unix newlines			String drugSourceValue,
-               # Replace Windows newlines with Unix newlines			Integer drugSoureConceptId,
+               # Replace Windows newlines with Unix newlines			Integer drugSourceConceptId,
                # Replace Windows newlines with Unix newlines			String routeSourceValue,
                # Replace Windows newlines with Unix newlines			String doseUnitSourceValue
                # Replace Windows newlines with Unix newlines			) {
+               # Replace Windows newlines with Unix newlines	this.drugExposureId = drugExposureId;
                # Replace Windows newlines with Unix newlines        this.drugExposureStartDate = drugExposureStartDate;
                # Replace Windows newlines with Unix newlines        this.drugExposureEndDate = drugExposureEndDate;
                # Replace Windows newlines with Unix newlines        this.personId = personId;
@@ -54,8 +57,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines        this.drugQuantity = drugQuantity;
                # Replace Windows newlines with Unix newlines        this.daysSupply = daysSupply;
                # Replace Windows newlines with Unix newlines	this.sig = sig;
-               # Replace Windows newlines with Unix newlines	// this.sourceDrugCode = sourceDrugCode;
-               # Replace Windows newlines with Unix newlines
+               # Replace Windows newlines with Unix newlines	
                # Replace Windows newlines with Unix newlines	// v5 additions
                # Replace Windows newlines with Unix newlines	this.routeConceptId = routeConceptId;
                # Replace Windows newlines with Unix newlines	this.effectiveDrugDose = effectiveDrugDose;
@@ -68,9 +70,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines	this.routeSourceValue = routeSourceValue;
                # Replace Windows newlines with Unix newlines	this.doseUnitSourceValue = doseUnitSourceValue;
                # Replace Windows newlines with Unix newlines    }
-               # Replace Windows newlines with Unix newlines    
-               # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlines   
+               # Replace Windows newlines with Unix newlines     
                # Replace Windows newlines with Unix newlines    // Property accessors
                # Replace Windows newlines with Unix newlines    @Id
                # Replace Windows newlines with Unix newlines    @Column(name="DRUG_EXPOSURE_ID", unique=true, nullable=false, insertable=false, updatable=false, precision=15, scale=0)
@@ -222,11 +222,11 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    @Column(name="VISIT_OCCURRENCE_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-               # Replace Windows newlines with Unix newlines    Integer visitOccurrenceId;
-               # Replace Windows newlines with Unix newlines    public Integer getVisitOccurrenceId() {
+               # Replace Windows newlines with Unix newlines    Long visitOccurrenceId;
+               # Replace Windows newlines with Unix newlines    public Long getVisitOccurrenceId() {
                # Replace Windows newlines with Unix newlines	return this.visitOccurrenceId;
                # Replace Windows newlines with Unix newlines    }
-               # Replace Windows newlines with Unix newlines    public void setVisitOccurrenceId(Integer visitOccurrenceId) {
+               # Replace Windows newlines with Unix newlines    public void setVisitOccurrenceId(Long visitOccurrenceId) {
                # Replace Windows newlines with Unix newlines	this.visitOccurrenceId = visitOccurrenceId;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines
@@ -265,5 +265,6 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    public void setDoseUnitSourceValue(String doseUnitSourceValue) {
                # Replace Windows newlines with Unix newlines	this.doseUnitSourceValue = doseUnitSourceValue;
                # Replace Windows newlines with Unix newlines    }
+               # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines}
                # Replace Windows newlines with Unix newlines
