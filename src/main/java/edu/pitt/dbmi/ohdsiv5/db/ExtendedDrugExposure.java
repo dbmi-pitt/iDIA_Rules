@@ -45,6 +45,7 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
 			Integer drugSourceConceptId,
 			String routeSourceValue,
 			String doseUnitSourceValue,
+			Integer ingredientConceptId,
 			Double amountValue,
 			Integer amountUnitConceptId,
 			Double numeratorValue,
@@ -74,6 +75,7 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
 	this.drugSourceConceptId = drugSourceConceptId;
 	this.routeSourceValue = routeSourceValue;
 	this.doseUnitSourceValue = doseUnitSourceValue;
+	this.ingredientConceptId = ingredientConceptId;
 	this.amountValue = amountValue;
 	this.amountUnitConceptId = amountUnitConceptId;
 	this.numeratorValue = numeratorValue;
@@ -82,7 +84,16 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
 	this.denominatorUnitConceptId = denominatorUnitConceptId;
 	this.dailyDosage = dailyDosage;
     }
-       
+    
+    @Transient
+    Integer ingredientConceptId;
+    public Integer getIngredientConceptId() {
+	return this.ingredientConceptId;
+    }
+    public void setIngredientConceptId(Integer ingredientConceptId) {
+	this.ingredientConceptId = ingredientConceptId;
+    }
+    
     @Transient
     Double amountValue;
     public Double getAmountValue() {
@@ -92,7 +103,6 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
         this.amountValue = amountValue;
     }
        
-    // Non-inheritied property accessors
     @Transient
     Integer amountUnitConceptId;
     public Integer getAmountUnitConceptId() {
@@ -150,8 +160,8 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
 	dailyDosage = ((drugQuantity * amountValue) / daysSupply);
 	this.dailyDosage = dailyDosage;               
     }  
-    public void setComplexDailyDosage(Integer drugQuantity, Short daysSupply, Double numeratorValue, Double denominatorValue){
-	dailyDosage = ((drugQuantity * numeratorValue) / (daysSupply * denominatorValue));
+    public void setComplexDailyDosage(Integer drugQuantity, Short daysSupply, Double numeratorValue){
+	dailyDosage = ((drugQuantity * numeratorValue) / daysSupply);
 	this.dailyDosage = dailyDosage;
     }
 }
