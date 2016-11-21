@@ -41,14 +41,14 @@ INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_da
 INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date) values (52729, 1500, 970250, '2008-02-13', '2008-04-27');
 INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_type_concept_id) values (149421, 1500, 19049371, '2008-02-13', 38000175);
 INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_type_concept_id) values (149422, 1500, 19106647, '2008-02-13', 38000175);
-INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (60690, 1500, 3023103, '2008-02-13', 45754907, 4.2, 9557);
+INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (170000, 1500, 3023103, '2008-02-13', 45754907, 4.2, 9557);
 INSERT INTO person (person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, location_id) values (1501, 8507, 1950, 1, 1, 8527, 38003564, 321);
 INSERT INTO visit_occurrence (visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_end_date, visit_type_concept_id, provider_id, care_site_id) values (135523, 1501, 9201, '2008-02-13', '2008-04-27', 44818517, 23492, 11905);
 INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date) values (52730, 1501, 19049105, '2008-02-13', '2008-04-27');
 INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date) values (52731, 1501, 970250, '2008-02-13', '2008-04-27');
 INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_type_concept_id) values (149423, 1501, 19049376, '2008-02-13', 38000175);
 INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_type_concept_id) values (149424, 1501, 19106647, '2008-02-13', 38000175);
-INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (60691, 1501, 3023103, '2008-02-13', 45754907, 5.1, 9557);
+INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (170001, 1501, 3023103, '2008-02-13', 45754907, 5.1, 9557);
 INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date) values (52732, 1501, 1335471, '2008-02-13', '2008-04-27');
 INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_type_concept_id) values (149425, 1501, 40171675, '2008-02-13', 38000175);
 INSERT INTO person (person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, location_id) values (1502, 8507, 1930, 1, 1, 8527, 38003564, 321);
@@ -57,8 +57,8 @@ INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_da
 INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date) values (52734, 1502, 970250, '2008-02-13', '2008-04-27');
 INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_type_concept_id) values (149426, 1502, 19049376, '2008-02-13', 38000175);
 INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_type_concept_id) values (149427, 1502, 19106647, '2008-02-13', 38000175);
-INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (60692, 1502, 3023103, '2008-02-13', 45754907, 5.5, 9557);
-INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (60693, 1502, 3016723, '2008-02-13', 45754907, 32, 8795);
+INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (170002, 1502, 3023103, '2008-02-13', 45754907, 5.5, 9557);
+INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (170003, 1502, 3016723, '2008-02-13', 45754907, 32, 8795);
 INSERT INTO person (person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, location_id) values (1503, 8507, 1940, 1, 1, 8527, 38003564, 321);
 INSERT INTO visit_occurrence (visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_end_date, visit_type_concept_id, provider_id, care_site_id) values (135525, 1503, 9201, '2008-02-13', '2008-04-27', 44818517, 23492, 11905);
 INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date) values (52735, 1503, 19049105, '2008-02-13', '2008-04-27');
