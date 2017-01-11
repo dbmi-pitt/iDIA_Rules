@@ -182,11 +182,24 @@ public class DroolsTest {
 	// Run the rule engine
 	KieServices ks = KieServices.Factory.get();
 	KieContainer kContainer = ks.getKieClasspathContainer();
-
-	System.out.println("INFO: Rule engine session open!");
+	
+	System.out.println("INFO: Rule engine session open!");	
 	KieSession kSession = kContainer.newKieSession("ksession-rules");
 	kSession.setGlobal("hibernateSession", hibernateSession);
-	   
+	
+	try 
+	{
+	  Calendar cal2 = Calendar.getInstance();
+	  cal2.setTime(df.parse(dateStr));
+	  kSession.setGlobal("currentDate", cal2);
+	  cal2.add(Calendar.DAY_OF_YEAR, -2);
+	  kSession.setGlobal("within48date", cal2);
+	} 
+	catch (ParseException e) 
+	{
+	  e.printStackTrace();
+	}
+		   
 	// Load all the facts
 	System.out.println("Asserting facts...");
 	int cnt = 0;
