@@ -38,11 +38,11 @@ global java.util.Calendar within48date;
 /////////// 
 // Rules
 /////////// 
-/*
+
 rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical/opthalmic NSAIDs
     when
       // Warfarin ingredient drug era
-      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarin Ingredients")
+      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins Ingredients")
       $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
       
       // NSAID ingredient drug era
@@ -145,7 +145,7 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - YES oth
         $de1 : DrugEra(personId == $rhs1.getPerson().getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
         
         $clinDrugConcept2 : ConceptSetItem(csName == "Systemic Corticosteroids" || csName == "Aldosterone Antagonists")
-        $dexp1 : ExtendedDrugExposure(personId == $rhs1.getPerson().getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && (ingredientConceptId == $clinDrugConcept1.getConceptId() || ingredientConceptId == $clinDrugConcept2.getConceptId()))        
+        $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())           
     then	
         RHSState rhsNN = new RHSState("no PPI or misoprostol - NO age or conditions - YES other risk drugs", "yes", $person);
         insertLogical(rhsNN);
@@ -217,6 +217,147 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - NO othe
         
         String s = String.format(
             "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding.\n\tContextual factor: No age, condition, or drug factor risks.\n\tRecommendation: Use only if benefit outweighs risk.", 
+            $person.getPersonId());
+        System.out.println(s);
+end
+
+rule "WARFARIN - SSRI+SNRI -- NO FILTER"
+    when
+      // Warfarin ingredient drug era
+      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+      
+      // SSRI and SNRI ingredient drug era
+      $clinDrugConcept2 : ConceptSetItem(csName == "SSRIs and SNRIs Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+
+      // Specific warfarin exposure
+      $clinDrugConcept3 : ConceptSetItem(csName == "Warfarins")
+      $dexp1 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
+   
+      // Specific SSRI and SNRI exposure
+      $clinDrugConcept4 : ConceptSetItem(csName == "SSRIs and SNRIs")
+      $dexp2 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
+
+      $person : Person(personId == $de1.getPersonId())
+    then	
+      RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and SSRI/SNRI", "yes", $person);
+      insertLogical(rhsCur);
+    
+      String s = String.format(
+          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Anticoagulant: %s; SSRI/SNRI: %s.", 
+          $de1.getPersonId(), 
+          $clinDrugConcept3.getConceptId(), 
+          $clinDrugConcept4.getConceptId());
+      System.out.println(s);
+end
+
+rule "WARFARIN - SSRI+SNRI -- AGE"
+    when
+	// First check that patient was exposed to Warfarin and either an SSRI or an SNRI
+        $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
+
+        Person(personId == $person.getPersonId() && yearOfBirth <= 1951)
+    then	
+        RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - yes risk", "yes", $person);
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+            "Matched drug exposures for the patient with AGE as a risk factor: Patient ID: %s; Age: %s, which exceeds the threshold value of 65.", 
+            $person.getPersonId(),
+	    (currentDate.get(Calendar.YEAR) - $person.getYearOfBirth()));
+        System.out.println(s);
+end
+
+rule "WARFARIN - SSRI+SNRI -- OTHER DRUGS"
+    when
+	// First check that patient was exposed to Warfarin and either an SSRI or an SNRI
+        $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
+
+	$clinDrugConcept1 : ConceptSetItem(csName == "Corticosteroids Ingredients" || csName == "Aldosterone Antagonists Ingredients")
+        $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+        
+        $clinDrugConcept2 : ConceptSetItem(csName == "Systemic Corticosteroids" || csName == "Aldosterone Antagonists")
+        $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())        
+    then	
+        RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - yes risk", "yes", $person);
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+            "Matched drug exposures for the patient with ANOTHER DRUG as a risk factor: Patient ID: %s; Drug %s.", 
+            $person.getPersonId(),
+            $dexp1.getDrugConceptId());
+        System.out.println(s);
+end
+
+rule "WARFARIN - SSRI+SNRI -- CONDITIONS"
+    when
+	// First check that patient was exposed to Warfarin and either an SSRI or an SNRI
+        $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
+	
+	$condConcept1 : ConceptSetItem(csName == "History of GI Bleeds")
+	
+        $ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId())
+    then	
+        RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - yes risk", "yes", $person);
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+            "Matched drug exposures for the patient with a CONDITION as a risk factor - Patient ID: %s; Condition: %s.", 
+            $person.getPersonId(),
+	    $ce1.getConditionConceptId());
+        System.out.println(s);
+end
+
+rule "WARFARIN - SSRI+SNRI -- YES RISKS, YES PPIs"
+    when
+	// First check that patient was exposed to Warfarin and either an SSRI or an SNRI
+        $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)	
+	$rhs2 : RHSState(stateName == "warfarin and SSRI/SNRI exposure - yes risk" && state == "yes" && person.getPersonId() == $person.getPersonId())
+	
+	$clinDrugConcept1 : ConceptSetItem(csName == "PPIs Ingredients")
+        $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+	$clinDrugConcept2 : ConceptSetItem(csName == "PPIs")
+	$dexp1 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $de1.getDrugConceptId())
+    then	
+        RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - yes risk - yes ppi", "yes", $person);
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+            "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding.\n\tContextual factor: Age, condition, or drug factor risks. Presence of PPIs reduces risk. \n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: PPIs reduce the risk of GI bleeds, but the increased risk of other kinds of bleeding is not likely to be reduced. \n\tIf possible avoid drugs that increase bleeding risk (e.g., NSAIDs, aldosterone antagonists, aspirin, corticoids). \n\tTo further reduce the bleeding risk, consider avoiding the SSRI.", 
+            $person.getPersonId());
+        System.out.println(s);
+end
+
+rule "WARFARIN - SSRI+SNRI -- YES RISKS, NO PPIs"
+    when
+	// First check that patient was exposed to Warfarin and either an SSRI or an SNRI
+        $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)	
+	$rhs2 : RHSState(stateName == "warfarin and SSRI/SNRI exposure - yes risk" && state == "yes" && person.getPersonId() == $person.getPersonId())
+	
+	not (RHSState(stateName == "warfarin and SSRI/SNRI exposure - yes risk - yes ppi" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+    then	
+        RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - yes risk - no ppi", "yes", $person);
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+            "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding.\n\tContextual factor: Age, condition, or drug factor risks. No PPI risk reduction.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If possible avoid drugs that increase bleeding risk (e.g., NSAIDs, aldosterone antagonists, aspirin, corticoids). \n\tTo reduce risk of GI bleeds consider adding a PPI. To further reduce the bleeding risk, consider avoiding the SSRI.", 
+            $person.getPersonId());
+        System.out.println(s);
+end
+
+rule "WARFARIN - SSRI+SNRI -- NO RISKS"
+    when
+	// First check that patient was exposed to Warfarin and either an SSRI or an SNRI
+        $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
+
+        not (RHSState(stateName == "warfarin and SSRI/SNRI exposure - yes risk" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+    then	
+        RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - no risk", "yes", $person);
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+            "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding.\n\tContextual factor: No age, condition, or drug factor risks.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: To reduce the bleeding risk, consider avoiding the SSRI.", 
             $person.getPersonId());
         System.out.println(s);
 end
@@ -820,7 +961,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Betaxolol"
           $dexp1.getDailyDosage());
         System.out.println(s);
 end
-*/
+
 rule "IMMUNOSUPPRESSANTS - AZOLES -- NO FILTER"
     when
       // Immunosuppressant ingredient drug era
