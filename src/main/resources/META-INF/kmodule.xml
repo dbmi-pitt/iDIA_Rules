@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
-    <kbase name="rules" packages="rules">
+    <kbase name="rules_complete" packages="rules_complete">
         <ksession name="ksession-rules"/>
+    </kbase>
+    <kbase name="rules_progress" packages="rules_progress">
+        <ksession name="ksession-progress"/>
     </kbase>
 </kmodule>
