@@ -1,4 +1,5 @@
 compile:
+	mvn clean
 	mvn install
 
 
