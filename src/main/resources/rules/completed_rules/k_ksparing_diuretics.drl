@@ -1,0 +1,216 @@
+//Last Updated 2017-01-13
+package com.sample
+
+//list any import classes here.
+import function com.sample.DRLLogger.*;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Calendar;
+import java.lang.String;
+
+import com.sample.model.ConceptSetItem;
+import com.sample.model.RHSState;
+
+import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
+import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.Measurement;
+import edu.pitt.dbmi.ohdsiv5.db.Person;
+
+
+/////////// 
+// declare any global variables here
+/////////// 
+global org.hibernate.Session hibernateSession;
+global java.util.Calendar currentDate;
+global java.util.Calendar within48date;
+
+
+/////////// 
+// declare any types here
+/////////// 
+
+
+/////////// 
+// Rules
+/////////// 
+
+rule "K/K-SPARING DIURETIC -- NO FILTER"
+    when
+      // Potassium prep ingredient drug era
+      $clinDrugConcept1 : ConceptSetItem(csName == "Potassium Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId())       
+      // Diuretics ingredient drug era
+      $clinDrugConcept2 : ConceptSetItem(csName == "K-sparing Diuretics Ingredients")
+      $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+      // Load concept sets
+      $clinDrugConcept3 : ConceptSetItem(csName == "Potassiums")
+      $clinDrugConcept4 : ConceptSetItem(csName == "K-sparing Diuretics")
+      // Check exposure to a potassium preparation
+      $dexp1 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
+      $dexp2 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      // Set the patient to a person variable so the RHS can be assigned
+      $person : Person(personId == $de1.getPersonId())
+    then
+      // Create a state object for the current node in the decision tree to be used by other LHS
+      RHSState rhsCur = new RHSState("basic concomitant exposure of K and a K-sparing diuretic", "yes", $person);
+      insertLogical(rhsCur);
+      // Output a string that informs the user that there has been a match on drug exposures, indicating that the rules will proceed to the next steps
+      String s = String.format(
+          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Potassium Preparation: %s; K-sparing Diuretic: %s.", 
+          $de1.getPersonId(), 
+          $clinDrugConcept3.getConceptId(), 
+          $clinDrugConcept4.getConceptId());
+      System.out.println(s);
+end
+
+rule "K/K-SPARING DIURETIC -- Triamterene Dosage"
+    when
+	// First check that patient was exposed to potassium and a diuretic
+        $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+	// Next, select drug eras for triamterene only (MAYBE USE A CONCEPT SET HERE INSTEAD?)
+	$clinDrugConcept1 : ConceptSetItem(csName == "Triamterenes Ingredients")
+        $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+	$clinDrugConcept2 : ConceptSetItem(csName == "Triamterenes")
+	$dexp1 : ExtendedDrugExposure(personId == $de1.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $de1.getDrugConceptId() && dailyDosage > 37.5)
+    then	
+	// Create a state object for the current node in the decision tree to be used by other LHS
+        RHSState rhsNN = new RHSState("high triamterene dosage", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        // Output a string that provides clinician with details for action
+        String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Risk of hyperkalemia.\n\tMitigating factor: High triamterene dosage (Daily Dosage: %s mg/day, Threshold Value: 37.5 mg/day).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: High dosages of triamterene can increase the risk of hyperkalemia.", 
+          $person.getPersonId(),
+	  $dexp1.getDailyDosage());
+        System.out.println(s);
+end
+
+rule "K/K-SPARING DIURETIC -- Recency of Lab Tests"
+    when
+	// First check that patient was exposed to potassium and a diuretic
+        $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+	// Make sure they don't meet the triamterene rule
+	not ($rhs2 : RHSState(stateName == "high triamterene dosage" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Take patient from RHS and check when their serum postassium labs were taken
+	not ($meas1 : Measurement(personId == $person.getPersonId() && measurementConceptId == 3023103 && measurementDate.getTime() <= within48date.getTimeInMillis()))
+    then	
+	// Create a state object for the current node in the decision tree to be used by other LHS
+        RHSState rhsNN = new RHSState("invalid potassium labs", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        // Output a string that provides clinician with details for action
+        String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Risk of hyperkalemia.\n\tMitigating factor: Serum potassium not measured within 48 hours.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Serum potassium was not measured recently, and a high serum potassium is a risk factor that increases chance of hyperkalemia \n\tin patients on both a potassium preparation and a K-sparing diuretic.", 
+          $person.getPersonId());
+        System.out.println(s);
+end
+
+rule "K/K-SPARING DIURETIC -- Serum Potassium"
+    when
+	// First check that patient was exposed to potassium and a diuretic
+        $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+	// Make sure they don't meet the triamterene rule
+	not ($rhs2 : RHSState(stateName == "high triamterene dosage" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Second, make sure that a serum potassium value was reported within 48 hours
+	not ($rhs2 : RHSState(stateName == "invalid potassium labs" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Take patient from RHS and check if that patient has a serum potassium value of > 4.5
+	$measurement : Measurement(personId == $person.getPersonId() && measurementConceptId == 3023103 && valueAsNumber > 4.5 && unitConceptId == 9557)
+    then	
+	// Create a state object for the current node in the decision tree to be used by other LHS
+        RHSState rhsNN = new RHSState("serum potassium high", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        // Output a string that provides clinician with details for action
+        String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Possible increased risk of hyperkalemia.\n\tMitigating factor: High serum potassium (%s mEq/L, compared to a threshold value of 4.5 mEq/L).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation:  High serum potassium is considered to be a risk factor that increases chance of hyperkalemia in patients on \n\tboth a potassium preparation and a K-sparing diuretic.", 
+          $person.getPersonId(),
+	  $measurement.getValueAsNumber());
+        System.out.println(s);
+end
+
+rule "K/K-SPARING DIURETIC -- ACEi or ARB"
+    when
+	// Fist check if patient was exposed to both potassium and a diuretic
+        $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+	// Make sure they don't meet the triamterene rule
+	not ($rhs2 : RHSState(stateName == "high triamterene dosage" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Second, make sure that a serum potassium value was reported within 48 hours
+	not ($rhs2 : RHSState(stateName == "invalid potassium labs" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Next make sure the patient did not meet the high serum potassium rule (shouldn't continue on if so)
+	not ($rhs2 : RHSState(stateName == "serum potassium high" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+        // PPI or Misoprostol drug era
+        $clinDrugConcept1 : ConceptSetItem(csName == "ACEis and ARBs Ingredients")
+        $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
+        // Specific PPI or Misoprostol exposure 
+        $clinDrugConcept2 : ConceptSetItem(csName == "ACEis and ARBs")
+        $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())                
+    then	
+        RHSState rhsNN = new RHSState("ACEi or ARB", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        
+        String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Possible increased risk of hyperkalemia.\n\tMitigating factor: Presence of ACEi or ARB (%s).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation:  ACEi and ARB are considered risk factors that increase chance of hyperkalemia in patients on both KCL and a \n\tK-sparing diuretic.", 
+          $de1.getPersonId(), 
+          $dexp1.getDrugConceptId());
+        System.out.println(s);
+end
+
+rule "K/K-SPARING DIURETIC -- Creatinine Clearance"
+    when
+	// First check that patient was exposed to potassium and a diuretic
+        $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+	// Make sure they don't meet the triamterene rule
+	not ($rhs2 : RHSState(stateName == "high triamterene dosage" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Second, make sure that a serum potassium value was reported within 48 hours
+	not ($rhs2 : RHSState(stateName == "invalid potassium labs" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Next make sure the patient did not meet the high serum potassium rule
+	not ($rhs2 : RHSState(stateName == "serum potassium high" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Next make sure the patient did not meet the ACEi or ARB rule
+	not ($rhs3 : RHSState(stateName == "ACEi or ARB" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Take patient from RHS and check if that patient has a creatinine clerance less than 30
+	$measurement : Measurement(personId == $person.getPersonId() && measurementConceptId == 3016723 && valueAsNumber < 30 && unitConceptId == 8795)
+    then	
+	// Create a state object for the current node in the decision tree to be used by other LHS
+        RHSState rhsNN = new RHSState("creatinine clearance low", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        // Output a string that provides clinician with details for action
+        String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Possible increased risk of hyperkalemia.\n\tMitigating factor: Low creatinine clearance level (%s ml/min, compared to a threshold value of 30 ml/min).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation:  Low creatinine clearance level is considered to be a risk factor that increases chance of hyperkalemia in \n\tpatients on both a potassium preparation and a K-sparing diuretic.", 
+          $person.getPersonId(),
+	  $measurement.getValueAsNumber());
+        System.out.println(s);
+end
+
+rule "K/K-SPARING DIURETIC -- Potassium Dosage"
+    when
+	// First check that patient was exposed to potassium and a diuretic
+        $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+	// Make sure they don't meet the triamterene rule
+	not ($rhs2 : RHSState(stateName == "high triamterene dosage" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Second, make sure that a serum potassium value was reported within 48 hours
+	not ($rhs2 : RHSState(stateName == "invalid potassium labs" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Next make sure the patient did not meet the high serum potassium rule
+	not ($rhs2 : RHSState(stateName == "serum potassium high" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Next make sure the patient did not meet the ACEi or ARB rule
+	not ($rhs3 : RHSState(stateName == "ACEi or ARB" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Finally, make sure the patient did not meet the creatine clearance rule
+	not ($rhs4 : RHSState(stateName == "creatinine clearance low" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	// Take patient from RHS and check if that patient has a serum potassium value of < 4.5
+	$clinDrugConcept1 : ConceptSetItem(csName == "Potassium Ingredients")
+	$de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+	$clinDrugConcept2 : ConceptSetItem(csName == "Potassiums")
+	$dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId()
+	&& dailyDosage >= 80.0)
+    then	
+	// Create a state object for the current node in the decision tree to be used by other LHS
+        RHSState rhsNN = new RHSState("k - diuretic, normal potassium, no drugs, normal creatinine, high potassium dose", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        // Output a string that provides clinician with details for action
+        String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Possible increased risk of hyperkalemia.\n\tMitigating factor: High dosage of potassium (%s mEq/day, compared to a threshold value of 80 mEq/day).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Giving a patient on a K-sparing diuretic a high dose of potassium is considered to be a risk factor that \n\tincreases chance of hyperkalemia.", 
+          $person.getPersonId(),
+	  $dexp1.getDailyDosage());
+        System.out.println(s);
+end
