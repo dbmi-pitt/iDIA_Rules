@@ -5,10 +5,10 @@ with open("data.csv", "rb") as infile, open("output.sql", "wb") as outfile:
    next(reader, None)
    for row in reader:
        if row[0] == "PER":
-           out_string = ("INSERT INTO person (person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, location_id) values (" + row[2] + ", 8507, " + row[3] + ", 1, 1, 8527, 38003564, 321);\n")
+           out_string = ("INSERT INTO person (person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, location_id) values (" + row[2] + ", 8507, " + row[3] + ", " + row[11] +", " + row[12] + ", 8527, 38003564, 321);\n")
            outfile.write(out_string)
        elif row[0] == "VIS":
-           out_string = ("INSERT INTO visit_occurrence (visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_end_date, visit_type_concept_id, provider_id, care_site_id) values (" + row[1] + ", " + row[2] +  ", 9201, '" + row[5] +  "', '"+ row[6]+ "', 44818517, 23492, 11905);\n")
+           out_string = ("INSERT INTO visit_occurrence (visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_end_date, visit_type_concept_id, provider_id, care_site_id) values (" + row[1] + ", " + row[2] +  ", " + row[8] + ", '" + row[5] +  "', '"+ row[6]+ "', 44818517, 23492, 11905);\n")
            outfile.write(out_string)      
        elif row[0] == "D_ERA":
             out_string = ("INSERT INTO drug_era (drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date) values (" + row[1] + ", " + row[2] + ", " + row[4] + ", '" + row[5] + "', '" + row[6] + "');\n")

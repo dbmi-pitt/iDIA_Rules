@@ -26,6 +26,8 @@ public class Person  implements java.io.Serializable {
 	
 	Long personId;
 	Integer yearOfBirth;
+	Integer monthOfBirth;
+	Integer dayOfBirth;
 	Integer genderCUI;
 	Integer raceCUI;
 	Integer locationId;
@@ -61,6 +63,28 @@ public class Person  implements java.io.Serializable {
 	public void setYearOfBirth(Integer yearOfBirth) {
 		this.yearOfBirth = yearOfBirth;
 	}
+	
+    /** @return the monthOfBirth */
+	@Column(name="MONTH_OF_BIRTH", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
+	public Integer getMonthOfBirth() {
+		return monthOfBirth;
+	}
+
+    /** @param monthOfBirth the monthOfBirth to set */
+	public void setMonthOfBirth(Integer monthOfBirth) {
+		this.monthOfBirth = monthOfBirth;
+	}
+	
+    /** @return the dayOfBirth */
+	@Column(name="DAY_OF_BIRTH", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
+	public Integer getDayOfBirth() {
+		return dayOfBirth;
+	}
+
+    /** @param dayOfBirth the dayOfBirth to set */
+	public void setDayOfBirth(Integer dayOfBirth) {
+		this.dayOfBirth = dayOfBirth;
+	}	
 	
     /** @return the genderCUI */
 	@Column(name="GENDER_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)

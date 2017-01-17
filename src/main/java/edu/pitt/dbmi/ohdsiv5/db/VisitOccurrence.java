@@ -1,6 +1,11 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 // Generated Jun 15, 2010 5:47:01 PM by Hibernate Tools 3.1.0.beta4
 
+import java.util.Calendar;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -17,46 +22,72 @@ import javax.persistence.Table;
 
 public class VisitOccurrence  implements java.io.Serializable {
 
-
     // Fields    
-
-     private Long id;
-
 
     // Constructors
 
     /** default constructor */
     public VisitOccurrence() {
     }
-
     
     /** full constructor */
-    public VisitOccurrence(Long id) {
-        this.id = id;
+    public VisitOccurrence(Long visitOccurrenceId, Long personId, Calendar visitStartDate, Calendar visitEndDate, Integer visitConceptId) {
+        this.visitOccurrenceId = visitOccurrenceId;
+        this.personId = personId;
+        this.visitStartDate = visitStartDate;
+        this.visitEndDate = visitEndDate;
+        this.visitConceptId = visitConceptId;
     }
-    
-
-   
+       
     // Property accessors
-    @EmbeddedId
-    @AttributeOverrides( {
-        @AttributeOverride(name="visitOccurrenceId", column=@Column(name="VISIT_OCCURRENCE_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=15, scale=0) ), 
-        @AttributeOverride(name="visitStartDate", column=@Column(name="VISIT_START_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7) ), 
-        @AttributeOverride(name="visitEndDate", column=@Column(name="VISIT_END_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7) ), 
-        @AttributeOverride(name="personId", column=@Column(name="PERSON_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=12, scale=0) ), 
-        @AttributeOverride(name="visitConceptId", column=@Column(name="VISIT_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0) ), 
-        @AttributeOverride(name="sourceVisitCode", column=@Column(name="SOURCE_VISIT_CODE", unique=false, nullable=true, insertable=true, updatable=true, length=20) ) } )
-
-    public Long getId() {
-        return this.id;
+    @Id
+    @Column(name="VISIT_OCCURRENCE_ID", unique=true, nullable=false, insertable=false, updatable=false, precision=15, scale=0)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HIBERNATE_SEQUENCE_GENERATOR")
+    @SequenceGenerator(name="HIBERNATE_SEQUENCE_GENERATOR", sequenceName="HIBERNATE_SEQUENCE", initialValue = 1, allocationSize = 1)
+    Long visitOccurrenceId;
+    public Long getVisitOccurrenceId() {
+        return this.visitOccurrenceId;
+    }    
+    public void setVisitOccurrenceId(Long id) {
+        this.visitOccurrenceId = id;
     }
     
-    public void setId(Long id) {
-        this.id = id;
+    @Column(name="PERSON_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=12, scale=0) 
+    Long personId;
+    public Long getPersonId() {
+	return personId;
+    }
+    public void setPersonId(Long personId) {
+	this.personId = personId;
+    }  
+   
+    @Column(name="VISIT_START_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7)
+    Calendar visitStartDate;
+    public Calendar getVisitStartDate() {
+        return this.visitStartDate;
+    }    
+    public void setVisitStartDate(Calendar visitStartDate) {
+        this.visitStartDate = visitStartDate;
+    }
+
+    @Column(name="VISIT_END_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7)
+    Calendar visitEndDate;
+    public Calendar getVisitEndDate() {
+        return this.visitEndDate;
+    }
+    public void setVisitDate(Calendar visitEndDate) {
+        this.visitEndDate = visitEndDate;
     }
    
-
-
+   
+    @Column(name="VISIT_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
+    Integer visitConceptId;
+    public void setVisitConceptID(Integer condId) { 
+	this.visitConceptId = condId;
+    }
+    public Integer getVisitConceptId() { 
+	return visitConceptId;
+    }
 
 
 
