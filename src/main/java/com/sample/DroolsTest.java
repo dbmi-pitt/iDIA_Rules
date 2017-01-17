@@ -33,6 +33,8 @@ import edu.pitt.dbmi.ohdsiv5.db.ObservationPeriod;
 import edu.pitt.dbmi.ohdsiv5.db.ProcedureOccurrence;
 import edu.pitt.dbmi.ohdsiv5.db.Person;
 import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.VisitOccurrence;
+
 
 public class DroolsTest {
     static SessionFactory session = HibernateUtil.getSession().getSessionFactory();  
@@ -89,10 +91,14 @@ public class DroolsTest {
 	// List<DrugStrength> dstrs = (List<DrugStrength>) hibernateSession.createQuery("FROM DrugStrength AS dstr WHERE dstr.drugConceptId IN (SELECT DISTINCT dexp.drugConceptId FROM DrugExposure AS dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))))").list();
 	// System.out.println("INFO: number of dstrs for persons with drug eras during the date range: " + dstrs.size());
 
-	// The query to get drug strength - overlaps with the drugs that are in the above queries?
+	// The query to get drug strength - overlaps with the drugs that are in the above queries
 	List<Measurement> msnts = (List<Measurement>) hibernateSession.createQuery("FROM Measurement as msnt WHERE msnt.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
 	System.out.println("INFO: number of measurements for persons with drug eras during the date range: " + msnts.size());
 
+	// The query to get visit occurrences - also overlaps with the drugs in the above queries
+	List<VisitOccurrence> voccs = (List<VisitOccurrence>) hibernateSession.createQuery("FROM VisitOccurrence as vocc WHERE vocc.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))) AND vocc.visitStartDate <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND vocc.visitEndDate >= TO_DATE('" + dateStr + "','yyyy-MM-dd')").list();
+	System.out.println("INFO: number of visit occurrences for persons with drug eras during the date range: " + voccs.size());
+	
 	// Query to create the "extended drug exposure" that includes drug strength
 	List<Object> temps = (List<Object>) hibernateSession.createQuery("SELECT dexp.drugExposureId, dexp.personId, dexp.drugConceptId, to_char(dexp.drugExposureStartDate, 'yyyy-MM-dd') as drugExposureStartDate, to_char(dexp.drugExposureEndDate, 'yyyy-MM-dd') as drugExposureEndDate,dexp.drugExposureTypeConceptId, dexp.stopReason, dexp.refills, dexp.drugQuantity, dexp.daysSupply, dexp.sig, dexp.routeConceptId, dexp.effectiveDrugDose, dexp.doseUnitConceptId, dexp.lotNumber, dexp.providerId, dexp.visitOccurrenceId, dexp.drugSourceValue, dexp.drugSourceConceptId, dexp.routeSourceValue, dexp.doseUnitSourceValue, dstr.amountValue, dstr.amountUnitConceptId, dstr.numeratorValue, dstr.numeratorUnitConceptId, dstr.denominatorValue, dstr.denominatorUnitConceptId, dstr.ingredientConceptId FROM DrugExposure dexp, DrugStrength dstr WHERE dexp.drugConceptId = dstr.drugConceptId AND dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
 	
@@ -176,7 +182,7 @@ public class DroolsTest {
 	System.out.println("INFO: number of ex_dexps for persons with drug eras during the date range: " + ex_dexps.size());	   
 	
 	System.out.println("Done gathering data...");
-	int total_cnt = (csItemResults.size() + deras.size() + persons.size() + ceras.size() + msnts.size() + ex_dexps.size());
+	int total_cnt = (csItemResults.size() + deras.size() + persons.size() + ceras.size() + msnts.size() + ex_dexps.size() + voccs.size());
 	//-------------------------------------------------
 
 	// Run the rule engine
@@ -184,7 +190,7 @@ public class DroolsTest {
 	KieContainer kContainer = ks.getKieClasspathContainer();
 	
 	System.out.println("INFO: Rule engine session open!");	
-	KieSession kSession = kContainer.newKieSession("ksession-rules");
+	KieSession kSession = kContainer.newKieSession("ksession-rules"); // This is the line that should be edited to change what rules are fired!
 	kSession.setGlobal("hibernateSession", hibernateSession);
 	
 	try 
@@ -192,8 +198,14 @@ public class DroolsTest {
 	  Calendar cal2 = Calendar.getInstance();
 	  cal2.setTime(df.parse(dateStr));
 	  kSession.setGlobal("currentDate", cal2);
-	  cal2.add(Calendar.DAY_OF_YEAR, -2);
-	  kSession.setGlobal("within48date", cal2);
+	  Calendar cal3 = Calendar.getInstance();
+	  cal3.setTime(df.parse(dateStr));
+	  cal3.add(Calendar.DAY_OF_YEAR, -2);	  
+	  kSession.setGlobal("within48hours", cal3);
+	  Calendar cal4 = Calendar.getInstance();
+	  cal4.setTime(df.parse(dateStr));
+	  cal4.add(Calendar.DAY_OF_YEAR, -28);
+	  kSession.setGlobal("within28days", cal4);
 	} 
 	catch (ParseException e) 
 	{
@@ -223,6 +235,10 @@ public class DroolsTest {
 	}	
 	for (Measurement msnt : msnts){
 	    kSession.insert((Measurement) hibernateSession.get(Measurement.class, msnt.getMeasurementId()));
+	    cnt++;
+	}
+	for (VisitOccurrence vocc : voccs){
+	    kSession.insert((VisitOccurrence) hibernateSession.get(VisitOccurrence.class, vocc.getVisitOccurrenceId()));
 	    cnt++;
 	}
 	for (ExtendedDrugExposure ex_dexp : ex_dexps){

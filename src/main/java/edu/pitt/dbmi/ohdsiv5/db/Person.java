@@ -26,6 +26,8 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines	
                # Replace Windows newlines with Unix newlines	Long personId;
                # Replace Windows newlines with Unix newlines	Integer yearOfBirth;
+               # Replace Windows newlines with Unix newlines	Integer monthOfBirth;
+               # Replace Windows newlines with Unix newlines	Integer dayOfBirth;
                # Replace Windows newlines with Unix newlines	Integer genderCUI;
                # Replace Windows newlines with Unix newlines	Integer raceCUI;
                # Replace Windows newlines with Unix newlines	Integer locationId;
@@ -61,6 +63,28 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines	public void setYearOfBirth(Integer yearOfBirth) {
                # Replace Windows newlines with Unix newlines		this.yearOfBirth = yearOfBirth;
                # Replace Windows newlines with Unix newlines	}
+               # Replace Windows newlines with Unix newlines	
+               # Replace Windows newlines with Unix newlines    /** @return the monthOfBirth */
+               # Replace Windows newlines with Unix newlines	@Column(name="MONTH_OF_BIRTH", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
+               # Replace Windows newlines with Unix newlines	public Integer getMonthOfBirth() {
+               # Replace Windows newlines with Unix newlines		return monthOfBirth;
+               # Replace Windows newlines with Unix newlines	}
+               # Replace Windows newlines with Unix newlines
+               # Replace Windows newlines with Unix newlines    /** @param monthOfBirth the monthOfBirth to set */
+               # Replace Windows newlines with Unix newlines	public void setMonthOfBirth(Integer monthOfBirth) {
+               # Replace Windows newlines with Unix newlines		this.monthOfBirth = monthOfBirth;
+               # Replace Windows newlines with Unix newlines	}
+               # Replace Windows newlines with Unix newlines	
+               # Replace Windows newlines with Unix newlines    /** @return the dayOfBirth */
+               # Replace Windows newlines with Unix newlines	@Column(name="DAY_OF_BIRTH", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
+               # Replace Windows newlines with Unix newlines	public Integer getDayOfBirth() {
+               # Replace Windows newlines with Unix newlines		return dayOfBirth;
+               # Replace Windows newlines with Unix newlines	}
+               # Replace Windows newlines with Unix newlines
+               # Replace Windows newlines with Unix newlines    /** @param dayOfBirth the dayOfBirth to set */
+               # Replace Windows newlines with Unix newlines	public void setDayOfBirth(Integer dayOfBirth) {
+               # Replace Windows newlines with Unix newlines		this.dayOfBirth = dayOfBirth;
+               # Replace Windows newlines with Unix newlines	}	
                # Replace Windows newlines with Unix newlines	
                # Replace Windows newlines with Unix newlines    /** @return the genderCUI */
                # Replace Windows newlines with Unix newlines	@Column(name="GENDER_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
