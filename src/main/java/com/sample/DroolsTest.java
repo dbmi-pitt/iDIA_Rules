@@ -190,7 +190,7 @@ public class DroolsTest {
 	KieContainer kContainer = ks.getKieClasspathContainer();
 	
 	System.out.println("INFO: Rule engine session open!");	
-	KieSession kSession = kContainer.newKieSession("ksession-rules"); // This is the line that should be edited to change what rules are fired!
+	KieSession kSession = kContainer.newKieSession("ksession-progress"); // This is the line that should be edited to change what rules are fired!
 	kSession.setGlobal("hibernateSession", hibernateSession);
 	
 	try 
