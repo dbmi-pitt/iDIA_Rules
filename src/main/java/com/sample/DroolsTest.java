@@ -8,6 +8,9 @@ import org.kie.api.runtime.KieSession;
 // import com.sample.model.Risk;
 // import com.sample.model.RiskScore;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 import java.text.*;
@@ -50,6 +53,27 @@ public class DroolsTest {
     @SuppressWarnings({ "unchecked" })
     public static void main(String[] args) throws ClassNotFoundException {
 	    	
+	String rule_folder = "";  	
+	Properties prop = new Properties();
+	InputStream input = null;
+	try {
+		input = new FileInputStream("config.properties");
+		// load a properties file
+		prop.load(input);
+		// get the property value and print it out
+		rule_folder = prop.getProperty("ruleFolder");
+	} catch (IOException ex) {
+		ex.printStackTrace();
+	} finally {
+		if (input != null) {
+			try {
+				input.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}    	
+	
 	System.out.println("Gathering data...");
 	openDbSession();
 	System.out.println("INFO: Hibernate session open!");
@@ -190,7 +214,7 @@ public class DroolsTest {
 	KieContainer kContainer = ks.getKieClasspathContainer();
 	
 	System.out.println("INFO: Rule engine session open!");	
-	KieSession kSession = kContainer.newKieSession("ksession-rules"); // This is the line that should be edited to change what rules are fired!
+	KieSession kSession = kContainer.newKieSession(rule_folder); // This is the line that should be edited to change what rules are fired!
 	kSession.setGlobal("hibernateSession", hibernateSession);
 	
 	try 
@@ -256,7 +280,7 @@ public class DroolsTest {
 	System.out.println("INFO: Hibernate session closed!");
 	
 	kSession.dispose();
-	System.out.println("INFO: Rule engine session closed!");    
+	System.out.println("INFO: Rule engine session closed!"); 
             
     }       
 }
