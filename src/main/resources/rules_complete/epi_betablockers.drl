@@ -1,6 +1,6 @@
 // Epi - Beta-Blockers DDI Alerting Rule
 // Written By: Sam Rosko
-// Last Update: 2017-01-16
+// Last Update: 2017-04-11
 // Status: Completed
 // Expected Output: 16 patients, 16 alerts
 // KNOWN ISSUE: Esmolol rule is a placeholder, cannot be implemented in OHDSI model due to nature of data and rule requirements (need IV dispensing data)
@@ -95,7 +95,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Non-Selective Beta-Blockers"
         $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())                
     then
 	// This creates a new "state" for any patients who are found to be on non-selective beta-blockers
-        RHSState rhsNN = new RHSState("non-selective beta-blockers", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and non-selective beta-blockers", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
 	// This outputs the recommendations and rationale for the patient because this is a leaf node            
         String s = String.format(
@@ -121,7 +121,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (CYP2D6 PM)"
         $ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId())            
     then
 	// This creates a new "state" for any patients who are found to be on timolol and a cyp2d6 poor metabolizers
-        RHSState rhsNN = new RHSState("timolol and cyp2d6 PM", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, timolol, and cyp2d6 PM", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -138,7 +138,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (CYP2D6 Inhibitors)"
 	// This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)
 	// This makes sure that the patients being run through this rule are not CYP2D6 poor metabolizers
-	not ($rhs2 : RHSState(stateName == "timolol and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs2 : RHSState(stateName == "epinephrine, timolol, and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// Next, we bring in the patient's Timolol exposure on the ingredient level and the clinical drug level (Eye Drops only b/c they're the only form that have this effect)
         $clinDrugConcept1 : ConceptSetItem(csName == "Timolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -151,7 +151,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (CYP2D6 Inhibitors)"
         $dexp2 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept3.getConceptId())   
     then
 	// This creates a new "state" for any patients who are found to be on timolol and a cyp2d6 inhibitor
-        RHSState rhsNN = new RHSState("timolol and cyp2d6 inhibitor", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, timolol, and cyp2d6 inhibitor", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node
         String s = String.format(
@@ -167,9 +167,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (No CYP2D6 Inhibitors)"
 	// This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)	
 	// This makes sure that the patients being run through this rule are not CYP2D6 poor metabolizers
-	not ($rhs2 : RHSState(stateName == "timolol and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs2 : RHSState(stateName == "epinephrine, timolol, and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// This makes sure that the patients being run through this rule are not on CYP2D6 inhibitors
-	not ($rhs3 : RHSState(stateName == "timolol and cyp2d6 inhibitor" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs3 : RHSState(stateName == "epinephrine, timolol, and cyp2d6 inhibitor" && state == "yes" && person.getPersonId() == $person.getPersonId()))
         // Next, we bring in the patient's Timolol exposure on the ingredient level and the clinical drug level (Eye Drops only b/c they're the only form that have this effect)
         $clinDrugConcept1 : ConceptSetItem(csName == "Timolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -177,7 +177,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (No CYP2D6 Inhibitors)"
         $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de1.getDrugEraStartDate() && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId()) 
     then
 	// This creates a new "state" for any patients who are found to be on timolol but not a cyp2d6 inhibitor
-        RHSState rhsNN = new RHSState("timolol and no cyp2d6 inhibitor", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, timolol, and no cyp2d6 inhibitor", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node
         String s = String.format(
@@ -203,7 +203,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol (CYP2D6 PM)"
         $ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId())            
     then
 	// This creates a new "state" for any patients who are found to be on metoprolol and a cyp2d6 poor metabolizers
-        RHSState rhsNN = new RHSState("metoprolol and cyp2d6 PM", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, metoprolol, and cyp2d6 PM", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -220,7 +220,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol (CYP2D6 Inhibitors)"
 	// This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)	
 	// This makes sure that the patients being run through this rule are not CYP2D6 poor metabolizers
-	not ($rhs2 : RHSState(stateName == "metoprolol and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs2 : RHSState(stateName == "epinephrine, metoprolol, and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// Next, we bring in the patient's Metoprolol exposure on the ingredient level and the clinical drug level
         $clinDrugConcept1 : ConceptSetItem(csName == "Metoprolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -233,7 +233,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol (CYP2D6 Inhibitors)"
         $dexp2 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept3.getConceptId())   
     then
     	// This creates a new "state" for any patients who are found to be on metoprolol and a CYP2D6 inhibitor
-        RHSState rhsNN = new RHSState("metoprolol and cyp2d6 inhibitor", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, metoprolol, and cyp2d6 inhibitor", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -250,9 +250,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol (Dosage)"
 	// This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)	
         // This makes sure that the patients being run through this rule are not CYP2D6 poor metabolizers
-	not ($rhs2 : RHSState(stateName == "metoprolol and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs2 : RHSState(stateName == "epinephrine, metoprolol, and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// This makes sure that the patients being run through this rule are not on CYP2D6 inhibitors
-	not ($rhs3 : RHSState(stateName == "metoprolol and cyp2d6 inhibitor" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs3 : RHSState(stateName == "epinephrine, metoprolol, and cyp2d6 inhibitor" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// Next, we bring in the patient's Metoprolol exposure on the ingredient level
         $clinDrugConcept1 : ConceptSetItem(csName == "Metoprolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -262,7 +262,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol (Dosage)"
 	  && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 100 )                
     then	
     	// This creates a new "state" for any patients who are found to be on metoprolol, not on a CYP2D6 inhibitor, and with a high metoprolol dosage
-        RHSState rhsNN = new RHSState("high metoprolol dosage", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and high metoprolol dosage", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -288,7 +288,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol (CYP2D6 PM)"
         $ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId())            
     then
 	// This creates a new "state" for any patients who are found to be on nebivolol and a cyp2d6 poor metabolizers
-        RHSState rhsNN = new RHSState("nebivolol and cyp2d6 PM", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, nebivolol, and cyp2d6 PM", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -305,7 +305,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol (CYP2D6 Inhibitors)"
 	// This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)	
         // This makes sure that the patients being run through this rule are not CYP2D6 poor metabolizers
-	not ($rhs2 : RHSState(stateName == "nebivolol and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs2 : RHSState(stateName == "epinephrine, nebivolol, and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// Next, we bring in the patient's Nebivolol exposure on the ingredient level and the clinical drug level
         $clinDrugConcept1 : ConceptSetItem(csName == "Nebivolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -318,7 +318,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol (CYP2D6 Inhibitors)"
         $dexp2 : ExtendedDrugExposure(personId == $person.getPersonId() && drugExposureStartDate == $de2.getDrugEraStartDate() && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept3.getConceptId())   
     then	
 	// This creates a new "state" for any patients who are found to be on nebivolol and a CYP2D6 inhibitor
-        RHSState rhsNN = new RHSState("nebivolol and cyp2d6 inhibitor", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, nebivolol, and cyp2d6 inhibitor", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -335,9 +335,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol (Dosage)"
 	// This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)	
         // This makes sure that the patients being run through this rule are not CYP2D6 poor metabolizers
-	not ($rhs2 : RHSState(stateName == "nebivolol and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs2 : RHSState(stateName == "epinephrine, nebivolol, and cyp2d6 PM" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// This makes sure that the patients being run through this rule are not on CYP2D6 inhibitors
-	not ($rhs3 : RHSState(stateName == "nebivolol and cyp2d6 inhibitor" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs3 : RHSState(stateName == "epinephrine, nebivolol, and cyp2d6 inhibitor" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// Next, we bring in the patient's Nebivolol exposure on the ingredient level
         $clinDrugConcept1 : ConceptSetItem(csName == "Nebivolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -347,7 +347,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol (Dosage)"
 	  && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 10 )                
     then
 	// This creates a new "state" for any patients who are found to be on nebivolol, not on a CYP2D6 inhibitor, and with a high nebivolol dosage
-        RHSState rhsNN = new RHSState("high nebivolol dosage", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and high nebivolol dosage", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -373,7 +373,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Clearance)"
 	$measurement : Measurement(personId == $person.getPersonId() && measurementConceptId == 3016723 && valueAsNumber < 40 && unitConceptId == 8795)
     then	
 	// This creates a new "state" for any patients who are found to be on Atenolol with low creatinine clearance
-        RHSState rhsNN = new RHSState("atenolol and low clearance", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, atenolol, and low clearance", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -390,7 +390,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Dosage)"
 	// This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)	
 	// Next, make sure the patient isn't renally impaired by checking the creatinine clearance rule
-	not ($rhs2 : RHSState(stateName == "atenolol and low clearance" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs2 : RHSState(stateName == "epinephrine, atenolol, and low clearance" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 	// Next, we bring in the patient's Atenolol exposure on the ingredient level
         $clinDrugConcept1 : ConceptSetItem(csName == "Atenolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -400,7 +400,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Dosage)"
 	  && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 100 )                
     then	
 	// This creates a new "state" for any patients who are found to be on Atenolol with high dosage
-        RHSState rhsNN = new RHSState("high atenolol dosage", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and high atenolol dosage", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -426,7 +426,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Clearance)"
 	$measurement : Measurement(personId == $person.getPersonId() && measurementConceptId == 3016723 && valueAsNumber < 40 && unitConceptId == 8795)
     then	
 	// This creates a new "state" for any patients who are found to be on Bisoprolol with low creatinine clearance
-        RHSState rhsNN = new RHSState("bisoprolol and low clearance", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine, bisoprolol, and low clearance", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -443,7 +443,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Dosage)"
 	// This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)	
 	// Next, make sure the patient isn't renally impaired by checking the creatinine clearance rule
-	not ($rhs2 : RHSState(stateName == "bisoprolol and low clearance" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+	not ($rhs2 : RHSState(stateName == "epinephrine, bisoprolol, and low clearance" && state == "yes" && person.getPersonId() == $person.getPersonId()))
         // Next, we bring in the patient's Bisoprolol exposure on the ingredient level
         $clinDrugConcept1 : ConceptSetItem(csName == "Bisoprolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -453,7 +453,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Dosage)"
 	  && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 20 )                
     then
 	// This creates a new "state" for any patients who are found to be on Bisoprolol with high dosage
-        RHSState rhsNN = new RHSState("high bisoprolol dosage", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and high bisoprolol dosage", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -478,7 +478,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Betaxolol"
 	  && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 20 )                
     then	
 	// This creates a new "state" for any patients who are found to be on Betaxolol with high dosage	
-        RHSState rhsNN = new RHSState("high betaxolol dose", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and high betaxolol dose", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -503,7 +503,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol" // THIS RULE IS INCOMPLETE, NOT FU
 	  && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 300 )                
     then
 	// This creates a new "state" for any patients who are found to be on Esmolol with high dosage
-        RHSState rhsNN = new RHSState("high esmolol dosage", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and high esmolol dosage", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
