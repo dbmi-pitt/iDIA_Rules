@@ -1,8 +1,8 @@
 // K - K-sparing Diuretics DDI Alerting Rule
 // Written By: Sam Rosko
-// Last Update: 2017-01-16
+// Last Update: 2017-07-17
 // Status: Completed
-// Expected Output: 7, 7 alerts
+// Expected Output: 11 matches, 3 triamterene alerts, 5 other alerts
 
 package com.sample
 

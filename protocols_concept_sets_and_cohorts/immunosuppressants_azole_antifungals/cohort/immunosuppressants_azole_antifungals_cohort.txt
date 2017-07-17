@@ -1165,39 +1165,6 @@
                # Replace Windows newlines with Unix newlines              {
                # Replace Windows newlines with Unix newlines                "Criteria": {
                # Replace Windows newlines with Unix newlines                  "DrugEra": {
-               # Replace Windows newlines with Unix newlines                    "CodesetId": 1
-               # Replace Windows newlines with Unix newlines                  }
-               # Replace Windows newlines with Unix newlines                },
-               # Replace Windows newlines with Unix newlines                "StartWindow": {
-               # Replace Windows newlines with Unix newlines                  "Start": {
-               # Replace Windows newlines with Unix newlines                    "Days": "30",
-               # Replace Windows newlines with Unix newlines                    "Coeff": -1
-               # Replace Windows newlines with Unix newlines                  },
-               # Replace Windows newlines with Unix newlines                  "End": {
-               # Replace Windows newlines with Unix newlines                    "Days": "30",
-               # Replace Windows newlines with Unix newlines                    "Coeff": 1
-               # Replace Windows newlines with Unix newlines                  }
-               # Replace Windows newlines with Unix newlines                },
-               # Replace Windows newlines with Unix newlines                "Occurrence": {
-               # Replace Windows newlines with Unix newlines                  "Type": 2,
-               # Replace Windows newlines with Unix newlines                  "Count": 1
-               # Replace Windows newlines with Unix newlines                }
-               # Replace Windows newlines with Unix newlines              }
-               # Replace Windows newlines with Unix newlines            ],
-               # Replace Windows newlines with Unix newlines            "DemographicCriteriaList": [],
-               # Replace Windows newlines with Unix newlines            "Groups": []
-               # Replace Windows newlines with Unix newlines          },
-               # Replace Windows newlines with Unix newlines          "CodesetId": 0
-               # Replace Windows newlines with Unix newlines        }
-               # Replace Windows newlines with Unix newlines      },
-               # Replace Windows newlines with Unix newlines      {
-               # Replace Windows newlines with Unix newlines        "DrugEra": {
-               # Replace Windows newlines with Unix newlines          "CorrelatedCriteria": {
-               # Replace Windows newlines with Unix newlines            "Type": "ALL",
-               # Replace Windows newlines with Unix newlines            "CriteriaList": [
-               # Replace Windows newlines with Unix newlines              {
-               # Replace Windows newlines with Unix newlines                "Criteria": {
-               # Replace Windows newlines with Unix newlines                  "DrugEra": {
                # Replace Windows newlines with Unix newlines                    "CodesetId": 0
                # Replace Windows newlines with Unix newlines                  }
                # Replace Windows newlines with Unix newlines                },
@@ -1243,8 +1210,7 @@
                # Replace Windows newlines with Unix newlines      "name": "Systemic Immunosuppressants",
                # Replace Windows newlines with Unix newlines      "description": "This rule checks to see if the patient is on an immunosuppressant that is a systemic product (oral/intravenous). Patients who fail to meet this rule will not have an alert fired under any circumstance.",
                # Replace Windows newlines with Unix newlines      "expression": {
-               # Replace Windows newlines with Unix newlines        "Type": "AT_MOST",
-               # Replace Windows newlines with Unix newlines        "Count": 0,
+               # Replace Windows newlines with Unix newlines        "Type": "ALL",
                # Replace Windows newlines with Unix newlines        "CriteriaList": [
                # Replace Windows newlines with Unix newlines          {
                # Replace Windows newlines with Unix newlines            "Criteria": {
@@ -1273,7 +1239,7 @@
                # Replace Windows newlines with Unix newlines      }
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
-               # Replace Windows newlines with Unix newlines      "name": "Fluconazole",
+               # Replace Windows newlines with Unix newlines      "name": "Fluconazole Check",
                # Replace Windows newlines with Unix newlines      "description": "This rule checks to see if the patient is on Fluconazole. If the patient is on Fluconazole, they must meet additional criteria for an alert to be fired. If the patient is found to not be on fluconazole, an alert is fired as they are on one of the other azole anti-fungals.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "ALL",

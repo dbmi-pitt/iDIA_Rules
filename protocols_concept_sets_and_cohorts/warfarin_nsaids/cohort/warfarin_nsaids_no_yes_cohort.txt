@@ -3155,39 +3155,6 @@
                # Replace Windows newlines with Unix newlines              {
                # Replace Windows newlines with Unix newlines                "Criteria": {
                # Replace Windows newlines with Unix newlines                  "DrugEra": {
-               # Replace Windows newlines with Unix newlines                    "CodesetId": 3
-               # Replace Windows newlines with Unix newlines                  }
-               # Replace Windows newlines with Unix newlines                },
-               # Replace Windows newlines with Unix newlines                "StartWindow": {
-               # Replace Windows newlines with Unix newlines                  "Start": {
-               # Replace Windows newlines with Unix newlines                    "Days": "30",
-               # Replace Windows newlines with Unix newlines                    "Coeff": -1
-               # Replace Windows newlines with Unix newlines                  },
-               # Replace Windows newlines with Unix newlines                  "End": {
-               # Replace Windows newlines with Unix newlines                    "Days": "30",
-               # Replace Windows newlines with Unix newlines                    "Coeff": 1
-               # Replace Windows newlines with Unix newlines                  }
-               # Replace Windows newlines with Unix newlines                },
-               # Replace Windows newlines with Unix newlines                "Occurrence": {
-               # Replace Windows newlines with Unix newlines                  "Type": 2,
-               # Replace Windows newlines with Unix newlines                  "Count": 1
-               # Replace Windows newlines with Unix newlines                }
-               # Replace Windows newlines with Unix newlines              }
-               # Replace Windows newlines with Unix newlines            ],
-               # Replace Windows newlines with Unix newlines            "DemographicCriteriaList": [],
-               # Replace Windows newlines with Unix newlines            "Groups": []
-               # Replace Windows newlines with Unix newlines          },
-               # Replace Windows newlines with Unix newlines          "CodesetId": 0
-               # Replace Windows newlines with Unix newlines        }
-               # Replace Windows newlines with Unix newlines      },
-               # Replace Windows newlines with Unix newlines      {
-               # Replace Windows newlines with Unix newlines        "DrugEra": {
-               # Replace Windows newlines with Unix newlines          "CorrelatedCriteria": {
-               # Replace Windows newlines with Unix newlines            "Type": "ALL",
-               # Replace Windows newlines with Unix newlines            "CriteriaList": [
-               # Replace Windows newlines with Unix newlines              {
-               # Replace Windows newlines with Unix newlines                "Criteria": {
-               # Replace Windows newlines with Unix newlines                  "DrugEra": {
                # Replace Windows newlines with Unix newlines                    "CodesetId": 0
                # Replace Windows newlines with Unix newlines                  }
                # Replace Windows newlines with Unix newlines                },
@@ -3231,7 +3198,7 @@
                # Replace Windows newlines with Unix newlines  "InclusionRules": [
                # Replace Windows newlines with Unix newlines    {
                # Replace Windows newlines with Unix newlines      "name": "No Topical NSAIDs",
-               # Replace Windows newlines with Unix newlines      "description": "This rule uses concept sets of specific NSAID and warfarin drug products to make sure that the patient is on drug products that are relevant to the rule, ie not a topical NSAID. If this check is failed, no alert should be fired under any circumstance.",
+               # Replace Windows newlines with Unix newlines      "description": "This rule uses concept sets of specific NSAID drug products to make sure that the patient is on drug products that are relevant to the rule, ie not a topical NSAID. If this check is failed, no alert should be fired under any circumstance.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "ALL",
                # Replace Windows newlines with Unix newlines        "CriteriaList": [
@@ -3263,7 +3230,7 @@
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
                # Replace Windows newlines with Unix newlines      "name": "No PPIs and Misoprostols",
-               # Replace Windows newlines with Unix newlines      "description": "This rule ensures that a patient is not on a proton pump inhibitor or misoprostol - first on the ingredient level, then the clinical drug product level. If they are found to be on these medications, an alert is fired.",
+               # Replace Windows newlines with Unix newlines      "description": "This rule ensures that a patient is not on a proton pump inhibitor or misoprostol. If they are found to be on these medications, an alert is fired.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "AT_MOST",
                # Replace Windows newlines with Unix newlines        "Count": 0,
@@ -3295,10 +3262,11 @@
                # Replace Windows newlines with Unix newlines      }
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
-               # Replace Windows newlines with Unix newlines      "name": "Personal Risk Factors",
-               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient has any personal risk factors for this interaction - age >65 or history of upper GI bleeds. An alert is fired either way after this rule, but ",
+               # Replace Windows newlines with Unix newlines      "name": "No Personal Risk Factors",
+               # Replace Windows newlines with Unix newlines      "description": "This rule ensures that the patient does not have any personal risk factors for this interaction - age >65 or history of upper GI bleeds. Either way, this branch does not lead to an alert until after the drug risk factor check.",
                # Replace Windows newlines with Unix newlines      "expression": {
-               # Replace Windows newlines with Unix newlines        "Type": "ANY",
+               # Replace Windows newlines with Unix newlines        "Type": "AT_MOST",
+               # Replace Windows newlines with Unix newlines        "Count": 0,
                # Replace Windows newlines with Unix newlines        "CriteriaList": [
                # Replace Windows newlines with Unix newlines          {
                # Replace Windows newlines with Unix newlines            "Criteria": {
@@ -3334,7 +3302,7 @@
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
                # Replace Windows newlines with Unix newlines      "name": "Drug Risk Factors",
-               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient is on any risk enhancing medications, which include aldosterone antagonists, SSRIs, SNRIs, and systemic corticosteroids.",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient is on any risk enhancing medications, which include aldosterone antagonists, SSRIs, SNRIs, and systemic corticosteroids. Regardless of outcome, an alert is fired, but severity and explanation vary depending on whether or not the patient has personal and drug risk factors.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "ANY",
                # Replace Windows newlines with Unix newlines        "CriteriaList": [

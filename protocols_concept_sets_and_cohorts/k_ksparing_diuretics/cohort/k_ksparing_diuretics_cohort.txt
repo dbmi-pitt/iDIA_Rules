@@ -3690,7 +3690,428 @@
                # Replace Windows newlines with Unix newlines      "id": 7,
                # Replace Windows newlines with Unix newlines      "name": "triamterenes",
                # Replace Windows newlines with Unix newlines      "expression": {
-               # Replace Windows newlines with Unix newlines        "items": []
+               # Replace Windows newlines with Unix newlines        "items": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "104245",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19003579,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "benzthiazide 25 MG / Triamterene 50 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "104246",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19003580,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Chlorthalidone 25 MG / Triamterene 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "104248",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19003601,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Chlorthalidone 50 MG / Triamterene 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1233787",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 42707385,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Clonidine Hydrochloride 0.15 MG / Hydrochlorothiazide 5 MG / Triamterene 10 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "428292",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106363,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "cyclothiazide 3 MG / Triamterene 150 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "429934",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106899,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "dehydrosanol 10 MG / Triamterene 20 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "409813",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19103283,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "dehydrosanol 25 MG / Triamterene 50 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "429933",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106898,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "dehydrosanol 25 MG / Triamterene 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "429932",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106897,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "dehydrosanol 5 MG / Triamterene 10 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "412043",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19103932,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Furosemide 25 MG / Triamterene 15 MG Extended Release Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "250708",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19063479,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Furosemide 40 MG / Triamterene 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "430625",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19107172,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Furosemide 50 MG / Triamterene 20 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "412042",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19103931,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Furosemide 50 MG / Triamterene 30 MG Extended Release Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "428603",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106456,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 12.5 MG / Triamterene 25 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "198316",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 904549,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 37.5 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "310812",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19078140,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 37.5 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "198314",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 904547,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 50 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "314029",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19080037,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "432769",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19107614,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 50 MG / Verapamil 160 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "198315",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 904548,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 50 MG / Triamterene 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "310817",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19078165,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 50 MG / Triamterene 75 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "310818",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19078166,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Hydrochlorothiazide 50 MG / Triamterene 75 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "428210",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106340,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Methyclothiazide 5 MG / Triamterene 150 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "427727",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106274,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Metolazone 2.5 MG / Triamterene 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "198312",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 904545,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Triamterene 100 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "245284",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 904584,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Triamterene 100 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "432676",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19107547,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Triamterene 15 MG / Xipamide 5 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "432677",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19107548,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Triamterene 30 MG / Xipamide 10 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "198313",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 904546,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Triamterene 50 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "245283",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 904583,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Triamterene 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ]
                # Replace Windows newlines with Unix newlines      }
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
@@ -3717,29 +4138,15 @@
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
                # Replace Windows newlines with Unix newlines      "id": 9,
-               # Replace Windows newlines with Unix newlines      "name": "kidney_function_measurements",
+               # Replace Windows newlines with Unix newlines      "name": "creatinine_clearance_measurements",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "items": [
                # Replace Windows newlines with Unix newlines          {
                # Replace Windows newlines with Unix newlines            "concept": {
                # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Lab Test",
-               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "48643-1",
-               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 3053283,
-               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "eGFR with normals for black",
-               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Measurement",
-               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
-               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
-               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
-               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
-               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "LOINC"
-               # Replace Windows newlines with Unix newlines            }
-               # Replace Windows newlines with Unix newlines          },
-               # Replace Windows newlines with Unix newlines          {
-               # Replace Windows newlines with Unix newlines            "concept": {
-               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Lab Test",
-               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "48642-3",
-               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 3049187,
-               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "eGFR with normals for non-black",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "2160-0",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 3016723,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Creatinine serum/plasma",
                # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Measurement",
                # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
                # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
@@ -3785,39 +4192,6 @@
                # Replace Windows newlines with Unix newlines            "Groups": []
                # Replace Windows newlines with Unix newlines          },
                # Replace Windows newlines with Unix newlines          "CodesetId": 1
-               # Replace Windows newlines with Unix newlines        }
-               # Replace Windows newlines with Unix newlines      },
-               # Replace Windows newlines with Unix newlines      {
-               # Replace Windows newlines with Unix newlines        "DrugEra": {
-               # Replace Windows newlines with Unix newlines          "CorrelatedCriteria": {
-               # Replace Windows newlines with Unix newlines            "Type": "ALL",
-               # Replace Windows newlines with Unix newlines            "CriteriaList": [
-               # Replace Windows newlines with Unix newlines              {
-               # Replace Windows newlines with Unix newlines                "Criteria": {
-               # Replace Windows newlines with Unix newlines                  "DrugEra": {
-               # Replace Windows newlines with Unix newlines                    "CodesetId": 1
-               # Replace Windows newlines with Unix newlines                  }
-               # Replace Windows newlines with Unix newlines                },
-               # Replace Windows newlines with Unix newlines                "StartWindow": {
-               # Replace Windows newlines with Unix newlines                  "Start": {
-               # Replace Windows newlines with Unix newlines                    "Days": "30",
-               # Replace Windows newlines with Unix newlines                    "Coeff": -1
-               # Replace Windows newlines with Unix newlines                  },
-               # Replace Windows newlines with Unix newlines                  "End": {
-               # Replace Windows newlines with Unix newlines                    "Days": "30",
-               # Replace Windows newlines with Unix newlines                    "Coeff": 1
-               # Replace Windows newlines with Unix newlines                  }
-               # Replace Windows newlines with Unix newlines                },
-               # Replace Windows newlines with Unix newlines                "Occurrence": {
-               # Replace Windows newlines with Unix newlines                  "Type": 2,
-               # Replace Windows newlines with Unix newlines                  "Count": 1
-               # Replace Windows newlines with Unix newlines                }
-               # Replace Windows newlines with Unix newlines              }
-               # Replace Windows newlines with Unix newlines            ],
-               # Replace Windows newlines with Unix newlines            "DemographicCriteriaList": [],
-               # Replace Windows newlines with Unix newlines            "Groups": []
-               # Replace Windows newlines with Unix newlines          },
-               # Replace Windows newlines with Unix newlines          "CodesetId": 0
                # Replace Windows newlines with Unix newlines        }
                # Replace Windows newlines with Unix newlines      }
                # Replace Windows newlines with Unix newlines    ],
@@ -3870,7 +4244,7 @@
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
                # Replace Windows newlines with Unix newlines      "name": "Serum Potassium Check - Above threshold value?",
-               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient had serum potassium above the threshold value of 4.5 mEq/L within the past 7 days.",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient had serum potassium above the threshold value of 4.5 mEq/L within the past 7 days. If yes, an alert is fired.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "ALL",
                # Replace Windows newlines with Unix newlines        "CriteriaList": [
@@ -3884,11 +4258,11 @@
                # Replace Windows newlines with Unix newlines                },
                # Replace Windows newlines with Unix newlines                "Unit": [
                # Replace Windows newlines with Unix newlines                  {
-               # Replace Windows newlines with Unix newlines                    "CONCEPT_CODE": "258865000",
-               # Replace Windows newlines with Unix newlines                    "CONCEPT_ID": 4117806,
-               # Replace Windows newlines with Unix newlines                    "CONCEPT_NAME": "mEq/L",
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_CODE": "10*-3.eq/L",
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_ID": 9557,
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_NAME": "milliequivalent per liter",
                # Replace Windows newlines with Unix newlines                    "DOMAIN_ID": "Unit",
-               # Replace Windows newlines with Unix newlines                    "VOCABULARY_ID": "SNOMED"
+               # Replace Windows newlines with Unix newlines                    "VOCABULARY_ID": "UCUM"
                # Replace Windows newlines with Unix newlines                  }
                # Replace Windows newlines with Unix newlines                ]
                # Replace Windows newlines with Unix newlines              }
@@ -3915,7 +4289,7 @@
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
                # Replace Windows newlines with Unix newlines      "name": "Drug Risk Factors",
-               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient was on any risk-enhancing medications, which in this case includes: ace inhibitors and angiotensin II receptor blockers.",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient was on any risk-enhancing medications, which in this case includes: ace inhibitors and angiotensin II receptor blockers. If yes, an alert is fired.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "ALL",
                # Replace Windows newlines with Unix newlines        "CriteriaList": [
@@ -3946,8 +4320,8 @@
                # Replace Windows newlines with Unix newlines      }
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
-               # Replace Windows newlines with Unix newlines      "name": "Kidney Function Check",
-               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient had low kidney function.",
+               # Replace Windows newlines with Unix newlines      "name": "Creatinine Clearance Check",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient had low creatinine clearance. If yes, an alert is fired.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "ALL",
                # Replace Windows newlines with Unix newlines        "CriteriaList": [
@@ -3958,7 +4332,16 @@
                # Replace Windows newlines with Unix newlines                "ValueAsNumber": {
                # Replace Windows newlines with Unix newlines                  "Value": 30,
                # Replace Windows newlines with Unix newlines                  "Op": "lt"
-               # Replace Windows newlines with Unix newlines                }
+               # Replace Windows newlines with Unix newlines                },
+               # Replace Windows newlines with Unix newlines                "Unit": [
+               # Replace Windows newlines with Unix newlines                  {
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_CODE": "mL/min",
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_ID": 8795,
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_NAME": "milliliter per minute",
+               # Replace Windows newlines with Unix newlines                    "DOMAIN_ID": "Unit",
+               # Replace Windows newlines with Unix newlines                    "VOCABULARY_ID": "UCUM"
+               # Replace Windows newlines with Unix newlines                  }
+               # Replace Windows newlines with Unix newlines                ]
                # Replace Windows newlines with Unix newlines              }
                # Replace Windows newlines with Unix newlines            },
                # Replace Windows newlines with Unix newlines            "StartWindow": {
@@ -3982,7 +4365,7 @@
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
                # Replace Windows newlines with Unix newlines      "name": "K+ Dosage Check",
-               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient's dosage of K (potassium) was too high. Keep in mind that \"effective drug dose\" was not actually implemented and will always retu cannot be implemented with this interface due to requiring drug dosagesrn 0 patients.",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient's dosage of K (potassium) was too high. If yes, an alert is fired.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "ALL",
                # Replace Windows newlines with Unix newlines        "CriteriaList": [
@@ -4027,7 +4410,7 @@
                # Replace Windows newlines with Unix newlines    },
                # Replace Windows newlines with Unix newlines    {
                # Replace Windows newlines with Unix newlines      "name": "Triamterene Dosage Check",
-               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient's dosage of triamterene was too high. Keep in mind that \"effective drug dose\" was not actually implemented and will always retu cannot be implemented with this interface due to requiring drug dosagesrn 0 patients.",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks if the patient's dosage of triamterene was too high. If yes, an alert is fired.",
                # Replace Windows newlines with Unix newlines      "expression": {
                # Replace Windows newlines with Unix newlines        "Type": "ALL",
                # Replace Windows newlines with Unix newlines        "CriteriaList": [
