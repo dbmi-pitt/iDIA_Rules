@@ -3690,7 +3690,428 @@
       "id": 7,
       "name": "triamterenes",
       "expression": {
-        "items": []
+        "items": [
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "104245",
+              "CONCEPT_ID": 19003579,
+              "CONCEPT_NAME": "benzthiazide 25 MG / Triamterene 50 MG Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "104246",
+              "CONCEPT_ID": 19003580,
+              "CONCEPT_NAME": "Chlorthalidone 25 MG / Triamterene 50 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "104248",
+              "CONCEPT_ID": 19003601,
+              "CONCEPT_NAME": "Chlorthalidone 50 MG / Triamterene 50 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "1233787",
+              "CONCEPT_ID": 42707385,
+              "CONCEPT_NAME": "Clonidine Hydrochloride 0.15 MG / Hydrochlorothiazide 5 MG / Triamterene 10 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "428292",
+              "CONCEPT_ID": 19106363,
+              "CONCEPT_NAME": "cyclothiazide 3 MG / Triamterene 150 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "429934",
+              "CONCEPT_ID": 19106899,
+              "CONCEPT_NAME": "dehydrosanol 10 MG / Triamterene 20 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "409813",
+              "CONCEPT_ID": 19103283,
+              "CONCEPT_NAME": "dehydrosanol 25 MG / Triamterene 50 MG Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "429933",
+              "CONCEPT_ID": 19106898,
+              "CONCEPT_NAME": "dehydrosanol 25 MG / Triamterene 50 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "429932",
+              "CONCEPT_ID": 19106897,
+              "CONCEPT_NAME": "dehydrosanol 5 MG / Triamterene 10 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "412043",
+              "CONCEPT_ID": 19103932,
+              "CONCEPT_NAME": "Furosemide 25 MG / Triamterene 15 MG Extended Release Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "250708",
+              "CONCEPT_ID": 19063479,
+              "CONCEPT_NAME": "Furosemide 40 MG / Triamterene 50 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "430625",
+              "CONCEPT_ID": 19107172,
+              "CONCEPT_NAME": "Furosemide 50 MG / Triamterene 20 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "412042",
+              "CONCEPT_ID": 19103931,
+              "CONCEPT_NAME": "Furosemide 50 MG / Triamterene 30 MG Extended Release Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "428603",
+              "CONCEPT_ID": 19106456,
+              "CONCEPT_NAME": "Hydrochlorothiazide 12.5 MG / Triamterene 25 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "198316",
+              "CONCEPT_ID": 904549,
+              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 37.5 MG Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "310812",
+              "CONCEPT_ID": 19078140,
+              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 37.5 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "198314",
+              "CONCEPT_ID": 904547,
+              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 50 MG Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "314029",
+              "CONCEPT_ID": 19080037,
+              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 50 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "432769",
+              "CONCEPT_ID": 19107614,
+              "CONCEPT_NAME": "Hydrochlorothiazide 25 MG / Triamterene 50 MG / Verapamil 160 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "198315",
+              "CONCEPT_ID": 904548,
+              "CONCEPT_NAME": "Hydrochlorothiazide 50 MG / Triamterene 50 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "310817",
+              "CONCEPT_ID": 19078165,
+              "CONCEPT_NAME": "Hydrochlorothiazide 50 MG / Triamterene 75 MG Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "310818",
+              "CONCEPT_ID": 19078166,
+              "CONCEPT_NAME": "Hydrochlorothiazide 50 MG / Triamterene 75 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "428210",
+              "CONCEPT_ID": 19106340,
+              "CONCEPT_NAME": "Methyclothiazide 5 MG / Triamterene 150 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "427727",
+              "CONCEPT_ID": 19106274,
+              "CONCEPT_NAME": "Metolazone 2.5 MG / Triamterene 50 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "198312",
+              "CONCEPT_ID": 904545,
+              "CONCEPT_NAME": "Triamterene 100 MG Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "245284",
+              "CONCEPT_ID": 904584,
+              "CONCEPT_NAME": "Triamterene 100 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "432676",
+              "CONCEPT_ID": 19107547,
+              "CONCEPT_NAME": "Triamterene 15 MG / Xipamide 5 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "432677",
+              "CONCEPT_ID": 19107548,
+              "CONCEPT_NAME": "Triamterene 30 MG / Xipamide 10 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "198313",
+              "CONCEPT_ID": 904546,
+              "CONCEPT_NAME": "Triamterene 50 MG Oral Capsule",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          },
+          {
+            "concept": {
+              "CONCEPT_CLASS_ID": "Clinical Drug",
+              "CONCEPT_CODE": "245283",
+              "CONCEPT_ID": 904583,
+              "CONCEPT_NAME": "Triamterene 50 MG Oral Tablet",
+              "DOMAIN_ID": "Drug",
+              "INVALID_REASON": "V",
+              "INVALID_REASON_CAPTION": "Valid",
+              "STANDARD_CONCEPT": "S",
+              "STANDARD_CONCEPT_CAPTION": "Standard",
+              "VOCABULARY_ID": "RxNorm"
+            }
+          }
+        ]
       }
     },
     {
@@ -3717,29 +4138,15 @@
     },
     {
       "id": 9,
-      "name": "kidney_function_measurements",
+      "name": "creatinine_clearance_measurements",
       "expression": {
         "items": [
           {
             "concept": {
               "CONCEPT_CLASS_ID": "Lab Test",
-              "CONCEPT_CODE": "48643-1",
-              "CONCEPT_ID": 3053283,
-              "CONCEPT_NAME": "eGFR with normals for black",
-              "DOMAIN_ID": "Measurement",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "LOINC"
-            }
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "Lab Test",
-              "CONCEPT_CODE": "48642-3",
-              "CONCEPT_ID": 3049187,
-              "CONCEPT_NAME": "eGFR with normals for non-black",
+              "CONCEPT_CODE": "2160-0",
+              "CONCEPT_ID": 3016723,
+              "CONCEPT_NAME": "Creatinine serum/plasma",
               "DOMAIN_ID": "Measurement",
               "INVALID_REASON": "V",
               "INVALID_REASON_CAPTION": "Valid",
@@ -3785,39 +4192,6 @@
             "Groups": []
           },
           "CodesetId": 1
-        }
-      },
-      {
-        "DrugEra": {
-          "CorrelatedCriteria": {
-            "Type": "ALL",
-            "CriteriaList": [
-              {
-                "Criteria": {
-                  "DrugEra": {
-                    "CodesetId": 1
-                  }
-                },
-                "StartWindow": {
-                  "Start": {
-                    "Days": "30",
-                    "Coeff": -1
-                  },
-                  "End": {
-                    "Days": "30",
-                    "Coeff": 1
-                  }
-                },
-                "Occurrence": {
-                  "Type": 2,
-                  "Count": 1
-                }
-              }
-            ],
-            "DemographicCriteriaList": [],
-            "Groups": []
-          },
-          "CodesetId": 0
         }
       }
     ],
@@ -3870,7 +4244,7 @@
     },
     {
       "name": "Serum Potassium Check - Above threshold value?",
-      "description": "This rule checks if the patient had serum potassium above the threshold value of 4.5 mEq/L within the past 7 days.",
+      "description": "This rule checks if the patient had serum potassium above the threshold value of 4.5 mEq/L within the past 7 days. If yes, an alert is fired.",
       "expression": {
         "Type": "ALL",
         "CriteriaList": [
@@ -3884,11 +4258,11 @@
                 },
                 "Unit": [
                   {
-                    "CONCEPT_CODE": "258865000",
-                    "CONCEPT_ID": 4117806,
-                    "CONCEPT_NAME": "mEq/L",
+                    "CONCEPT_CODE": "10*-3.eq/L",
+                    "CONCEPT_ID": 9557,
+                    "CONCEPT_NAME": "milliequivalent per liter",
                     "DOMAIN_ID": "Unit",
-                    "VOCABULARY_ID": "SNOMED"
+                    "VOCABULARY_ID": "UCUM"
                   }
                 ]
               }
@@ -3915,7 +4289,7 @@
     },
     {
       "name": "Drug Risk Factors",
-      "description": "This rule checks if the patient was on any risk-enhancing medications, which in this case includes: ace inhibitors and angiotensin II receptor blockers.",
+      "description": "This rule checks if the patient was on any risk-enhancing medications, which in this case includes: ace inhibitors and angiotensin II receptor blockers. If yes, an alert is fired.",
       "expression": {
         "Type": "ALL",
         "CriteriaList": [
@@ -3946,8 +4320,8 @@
       }
     },
     {
-      "name": "Kidney Function Check",
-      "description": "This rule checks if the patient had low kidney function.",
+      "name": "Creatinine Clearance Check",
+      "description": "This rule checks if the patient had low creatinine clearance. If yes, an alert is fired.",
       "expression": {
         "Type": "ALL",
         "CriteriaList": [
@@ -3958,7 +4332,16 @@
                 "ValueAsNumber": {
                   "Value": 30,
                   "Op": "lt"
-                }
+                },
+                "Unit": [
+                  {
+                    "CONCEPT_CODE": "mL/min",
+                    "CONCEPT_ID": 8795,
+                    "CONCEPT_NAME": "milliliter per minute",
+                    "DOMAIN_ID": "Unit",
+                    "VOCABULARY_ID": "UCUM"
+                  }
+                ]
               }
             },
             "StartWindow": {
@@ -3982,7 +4365,7 @@
     },
     {
       "name": "K+ Dosage Check",
-      "description": "This rule checks if the patient's dosage of K (potassium) was too high. Keep in mind that \"effective drug dose\" was not actually implemented and will always retu cannot be implemented with this interface due to requiring drug dosagesrn 0 patients.",
+      "description": "This rule checks if the patient's dosage of K (potassium) was too high. If yes, an alert is fired.",
       "expression": {
         "Type": "ALL",
         "CriteriaList": [
@@ -4027,7 +4410,7 @@
     },
     {
       "name": "Triamterene Dosage Check",
-      "description": "This rule checks if the patient's dosage of triamterene was too high. Keep in mind that \"effective drug dose\" was not actually implemented and will always retu cannot be implemented with this interface due to requiring drug dosagesrn 0 patients.",
+      "description": "This rule checks if the patient's dosage of triamterene was too high. If yes, an alert is fired.",
       "expression": {
         "Type": "ALL",
         "CriteriaList": [

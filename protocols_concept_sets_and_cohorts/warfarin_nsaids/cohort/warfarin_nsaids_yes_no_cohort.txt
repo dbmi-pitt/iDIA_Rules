@@ -3155,39 +3155,6 @@
               {
                 "Criteria": {
                   "DrugEra": {
-                    "CodesetId": 3
-                  }
-                },
-                "StartWindow": {
-                  "Start": {
-                    "Days": "30",
-                    "Coeff": -1
-                  },
-                  "End": {
-                    "Days": "30",
-                    "Coeff": 1
-                  }
-                },
-                "Occurrence": {
-                  "Type": 2,
-                  "Count": 1
-                }
-              }
-            ],
-            "DemographicCriteriaList": [],
-            "Groups": []
-          },
-          "CodesetId": 0
-        }
-      },
-      {
-        "DrugEra": {
-          "CorrelatedCriteria": {
-            "Type": "ALL",
-            "CriteriaList": [
-              {
-                "Criteria": {
-                  "DrugEra": {
                     "CodesetId": 0
                   }
                 },
@@ -3231,7 +3198,7 @@
   "InclusionRules": [
     {
       "name": "No Topical NSAIDs",
-      "description": "This rule uses concept sets of specific NSAID and warfarin drug products to make sure that the patient is on drug products that are relevant to the rule, ie not a topical NSAID. If this check is failed, no alert should be fired under any circumstance.",
+      "description": "This rule uses concept sets of specific NSAID drug products to make sure that the patient is on drug products that are relevant to the rule, ie not a topical NSAID. If this check is failed, no alert should be fired under any circumstance.",
       "expression": {
         "Type": "ALL",
         "CriteriaList": [
@@ -3263,7 +3230,7 @@
     },
     {
       "name": "No PPIs and Misoprostols",
-      "description": "This rule ensures that a patient is not on a proton pump inhibitor or misoprostol - first on the ingredient level, then the clinical drug product level. If they are found to be on these medications, an alert is fired.",
+      "description": "This rule ensures that a patient is not on a proton pump inhibitor or misoprostol. If they are found to be on these medications, an alert is fired.",
       "expression": {
         "Type": "AT_MOST",
         "Count": 0,
@@ -3296,7 +3263,7 @@
     },
     {
       "name": "Personal Risk Factors",
-      "description": "This rule checks if the patient has any personal risk factors for this interaction - age >65 or history of upper GI bleeds. An alert is fired either way after this rule, but ",
+      "description": "This rule checks if the patient has any personal risk factors for this interaction - age >65 or history of upper GI bleeds. Either way, this branch does not lead to an alert until after the drug risk factor check.",
       "expression": {
         "Type": "ANY",
         "CriteriaList": [
@@ -3333,10 +3300,11 @@
       }
     },
     {
-      "name": "Drug Risk Factors",
-      "description": "This rule checks if the patient is on any risk enhancing medications, which include aldosterone antagonists, SSRIs, SNRIs, and systemic corticosteroids.",
+      "name": "No Drug Risk Factors",
+      "description": "This rule ensures that the patient is not taking any risk enhancing medications, which include aldosterone antagonists, SSRIs, SNRIs, and systemic corticosteroids. Regardless of outcome, an alert is fired, but severity and explanation vary depending on whether or not the patient has personal and drug risk factors.",
       "expression": {
-        "Type": "ANY",
+        "Type": "AT_MOST",
+        "Count": 0,
         "CriteriaList": [
           {
             "Criteria": {

@@ -1165,39 +1165,6 @@
               {
                 "Criteria": {
                   "DrugEra": {
-                    "CodesetId": 1
-                  }
-                },
-                "StartWindow": {
-                  "Start": {
-                    "Days": "30",
-                    "Coeff": -1
-                  },
-                  "End": {
-                    "Days": "30",
-                    "Coeff": 1
-                  }
-                },
-                "Occurrence": {
-                  "Type": 2,
-                  "Count": 1
-                }
-              }
-            ],
-            "DemographicCriteriaList": [],
-            "Groups": []
-          },
-          "CodesetId": 0
-        }
-      },
-      {
-        "DrugEra": {
-          "CorrelatedCriteria": {
-            "Type": "ALL",
-            "CriteriaList": [
-              {
-                "Criteria": {
-                  "DrugEra": {
                     "CodesetId": 0
                   }
                 },
@@ -1243,8 +1210,7 @@
       "name": "Systemic Immunosuppressants",
       "description": "This rule checks to see if the patient is on an immunosuppressant that is a systemic product (oral/intravenous). Patients who fail to meet this rule will not have an alert fired under any circumstance.",
       "expression": {
-        "Type": "AT_MOST",
-        "Count": 0,
+        "Type": "ALL",
         "CriteriaList": [
           {
             "Criteria": {
@@ -1273,7 +1239,7 @@
       }
     },
     {
-      "name": "Fluconazole",
+      "name": "Fluconazole Check",
       "description": "This rule checks to see if the patient is on Fluconazole. If the patient is on Fluconazole, they must meet additional criteria for an alert to be fired. If the patient is found to not be on fluconazole, an alert is fired as they are on one of the other azole anti-fungals.",
       "expression": {
         "Type": "ALL",

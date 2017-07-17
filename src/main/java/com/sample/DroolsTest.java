@@ -87,7 +87,7 @@ public class DroolsTest {
 
 	//**** Pull data to be loaded into Drools working memory *****
 	// pull data from a specific date
-	String dateStr = "2008-03-13";
+	String dateStr = "2008-02-13";
 
 	// Get concept ids and names from the defined concept sets. There is currently no hibernate mapping for this.
 	SQLQuery query = hibernateSession.createSQLQuery("SELECT concept_set_name,concept_id FROM ohdsi.concept_set cs INNER JOIN ohdsi.concept_set_item csi ON cs.concept_set_id = csi.concept_set_id");

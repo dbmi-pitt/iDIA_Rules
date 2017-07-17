@@ -2,7 +2,7 @@
 // Written By: Sam Rosko
 // Last Update: 2017-01-16
 // Status: Completed
-// Expected Output: 6, 1 PPI alert, 2 age, 1 condition, 5 alerts
+// Expected Output: 5, 1 PPI alert, 1 age, 1 condition, 4 alerts
 
 package com.sample
 
