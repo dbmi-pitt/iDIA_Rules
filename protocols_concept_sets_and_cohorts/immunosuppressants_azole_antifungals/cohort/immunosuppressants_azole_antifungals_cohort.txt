@@ -1,0 +1,1399 @@
+{
+               # Replace Windows newlines with Unix newlines  "ConceptSets": [
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "id": 0,
+               # Replace Windows newlines with Unix newlines      "name": "azole_antifungals_ingredients",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "items": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "4450",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1754994,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "28031",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1703653,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Itraconazole",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "6135",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 985708,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Ketoconazole",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "282446",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1704139,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "posaconazole",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "121243",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1714277,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "voriconazole",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ]
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "id": 1,
+               # Replace Windows newlines with Unix newlines      "name": "immunosuppressants_ingredients",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "items": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "3008",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19010482,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "141704",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19011440,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "35302",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19034726,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Sirolimus",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Ingredient",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "42316",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 950637,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ]
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "id": 2,
+               # Replace Windows newlines with Unix newlines      "name": "immunosuppressants",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "items": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1093174",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40236654,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 0.002 MG/MG Ophthalmic Ointment",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "351291",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19010551,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 0.5 MG/ML Ophthalmic Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "348431",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19096440,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 1000 MG/ML Oral Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "309632",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19076045,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 100 MG/ML Oral Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "328160",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19082899,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 100 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197553",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19010484,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 25 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "205175",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19028689,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 50 MG/ML Injectable Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "670177",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19125259,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 50 MG/ML Oral Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "205168",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19028684,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Cyclosporine 50 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "835886",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19010556,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "cyclosporine, modified 100 MG/ML Oral Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "241834",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19010522,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "cyclosporine, modified 100 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "835919",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19010586,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "cyclosporine, modified 10 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "835894",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19010559,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "cyclosporine, modified 25 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "835925",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19010590,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "cyclosporine, modified 50 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1308428",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 42900297,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 0.08 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1308430",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 42900301,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 0.12 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "977427",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40175813,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 0.25 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1308432",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 42900305,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 0.2 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "977434",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40175817,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 0.5 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "977438",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40175821,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 0.75 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "845507",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19135077,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 10 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "998189",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40223693,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 2.5 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "845515",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19135083,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 5 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1119400",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40242016,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "everolimus 7.5 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "905158",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40173865,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Sirolimus 0.5 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "314230",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19080244,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Sirolimus 1 MG/ML Oral Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "349208",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19096679,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Sirolimus 1 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "360110",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19099674,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Sirolimus 2 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1431978",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 43532968,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 0.5 MG Extended Release Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "313190",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19079712,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 0.5 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1664459",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 46287734,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 0.75 MG Extended Release Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1431983",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 43532972,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 1 MG Extended Release Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1664464",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 46287739,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 1 MG Extended Release Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "198377",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 950641,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 1 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "427808",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106286,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 1 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1664441",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 46287720,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 4 MG Extended Release Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "1431988",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 43532976,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 5 MG Extended Release Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "198379",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 950663,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 5 MG/ML Injectable Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "198378",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 950662,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 5 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "427807",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19106285,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Tacrolimus 5 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ]
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "id": 3,
+               # Replace Windows newlines with Unix newlines      "name": "fluconazoles_IV",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "items": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "646041",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19124598,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 200 MG/ML Injectable Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "252432",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1755040,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 2 MG/ML Injectable Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "861607",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40165987,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 4 MG/ML Injectable Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ]
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "id": 4,
+               # Replace Windows newlines with Unix newlines      "name": "fluconazoles_PO",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "items": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "199950",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19022584,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 100 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197698",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1754995,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 100 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "310352",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19077380,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 10 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "199745",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1754999,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 150 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197699",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1754996,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 150 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "199746",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1755000,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 200 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197700",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19019003,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 200 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "310353",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19077401,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 40 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "199747",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1755001,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 50 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197701",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19019004,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "755760",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19128807,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 5 MG/ML Oral Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "422644",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19105804,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 5 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ]
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "id": 5,
+               # Replace Windows newlines with Unix newlines      "name": "fluconazoles",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "items": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "199950",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19022584,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 100 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197698",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1754995,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 100 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "310352",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19077380,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 10 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "199745",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1754999,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 150 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197699",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1754996,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 150 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "646041",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19124598,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 200 MG/ML Injectable Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "199746",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1755000,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 200 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197700",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19019003,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 200 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "252432",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1755040,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 2 MG/ML Injectable Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "310353",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19077401,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 40 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "861607",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 40165987,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 4 MG/ML Injectable Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "199747",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 1755001,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 50 MG Oral Capsule",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "197701",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19019004,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 50 MG Oral Tablet",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "755760",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19128807,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 5 MG/ML Oral Solution",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "concept": {
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CLASS_ID": "Clinical Drug",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_CODE": "422644",
+               # Replace Windows newlines with Unix newlines              "CONCEPT_ID": 19105804,
+               # Replace Windows newlines with Unix newlines              "CONCEPT_NAME": "Fluconazole 5 MG/ML Oral Suspension",
+               # Replace Windows newlines with Unix newlines              "DOMAIN_ID": "Drug",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON": "V",
+               # Replace Windows newlines with Unix newlines              "INVALID_REASON_CAPTION": "Valid",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT": "S",
+               # Replace Windows newlines with Unix newlines              "STANDARD_CONCEPT_CAPTION": "Standard",
+               # Replace Windows newlines with Unix newlines              "VOCABULARY_ID": "RxNorm"
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ]
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    }
+               # Replace Windows newlines with Unix newlines  ],
+               # Replace Windows newlines with Unix newlines  "PrimaryCriteria": {
+               # Replace Windows newlines with Unix newlines    "CriteriaList": [
+               # Replace Windows newlines with Unix newlines      {
+               # Replace Windows newlines with Unix newlines        "DrugEra": {
+               # Replace Windows newlines with Unix newlines          "CorrelatedCriteria": {
+               # Replace Windows newlines with Unix newlines            "Type": "ALL",
+               # Replace Windows newlines with Unix newlines            "CriteriaList": [
+               # Replace Windows newlines with Unix newlines              {
+               # Replace Windows newlines with Unix newlines                "Criteria": {
+               # Replace Windows newlines with Unix newlines                  "DrugEra": {
+               # Replace Windows newlines with Unix newlines                    "CodesetId": 1
+               # Replace Windows newlines with Unix newlines                  }
+               # Replace Windows newlines with Unix newlines                },
+               # Replace Windows newlines with Unix newlines                "StartWindow": {
+               # Replace Windows newlines with Unix newlines                  "Start": {
+               # Replace Windows newlines with Unix newlines                    "Days": "30",
+               # Replace Windows newlines with Unix newlines                    "Coeff": -1
+               # Replace Windows newlines with Unix newlines                  },
+               # Replace Windows newlines with Unix newlines                  "End": {
+               # Replace Windows newlines with Unix newlines                    "Days": "30",
+               # Replace Windows newlines with Unix newlines                    "Coeff": 1
+               # Replace Windows newlines with Unix newlines                  }
+               # Replace Windows newlines with Unix newlines                },
+               # Replace Windows newlines with Unix newlines                "Occurrence": {
+               # Replace Windows newlines with Unix newlines                  "Type": 2,
+               # Replace Windows newlines with Unix newlines                  "Count": 1
+               # Replace Windows newlines with Unix newlines                }
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            ],
+               # Replace Windows newlines with Unix newlines            "DemographicCriteriaList": [],
+               # Replace Windows newlines with Unix newlines            "Groups": []
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          "CodesetId": 0
+               # Replace Windows newlines with Unix newlines        }
+               # Replace Windows newlines with Unix newlines      },
+               # Replace Windows newlines with Unix newlines      {
+               # Replace Windows newlines with Unix newlines        "DrugEra": {
+               # Replace Windows newlines with Unix newlines          "CorrelatedCriteria": {
+               # Replace Windows newlines with Unix newlines            "Type": "ALL",
+               # Replace Windows newlines with Unix newlines            "CriteriaList": [
+               # Replace Windows newlines with Unix newlines              {
+               # Replace Windows newlines with Unix newlines                "Criteria": {
+               # Replace Windows newlines with Unix newlines                  "DrugEra": {
+               # Replace Windows newlines with Unix newlines                    "CodesetId": 0
+               # Replace Windows newlines with Unix newlines                  }
+               # Replace Windows newlines with Unix newlines                },
+               # Replace Windows newlines with Unix newlines                "StartWindow": {
+               # Replace Windows newlines with Unix newlines                  "Start": {
+               # Replace Windows newlines with Unix newlines                    "Days": "30",
+               # Replace Windows newlines with Unix newlines                    "Coeff": -1
+               # Replace Windows newlines with Unix newlines                  },
+               # Replace Windows newlines with Unix newlines                  "End": {
+               # Replace Windows newlines with Unix newlines                    "Days": "30",
+               # Replace Windows newlines with Unix newlines                    "Coeff": 1
+               # Replace Windows newlines with Unix newlines                  }
+               # Replace Windows newlines with Unix newlines                },
+               # Replace Windows newlines with Unix newlines                "Occurrence": {
+               # Replace Windows newlines with Unix newlines                  "Type": 2,
+               # Replace Windows newlines with Unix newlines                  "Count": 1
+               # Replace Windows newlines with Unix newlines                }
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            ],
+               # Replace Windows newlines with Unix newlines            "DemographicCriteriaList": [],
+               # Replace Windows newlines with Unix newlines            "Groups": []
+               # Replace Windows newlines with Unix newlines          },
+               # Replace Windows newlines with Unix newlines          "CodesetId": 1
+               # Replace Windows newlines with Unix newlines        }
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    ],
+               # Replace Windows newlines with Unix newlines    "ObservationWindow": {
+               # Replace Windows newlines with Unix newlines      "PriorDays": "0",
+               # Replace Windows newlines with Unix newlines      "PostDays": 0
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    "PrimaryCriteriaLimit": {
+               # Replace Windows newlines with Unix newlines      "Type": "All"
+               # Replace Windows newlines with Unix newlines    }
+               # Replace Windows newlines with Unix newlines  },
+               # Replace Windows newlines with Unix newlines  "QualifiedLimit": {
+               # Replace Windows newlines with Unix newlines    "Type": "First"
+               # Replace Windows newlines with Unix newlines  },
+               # Replace Windows newlines with Unix newlines  "ExpressionLimit": {
+               # Replace Windows newlines with Unix newlines    "Type": "First"
+               # Replace Windows newlines with Unix newlines  },
+               # Replace Windows newlines with Unix newlines  "InclusionRules": [
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "name": "Systemic Immunosuppressants",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks to see if the patient is on an immunosuppressant that is a systemic product (oral/intravenous). Patients who fail to meet this rule will not have an alert fired under any circumstance.",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "Type": "AT_MOST",
+               # Replace Windows newlines with Unix newlines        "Count": 0,
+               # Replace Windows newlines with Unix newlines        "CriteriaList": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "Criteria": {
+               # Replace Windows newlines with Unix newlines              "DrugExposure": {
+               # Replace Windows newlines with Unix newlines                "CodesetId": 2
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            },
+               # Replace Windows newlines with Unix newlines            "StartWindow": {
+               # Replace Windows newlines with Unix newlines              "Start": {
+               # Replace Windows newlines with Unix newlines                "Days": "30",
+               # Replace Windows newlines with Unix newlines                "Coeff": -1
+               # Replace Windows newlines with Unix newlines              },
+               # Replace Windows newlines with Unix newlines              "End": {
+               # Replace Windows newlines with Unix newlines                "Days": "30",
+               # Replace Windows newlines with Unix newlines                "Coeff": 1
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            },
+               # Replace Windows newlines with Unix newlines            "Occurrence": {
+               # Replace Windows newlines with Unix newlines              "Type": 2,
+               # Replace Windows newlines with Unix newlines              "Count": 1
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ],
+               # Replace Windows newlines with Unix newlines        "DemographicCriteriaList": [],
+               # Replace Windows newlines with Unix newlines        "Groups": []
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "name": "Fluconazole",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks to see if the patient is on Fluconazole. If the patient is on Fluconazole, they must meet additional criteria for an alert to be fired. If the patient is found to not be on fluconazole, an alert is fired as they are on one of the other azole anti-fungals.",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "Type": "ALL",
+               # Replace Windows newlines with Unix newlines        "CriteriaList": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "Criteria": {
+               # Replace Windows newlines with Unix newlines              "DrugExposure": {
+               # Replace Windows newlines with Unix newlines                "CodesetId": 5
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            },
+               # Replace Windows newlines with Unix newlines            "StartWindow": {
+               # Replace Windows newlines with Unix newlines              "Start": {
+               # Replace Windows newlines with Unix newlines                "Days": "30",
+               # Replace Windows newlines with Unix newlines                "Coeff": -1
+               # Replace Windows newlines with Unix newlines              },
+               # Replace Windows newlines with Unix newlines              "End": {
+               # Replace Windows newlines with Unix newlines                "Days": "30",
+               # Replace Windows newlines with Unix newlines                "Coeff": 1
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            },
+               # Replace Windows newlines with Unix newlines            "Occurrence": {
+               # Replace Windows newlines with Unix newlines              "Type": 2,
+               # Replace Windows newlines with Unix newlines              "Count": 1
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ],
+               # Replace Windows newlines with Unix newlines        "DemographicCriteriaList": [],
+               # Replace Windows newlines with Unix newlines        "Groups": []
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "name": "Oral Fluconazole",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks to see if the patient is on oral fluconazole, and if so, if their dosage is above the threshold value (100 mg/day). If the dosage is above the threshold, an alert is fired. If it's below, no alert is fired.",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "Type": "ALL",
+               # Replace Windows newlines with Unix newlines        "CriteriaList": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "Criteria": {
+               # Replace Windows newlines with Unix newlines              "DrugExposure": {
+               # Replace Windows newlines with Unix newlines                "CodesetId": 4,
+               # Replace Windows newlines with Unix newlines                "EffectiveDrugDose": {
+               # Replace Windows newlines with Unix newlines                  "Value": 100,
+               # Replace Windows newlines with Unix newlines                  "Op": "gt"
+               # Replace Windows newlines with Unix newlines                },
+               # Replace Windows newlines with Unix newlines                "DoseUnit": [
+               # Replace Windows newlines with Unix newlines                  {
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_CODE": "258835005",
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_ID": 4120731,
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_NAME": "mg/day",
+               # Replace Windows newlines with Unix newlines                    "DOMAIN_ID": "Unit",
+               # Replace Windows newlines with Unix newlines                    "VOCABULARY_ID": "SNOMED"
+               # Replace Windows newlines with Unix newlines                  }
+               # Replace Windows newlines with Unix newlines                ]
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            },
+               # Replace Windows newlines with Unix newlines            "StartWindow": {
+               # Replace Windows newlines with Unix newlines              "Start": {
+               # Replace Windows newlines with Unix newlines                "Days": "30",
+               # Replace Windows newlines with Unix newlines                "Coeff": -1
+               # Replace Windows newlines with Unix newlines              },
+               # Replace Windows newlines with Unix newlines              "End": {
+               # Replace Windows newlines with Unix newlines                "Days": "30",
+               # Replace Windows newlines with Unix newlines                "Coeff": 1
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            },
+               # Replace Windows newlines with Unix newlines            "Occurrence": {
+               # Replace Windows newlines with Unix newlines              "Type": 2,
+               # Replace Windows newlines with Unix newlines              "Count": 1
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ],
+               # Replace Windows newlines with Unix newlines        "DemographicCriteriaList": [],
+               # Replace Windows newlines with Unix newlines        "Groups": []
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    },
+               # Replace Windows newlines with Unix newlines    {
+               # Replace Windows newlines with Unix newlines      "name": "Intravenous Fluconazole",
+               # Replace Windows newlines with Unix newlines      "description": "This rule checks to see if the patient is on intravenous fluconazole, and if so, if their dosage is above the threshold value (200 mg/day). If the dosage is above the threshold, an alert is fired. If it's below, no alert is fired.",
+               # Replace Windows newlines with Unix newlines      "expression": {
+               # Replace Windows newlines with Unix newlines        "Type": "ALL",
+               # Replace Windows newlines with Unix newlines        "CriteriaList": [
+               # Replace Windows newlines with Unix newlines          {
+               # Replace Windows newlines with Unix newlines            "Criteria": {
+               # Replace Windows newlines with Unix newlines              "DrugExposure": {
+               # Replace Windows newlines with Unix newlines                "CodesetId": 3,
+               # Replace Windows newlines with Unix newlines                "EffectiveDrugDose": {
+               # Replace Windows newlines with Unix newlines                  "Value": 200,
+               # Replace Windows newlines with Unix newlines                  "Op": "gt"
+               # Replace Windows newlines with Unix newlines                },
+               # Replace Windows newlines with Unix newlines                "DoseUnit": [
+               # Replace Windows newlines with Unix newlines                  {
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_CODE": "258835005",
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_ID": 4120731,
+               # Replace Windows newlines with Unix newlines                    "CONCEPT_NAME": "mg/day",
+               # Replace Windows newlines with Unix newlines                    "DOMAIN_ID": "Unit",
+               # Replace Windows newlines with Unix newlines                    "VOCABULARY_ID": "SNOMED"
+               # Replace Windows newlines with Unix newlines                  }
+               # Replace Windows newlines with Unix newlines                ]
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            },
+               # Replace Windows newlines with Unix newlines            "StartWindow": {
+               # Replace Windows newlines with Unix newlines              "Start": {
+               # Replace Windows newlines with Unix newlines                "Days": "30",
+               # Replace Windows newlines with Unix newlines                "Coeff": -1
+               # Replace Windows newlines with Unix newlines              },
+               # Replace Windows newlines with Unix newlines              "End": {
+               # Replace Windows newlines with Unix newlines                "Days": "30",
+               # Replace Windows newlines with Unix newlines                "Coeff": 1
+               # Replace Windows newlines with Unix newlines              }
+               # Replace Windows newlines with Unix newlines            },
+               # Replace Windows newlines with Unix newlines            "Occurrence": {
+               # Replace Windows newlines with Unix newlines              "Type": 2,
+               # Replace Windows newlines with Unix newlines              "Count": 1
+               # Replace Windows newlines with Unix newlines            }
+               # Replace Windows newlines with Unix newlines          }
+               # Replace Windows newlines with Unix newlines        ],
+               # Replace Windows newlines with Unix newlines        "DemographicCriteriaList": [],
+               # Replace Windows newlines with Unix newlines        "Groups": []
+               # Replace Windows newlines with Unix newlines      }
+               # Replace Windows newlines with Unix newlines    }
+               # Replace Windows newlines with Unix newlines  ],
+               # Replace Windows newlines with Unix newlines  "CensoringCriteria": []
+               # Replace Windows newlines with Unix newlines}
