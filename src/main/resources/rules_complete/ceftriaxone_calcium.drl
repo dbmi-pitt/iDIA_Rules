@@ -34,6 +34,7 @@ import edu.pitt.dbmi.ohdsiv5.db.VisitOccurrence;
 // declare any global variables here
 /////////// 
 global org.hibernate.Session hibernateSession;
+global java.lang.String currentDateStr;
 global java.util.Calendar currentDate;
 global java.util.Calendar within48hours;
 global java.util.Calendar within28days;
