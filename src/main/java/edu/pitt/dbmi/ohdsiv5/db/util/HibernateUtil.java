@@ -23,6 +23,7 @@ package edu.pitt.dbmi.ohdsiv5.db.util;
                # Replace Windows newlines with Unix newlines	private static String defaultUsername = getPropertyValues("username");
                # Replace Windows newlines with Unix newlines	private static String defaultPassword = getPropertyValues("password");
                # Replace Windows newlines with Unix newlines	private static String defaultConnectionURL = getPropertyValues("connectionURL");
+               # Replace Windows newlines with Unix newlines        private static String defaultTableSchema = getPropertyValues("schema");
                # Replace Windows newlines with Unix newlines	//TODO set up port, hostname, etc. for later
                # Replace Windows newlines with Unix newlines	private static Configuration hibernateConf = null;
                # Replace Windows newlines with Unix newlines	private static boolean validConnection = false;
@@ -60,6 +61,7 @@ package edu.pitt.dbmi.ohdsiv5.db.util;
                # Replace Windows newlines with Unix newlines	            .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
                # Replace Windows newlines with Unix newlines	            .setProperty("hibernate.connection.username", defaultUsername)
                # Replace Windows newlines with Unix newlines	        	.setProperty("hibernate.connection.password", defaultPassword)
+               # Replace Windows newlines with Unix newlines   		        .setProperty("hibernate.default_schema", defaultTableSchema)
                # Replace Windows newlines with Unix newlines	        	.setProperty("hibernate.show_sql","true")
                # Replace Windows newlines with Unix newlines   		         .setProperty("net.sf.ehcache.configurationResourceName", "ehcache.xml")
                # Replace Windows newlines with Unix newlines	        	.setProperty("hibernate.cache.provider_class","net.sf.ehcache.hibernate.EhCacheProvider")
@@ -99,6 +101,7 @@ package edu.pitt.dbmi.ohdsiv5.db.util;
                # Replace Windows newlines with Unix newlines		      defaultUsername = prop.getProperty("username");
                # Replace Windows newlines with Unix newlines		      defaultPassword = prop.getProperty("password");
                # Replace Windows newlines with Unix newlines		      defaultConnectionURL = prop.getProperty("connectionURL");
+               # Replace Windows newlines with Unix newlines		      defaultTableSchema = prop.getProperty("schema");
                # Replace Windows newlines with Unix newlines	      } catch (IOException ex) {
                # Replace Windows newlines with Unix newlines		      ex.printStackTrace();
                # Replace Windows newlines with Unix newlines	      } finally {

@@ -53,7 +53,8 @@ public class DroolsTest {
     @SuppressWarnings({ "unchecked" })
     public static void main(String[] args) throws ClassNotFoundException {
 	    	
-	String rule_folder = "";  	
+	String rule_folder = "";
+	String schema = "";
 	Properties prop = new Properties();
 	InputStream input = null;
 	try {
@@ -87,7 +88,8 @@ public class DroolsTest {
 
 	//**** Pull data to be loaded into Drools working memory *****
 	// pull data from a specific date
-	String dateStr = "2008-02-13";
+	// String dateStr = "2008-02-13"; // for the simulated population
+	String dateStr = "2016-02-08"; // for the banner population
 
 	// Get concept ids and names from the defined concept sets. There is currently no hibernate mapping for this.
 	SQLQuery query = hibernateSession.createSQLQuery("SELECT concept_set_name,concept_id FROM ohdsi.concept_set cs INNER JOIN ohdsi.concept_set_item csi ON cs.concept_set_id = csi.concept_set_id");
@@ -124,7 +126,7 @@ public class DroolsTest {
 	System.out.println("INFO: number of visit occurrences for persons with drug eras during the date range: " + voccs.size());
 	
 	// Query to create the "extended drug exposure" that includes drug strength
-	List<Object> temps = (List<Object>) hibernateSession.createQuery("SELECT dexp.drugExposureId, dexp.personId, dexp.drugConceptId, to_char(dexp.drugExposureStartDate, 'yyyy-MM-dd') as drugExposureStartDate, to_char(dexp.drugExposureEndDate, 'yyyy-MM-dd') as drugExposureEndDate,dexp.drugExposureTypeConceptId, dexp.stopReason, dexp.refills, dexp.drugQuantity, dexp.daysSupply, dexp.sig, dexp.routeConceptId, dexp.effectiveDrugDose, dexp.doseUnitConceptId, dexp.lotNumber, dexp.providerId, dexp.visitOccurrenceId, dexp.drugSourceValue, dexp.drugSourceConceptId, dexp.routeSourceValue, dexp.doseUnitSourceValue, dstr.amountValue, dstr.amountUnitConceptId, dstr.numeratorValue, dstr.numeratorUnitConceptId, dstr.denominatorValue, dstr.denominatorUnitConceptId, dstr.ingredientConceptId FROM DrugExposure dexp, DrugStrength dstr WHERE dexp.drugConceptId = dstr.drugConceptId AND dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
+	List<Object> temps = (List<Object>) hibernateSession.createQuery("SELECT dexp.drugExposureId, dexp.personId, dexp.drugConceptId, to_char(dexp.drugExposureStartDate, 'yyyy-MM-dd') as drugExposureStartDate, to_char(dexp.drugExposureEndDate, 'yyyy-MM-dd') as drugExposureEndDate,dexp.drugTypeConceptId, dexp.stopReason, dexp.refills, dexp.drugQuantity, dexp.daysSupply, dexp.sig, dexp.routeConceptId, dexp.lotNumber, dexp.providerId, dexp.visitOccurrenceId, dexp.drugSourceValue, dexp.drugSourceConceptId, dexp.routeSourceValue, dexp.doseUnitSourceValue, dstr.amountValue, dstr.amountUnitConceptId, dstr.numeratorValue, dstr.numeratorUnitConceptId, dstr.denominatorValue, dstr.denominatorUnitConceptId, dstr.ingredientConceptId FROM DrugExposure dexp, DrugStrength dstr WHERE dexp.drugConceptId = dstr.drugConceptId AND dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
 	
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	List<ExtendedDrugExposure> ex_dexps = new ArrayList<ExtendedDrugExposure>();	
@@ -157,7 +159,7 @@ public class DroolsTest {
 	      catch (ParseException e) 
 	      {
 		  e.printStackTrace();}}
-	    ex_dexp.setDrugExposureTypeConceptId(Integer.parseInt(String.valueOf(obj[5])));
+	    ex_dexp.setDrugTypeConceptId(Integer.parseInt(String.valueOf(obj[5])));
 	    ex_dexp.setStopReason(String.valueOf(obj[6]));
 	    if(String.valueOf(obj[7]) != "null"){
 		ex_dexp.setRefills(Short.parseShort(String.valueOf(obj[7])));}
@@ -168,39 +170,35 @@ public class DroolsTest {
 	    ex_dexp.setSig(String.valueOf(obj[10]));
 	    if(String.valueOf(obj[11]) != "null"){
 		ex_dexp.setRouteConceptId(Integer.parseInt(String.valueOf(obj[11])));}
-	    if(String.valueOf(obj[12]) != "null"){
-		ex_dexp.setEffectiveDrugDose(Integer.parseInt(String.valueOf(obj[12])));}
+	    ex_dexp.setLotNumber(String.valueOf(obj[12]));
 	    if(String.valueOf(obj[13]) != "null"){
-		ex_dexp.setDoseUnitConceptId(Integer.parseInt(String.valueOf(obj[13])));}
-	    ex_dexp.setLotNumber(String.valueOf(obj[14]));
-	    if(String.valueOf(obj[15]) != "null"){
-		ex_dexp.setProviderId(Integer.parseInt(String.valueOf(obj[15])));}
+		ex_dexp.setProviderId(Integer.parseInt(String.valueOf(obj[13])));}
+	    if(String.valueOf(obj[14]) != "null"){
+		ex_dexp.setVisitOccurrenceId(Long.parseLong(String.valueOf(obj[14])));}
+	    ex_dexp.setDrugSourceValue(String.valueOf(obj[15]));
 	    if(String.valueOf(obj[16]) != "null"){
-		ex_dexp.setVisitOccurrenceId(Long.parseLong(String.valueOf(obj[16])));}
-	    ex_dexp.setDrugSourceValue(String.valueOf(obj[17]));
-	    if(String.valueOf(obj[18]) != "null"){
-		ex_dexp.setDrugSourceConceptId(Integer.parseInt(String.valueOf(obj[18])));}
-	    ex_dexp.setRouteSourceValue(String.valueOf(obj[19]));
-	    ex_dexp.setDoseUnitSourceValue(String.valueOf(obj[20]));
+		ex_dexp.setDrugSourceConceptId(Integer.parseInt(String.valueOf(obj[16])));}
+	    ex_dexp.setRouteSourceValue(String.valueOf(obj[17]));
+	    ex_dexp.setDoseUnitSourceValue(String.valueOf(obj[18]));
+	    if(String.valueOf(obj[19]) != "null"){
+	      ex_dexp.setAmountValue(Double.parseDouble(String.valueOf(obj[19])));}
+	    if(String.valueOf(obj[20]) != "null"){
+	      ex_dexp.setAmountUnitConceptId(Integer.parseInt(String.valueOf(obj[20])));}	    
 	    if(String.valueOf(obj[21]) != "null"){
-	      ex_dexp.setAmountValue(Double.parseDouble(String.valueOf(obj[21])));}
+	      ex_dexp.setNumeratorValue(Double.parseDouble(String.valueOf(obj[21])));}	
 	    if(String.valueOf(obj[22]) != "null"){
-	      ex_dexp.setAmountUnitConceptId(Integer.parseInt(String.valueOf(obj[22])));}	    
+	      ex_dexp.setNumeratorUnitConceptId(Integer.parseInt(String.valueOf(obj[22])));}	    
 	    if(String.valueOf(obj[23]) != "null"){
-	      ex_dexp.setNumeratorValue(Double.parseDouble(String.valueOf(obj[23])));}	
+	      ex_dexp.setDenominatorValue(Double.parseDouble(String.valueOf(obj[23])));}
 	    if(String.valueOf(obj[24]) != "null"){
-	      ex_dexp.setNumeratorUnitConceptId(Integer.parseInt(String.valueOf(obj[24])));}	    
-	    if(String.valueOf(obj[25]) != "null"){
-	      ex_dexp.setDenominatorValue(Double.parseDouble(String.valueOf(obj[25])));}
-	    if(String.valueOf(obj[26]) != "null"){
-	      ex_dexp.setDenominatorUnitConceptId(Integer.parseInt(String.valueOf(obj[26])));}	      
-	    if(String.valueOf(obj[8]) != "null" && String.valueOf(obj[9]) != "null" && String.valueOf(obj[21]) != "null"){
-	      ex_dexp.setRegDailyDosage(Integer.parseInt(String.valueOf(obj[8])), Short.parseShort(String.valueOf(obj[9])), Double.parseDouble(String.valueOf(obj[21])));}
-	    else if(String.valueOf(obj[8]) != "null" && String.valueOf(obj[9]) != "null" && String.valueOf(obj[23]) != "null"){
-	      ex_dexp.setComplexDailyDosage(Integer.parseInt(String.valueOf(obj[8])), Short.parseShort(String.valueOf(obj[9])), Double.parseDouble(String.valueOf(obj[23])));}
+	      ex_dexp.setDenominatorUnitConceptId(Integer.parseInt(String.valueOf(obj[24])));}	      
+	    if(String.valueOf(obj[8]) != "null" && String.valueOf(obj[9]) != "null" && String.valueOf(obj[19]) != "null"){
+	      ex_dexp.setRegDailyDosage(Integer.parseInt(String.valueOf(obj[8])), Short.parseShort(String.valueOf(obj[9])), Double.parseDouble(String.valueOf(obj[19])));}
+	    else if(String.valueOf(obj[8]) != "null" && String.valueOf(obj[9]) != "null" && String.valueOf(obj[21]) != "null"){
+	      ex_dexp.setComplexDailyDosage(Integer.parseInt(String.valueOf(obj[8])), Short.parseShort(String.valueOf(obj[9])), Double.parseDouble(String.valueOf(obj[21])));}
 	    else{
 	      ex_dexp.setNullDailyDosage(0.00);}	      
-	    ex_dexp.setIngredientConceptId(Integer.parseInt(String.valueOf(obj[27])));
+	    ex_dexp.setIngredientConceptId(Integer.parseInt(String.valueOf(obj[25])));
 	    ex_dexps.add(ex_dexp);
 	}	
 	System.out.println("INFO: number of ex_dexps for persons with drug eras during the date range: " + ex_dexps.size());	   

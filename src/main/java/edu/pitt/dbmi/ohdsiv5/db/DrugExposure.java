@@ -29,15 +29,13 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines			Calendar drugExposureEndDate,
                # Replace Windows newlines with Unix newlines			Long personId,
                # Replace Windows newlines with Unix newlines			Integer drugConceptId,
-               # Replace Windows newlines with Unix newlines			Integer drugExposureTypeConceptId,
+               # Replace Windows newlines with Unix newlines			Integer drugTypeConceptId,
                # Replace Windows newlines with Unix newlines			String stopReason,
                # Replace Windows newlines with Unix newlines			Short refills,
                # Replace Windows newlines with Unix newlines			Integer drugQuantity,
                # Replace Windows newlines with Unix newlines			Short daysSupply,
                # Replace Windows newlines with Unix newlines			String sig,
                # Replace Windows newlines with Unix newlines			Integer routeConceptId,
-               # Replace Windows newlines with Unix newlines			Integer effectiveDrugDose,
-               # Replace Windows newlines with Unix newlines			Integer doseUnitConceptId,
                # Replace Windows newlines with Unix newlines			String lotNumber,
                # Replace Windows newlines with Unix newlines			Integer providerId,
                # Replace Windows newlines with Unix newlines			Long visitOccurrenceId,
@@ -51,7 +49,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines        this.drugExposureEndDate = drugExposureEndDate;
                # Replace Windows newlines with Unix newlines        this.personId = personId;
                # Replace Windows newlines with Unix newlines        this.drugConceptId = drugConceptId;
-               # Replace Windows newlines with Unix newlines        this.drugExposureTypeConceptId = drugExposureTypeConceptId;
+               # Replace Windows newlines with Unix newlines        this.drugTypeConceptId = drugTypeConceptId;
                # Replace Windows newlines with Unix newlines        this.stopReason = stopReason;
                # Replace Windows newlines with Unix newlines        this.refills = refills;
                # Replace Windows newlines with Unix newlines        this.drugQuantity = drugQuantity;
@@ -60,8 +58,6 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines	
                # Replace Windows newlines with Unix newlines	// v5 additions
                # Replace Windows newlines with Unix newlines	this.routeConceptId = routeConceptId;
-               # Replace Windows newlines with Unix newlines	this.effectiveDrugDose = effectiveDrugDose;
-               # Replace Windows newlines with Unix newlines	this.doseUnitConceptId = doseUnitConceptId;
                # Replace Windows newlines with Unix newlines	this.lotNumber = lotNumber;
                # Replace Windows newlines with Unix newlines	this.providerId = providerId;
                # Replace Windows newlines with Unix newlines	this.visitOccurrenceId = visitOccurrenceId;
@@ -123,12 +119,12 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    @Column(name="DRUG_TYPE_CONCEPT_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-               # Replace Windows newlines with Unix newlines    Integer drugExposureTypeConceptId;
-               # Replace Windows newlines with Unix newlines    public Integer getDrugExposureTypeConceptId() {
-               # Replace Windows newlines with Unix newlines        return this.drugExposureTypeConceptId;
+               # Replace Windows newlines with Unix newlines    Integer drugTypeConceptId;
+               # Replace Windows newlines with Unix newlines    public Integer getDrugTypeConceptId() {
+               # Replace Windows newlines with Unix newlines        return this.drugTypeConceptId;
                # Replace Windows newlines with Unix newlines    } 
-               # Replace Windows newlines with Unix newlines    public void setDrugExposureTypeConceptId(Integer drugExposureTypeConceptId) {
-               # Replace Windows newlines with Unix newlines        this.drugExposureTypeConceptId = drugExposureTypeConceptId;
+               # Replace Windows newlines with Unix newlines    public void setDrugTypeConceptId(Integer drugTypeConceptId) {
+               # Replace Windows newlines with Unix newlines        this.drugTypeConceptId = drugTypeConceptId;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    @Column(name="STOP_REASON", unique=false, nullable=true, insertable=true, updatable=true, length=20)
@@ -183,24 +179,6 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines    public void setRouteConceptId(Integer routeConceptId) {
                # Replace Windows newlines with Unix newlines	this.routeConceptId = routeConceptId;
-               # Replace Windows newlines with Unix newlines    }
-               # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlines    @Column(name="EFFECTIVE_DRUG_DOSE", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-               # Replace Windows newlines with Unix newlines    Integer effectiveDrugDose;
-               # Replace Windows newlines with Unix newlines    public Integer getEffectiveDrugDose() {
-               # Replace Windows newlines with Unix newlines	return this.effectiveDrugDose;
-               # Replace Windows newlines with Unix newlines    }
-               # Replace Windows newlines with Unix newlines    public void setEffectiveDrugDose(Integer effectiveDrugDose) {
-               # Replace Windows newlines with Unix newlines	this.effectiveDrugDose = effectiveDrugDose;
-               # Replace Windows newlines with Unix newlines    }
-               # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlines    @Column(name="DOSE_UNIT_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-               # Replace Windows newlines with Unix newlines    Integer doseUnitConceptId;
-               # Replace Windows newlines with Unix newlines    public Integer getDoseUnitConceptId() {
-               # Replace Windows newlines with Unix newlines	return this.doseUnitConceptId;
-               # Replace Windows newlines with Unix newlines    }
-               # Replace Windows newlines with Unix newlines    public void setDoseUnitConceptId(Integer doseUnitConceptId) {
-               # Replace Windows newlines with Unix newlines	this.doseUnitConceptId = doseUnitConceptId;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    @Column(name="LOT_NUMBER", unique=false, nullable=true, insertable=true, updatable=true, length=50)
