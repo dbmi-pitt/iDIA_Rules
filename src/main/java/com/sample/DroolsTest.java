@@ -217,6 +217,7 @@ public class DroolsTest {
 	
 	try 
 	{
+	  kSession.setGlobal("currentDateStr", dateStr);
 	  Calendar cal2 = Calendar.getInstance();
 	  cal2.setTime(df.parse(dateStr));
 	  kSession.setGlobal("currentDate", cal2);
