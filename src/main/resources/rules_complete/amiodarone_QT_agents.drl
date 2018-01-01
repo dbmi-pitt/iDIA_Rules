@@ -77,6 +77,8 @@ rule "AMIODARONE - QT AGENTS -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tamiodarone and a qt-prolonging agent\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);
 end
 
 rule "AMIODARONE - QT AGENTS -- Flecainide"
@@ -98,6 +100,8 @@ rule "AMIODARONE - QT AGENTS -- Flecainide"
         String s = String.format(
           "Amiodarone - QT-Prolonging Agent interaction for patient: %s.\n\tClinical implication: Risk of long QT syndrome.\n\tMitigating factor: Presence of amiodarone and a QT-prolonging agent, flecainide.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Amiodarone is associated with a prolonged QT interval, which would be worsened by co-prescription with other QT prolonging agents, resulting in long QT syndrome.", 
           $de1.getPersonId());
+        System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tamiodarone and a qt-prolonging agent\tamiodarone and flecainide", currentDateStr, $person.getPersonId());
         System.out.println(s);
 end
 
@@ -122,5 +126,7 @@ rule "AMIODARONE - QT AGENTS -- Ondansetron"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+        s = String.format("DATA\t%s\t%s\tamiodarone and a qt-prolonging agent\tamiodarone and ondansetron", currentDateStr, $person.getPersonId());
+      System.out.println(s);
 end
 
