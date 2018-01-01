@@ -113,7 +113,7 @@ public class Measurement implements java.io.Serializable {
 		this.measurementDate = measurementDate;
 	}
 
-        @Column(name="MEASUREMENT_TIME", unique=false, nullable=true, insertable=true, updatable=true, length=10)
+        @Column(name="MEASUREMENT_DATETIME", unique=false, nullable=true, insertable=true, updatable=true, length=10)
 	public String getMeasurementTime() {
 		return this.measurementTime;
 	}

@@ -1,0 +1,13 @@
+
+config.properties~
+*.trc
+*.dmp
+*.phd
+*.txt~
+*.md~
+*.java~
+*.class
+target/*
+javacore*
+.*~
+config.properties

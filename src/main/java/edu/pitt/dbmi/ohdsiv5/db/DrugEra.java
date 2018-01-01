@@ -23,14 +23,13 @@ public class DrugEra  implements java.io.Serializable {
     public DrugEra() {
     }
 
-    public DrugEra(Calendar drugEraStartDate, Long personId, Calendar drugEraEndDate, Integer drugConceptID, Integer drugExposureCount, Integer gapDays) {
+    public DrugEra(Calendar drugEraStartDate, Long personId, Calendar drugEraEndDate, Integer drugConceptID, Integer drugExposureCount) {
 	super();
 	this.drugEraStartDate = drugEraStartDate;
 	this.personId = personId;
 	this.drugEraEndDate = drugEraEndDate;
 	this.drugConceptID = drugConceptID;
 	this.drugExposureCount = drugExposureCount;
-	this.gapDays = gapDays;
     }
 
     // Property accessors
@@ -92,12 +91,4 @@ public class DrugEra  implements java.io.Serializable {
 	return drugExposureCount;
     }
 
-    @Column(name="GAP_DAYS", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-    Integer gapDays;
-    public Integer getGapDays() {
-	return this.gapDays;
-    }
-    public void setGapDays(Integer gapDays) {
-	this.gapDays = gapDays;
-    }
 }

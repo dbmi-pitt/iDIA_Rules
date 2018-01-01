@@ -10,6 +10,7 @@ You must change the following in the `config.properties` file.
 username=<USERNAME>
 password=<PASSWORD>
 connectionURL=jdbc:postgresql://<IP>:<PORT>/<DATABASE>
+schema=<schema to query e.g., 'public'>
 ```
 
 Replace the variables in <> with your values.

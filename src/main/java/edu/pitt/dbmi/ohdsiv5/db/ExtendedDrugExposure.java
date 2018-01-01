@@ -29,15 +29,13 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
 			Calendar drugExposureEndDate,
 			Long personId,
 			Integer drugConceptId,
-			Integer drugExposureTypeConceptId,
+			Integer drugTypeConceptId,
 			String stopReason,
 			Short refills,
 			Integer drugQuantity,
 			Short daysSupply,
 			String sig,
 			Integer routeConceptId,
-			Integer effectiveDrugDose,
-			Integer doseUnitConceptId,
 			String lotNumber,
 			Integer providerId,
 			Long visitOccurrenceId,
@@ -59,15 +57,13 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
         this.drugExposureEndDate = drugExposureEndDate;
         this.personId = personId;
         this.drugConceptId = drugConceptId;
-        this.drugExposureTypeConceptId = drugExposureTypeConceptId;
+        this.drugTypeConceptId = drugTypeConceptId;
         this.stopReason = stopReason;
         this.refills = refills;
         this.drugQuantity = drugQuantity;
         this.daysSupply = daysSupply;
 	this.sig = sig;
 	this.routeConceptId = routeConceptId;
-	this.effectiveDrugDose = effectiveDrugDose;
-	this.doseUnitConceptId = doseUnitConceptId;
 	this.lotNumber = lotNumber;
 	this.providerId = providerId;
 	this.visitOccurrenceId = visitOccurrenceId;

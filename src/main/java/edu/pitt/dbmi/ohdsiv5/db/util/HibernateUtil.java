@@ -23,6 +23,7 @@ public class HibernateUtil {
 	private static String defaultUsername = getPropertyValues("username");
 	private static String defaultPassword = getPropertyValues("password");
 	private static String defaultConnectionURL = getPropertyValues("connectionURL");
+        private static String defaultTableSchema = getPropertyValues("schema");
 	//TODO set up port, hostname, etc. for later
 	private static Configuration hibernateConf = null;
 	private static boolean validConnection = false;
@@ -60,6 +61,7 @@ public class HibernateUtil {
 	            .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
 	            .setProperty("hibernate.connection.username", defaultUsername)
 	        	.setProperty("hibernate.connection.password", defaultPassword)
+   		        .setProperty("hibernate.default_schema", defaultTableSchema)
 	        	.setProperty("hibernate.show_sql","true")
    		         .setProperty("net.sf.ehcache.configurationResourceName", "ehcache.xml")
 	        	.setProperty("hibernate.cache.provider_class","net.sf.ehcache.hibernate.EhCacheProvider")
@@ -99,6 +101,7 @@ public class HibernateUtil {
 		      defaultUsername = prop.getProperty("username");
 		      defaultPassword = prop.getProperty("password");
 		      defaultConnectionURL = prop.getProperty("connectionURL");
+		      defaultTableSchema = prop.getProperty("schema");
 	      } catch (IOException ex) {
 		      ex.printStackTrace();
 	      } finally {
