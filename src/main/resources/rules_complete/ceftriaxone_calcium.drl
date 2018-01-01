@@ -79,6 +79,8 @@ rule "CEFTRIAXONE - CALCIUM -- NO FILTER"
           $clinDrugConcept3.getConceptId(),
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tCeftriaxone Calcium interaction\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);
 end
 
 // The second rule takes patients exposed to both medications and checks if they are under 28 years of age... if so, an alert is fired
@@ -99,4 +101,6 @@ rule "CEFTRIAXONE - CALCIUM -- AGE"
           $person.getPersonId(), 
           ((currentDate.getTimeInMillis()-(new GregorianCalendar($person.getYearOfBirth(),($person.getMonthOfBirth()-1),$person.getDayOfBirth()).getTimeInMillis()))/86400000));
         System.out.println(s);
+        s = String.format("DATA\t%s\t%s\tCeftriaxone Calcium interaction\tceftriaxone and calcium in neonate", currentDateStr, $person.getPersonId());
+      System.out.println(s);
 end
