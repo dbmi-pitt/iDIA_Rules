@@ -74,6 +74,8 @@ rule "WARFARIN - NSAID -- NO FILTER" // Concept sets exclude topical/opthalmic N
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);
 end
 
 // The second rule identifies patients that met the first rule and checks if any are on any dosage/form of a PPI or misoprostol
@@ -94,10 +96,12 @@ rule "WARFARIN - NSAID -- PPI or misoprostol"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node  
         String s = String.format(
-          "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Possible increased risk of UGIB or other bleeding\n\tMitigating factor: Presence of PPI or misoprostol (%s).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation:  Proton pump inhibitors and misoprostol may reduce the risk of UGIB in patients receiving NSAIDs and warfarin.", 
+          "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Possible increased risk of UGIB or other bleeding\n\tMitigating factor: Presence of PPI or misoprostol (%s).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation:  Proton pump inhibitors and misoprostol may reduce the risk of UGIB in patients receiving NSAIDs and warfarin.", 
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tproton pump inhibitor or misoprostol", currentDateStr, $person.getPersonId());
+	System.out.println(s);
 end
 
 // The third rule is an intermediate node that checks patients for a specific risk factor...
@@ -171,6 +175,8 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - YES oth
             $person.getPersonId(), 
             $dexp1.getDrugConceptId());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tno PPI or misoprostol - NO age or conditions - YES other risk drugs", currentDateStr, $person.getPersonId());
+	System.out.println(s);
 end
 
 // The sixth rule is the third of five leaf nodes
@@ -199,6 +205,8 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - YES ot
             $person.getPersonId(), 
             $dexp1.getDrugConceptId());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tno PPI or misoprostol - YES age or conditions - YES other risk drugs", currentDateStr, $person.getPersonId());
+	System.out.println(s);
 end
 
 // The seventh rule is the fourth of five leaf nodes
@@ -222,6 +230,7 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - NO oth
             "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding\n\tContextual factor: Age or condition risks but NO risk increasing drug factor.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Patients with a history of UGIB or peptic ulcer may have an increased risk of UGIB from this interaction. The \n\textent to which older age is an independent risk factor for UGIB due to these interactions is not firmly established, but \n\tUGIB in general is known to increase with age.", 
             $person.getPersonId());
         System.out.println(s);
+	// Write a data string out that can be grepped and concatenated into a database table
 	s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tno PPI or misoprostol - YES age or conditions - NO other risk drugs", currentDateStr, $person.getPersonId());
 	System.out.println(s);
 end
@@ -246,4 +255,6 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - NO age or conditions - NO othe
             "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding.\n\tContextual factor: No age, condition, or drug factor risks.\n\tRecommendation: Use only if benefit outweighs risk.", 
             $person.getPersonId());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tno PPI or misoprostol - NO age or conditions - NO other risk drugs", currentDateStr, $person.getPersonId());
+	System.out.println(s);
 end
