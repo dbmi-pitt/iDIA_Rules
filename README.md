@@ -38,5 +38,5 @@ Then you should be able to run:
 
 __RUN__
 
-```java -jar target/droolstest-1.0.jar```
+```java -Xmx1024 -jar target/droolstest-1.0.jar```
 
