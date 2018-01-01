@@ -1,6 +1,4 @@
-
 config.properties~
-*.trc
 *.dmp
 *.phd
 *.txt~
@@ -9,5 +7,6 @@ config.properties~
 *.class
 target/*
 javacore*
-.*~
+*~
 config.properties
+testrun.txt

@@ -30,6 +30,7 @@ import edu.pitt.dbmi.ohdsiv5.db.Person;
 /////////// 
 // declare any global variables here
 /////////// 
+global java.lang.String currentDateStr;
 global org.hibernate.Session hibernateSession;
 global java.util.Calendar currentDate;
 global java.util.Calendar within48hours;
@@ -221,6 +222,8 @@ rule "WARFARIN - NSAID -- no PPI or misoprostol - YES age or conditions - NO oth
             "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding\n\tContextual factor: Age or condition risks but NO risk increasing drug factor.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Patients with a history of UGIB or peptic ulcer may have an increased risk of UGIB from this interaction. The \n\textent to which older age is an independent risk factor for UGIB due to these interactions is not firmly established, but \n\tUGIB in general is known to increase with age.", 
             $person.getPersonId());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tno PPI or misoprostol - YES age or conditions - NO other risk drugs", currentDateStr, $person.getPersonId());
+	System.out.println(s);
 end
 
 // The eighth rule is the final of five leaf nodes
