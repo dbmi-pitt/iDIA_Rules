@@ -77,6 +77,8 @@ rule "WARFARIN - SALICYLATES -- NO FILTER"
           $clinDrugConcept3.getConceptId(),
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);      
 end
 
 // The second rule filters the patients found to be on both medications to those only on Aspirin
@@ -103,6 +105,8 @@ rule "WARFARIN - SALICYLATES -- ASPIRIN"
           $person.getPersonId(),
 	  $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate\twarfarin and aspirin", currentDateStr, $person.getPersonId());
+      System.out.println(s);      	
 end
 
 // The third rule filters patients found to be on both medications to those taking a non-acetylated salicylate
@@ -131,6 +135,8 @@ rule "WARFARIN - SALICYLATES -- NON-ACETYLATED"
 	  $dexp1.getDrugConceptId(),
 	  $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate\twarfarin and non-acetylated salicylate", currentDateStr, $person.getPersonId());
+      System.out.println(s);      		
 end
 
 // The fourth anf final rule filters patients found to be on both medication classes to those taking bismuth subsalicylate
@@ -159,4 +165,6 @@ rule "WARFARIN - SALICYLATES -- BISMUTH SUBSALICYLATE"
           $person.getPersonId(),
 	  $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate\twarfarin and bismuth subsalicylate", currentDateStr, $person.getPersonId());
+      System.out.println(s);      			
 end
