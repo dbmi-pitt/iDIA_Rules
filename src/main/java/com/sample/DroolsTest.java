@@ -52,7 +52,15 @@ public class DroolsTest {
     
     @SuppressWarnings({ "unchecked" })
     public static void main(String[] args) throws ClassNotFoundException {
-	    	
+
+	String dateStr = args[0];
+	if(dateStr == null){
+	    System.out.println("ERROR: Pass a date that will be used to extract data to run the rule engine in the format YYY-MM-DD");
+	    System.exit(1);
+	} else {
+	    System.out.println("INFO: Running rule engine with data from date: " + dateStr);
+	}
+
 	String rule_folder = "";
 	String schema = "";
 	Properties prop = new Properties();
@@ -95,7 +103,7 @@ public class DroolsTest {
 	// String dateStr = "2016-02-06"; // Immunonosupressants - Azole antifungals for banner population
 	// String dateStr = "2016-01-16"; // K - K-sparing diuretics for banner population 
 	// String dateStr = "2016-03-29"; // Metoclopramide and an Antipsychotic or Cholinesterase inhibitor for banner population
-	String dateStr = "2016-01-17"; // Warfarin - SSRI/SNRIs for banner population
+	// String dateStr = "2016-01-17"; // Warfarin - SSRI/SNRIs for banner population
 	
 	// Get concept ids and names from the defined concept sets. There is currently no hibernate mapping for this.
 	SQLQuery query = hibernateSession.createSQLQuery("SELECT concept_set_name,concept_id FROM ohdsi.concept_set cs INNER JOIN ohdsi.concept_set_item csi ON cs.concept_set_id = csi.concept_set_id");
