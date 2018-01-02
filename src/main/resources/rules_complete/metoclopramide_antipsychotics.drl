@@ -76,4 +76,6 @@ rule "METOCLOPRAMIDE - ANTIPSYCHOTICS -- NO FILTER"
         $de1.getPersonId(), 
         $dexp2.getDrugConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tmetoclopramide and an antipsychotic or cholinesterase inhibitor\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);      
 end
