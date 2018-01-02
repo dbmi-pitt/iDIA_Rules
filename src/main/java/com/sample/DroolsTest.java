@@ -92,8 +92,9 @@ public class DroolsTest {
 	// String dateStr = "2016-02-08"; // warfarin NSAID for the banner population
 	// String dateStr = "2016-02-16"; // Amiodarone - QT prolonging agents for banner population
 	// String dateStr = "2016-02-15"; // Fluconazole - Opioids for banner population
-	String dateStr = "2016-02-06"; // Immunonosupressants - Azole antifungals for banner population
-
+	// String dateStr = "2016-02-06"; // Immunonosupressants - Azole antifungals for banner population
+	String dateStr = "2016-01-16"; // K - K-sparing diuretics for banner population 
+	
 	// Get concept ids and names from the defined concept sets. There is currently no hibernate mapping for this.
 	SQLQuery query = hibernateSession.createSQLQuery("SELECT concept_set_name,concept_id FROM ohdsi.concept_set cs INNER JOIN ohdsi.concept_set_item csi ON cs.concept_set_id = csi.concept_set_id");
 	query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
