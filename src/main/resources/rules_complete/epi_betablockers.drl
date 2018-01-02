@@ -78,6 +78,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);      
 end
 
 // The second rule is a general rule for all non-cardioselective beta-blockers
@@ -104,6 +106,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Non-Selective Beta-Blockers"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and non-selective beta-blockers", currentDateStr, $person.getPersonId());
+      System.out.println(s);	
 end
 
 // The third rule is the first of a set of three about Timolol
@@ -130,6 +134,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (CYP2D6 PM)"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, timolol, and cyp2d6 PM", currentDateStr, $person.getPersonId());
+      System.out.println(s);		
 end
 
 // The fourth rule is the second of a set of three about Timolol
@@ -159,6 +165,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (CYP2D6 Inhibitors)"
           "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Timolol eye drops given in presence of potent CYP2D6 inhibitor.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Timolol is a nonselective beta-blocker, and timolol eye drops have been shown to produce systemic beta-blockade. Timolol is metabolized by CYP2D6, and patients who are taking moderate to potent \n\tCYP2D6 inhibitors may develop higher timolol plasma concentrations following timolol ophthalmic aqueous drops, which could lead to an acute hypertensive reaction.", 
           $de1.getPersonId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, timolol, and cyp2d6 inhibitor", currentDateStr, $person.getPersonId());
+      System.out.println(s);			
 end
 
 // The fifth rule is the third of a set of three about Timolol
@@ -186,6 +194,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (No CYP2D6 Inhibitors)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, timolol, and no cyp2d6 inhibitor", currentDateStr, $person.getPersonId());
+      System.out.println(s);				
 end
 
 // The sixth rule is the first of a set of three about Metoprolol
@@ -212,6 +222,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol (CYP2D6 PM)"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, metoprolol, and cyp2d6 PM", currentDateStr, $person.getPersonId());
+      System.out.println(s);					
 end
 
 // The seventh rule is the second of a set of three about Metoprolol
@@ -242,6 +254,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol (CYP2D6 Inhibitors)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, metoprolol, and cyp2d6 inhibitor", currentDateStr, $person.getPersonId());
+      System.out.println(s);					
 end
 
 // The eighth rule is the third of a set of three about Metoprolol
@@ -271,6 +285,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol (Dosage)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and high metoprolol dosage", currentDateStr, $person.getPersonId());
+      System.out.println(s);						
 end 
 
 // The ninth rule is the first of a set of three about Nebivolol
@@ -297,6 +313,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol (CYP2D6 PM)"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, nebivolol, and cyp2d6 PM", currentDateStr, $person.getPersonId());
+      System.out.println(s);							
 end
 
 // The tenth rule is the second of a set of three about Nebivolol
@@ -327,6 +345,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol (CYP2D6 Inhibitors)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, nebivolol, and cyp2d6 inhibitor", currentDateStr, $person.getPersonId());
+      System.out.println(s);								
 end
 
 // The eleventh rule is the third of a set of three about Nebivolol
@@ -356,6 +376,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol (Dosage)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and high nebivolol dosage", currentDateStr, $person.getPersonId());
+      System.out.println(s);									
 end
 
 // The twelfth rule is the first of a set of two about Atenolol
@@ -382,6 +404,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Clearance)"
           $de1.getPersonId(), 
           $measurement.getValueAsNumber());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, atenolol, and low clearance", currentDateStr, $person.getPersonId());
+      System.out.println(s);	
 end
 
 // The thirteenth rule is the second of a set of two about Atenolol
@@ -409,6 +433,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Dosage)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and high atenolol dosage", currentDateStr, $person.getPersonId());
+      System.out.println(s);		
 end
 
 // The fourteenth rule is the second of a set of two about Bisoprolol
@@ -435,6 +461,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Clearance)"
           $de1.getPersonId(), 
           $measurement.getValueAsNumber());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, bisoprolol, and low clearance", currentDateStr, $person.getPersonId());
+      System.out.println(s);		
 end
 
 // The fifteenth rule is the second of a set of two about Bisoprolol
@@ -462,6 +490,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Dosage)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and high bisoprolol dosage", currentDateStr, $person.getPersonId());
+      System.out.println(s);	
 end
 
 // The sixteenth rule is about Betaxolol
@@ -487,6 +517,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Betaxolol"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and high betaxolol dose", currentDateStr, $person.getPersonId());
+      System.out.println(s);		
 end
 
 // The seventeenth and final rule is about Esmolol
@@ -512,4 +544,6 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol" // THIS RULE IS INCOMPLETE, NOT FU
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and high esmolol dosage", currentDateStr, $person.getPersonId());
+      System.out.println(s);			
 end
