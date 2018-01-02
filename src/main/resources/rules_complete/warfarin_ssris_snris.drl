@@ -74,6 +74,9 @@ rule "WARFARIN - SSRI+SNRI -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);      
 end
 
 // The second rule is an intermediate node that checks exposed patients for a specific risk factor...
@@ -158,6 +161,8 @@ rule "WARFARIN - SSRI+SNRI -- YES RISKS"
             "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding.\n\tContextual factor: Presence of age, condition, or drug-factor risks. \n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If possible avoid drugs that increase bleeding risk (e.g., NSAIDs, aldosterone antagonists, aspirin, corticoids). \n\tTo reduce risk of GI bleeds consider adding a PPI and avoiding the SSRI/SNRI.", 
             $person.getPersonId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risks", currentDateStr, $person.getPersonId());
+      System.out.println(s);      	
 end
 
 // The sixth rule is the other of the two leaf nodes and the opposite of the fifth rule
@@ -176,4 +181,6 @@ rule "WARFARIN - SSRI+SNRI -- NO RISKS"
             "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased risk of UGIB or other bleeding.\n\tContextual factor: No age, condition, or drug-factor risks.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: To reduce the bleeding risk, consider avoiding the SSRI/SNRI.", 
             $person.getPersonId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tno risks", currentDateStr, $person.getPersonId());
+      System.out.println(s);      		
 end
