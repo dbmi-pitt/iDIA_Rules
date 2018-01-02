@@ -76,6 +76,8 @@ rule "FLUCONAZOLE - OPIOIDS -- NO FILTER"
           $clinDrugConcept3.getConceptId(),
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);      
 end
 
 // The second rule checks to see if any of the patients identified by the first rule are outpatients
@@ -150,6 +152,8 @@ rule "FLUCONAZOLE - OPIOIDS -- FENTANYL"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and fentanyl", currentDateStr, $person.getPersonId());
+      System.out.println(s);            
 end
 
 // The fifth rule is the second of the two leaf nodes for this DDI
@@ -181,4 +185,6 @@ rule "FLUCONAZOLE - OPIOIDS -- OXYCODONE"
         $de1.getPersonId(), 
         $dexp1.getDailyDosage());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and oxycodone", currentDateStr, $person.getPersonId());
+      System.out.println(s);                  
 end
