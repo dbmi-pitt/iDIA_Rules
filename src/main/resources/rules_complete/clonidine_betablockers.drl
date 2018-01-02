@@ -77,6 +77,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+     System.out.println(s);
 end
 
 // The second rule is a general rule for all non-cardioselective beta-blockers
@@ -103,6 +105,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Non-Selective Beta-Blockers"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine and non-selective beta-blockers", currentDateStr, $person.getPersonId());
+       System.out.println(s);
 end
 
 // The third rule is the first of a set of three about Timolol
@@ -129,6 +133,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Timolol (CYP2D6 PM)"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, timolol, and cyp2d6 PM", currentDateStr, $person.getPersonId());
+       System.out.println(s);
 end
 
 // The fourth rule is the second of a set of three about Timolol
@@ -158,6 +164,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Timolol (CYP2D6 Inhibitors)"
           "Clonidine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Timolol eye drops given in presence of potent CYP2D6 inhibitor.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Timolol is a nonselective beta-blocker, and timolol eye drops have been shown to produce systemic beta-blockade. Timolol is metabolized by CYP2D6, and patients who are taking moderate to potent \n\tCYP2D6 inhibitors may develop higher timolol plasma concentrations following timolol ophthalmic aqueous drops, which could lead to an acute hypertensive reaction.", 
           $de1.getPersonId());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, timolol, and cyp2d6 inhibitor", currentDateStr, $person.getPersonId());
+       System.out.println(s);
 end
 
 // The fifth rule is the third of a set of three about Timolol
@@ -185,6 +193,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Timolol (No CYP2D6 Inhibitors)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, timolol, and no cyp2d6 inhibitor", currentDateStr, $person.getPersonId());
+        System.out.println(s);
 end
 
 // The sixth rule is the first of a set of three about Metoprolol
@@ -210,6 +220,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Metoprolol (CYP2D6 PM)"
           "Clonidine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Metoprolol given to CYP2D6 poor metabolizer.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Metoprolol is metabolized by CYP2D6, and patients who are deficient in CYP2D6 (PMs) may develop higher metoprolol plasma concentrations and nonselective beta-blockade, \n\twhich could result in an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
+        System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, metoprolol, and cyp2d6 PM", currentDateStr, $person.getPersonId());
         System.out.println(s);
 end
 
@@ -241,6 +253,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Metoprolol (CYP2D6 Inhibitors)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, metoprolol, and cyp2d6 inhibitor", currentDateStr, $person.getPersonId());
+        System.out.println(s);
 end
 
 // The eighth rule is the third of a set of three about Metoprolol
@@ -270,6 +284,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Metoprolol (Dosage)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine and high metoprolol dosage", currentDateStr, $person.getPersonId());
+        System.out.println(s);
 end 
 
 // The ninth rule is the first of a set of three about Nebivolol
@@ -295,6 +311,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Nebivolol (CYP2D6 PM)"
           "Clonidine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Nebivolol given to CYP2D6 poor metabolizer.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Nebivolol is metabolized by CYP2D6, and patients who are deficient in CYP2D6 (PMs) may develop higher nebivolol plasma \n\tconcentrations and nonselective beta-blockade, which could lead to an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
+        System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, nebivolol, and cyp2d6 PM", currentDateStr, $person.getPersonId());
         System.out.println(s);
 end
 
@@ -326,6 +344,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Nebivolol (CYP2D6 Inhibitors)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, nebivolol, and cyp2d6 inhibitor", currentDateStr, $person.getPersonId());
+        System.out.println(s);
 end
 
 // The eleventh rule is the third of a set of three about Nebivolol
@@ -355,6 +375,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Nebivolol (Dosage)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine and high nebivolol dosage", currentDateStr, $person.getPersonId());
+        System.out.println(s);
 end
 
 // The twelfth rule is the first of a set of two about Atenolol
@@ -380,6 +402,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Atenolol (Clearance)"
           "Clonidine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Atenolol and a low creatinine clearance level (%s mL/min, compared to the threshold value of 40 mL/min).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Atenolol undergoes renal elimination and may produce nonselective beta-blockade with significant renal impairment, which can cause an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $measurement.getValueAsNumber());
+        System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, atenolol, and low clearance", currentDateStr, $person.getPersonId());
         System.out.println(s);
 end
 
@@ -408,6 +432,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Atenolol (Dosage)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine and high atenolol dosage", currentDateStr, $person.getPersonId());
+        System.out.println(s);
 end
 
 // The fourteenth rule is the second of a set of two about Bisoprolol
@@ -433,6 +459,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Bisoprolol (Clearance)"
           "Clonidine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Bisoprolol and a low creatinine clearance level (%s mL/min, compared to the threshold value of 40 mL/min).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Bisoprolol undergoes renal elimination and may produce nonselective beta-blockade with significant renal impairment, which can cause an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $measurement.getValueAsNumber());
+        System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, bisoprolol, and low clearance", currentDateStr, $person.getPersonId());
         System.out.println(s);
 end
 
@@ -461,6 +489,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Bisoprolol (Dosage)"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine and high bisoprolol dosage", currentDateStr, $person.getPersonId());
+        System.out.println(s);
 end
 
 // The sixteenth rule is about Betaxolol
@@ -486,6 +516,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Betaxolol"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine and high betaxolol dose", currentDateStr, $person.getPersonId());
+        System.out.println(s);
 end
 
 // The seventeenth and final rule is about Esmolol
@@ -510,5 +542,7 @@ rule "CLONIDINE - BETA-BLOCKERS -- Esmolol" // THIS RULE IS INCOMPLETE, NOT FUNC
           "Clonidine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: High dosage of esmolol (Daily Dosage: %s mcg/kg/min, compared to the threshold value of 300.0 mcg/kg/min).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: At doses over 300 mcg/kg/min, esmolol can result in nonselective beta-blockade, which can cause an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
+        System.out.println(s);
+	s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine and high esmolol dosage", currentDateStr, $person.getPersonId());
         System.out.println(s);
 end
