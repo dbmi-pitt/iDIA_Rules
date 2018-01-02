@@ -74,6 +74,8 @@ rule "K/K-SPARING DIURETIC -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);      
 end
 
 // The second rule takes patients from the first rule and first filters out any that are taking triamterene at a dosage > 37.5 mg/day
@@ -98,6 +100,8 @@ rule "K/K-SPARING DIURETIC -- Triamterene Dosage"
           $person.getPersonId(),
 	  $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\thigh triamterene dosage", currentDateStr, $person.getPersonId());
+      System.out.println(s);      	
 end
 
 // The third rule takes the remaining patients and filters out any patients that do not have lab values for serum potassium within 48 hours
@@ -119,6 +123,8 @@ rule "K/K-SPARING DIURETIC -- Recency of Lab Tests"
           "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Risk of hyperkalemia.\n\tMitigating factor: Serum potassium not measured within 48 hours.\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Serum potassium was not measured recently, and a high serum potassium is a risk factor that increases chance of hyperkalemia \n\tin patients on both a potassium preparation and a K-sparing diuretic.", 
           $person.getPersonId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tinvalid potassium labs", currentDateStr, $person.getPersonId());
+      System.out.println(s);      		
 end
 
 // The fourth rule takes the remaining patients and filters out any that have a serum potassium value of > 4.5 mEq/L
@@ -143,6 +149,8 @@ rule "K/K-SPARING DIURETIC -- Serum Potassium"
           $person.getPersonId(),
 	  $measurement.getValueAsNumber());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tserum potassium high", currentDateStr, $person.getPersonId());
+      System.out.println(s);      			
 end
 
 // The fifth rule takes the remaining patients and filters out any that are on an ace inhibitor or an ARB
@@ -173,6 +181,8 @@ rule "K/K-SPARING DIURETIC -- ACEi or ARB"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tACEi or ARB", currentDateStr, $person.getPersonId());
+      System.out.println(s);      				
 end
 
 // The sixth rule takes the remaining patients and filters out any that have a creatinine clearance < 30 ml/min
@@ -200,6 +210,8 @@ rule "K/K-SPARING DIURETIC -- Creatinine Clearance"
           $person.getPersonId(),
 	  $measurement.getValueAsNumber());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tcreatinine clearance low", currentDateStr, $person.getPersonId());
+      System.out.println(s);      					
 end
 
 // The seventh rule is the final rule, if the patient does not meet this rule but met all of the others, no alert is fired
@@ -234,4 +246,6 @@ rule "K/K-SPARING DIURETIC -- Potassium Dosage"
           $person.getPersonId(),
 	  $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tk - diuretic, normal potassium, no drugs, normal creatinine, high potassium dose", currentDateStr, $person.getPersonId());
+      System.out.println(s);      						
 end
