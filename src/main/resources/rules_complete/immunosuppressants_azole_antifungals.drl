@@ -76,6 +76,8 @@ rule "IMMUNOSUPPRESSANTS - AZOLES -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tImmunosuppressant - Azole antifungal interaction\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
+      System.out.println(s);      
 end
 
 // The second rule takes the patients from the first rule and identifies those that are specifically involved in a fluconazole/immunosuppressant interaction
@@ -128,6 +130,8 @@ rule "IMMUNOSUPPRESSANTS - AZOLES -- Fluconazole PO"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tImmunosuppressant - Azole antifungal interaction\timmunosuppressant and high dose oral fluconazole", currentDateStr, $person.getPersonId());
+      System.out.println(s);      	
 end
 
 // The fourth rule takes all patients on fluconazole and filters it down to only those on intravenous fluconazole
@@ -156,6 +160,8 @@ rule "IMMUNOSUPPRESSANTS - AZOLES -- Fluconazole IV"
           $de1.getPersonId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tImmunosuppressant - Azole antifungal interaction\timmunosuppressant and a high dose of intravenous fluconazole", currentDateStr, $person.getPersonId());
+      System.out.println(s);      		
 end
 
 // The fifth and final rule takes the patients from the first rule and identifies those that are NOT involved in a fluconazole/immunosuppressant interaction
@@ -183,4 +189,6 @@ rule "IMMUNOSUPPRESSANTS - AZOLES -- No Fluconazole"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tImmunosuppressant - Azole antifungal interaction\timmunosuppressant and non-fluconazole antifungal", currentDateStr, $person.getPersonId());
+      System.out.println(s);      		
 end
