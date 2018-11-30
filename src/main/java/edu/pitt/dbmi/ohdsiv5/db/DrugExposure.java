@@ -25,46 +25,55 @@ public class DrugExposure  implements java.io.Serializable {
     }
     /** full constructor */
     public DrugExposure(Long drugExposureId,
-			Calendar drugExposureStartDate,
-			Calendar drugExposureEndDate,
-			Long personId,
-			Integer drugConceptId,
-			Integer drugTypeConceptId,
-			String stopReason,
-			Short refills,
-			Integer drugQuantity,
-			Short daysSupply,
-			String sig,
-			Integer routeConceptId,
-			String lotNumber,
-			Integer providerId,
-			Long visitOccurrenceId,
-			String drugSourceValue,
-			Integer drugSourceConceptId,
-			String routeSourceValue,
-			String doseUnitSourceValue
-			) {
-	this.drugExposureId = drugExposureId;
+            Calendar drugExposureStartDate,
+            Calendar drugExposureEndDate,
+            Long personId,
+            Integer drugConceptId,
+            Integer drugExposureTypeConceptId,
+            String stopReason,
+            Short refills,
+            Integer drugQuantity,
+            Short daysSupply,
+            String sig,
+            Integer sigExpected,
+            Integer sigMin,
+            Integer sigMax,
+            Integer routeConceptId,
+            Integer effectiveDrugDose,
+            Integer doseUnitConceptId,
+            String lotNumber,
+            Integer providerId,
+            Long visitOccurrenceId,
+            String drugSourceValue,
+            Integer drugSourceConceptId,
+            String routeSourceValue,
+            String doseUnitSourceValue
+            ) {
+    this.drugExposureId = drugExposureId;
         this.drugExposureStartDate = drugExposureStartDate;
         this.drugExposureEndDate = drugExposureEndDate;
         this.personId = personId;
         this.drugConceptId = drugConceptId;
-        this.drugTypeConceptId = drugTypeConceptId;
+        this.drugExposureTypeConceptId = drugExposureTypeConceptId;
         this.stopReason = stopReason;
         this.refills = refills;
         this.drugQuantity = drugQuantity;
         this.daysSupply = daysSupply;
-	this.sig = sig;
-	
-	// v5 additions
-	this.routeConceptId = routeConceptId;
-	this.lotNumber = lotNumber;
-	this.providerId = providerId;
-	this.visitOccurrenceId = visitOccurrenceId;
-	this.drugSourceValue = drugSourceValue;
-	this.drugSourceConceptId = drugSourceConceptId;
-	this.routeSourceValue = routeSourceValue;
-	this.doseUnitSourceValue = doseUnitSourceValue;
+    this.sig = sig;
+    this.sigExpected = sigExpected;
+    this.sigMin = sigMin;
+    this.sigMax = sigMax;
+    // v5 additions
+    this.routeConceptId = routeConceptId;
+    this.effectiveDrugDose = effectiveDrugDose;
+    this.doseUnitConceptId = doseUnitConceptId;
+    this.lotNumber = lotNumber;
+    this.providerId = providerId;
+    this.visitOccurrenceId = visitOccurrenceId;
+    this.drugSourceValue = drugSourceValue;
+    this.drugSourceConceptId = drugSourceConceptId;
+    this.routeSourceValue = routeSourceValue;
+    this.doseUnitSourceValue = doseUnitSourceValue;
     }
      
     // Property accessors
@@ -119,12 +128,12 @@ public class DrugExposure  implements java.io.Serializable {
     }
 
     @Column(name="DRUG_TYPE_CONCEPT_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-    Integer drugTypeConceptId;
-    public Integer getDrugTypeConceptId() {
-        return this.drugTypeConceptId;
+    Integer drugExposureTypeConceptId;
+    public Integer getDrugExposureTypeConceptId() {
+        return this.drugExposureTypeConceptId;
     } 
-    public void setDrugTypeConceptId(Integer drugTypeConceptId) {
-        this.drugTypeConceptId = drugTypeConceptId;
+    public void setDrugExposureTypeConceptId(Integer drugExposureTypeConceptId) {
+        this.drugExposureTypeConceptId = drugExposureTypeConceptId;
     }
 
     @Column(name="STOP_REASON", unique=false, nullable=true, insertable=true, updatable=true, length=20)
@@ -171,77 +180,122 @@ public class DrugExposure  implements java.io.Serializable {
     public void setSig(String sig) {
         this.sig = sig;
     }
+
+    @Column(name="SIG_EXPECTED", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
+    Integer sigExpected;
+    public Integer getSigExpected() {
+        return this.sigExpected;
+    }
+    public void setSigExpected(Integer sigExpected) {
+        this.sigExpected = sigExpected;
+    }
+
+    @Column(name="SIG_MIN", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
+    Integer sigMin;
+    public Integer getSigMin() {
+        return this.sigMin;
+    }
+    public void setSigMin(Integer sigMin) {
+        this.sigMin = sigMin;
+    }
+
+    @Column(name="SIG_MAX", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
+    Integer sigMax;
+    public Integer getSigMax() {
+        return this.sigMax;
+    }
+    public void setSigMax(Integer sigMax) {
+        this.sigMax = sigMax;
+    }
    
     @Column(name="ROUTE_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
     Integer routeConceptId;
     public Integer getRouteConceptId() {
-	return this.routeConceptId;
+    return this.routeConceptId;
     }
     public void setRouteConceptId(Integer routeConceptId) {
-	this.routeConceptId = routeConceptId;
+    this.routeConceptId = routeConceptId;
+    }
+
+    @Column(name="EFFECTIVE_DRUG_DOSE", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
+    Integer effectiveDrugDose;
+    public Integer getEffectiveDrugDose() {
+    return this.effectiveDrugDose;
+    }
+    public void setEffectiveDrugDose(Integer effectiveDrugDose) {
+    this.effectiveDrugDose = effectiveDrugDose;
+    }
+
+    @Column(name="DOSE_UNIT_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
+    Integer doseUnitConceptId;
+    public Integer getDoseUnitConceptId() {
+    return this.doseUnitConceptId;
+    }
+    public void setDoseUnitConceptId(Integer doseUnitConceptId) {
+    this.doseUnitConceptId = doseUnitConceptId;
     }
 
     @Column(name="LOT_NUMBER", unique=false, nullable=true, insertable=true, updatable=true, length=50)
     String lotNumber;
     public String getLotNumber() {
-	return this.lotNumber;
+    return this.lotNumber;
     }
     public void setLotNumber(String lotNumber) {
-	this.lotNumber = lotNumber;
+    this.lotNumber = lotNumber;
     }
 
     @Column(name="PROVIDER_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
     Integer providerId;
     public Integer getProviderId() {
-	return this.providerId;
+    return this.providerId;
     }
     public void setProviderId(Integer providerId) {
-	this.providerId = providerId;
+    this.providerId = providerId;
     }
 
     @Column(name="VISIT_OCCURRENCE_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
     Long visitOccurrenceId;
     public Long getVisitOccurrenceId() {
-	return this.visitOccurrenceId;
+    return this.visitOccurrenceId;
     }
     public void setVisitOccurrenceId(Long visitOccurrenceId) {
-	this.visitOccurrenceId = visitOccurrenceId;
+    this.visitOccurrenceId = visitOccurrenceId;
     }
 
     @Column(name="DRUG_SOURCE_VALUE", unique=false, nullable=true, insertable=true, updatable=true, length=50)
     String drugSourceValue;
     public String getDrugSourceValue() {
-	return this.drugSourceValue;
+    return this.drugSourceValue;
     }
     public void setDrugSourceValue(String drugSourceValue) {
-	this.drugSourceValue = drugSourceValue;
+    this.drugSourceValue = drugSourceValue;
     }
 
     @Column(name="DRUG_SOURCE_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
     Integer drugSourceConceptId;
     public Integer getDrugSourceConceptId() {
-	return this.drugSourceConceptId;
+    return this.drugSourceConceptId;
     }
     public void setDrugSourceConceptId(Integer drugSourceConceptId) {
-	this.drugSourceConceptId = drugSourceConceptId;
+    this.drugSourceConceptId = drugSourceConceptId;
     }
 
     @Column(name="ROUTE_SOURCE_VALUE", unique=false, nullable=true, insertable=true, updatable=true, length=50)
     String routeSourceValue;
     public String getRouteSourceValue() {
-	return this.routeSourceValue;
+    return this.routeSourceValue;
     }
     public void setRouteSourceValue(String routeSourceValue) {
-	this.routeSourceValue = routeSourceValue;
+    this.routeSourceValue = routeSourceValue;
     }
 
     @Column(name="DOSE_UNIT_SOURCE_VALUE", unique=false, nullable=true, insertable=true, updatable=true, length=50)
     String doseUnitSourceValue;
     public String getDoseUnitSourceValue() {
-	return this.doseUnitSourceValue;
+    return this.doseUnitSourceValue;
     }
     public void setDoseUnitSourceValue(String doseUnitSourceValue) {
-	this.doseUnitSourceValue = doseUnitSourceValue;
+    this.doseUnitSourceValue = doseUnitSourceValue;
     }
 
 }
