@@ -1,6 +1,7 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
 import java.util.Calendar;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,11 +26,13 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
     }
     /** full constructor */
     public ExtendedDrugExposure (Long drugExposureId,
-            Calendar drugExposureStartDate,
-            Calendar drugExposureEndDate,
+            Calendar drugExposureStartDateCal,
+            Calendar drugExposureEndDateCal,
+            Timestamp drugExposureStartDate,
+            Timestamp drugExposureEndDate,
             Long personId,
             Integer drugConceptId,
-            Integer drugExposureTypeConceptId,
+            Integer drugTypeConceptId,
             String stopReason,
             Short refills,
             Integer drugQuantity,
@@ -37,10 +40,8 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
             String sig,
             Integer sigExpected,
             Integer sigMin,
-            Integer sigMax,
+            Integer sigMax,  
             Integer routeConceptId,
-            Integer effectiveDrugDose,
-            Integer doseUnitConceptId,
             String lotNumber,
             Integer providerId,
             Long visitOccurrenceId,
@@ -58,11 +59,13 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
             Double dailyDosage
             ) {
     this.drugExposureId = drugExposureId;
-        this.drugExposureStartDate = drugExposureStartDate;
+        this.drugExposureStartDateCal = drugExposureStartDateCal;
+        this.drugExposureEndDateCal = drugExposureEndDateCal;
+    this.drugExposureStartDate = drugExposureStartDate;
         this.drugExposureEndDate = drugExposureEndDate;
         this.personId = personId;
         this.drugConceptId = drugConceptId;
-        this.drugExposureTypeConceptId = drugExposureTypeConceptId;
+        this.drugTypeConceptId = drugTypeConceptId;
         this.stopReason = stopReason;
         this.refills = refills;
         this.drugQuantity = drugQuantity;
@@ -72,8 +75,6 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
     this.sigMin = sigMin;
     this.sigMax = sigMax;
     this.routeConceptId = routeConceptId;
-    this.effectiveDrugDose = effectiveDrugDose;
-    this.doseUnitConceptId = doseUnitConceptId;
     this.lotNumber = lotNumber;
     this.providerId = providerId;
     this.visitOccurrenceId = visitOccurrenceId;
@@ -90,11 +91,56 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
     this.denominatorUnitConceptId = denominatorUnitConceptId;
     this.dailyDosage = dailyDosage;
     }
+
+    Calendar drugExposureStartDateCal;
+    public Calendar getDrugExposureStartDateCal() {
+        return this.drugExposureStartDateCal;
+    }
+    public void setDrugExposureStartDateCal(Calendar drugExposureStartDateCal) {
+        this.drugExposureStartDateCal = drugExposureStartDateCal;
+    }
     
+    Calendar drugExposureEndDateCal;
+    public Calendar getDrugExposureEndDateCal() {
+        return this.drugExposureEndDateCal;
+    }
+    public void setDrugExposureEndDateCal(Calendar drugExposureEndDateCal) {
+        this.drugExposureEndDateCal = drugExposureEndDateCal;
+    }
+    
+
+    @Transient
+    Integer sigExpected;
+    public Integer getSigExpected() {
+        return this.sigExpected;
+    }
+    public void setSigExpected(Integer sigExpected) {
+        this.sigExpected = sigExpected;
+    }
+
+    @Transient
+    Integer sigMin;
+    public Integer getSigMin() {
+        return this.sigMin;
+    }
+    public void setSigMin(Integer sigMin) {
+        this.sigMin = sigMin;
+    }
+
+    @Transient
+    Integer sigMax;
+    public Integer getSigMax() {
+        return this.sigMax;
+    }
+    public void setSigMax(Integer sigMax) {
+        this.sigMax = sigMax;
+    }
+
+
     @Transient
     Integer ingredientConceptId;
     public Integer getIngredientConceptId() {
-       return this.ingredientConceptId;
+    return this.ingredientConceptId;
     }
     public void setIngredientConceptId(Integer ingredientConceptId) {
     this.ingredientConceptId = ingredientConceptId;
@@ -112,46 +158,46 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
     @Transient
     Integer amountUnitConceptId;
     public Integer getAmountUnitConceptId() {
-       return this.amountUnitConceptId;
+    return this.amountUnitConceptId;
     }
     public void setAmountUnitConceptId(Integer amountUnitConceptId) {
-       this.amountUnitConceptId = amountUnitConceptId;
+    this.amountUnitConceptId = amountUnitConceptId;
     }
 
     @Transient
     Double numeratorValue;
     public Double getNumeratorValue() {
-       return this.numeratorValue;
+    return this.numeratorValue;
     }
     public void setNumeratorValue(Double numeratorValue) {
-       this.numeratorValue = numeratorValue;
+    this.numeratorValue = numeratorValue;
     }
 
     @Transient
     Integer numeratorUnitConceptId;
     public Integer getNumeratorUnitConceptId() {
-       return this.numeratorUnitConceptId;
+    return this.numeratorUnitConceptId;
     }
     public void setNumeratorUnitConceptId(Integer numeratorUnitConceptId) {
-       this.numeratorUnitConceptId = numeratorUnitConceptId;
+    this.numeratorUnitConceptId = numeratorUnitConceptId;
     }
 
     @Transient
     Double denominatorValue;
     public Double getDenominatorValue() {
-       return this.denominatorValue;
+    return this.denominatorValue;
     }
     public void setDenominatorValue(Double denominatorValue) {
-       this.denominatorValue = denominatorValue;
+    this.denominatorValue = denominatorValue;
     }
     
     @Transient
     Integer denominatorUnitConceptId;
     public Integer getDenominatorUnitConceptId() {
-       return this.denominatorUnitConceptId;
+    return this.denominatorUnitConceptId;
     }
     public void setDenominatorUnitConceptId(Integer denominatorUnitConceptId) {
-       this.denominatorUnitConceptId = denominatorUnitConceptId;
+    this.denominatorUnitConceptId = denominatorUnitConceptId;
     }
 
     @Transient
@@ -160,15 +206,15 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
         return this.dailyDosage;
     }    
     public void setNullDailyDosage(Double amountValue) {
-       this.dailyDosage = amountValue;
+    this.dailyDosage = amountValue;
     }
     public void setRegDailyDosage(Integer drugQuantity, Short daysSupply, Double amountValue) {
-        dailyDosage = ((drugQuantity * amountValue) / daysSupply);
-        this.dailyDosage = dailyDosage;               
+    dailyDosage = ((drugQuantity * amountValue) / daysSupply);
+    this.dailyDosage = dailyDosage;               
     }  
     public void setComplexDailyDosage(Integer drugQuantity, Short daysSupply, Double numeratorValue){
-        dailyDosage = ((drugQuantity * numeratorValue) / daysSupply);
-        this.dailyDosage = dailyDosage;
+    dailyDosage = ((drugQuantity * numeratorValue) / daysSupply);
+    this.dailyDosage = dailyDosage;
     }
     public void setSigDailyDosage(Double amountValue, Double sigExpected) {
         dailyDosage = amountValue * sigExpected;

@@ -1,6 +1,7 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
 import java.util.Calendar;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,22 +26,19 @@ public class DrugExposure  implements java.io.Serializable {
     }
     /** full constructor */
     public DrugExposure(Long drugExposureId,
-            Calendar drugExposureStartDate,
-            Calendar drugExposureEndDate,
+            // Calendar drugExposureStartDate,
+            // Calendar drugExposureEndDate,
+            Timestamp drugExposureStartDate,
+            Timestamp drugExposureEndDate,
             Long personId,
             Integer drugConceptId,
-            Integer drugExposureTypeConceptId,
+            Integer drugTypeConceptId,
             String stopReason,
             Short refills,
             Integer drugQuantity,
             Short daysSupply,
             String sig,
-            Integer sigExpected,
-            Integer sigMin,
-            Integer sigMax,
             Integer routeConceptId,
-            Integer effectiveDrugDose,
-            Integer doseUnitConceptId,
             String lotNumber,
             Integer providerId,
             Long visitOccurrenceId,
@@ -54,19 +52,15 @@ public class DrugExposure  implements java.io.Serializable {
         this.drugExposureEndDate = drugExposureEndDate;
         this.personId = personId;
         this.drugConceptId = drugConceptId;
-        this.drugExposureTypeConceptId = drugExposureTypeConceptId;
+        this.drugTypeConceptId = drugTypeConceptId;
         this.stopReason = stopReason;
         this.refills = refills;
         this.drugQuantity = drugQuantity;
         this.daysSupply = daysSupply;
     this.sig = sig;
-    this.sigExpected = sigExpected;
-    this.sigMin = sigMin;
-    this.sigMax = sigMax;
+    
     // v5 additions
     this.routeConceptId = routeConceptId;
-    this.effectiveDrugDose = effectiveDrugDose;
-    this.doseUnitConceptId = doseUnitConceptId;
     this.lotNumber = lotNumber;
     this.providerId = providerId;
     this.visitOccurrenceId = visitOccurrenceId;
@@ -90,21 +84,37 @@ public class DrugExposure  implements java.io.Serializable {
         this.drugExposureId = drugExposureId;
     }
 
-    @Column(name="DRUG_EXPOSURE_START_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7)
-    Calendar drugExposureStartDate;
-    public Calendar getDrugExposureStartDate() {
+    //@Column(name="DRUG_EXPOSURE_START_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7)
+    // Calendar drugExposureStartDate;
+    // public Calendar getDrugExposureStartDate() {
+    //     return this.drugExposureStartDate;
+    // }    
+    // public void setDrugExposureStartDate(Calendar drugExposureStartDate) {
+    //     this.drugExposureStartDate = drugExposureStartDate;
+    // }
+    @Column(name="DRUG_EXPOSURE_START_DATETIME", unique=false, nullable=true, insertable=true, updatable=true, length=7)
+    Timestamp drugExposureStartDate;
+    public Timestamp getDrugExposureStartDate() {
         return this.drugExposureStartDate;
     }    
-    public void setDrugExposureStartDate(Calendar drugExposureStartDate) {
+    public void setDrugExposureStartDate(Timestamp drugExposureStartDate) {
         this.drugExposureStartDate = drugExposureStartDate;
     }
-
-    @Column(name="DRUG_EXPOSURE_END_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7)
-    Calendar drugExposureEndDate;
-    public Calendar getDrugExposureEndDate() {
+    
+    //@Column(name="DRUG_EXPOSURE_END_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7)
+    // Calendar drugExposureEndDate;
+    // public Calendar getDrugExposureEndDate() {
+    //     return this.drugExposureEndDate;
+    // }
+    // public void setDrugExposureEndDate(Calendar drugExposureEndDate) {
+    //     this.drugExposureEndDate = drugExposureEndDate;
+    // }
+    @Column(name="DRUG_EXPOSURE_END_DATETIME", unique=false, nullable=true, insertable=true, updatable=true, length=7)
+    Timestamp drugExposureEndDate;
+    public Timestamp getDrugExposureEndDate() {
         return this.drugExposureEndDate;
     }
-    public void setDrugExposureEndDate(Calendar drugExposureEndDate) {
+    public void setDrugExposureEndDate(Timestamp drugExposureEndDate) {
         this.drugExposureEndDate = drugExposureEndDate;
     }
 
@@ -128,12 +138,12 @@ public class DrugExposure  implements java.io.Serializable {
     }
 
     @Column(name="DRUG_TYPE_CONCEPT_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-    Integer drugExposureTypeConceptId;
-    public Integer getDrugExposureTypeConceptId() {
-        return this.drugExposureTypeConceptId;
+    Integer drugTypeConceptId;
+    public Integer getDrugTypeConceptId() {
+        return this.drugTypeConceptId;
     } 
-    public void setDrugExposureTypeConceptId(Integer drugExposureTypeConceptId) {
-        this.drugExposureTypeConceptId = drugExposureTypeConceptId;
+    public void setDrugTypeConceptId(Integer drugTypeConceptId) {
+        this.drugTypeConceptId = drugTypeConceptId;
     }
 
     @Column(name="STOP_REASON", unique=false, nullable=true, insertable=true, updatable=true, length=20)
@@ -181,33 +191,7 @@ public class DrugExposure  implements java.io.Serializable {
         this.sig = sig;
     }
 
-    @Column(name="SIG_EXPECTED", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-    Integer sigExpected;
-    public Integer getSigExpected() {
-        return this.sigExpected;
-    }
-    public void setSigExpected(Integer sigExpected) {
-        this.sigExpected = sigExpected;
-    }
-
-    @Column(name="SIG_MIN", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-    Integer sigMin;
-    public Integer getSigMin() {
-        return this.sigMin;
-    }
-    public void setSigMin(Integer sigMin) {
-        this.sigMin = sigMin;
-    }
-
-    @Column(name="SIG_MAX", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-    Integer sigMax;
-    public Integer getSigMax() {
-        return this.sigMax;
-    }
-    public void setSigMax(Integer sigMax) {
-        this.sigMax = sigMax;
-    }
-   
+    
     @Column(name="ROUTE_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
     Integer routeConceptId;
     public Integer getRouteConceptId() {
@@ -215,24 +199,6 @@ public class DrugExposure  implements java.io.Serializable {
     }
     public void setRouteConceptId(Integer routeConceptId) {
     this.routeConceptId = routeConceptId;
-    }
-
-    @Column(name="EFFECTIVE_DRUG_DOSE", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-    Integer effectiveDrugDose;
-    public Integer getEffectiveDrugDose() {
-    return this.effectiveDrugDose;
-    }
-    public void setEffectiveDrugDose(Integer effectiveDrugDose) {
-    this.effectiveDrugDose = effectiveDrugDose;
-    }
-
-    @Column(name="DOSE_UNIT_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-    Integer doseUnitConceptId;
-    public Integer getDoseUnitConceptId() {
-    return this.doseUnitConceptId;
-    }
-    public void setDoseUnitConceptId(Integer doseUnitConceptId) {
-    this.doseUnitConceptId = doseUnitConceptId;
     }
 
     @Column(name="LOT_NUMBER", unique=false, nullable=true, insertable=true, updatable=true, length=50)
