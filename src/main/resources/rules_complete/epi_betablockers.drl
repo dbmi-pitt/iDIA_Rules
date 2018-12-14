@@ -502,7 +502,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Clearance)"
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
   // using eGFR as a measure for kidney function, alert if below 60 based on the rule specification
         // TODO: fix to ensure measurement is not too distant in the past, e,g, use within48Hours
-       $measurement : Measurement(personId == $person.getPersonId() && (measurementConceptId == 3053283 || measurementConceptId == 3016723) && valueAsNumber < 60 && (unitSourceValue == 'mL/min/1.73m2' || unitSourceValue ==  'ml/min/1.73sq.m'))
+    $measurement : Measurement(personId == $person.getPersonId() && (measurementConceptId == 3053283 || measurementConceptId == 3016723) && valueAsNumber < 60 && (unitSourceValue == 'mL/min/1.73m2' || unitSourceValue ==  'ml/min/1.73sq.m') && (measurementDate >= within48hours.getTime()) && (measurementDate <= currentDate.getTime()))
     then  
   // This creates a new "state" for any patients who are found to be on Atenolol with low creatinine clearance
         RHSState rhsNN = new RHSState("epinephrine, atenolol, and low clearance", "yes", $rhs.getPerson());
@@ -512,8 +512,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Clearance)"
           "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Atenolol and a poor kidney function based on eGFR measurement (%s %s, compared to the threshold value of 60 mL/min).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Atenolol undergoes renal elimination and may produce nonselective beta-blockade with significant renal impairment, which can cause an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $measurement.getValueAsNumber(),
-    $measurement.getUnitSourceValue());
+          $measurement.getUnitSourceValue());
         System.out.println(s);
+        System.out.println("MEASUREMENT DATE: " + $measurement.getMeasurementDate() + "\nWITHIN 48 HOURS DATE: " + within48hours.getTime() + "\nCURRENT DATE: " + currentDate.getTime());
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, atenolol, and low clearance", currentDateStr, $person.getPersonId());
       System.out.println(s);  
 end
@@ -534,7 +535,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Dosage)"
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage != null && dailyDosage > 100 )                
+    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage != null && dailyDosage >= 100 )                
     then  
   // This creates a new "state" for any patients who are found to be on Atenolol with high dosage
         RHSState rhsNN = new RHSState("epinephrine and high atenolol dosage", "yes", $rhs.getPerson());
@@ -566,7 +567,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Clearance)"
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
   // using eGFR as a measure for kidney function, alert if below 60 based on the rule specification
       // TODO: fix to ensure measurement is not too distant in the past, e,g, use within48Hours
-    $measurement : Measurement(personId == $person.getPersonId() && (measurementConceptId == 3053283 || measurementConceptId == 3016723) && valueAsNumber < 60 && (unitSourceValue == 'mL/min/1.73m2' || unitSourceValue ==  'ml/min/1.73sq.m'))
+    $measurement : Measurement(personId == $person.getPersonId() && (measurementConceptId == 3053283 || measurementConceptId == 3016723) && valueAsNumber < 60 && (unitSourceValue == 'mL/min/1.73m2' || unitSourceValue ==  'ml/min/1.73sq.m') && (measurementDate >= within48hours.getTime()) && (measurementDate <= currentDate.getTime()))
     then  
   // This creates a new "state" for any patients who are found to be on Bisoprolol with low creatinine clearance
         RHSState rhsNN = new RHSState("epinephrine, bisoprolol, and low clearance", "yes", $rhs.getPerson());
@@ -576,8 +577,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Clearance)"
           "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Bisoprolol and poor kidney function as measure by eGFR (%s %s, compared to the threshold value of 60 mL/min).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Bisoprolol undergoes renal elimination and may produce nonselective beta-blockade with significant renal impairment, which can cause an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $measurement.getValueAsNumber(),
-    $measurement.getUnitSourceValue());
+          $measurement.getUnitSourceValue());
         System.out.println(s);
+        System.out.println("MEASUREMENT DATE: " + $measurement.getMeasurementDate() + "\nWITHIN 48 HOURS DATE: " + within48hours.getTime() + "\nCURRENT DATE: " + currentDate.getTime());
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, bisoprolol, and low clearance", currentDateStr, $person.getPersonId());
       System.out.println(s);    
 end
