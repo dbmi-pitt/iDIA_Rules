@@ -17,7 +17,7 @@ with open("data.csv", "rb") as infile, open("output.sql", "wb") as outfile:
             out_string = ("INSERT INTO condition_era (condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date) values (" + row[1] + ", " + row[2] + ", " + row[4] + ", '" + row[5] + "', '" + row[6] + "');\n")
             outfile.write(out_string) 
        elif row[0] == "D_EXP":
-            out_string = ("INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_type_concept_id, quantity, days_supply) values (" + row[1] + ", " + row[2] + ", " + row[4] + ", '" + row[5] + "', 38000175, " + row[9] + ", " + row[10] + ");\n")
+            out_string = ("INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_end_date, drug_type_concept_id, quantity, days_supply, sig, indication_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime) values (" + row[1] + ", " + row[2] + ", " + row[4] + ", '" + row[5] + "', '" + row[6] + "', 38000175, " + row[9] + ", " + row[10] + ", '" + row[13] + "', " + row[14] + ", '" + row[5] + " 00:00:00', '" + row[6] + " 00:00:00'" + ");\n")
             outfile.write(out_string)   
        elif row[0] == "MEA":
             out_string = ("INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (" + row[1] + ", " + row[2] + ", " + row[4] + ", '" + row[5] + "', 45754907, " + row[7] + ", " + row[8] + ");\n")
