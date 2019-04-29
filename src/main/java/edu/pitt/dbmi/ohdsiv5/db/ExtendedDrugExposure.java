@@ -56,7 +56,8 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
             Integer numeratorUnitConceptId,
             Double denominatorValue,
             Integer denominatorUnitConceptId,
-            Double dailyDosage
+            Double dailyDosage,
+            Integer indicationConceptId
             ) {
     this.drugExposureId = drugExposureId;
         this.drugExposureStartDateCal = drugExposureStartDateCal;
@@ -90,6 +91,7 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
     this.denominatorValue = denominatorValue;
     this.denominatorUnitConceptId = denominatorUnitConceptId;
     this.dailyDosage = dailyDosage;
+    this.indicationConceptId = indicationConceptId;
     }
 
     Calendar drugExposureStartDateCal;

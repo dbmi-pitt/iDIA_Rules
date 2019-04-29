@@ -1,8 +1,12 @@
 package com.sample;
 
+import org.kie.api.KieBase;
+import org.kie.internal.builder.conf.RuleEngineOption;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.logger.KieRuntimeLogger;
+import org.kie.api.KieBaseConfiguration; 
 //import org.drools.runtime.rule.WorkingMemory;
 
 // import com.sample.model.Risk;
@@ -143,12 +147,14 @@ public class DroolsTest {
 	System.out.println("INFO: number of visit occurrences for persons with drug eras during the date range: " + voccs.size());
 	
 	// Query to create the "extended drug exposure" that includes drug strength and ingredient
-	List<Object> temps = (List<Object>) hibernateSession.createQuery("SELECT dexp.drugExposureId, dexp.personId, dexp.drugConceptId, to_char(dexp.drugExposureStartDate, 'yyyy-MM-dd HH24:MI:SS') as drugExposureStartDate, to_char(dexp.drugExposureEndDate, 'yyyy-MM-dd HH24:MI:SS') as drugExposureEndDate, dexp.drugTypeConceptId, dexp.stopReason, dexp.refills, dexp.drugQuantity, dexp.daysSupply, dexp.sig, sm.expected, sm.min, sm.max, dexp.routeConceptId, dexp.lotNumber, dexp.providerId, dexp.visitOccurrenceId, dexp.drugSourceValue, dexp.drugSourceConceptId, dexp.routeSourceValue, dexp.doseUnitSourceValue, dstr.amountValue, dstr.amountUnitConceptId, dstr.numeratorValue, dstr.numeratorUnitConceptId, dstr.denominatorValue, dstr.denominatorUnitConceptId, dstr.ingredientConceptId " +
+	List<Object> temps = (List<Object>) hibernateSession.createQuery("SELECT dexp.drugExposureId, dexp.personId, dexp.drugConceptId, to_char(dexp.drugExposureStartDate, 'yyyy-MM-dd HH24:MI:SS') as drugExposureStartDate, to_char(dexp.drugExposureEndDate, 'yyyy-MM-dd HH24:MI:SS') as drugExposureEndDate, dexp.drugTypeConceptId, dexp.stopReason, dexp.refills, dexp.drugQuantity, dexp.daysSupply, dexp.sig, sm.expected, sm.min, sm.max, dexp.routeConceptId, dexp.lotNumber, dexp.providerId, dexp.visitOccurrenceId, dexp.drugSourceValue, dexp.drugSourceConceptId, dexp.routeSourceValue, dexp.doseUnitSourceValue, dstr.amountValue, dstr.amountUnitConceptId, dstr.numeratorValue, dstr.numeratorUnitConceptId, dstr.denominatorValue, dstr.denominatorUnitConceptId, dstr.ingredientConceptId, dexp.indicationConceptId " +
   "FROM DrugExposure dexp, DrugStrength dstr, SigMapping sm " +
   "WHERE dexp.drugConceptId = dstr.drugConceptId " +
      "AND dexp.sig = sm.sig " +
      "AND dexp.personId IN " +
         "(SELECT DISTINCT de.personId FROM DrugEra AS de WHERE drugEraStartDate <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drugEraEndDate >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
+	System.out.println("INFO: number of temp drug exposures: " + temps.size());
+	// System.out.println("INFO: temp drug exposures: " + temps.toString());
 	
 	DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	List<ExtendedDrugExposure> ex_dexps = new ArrayList<ExtendedDrugExposure>();	
@@ -170,7 +176,7 @@ public class DroolsTest {
 	    catch (DateTimeParseException e) 
 	    {
 		e.printStackTrace();}
-
+		System.out.println("END DATE" + String.valueOf(obj[4]));
 	    if(String.valueOf(obj[4]) != "null"){
 	      try 
 	      {
@@ -234,7 +240,7 @@ public class DroolsTest {
 	    if(String.valueOf(obj[27]) != "null"){
 	      ex_dexp.setDenominatorUnitConceptId(Integer.parseInt(String.valueOf(obj[27])));}	      
 
-            // use sigExpected and amountValue
+        // Prioritize Sig field for daily dosage. use sigExpected and amountValue
 	    if(String.valueOf(obj[11]) != "null" && String.valueOf(obj[22]) != "null"){
                 ex_dexp.setSigDailyDosage(Double.parseDouble(String.valueOf(obj[11])), Double.parseDouble(String.valueOf(obj[22])));
 	    }
@@ -250,6 +256,9 @@ public class DroolsTest {
 	      ex_dexp.setNullDailyDosage(0.00);
 	  	}	      
 	    ex_dexp.setIngredientConceptId(Integer.parseInt(String.valueOf(obj[28])));
+	    if(String.valueOf(obj[29]) != "null"){
+	      ex_dexp.setIndicationConceptId(Integer.parseInt(String.valueOf(obj[29])));
+	    }
 	    ex_dexps.add(ex_dexp);
 
 	}	
@@ -260,11 +269,21 @@ public class DroolsTest {
 	//-------------------------------------------------
 
 	// Run the rule engine
-	KieServices ks = KieServices.Factory.get();
-	KieContainer kContainer = ks.getKieClasspathContainer();
 	
+	KieServices ks = KieServices.Factory.get();
+    KieContainer kContainer = ks.getKieClasspathContainer();
+    
 	System.out.println("INFO: Rule engine session open!");	
-	KieSession kSession = kContainer.newKieSession(rule_folder); // This is the line that should be edited in the configuration file to change what rules are fired!
+	// KieSession kSession1 = kContainer.newKieSession(rule_folder); // This is the line that should be edited in the  configuration file to change what rules are fired!
+
+    // Switching Between PHREAK and ReteOO for the rule engine
+	KieBaseConfiguration kconfig = ks.newKieBaseConfiguration();
+    // kconfig.setOption(RuleEngineOption.RETEOO);
+    kconfig.setOption(RuleEngineOption.PHREAK);
+    KieBase kbase = kContainer.newKieBase("rules_progress", kconfig);
+    KieSession kSession = kbase.newKieSession();
+	
+	KieRuntimeLogger kieLogger = ks.getLoggers().newFileLogger(kSession, "audit");
 	kSession.setGlobal("hibernateSession", hibernateSession);
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -317,21 +336,42 @@ public class DroolsTest {
 	    kSession.insert((VisitOccurrence) hibernateSession.get(VisitOccurrence.class, vocc.getVisitOccurrenceId()));
 	    cnt++;
 	}
+	
+	//// Tried to sleep the thread in case the inserts above are not settled in working memory due
+    //// to multi-threaded issues.
+    // try {
+    // 	Thread.sleep(2000);
+    // } catch (Exception e) {
+    //     System.out.println(e);
+    // }
+
 	for (ExtendedDrugExposure ex_dexp : ex_dexps){
 	    kSession.insert((ExtendedDrugExposure) ex_dexp);
 	    cnt++;
 	}
+
 	System.out.println("Number of facts asserted: " + cnt);	
 	System.out.println("Total number of facts that should've been asserted: " + total_cnt);
-            
+
+
 	System.out.println("Firing rules for assessment...");
 	// fire rules
-	kSession.fireAllRules();            
-             
+	int nrules = -1;
+	try {
+	  nrules = kSession.fireAllRules();
+	  // kSession.fireUntilHalt(); // Tried to switch to this approach to firing rules but it did not fix the issue
+	} catch (Throwable t) {     
+		System.out.println("Firing rules triggered an exception:");
+		t.printStackTrace();
+	}
+    System.out.println("INFO: number of rules fired (-1 on error):" + nrules);
+
 	closeDbSession();
 	System.out.println("INFO: Hibernate session closed!");
 	
+	kieLogger.close();
 	kSession.dispose();
+	kSession.destroy();
 	System.out.println("INFO: Rule engine session closed!"); 
             
     }       
