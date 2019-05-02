@@ -31,7 +31,7 @@ global java.util.Calendar within28days;
 
 rule "TEST - PERSON"
   when
-    $person : Person(yearOfBirth == 1935)
+    $person : Person(yearOfBirth > 1940)
   then
     String s = String.format("MATCHED PERSON ID %d\n YEAR OF BIRTH %d",
       $person.getPersonId(),
