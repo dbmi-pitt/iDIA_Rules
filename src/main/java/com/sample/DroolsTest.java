@@ -98,8 +98,10 @@ public class DroolsTest {
 	hibernateSession.beginTransaction();
 
 	//***** simple debugging query *****
-	//List<Long> personIds = (List<Long>) hibernateSession.createQuery("SELECT personId FROM Person WHERE personId in (3,63,123,183)").list();
-	//System.out.println("INFO: personIds: " + personIds.toString());
+	SQLQuery personQuery = hibernateSession.createSQLQuery("SELECT * FROM person");
+	personQuery.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+	List personResults = personQuery.list();
+	System.out.println("INFO: number of persons: " + personResults.size());
 
 	//**** Pull data to be loaded into Drools working memory *****
 	// pull data from a specific date
@@ -284,7 +286,6 @@ public class DroolsTest {
     KieSession kSession = kbase.newKieSession();
 	
 	KieRuntimeLogger kieLogger = ks.getLoggers().newFileLogger(kSession, "audit");
-	kSession.setGlobal("hibernateSession", hibernateSession);
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	try 
@@ -315,13 +316,21 @@ public class DroolsTest {
 	    Map map = (Map) iter.next();
 	    kSession.insert( new ConceptSetItem((String) map.get("concept_set_name"), (Integer) map.get("concept_id")));
 	    cnt++;
-	}	
+	}
+	// TEST PERSON SQL
+	iter = personResults.iterator();
+	while (iter.hasNext()){
+		Map map = (Map) iter.next();
+		System.out.println("PERSON SQL" + map);
+		// ksession.insert((Person) hibernateSession.get(Person.class, map.get("person_id")));
+		// cnt++;
+	}
 	for (DrugEra dera : deras) {           	
 	    kSession.insert((DrugEra) hibernateSession.get(DrugEra.class, dera.getDrugEraId()));            	
 	    cnt++;
 	}
 	for (Person p : persons) {           	
-	    kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));            	
+	    kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));
 	    cnt++;
 	}	
 	for (ConditionEra cera : ceras) {           	

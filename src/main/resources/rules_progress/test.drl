@@ -1,0 +1,40 @@
+package com.sample
+
+//list any import classes here.
+import function com.sample.DRLLogger.*;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Calendar;
+import java.lang.String;
+
+import com.sample.model.ConceptSetItem;
+import com.sample.model.RHSState;
+
+import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
+import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.Measurement;
+import edu.pitt.dbmi.ohdsiv5.db.Person;
+
+
+/////////// 
+// declare any global variables here
+/////////// 
+global java.lang.String currentDateStr;
+global java.util.Calendar currentDate;
+global java.util.Calendar within48hours;
+global java.util.Calendar within28days;
+
+rule "TEST - PERSON"
+  when
+    $person : Person(yearOfBirth == 1935)
+  then
+    String s = String.format("MATCHED PERSON ID %d\n YEAR OF BIRTH %d",
+      $person.getPersonId(),
+      $person.getYearOfBirth());
+    System.out.println(s);
+end
