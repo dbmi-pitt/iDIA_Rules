@@ -321,18 +321,24 @@ public class DroolsTest {
 	iter = personResults.iterator();
 	while (iter.hasNext()){
 		Map map = (Map) iter.next();
-		System.out.println("PERSON SQL" + map);
-		// ksession.insert((Person) hibernateSession.get(Person.class, map.get("person_id")));
-		// cnt++;
+		System.out.println("PERSON SQL " + map);
+		// example map object:
+		// {gender_concept_id=8507, day_of_birth=1, ethnicity_source_concept_id=null, race_source_concept_id=null, care_site_id=null, gender_source_concept_id=null, race_source_value=null, location_id=321, year_of_birth=1955, death_datetime=null, person_source_value=null, gender_source_value=null, ethnicity_concept_id=38003564, race_concept_id=8527, month_of_birth=1, ethnicity_source_value=null, provider_id=null, birth_datetime=null, person_id=1564}
+		Person p = new Person();
+		Long pId = ((Number) map.get("person_id")).longValue();
+		p.setPersonId(pId);
+		p.setYearOfBirth( (Integer) map.get("year_of_birth"));
+		kSession.insert(p);
+		cnt++;
 	}
 	for (DrugEra dera : deras) {           	
 	    kSession.insert((DrugEra) hibernateSession.get(DrugEra.class, dera.getDrugEraId()));            	
 	    cnt++;
 	}
-	for (Person p : persons) {           	
-	    kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));
-	    cnt++;
-	}	
+	// for (Person p : persons) {           	
+	//     kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));
+	//     cnt++;
+	// }	
 	for (ConditionEra cera : ceras) {           	
 	    kSession.insert((ConditionEra) hibernateSession.get(ConditionEra.class, cera.getConditionEraId()));            	
 	    cnt++;
