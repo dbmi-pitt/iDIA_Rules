@@ -31,7 +31,6 @@ import edu.pitt.dbmi.ohdsiv5.db.Person;
 /////////// 
 // declare any global variables here
 /////////// 
-global org.hibernate.Session hibernateSession;
 global java.lang.String currentDateStr;
 global java.util.Calendar currentDate;
 global java.util.Calendar within48hours;
