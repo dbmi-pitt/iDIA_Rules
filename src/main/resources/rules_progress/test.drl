@@ -1,3 +1,7 @@
+/*
+Simple debugging rule for finding persons who were born after the year 1940.
+*/
+
 package com.sample
 
 //list any import classes here.
@@ -33,7 +37,7 @@ rule "TEST - PERSON"
   when
     $person : Person(yearOfBirth > 1940)
   then
-    String s = String.format("MATCHED PERSON ID %d\n YEAR OF BIRTH %d",
+    String s = String.format("MATCHED PERSON ID %d\n\tYEAR OF BIRTH %d",
       $person.getPersonId(),
       $person.getYearOfBirth());
     System.out.println(s);
