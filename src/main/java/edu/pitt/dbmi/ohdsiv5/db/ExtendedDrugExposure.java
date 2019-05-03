@@ -59,10 +59,10 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
             Double dailyDosage,
             Integer indicationConceptId
             ) {
-    this.drugExposureId = drugExposureId;
+        this.drugExposureId = drugExposureId;
         this.drugExposureStartDateCal = drugExposureStartDateCal;
         this.drugExposureEndDateCal = drugExposureEndDateCal;
-    this.drugExposureStartDate = drugExposureStartDate;
+        this.drugExposureStartDate = drugExposureStartDate;
         this.drugExposureEndDate = drugExposureEndDate;
         this.personId = personId;
         this.drugConceptId = drugConceptId;
@@ -71,27 +71,27 @@ public class ExtendedDrugExposure extends DrugExposure implements java.io.Serial
         this.refills = refills;
         this.drugQuantity = drugQuantity;
         this.daysSupply = daysSupply;
-    this.sig = sig;
-    this.sigExpected = sigExpected;
-    this.sigMin = sigMin;
-    this.sigMax = sigMax;
-    this.routeConceptId = routeConceptId;
-    this.lotNumber = lotNumber;
-    this.providerId = providerId;
-    this.visitOccurrenceId = visitOccurrenceId;
-    this.drugSourceValue = drugSourceValue;
-    this.drugSourceConceptId = drugSourceConceptId;
-    this.routeSourceValue = routeSourceValue;
-    this.doseUnitSourceValue = doseUnitSourceValue;
-    this.ingredientConceptId = ingredientConceptId;
-    this.amountValue = amountValue;
-    this.amountUnitConceptId = amountUnitConceptId;
-    this.numeratorValue = numeratorValue;
-    this.numeratorUnitConceptId = numeratorUnitConceptId;
-    this.denominatorValue = denominatorValue;
-    this.denominatorUnitConceptId = denominatorUnitConceptId;
-    this.dailyDosage = dailyDosage;
-    this.indicationConceptId = indicationConceptId;
+        this.sig = sig;
+        this.sigExpected = sigExpected;
+        this.sigMin = sigMin;
+        this.sigMax = sigMax;
+        this.routeConceptId = routeConceptId;
+        this.lotNumber = lotNumber;
+        this.providerId = providerId;
+        this.visitOccurrenceId = visitOccurrenceId;
+        this.drugSourceValue = drugSourceValue;
+        this.drugSourceConceptId = drugSourceConceptId;
+        this.routeSourceValue = routeSourceValue;
+        this.doseUnitSourceValue = doseUnitSourceValue;
+        this.ingredientConceptId = ingredientConceptId;
+        this.amountValue = amountValue;
+        this.amountUnitConceptId = amountUnitConceptId;
+        this.numeratorValue = numeratorValue;
+        this.numeratorUnitConceptId = numeratorUnitConceptId;
+        this.denominatorValue = denominatorValue;
+        this.denominatorUnitConceptId = denominatorUnitConceptId;
+        this.dailyDosage = dailyDosage;
+        this.indicationConceptId = indicationConceptId;
     }
 
     Calendar drugExposureStartDateCal;
