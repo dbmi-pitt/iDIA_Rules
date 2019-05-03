@@ -115,22 +115,23 @@ public class DroolsTest {
 	// String dateStr = "2016-01-17"; // Warfarin - SSRI/SNRIs for banner population
 	
 	// Get concept ids and names from the defined concept sets. There is currently no hibernate mapping for this.
-	SQLQuery query = hibernateSession.createSQLQuery("SELECT concept_set_name,concept_id FROM ohdsi.concept_set cs INNER JOIN ohdsi.concept_set_item csi ON cs.concept_set_id = csi.concept_set_id");
-	query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-	List csItemResults =  query.list();
+	SQLQuery csQuery = hibernateSession.createSQLQuery("SELECT concept_set_name,concept_id FROM ohdsi.concept_set cs INNER JOIN ohdsi.concept_set_item csi ON cs.concept_set_id = csi.concept_set_id");
+	csQuery.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+	List csItemResults =  csQuery.list();
 	System.out.println("INFO: number of conceptTpls: " + csItemResults.size()); // this is a list of Map objects  [{concept_id=40163566, concept_set_name=Anticoagulants}, {concept_id=40163560, concept_set_name=Anticoagulants}, ...}
 
 	// The dataset records drug exposures as single day events and then creates drug era for exposures with <= 30 day gaps. So, we have to query first the drug eras (wich are coded as ingredients) and then the drug exposures (coded as clinical drugs) 
+	SQLQuery deraQuery = hibernateSession.createSQLQuery("SELECT * FROM drug_era WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))");
+	deraQuery.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+	List deraResults = deraQuery.list();
+	System.out.println("INFO: number of conceptTpls: " + deraResults.size());
+
 	List<DrugEra> deras = (List<DrugEra>) hibernateSession.createQuery("FROM DrugEra WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))").list();
 	System.out.println("INFO: number of deras: " + deras.size());
 
-	// The query for drug exposures is limited to exposures for those persons with drug eras overlapping the target date
-	// List<DrugExposure> dexps = (List<DrugExposure>) hibernateSession.createQuery("FROM DrugExposure dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
-	// System.out.println("INFO: number of dexps for persons with drug eras during the date range: " + dexps.size());
-
 	// The query for person data is limited to exposures for those persons with drug eras overlapping the target date
-	List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person AS p WHERE p.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
-	System.out.println("INFO: number of persons with drug eras during the date range: " + persons.size());
+/*	List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person AS p WHERE p.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
+	System.out.println("INFO: number of persons with drug eras during the date range: " + persons.size());*/
 
 	// The query for condition eras is limited to condition eras overlapping the target date and drug eras overlapping the target date
 	List<ConditionEra> ceras = (List<ConditionEra>) hibernateSession.createQuery("FROM ConditionEra AS cera WHERE cera.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))) AND cera.conditionEraStartDate <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND cera.conditionEraEndDate >= TO_DATE('" + dateStr + "','yyyy-MM-dd')").list();
@@ -178,7 +179,6 @@ public class DroolsTest {
 	    catch (DateTimeParseException e) 
 	    {
 		e.printStackTrace();}
-		System.out.println("END DATE" + String.valueOf(obj[4]));
 	    if(String.valueOf(obj[4]) != "null"){
 	      try 
 	      {
@@ -267,7 +267,7 @@ public class DroolsTest {
 	System.out.println("INFO: number of ex_dexps for persons with drug eras during the date range: " + ex_dexps.size());	   
 	
 	System.out.println("Done gathering data...");
-	int total_cnt = (csItemResults.size() + deras.size() + persons.size() + ceras.size() + msnts.size() + ex_dexps.size() + voccs.size());
+	int total_cnt = (csItemResults.size() + deraResults.size() + personResults.size() + ceras.size() + msnts.size() + ex_dexps.size() + voccs.size());
 	//-------------------------------------------------
 
 	// Run the rule engine
@@ -321,7 +321,6 @@ public class DroolsTest {
 	iter = personResults.iterator();
 	while (iter.hasNext()){
 		Map map = (Map) iter.next();
-		System.out.println("PERSON SQL " + map);
 		// example map object:
 		// {gender_concept_id=8507, day_of_birth=1, ethnicity_source_concept_id=null, race_source_concept_id=null, care_site_id=null, gender_source_concept_id=null, race_source_value=null, location_id=321, year_of_birth=1955, death_datetime=null, person_source_value=null, gender_source_value=null, ethnicity_concept_id=38003564, race_concept_id=8527, month_of_birth=1, ethnicity_source_value=null, provider_id=null, birth_datetime=null, person_id=1564}
 		Person p = new Person();
@@ -331,14 +330,31 @@ public class DroolsTest {
 		kSession.insert(p);
 		cnt++;
 	}
-	for (DrugEra dera : deras) {           	
+	iter = deraResults.iterator();
+	while (iter.hasNext()){
+		Map map = (Map) iter.next();
+		System.out.println("DERA SQL " + map);
+		// example map object:
+		// {drug_era_id=52751, drug_exposure_count=null, drug_era_end_date=2008-04-27, drug_era_end_datetime=null, drug_era_start_date=2008-02-13, drug_concept_id=1343916, drug_era_start_datetime=null, gap_days=null, person_id=1511}
+		Long pId = ((Number) map.get("person_id")).longValue();
+		Calendar start = Calendar.getInstance();
+		start.setTime((java.util.Date) map.get("drug_era_start_date"));
+		Calendar end = Calendar.getInstance();
+		end.setTime((java.util.Date) map.get("drug_era_end_date"));
+		Integer drugConceptId = (Integer) map.get("drug_concept_id");
+		Integer drugExposureCount = (Integer) map.get("drug_exposure_count");
+		DrugEra dera = new DrugEra(start, pId, end, drugConceptId, drugExposureCount);
+		kSession.insert(dera);
+		cnt++;
+	}
+	/*for (DrugEra dera : deras) {           	
 	    kSession.insert((DrugEra) hibernateSession.get(DrugEra.class, dera.getDrugEraId()));            	
 	    cnt++;
 	}
-	// for (Person p : persons) {           	
-	//     kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));
-	//     cnt++;
-	// }	
+	for (Person p : persons) {           	
+	    kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));
+	    cnt++;
+	}	*/
 	for (ConditionEra cera : ceras) {           	
 	    kSession.insert((ConditionEra) hibernateSession.get(ConditionEra.class, cera.getConditionEraId()));            	
 	    cnt++;
