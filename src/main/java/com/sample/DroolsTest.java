@@ -275,6 +275,8 @@ public class DroolsTest {
         else if(dexpQuery.getString(9) != "null" && dexpQuery.getString(10) != "null" && dexpQuery.getString(26) != "null"){
           	ex_dexp.setComplexDailyDosage(dexpQuery.getInt(9), dexpQuery.getShort(10),dexpQuery.getDouble(26));
         }
+        kSession.insert(ex_dexp);
+        cnt++;
 	}
 
 	/*
