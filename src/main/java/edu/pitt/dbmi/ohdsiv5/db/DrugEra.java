@@ -3,17 +3,8 @@ package edu.pitt.dbmi.ohdsiv5.db;
 
 import java.util.Calendar;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 
-@Entity
-@Table(name="DRUG_ERA")
 
 public class DrugEra  {
 
@@ -33,11 +24,7 @@ public class DrugEra  {
     }
 
     // Property accessors
-    @Id
-    @Column(name = "DRUG_ERA_ID", nullable = false, insertable = false, updatable = false)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HIBERNATE_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="HIBERNATE_SEQUENCE_GENERATOR", sequenceName="HIBERNATE_SEQUENCE", initialValue = 1, allocationSize = 1)
-    Long drugEraId;
+                    Long drugEraId;
     public Long getDrugEraId() {
         return this.drugEraId;
     }    
@@ -45,8 +32,7 @@ public class DrugEra  {
         this.drugEraId = id;
     }
 
-    @Column(name="DRUG_ERA_START_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7) 
-    Calendar drugEraStartDate;
+        Calendar drugEraStartDate;
     public void setDrugEraStartDate(Calendar drugEraStartDate) {
 	this.drugEraStartDate = drugEraStartDate;
     }    
@@ -55,8 +41,7 @@ public class DrugEra  {
     }
 
 
-    @Column(name="DRUG_ERA_END_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7) 
-    Calendar drugEraEndDate;
+        Calendar drugEraEndDate;
     public void setDrugEraEndDate(Calendar drugEraEndDate) {
 	this.drugEraEndDate = drugEraEndDate;
     }    
@@ -64,8 +49,7 @@ public class DrugEra  {
 	return drugEraEndDate;
     }
 
-    @Column(name="PERSON_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=12, scale=0) 
-    Long personId;
+        Long personId;
     public Long getPersonId() {
 	return personId;
     }
@@ -73,8 +57,7 @@ public class DrugEra  {
 	this.personId = personId;
     }
 
-    @Column(name="DRUG_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0) 
-    Integer drugConceptID;
+        Integer drugConceptID;
     public void setDrugConceptId(Integer condId) { 
 	this.drugConceptID = condId;
     }
@@ -82,8 +65,7 @@ public class DrugEra  {
 	return drugConceptID;
     }
 
-    @Column(name="DRUG_EXPOSURE_COUNT", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-    Integer drugExposureCount;
+        Integer drugExposureCount;
     public void setDrugExposureCount(Integer drugExposureCount) { 
 	this.drugExposureCount = drugExposureCount;
     }

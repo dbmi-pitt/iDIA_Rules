@@ -2,17 +2,8 @@ package edu.pitt.dbmi.ohdsiv5.db;
 
 import java.util.Calendar;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 
-@Entity
-@Table(name="CONDITION_ERA")
 
 public class ConditionEra  {
 
@@ -32,11 +23,7 @@ public class ConditionEra  {
     }
    
     // Property accessors
-    @Id
-    @Column(name = "CONDITION_ERA_ID", nullable = false, insertable = false, updatable = false)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HIBERNATE_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="HIBERNATE_SEQUENCE_GENERATOR", sequenceName="HIBERNATE_SEQUENCE", initialValue = 1, allocationSize = 1)
-    Long conditionEraId;
+                    Long conditionEraId;
     public Long getConditionEraId() {
         return this.conditionEraId;
     }    
@@ -44,8 +31,7 @@ public class ConditionEra  {
         this.conditionEraId = id;
     }
 
-   @Column(name="PERSON_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=12, scale=0) 
-    Long personId;
+       Long personId;
     public Long getPersonId() {
 	return personId;
     }
@@ -54,8 +40,7 @@ public class ConditionEra  {
     }
 
 
-    @Column(name="CONDITION_ERA_START_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7) 
-    Calendar conditionEraStartDate;
+        Calendar conditionEraStartDate;
     public void setConditionEraStartDate(Calendar conditionEraStartDate) {
 	this.conditionEraStartDate = conditionEraStartDate;
     }    
@@ -65,8 +50,7 @@ public class ConditionEra  {
 
 
 
-    @Column(name="CONDITION_ERA_END_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7) 
-    Calendar conditionEraEndDate;
+        Calendar conditionEraEndDate;
     public void setConditionEraEndDate(Calendar conditionEraEndDate) {
 	this.conditionEraEndDate = conditionEraEndDate;
     }    
@@ -74,8 +58,7 @@ public class ConditionEra  {
 	return conditionEraEndDate;
     }
 
-    @Column(name="CONDITION_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0) 
-    Integer conditionConceptID;
+        Integer conditionConceptID;
     public void setConditionConceptId(Integer condId) { 
 	this.conditionConceptID = condId;
     }
@@ -83,8 +66,7 @@ public class ConditionEra  {
 	return conditionConceptID;
     }
 
-    @Column(name="CONDITION_OCCURRENCE_COUNT", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-    Integer conditionOccurrenceCount;
+        Integer conditionOccurrenceCount;
     public void setConditionOccurrenceCount(Integer conditionOccurrenceCount) { 
 	this.conditionOccurrenceCount = conditionOccurrenceCount;
     }

@@ -1,21 +1,11 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 
 /**
  * Mds3 
  */
-@Entity
-@Table(name="MDS3")
 public class Mds3, Mds {
 	// Fields    
 	Long id;
@@ -302,31 +292,22 @@ public class Mds3, Mds {
     }
    
     // Property accessors
-    // @EmbeddedId
-    // @AttributeOverrides( {
-    //    @AttributeOverride(name="patientid", column=@Column(name="PATIENTID", unique=false, nullable=false, insertable=true, updatable=true, length=30) ) 
-    //    } )
-    @Id
-    @Column(name = "ID", nullable = false, insertable = false, updatable = false)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HIBERNATE_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="HIBERNATE_SEQUENCE_GENERATOR", sequenceName="HIBERNATE_SEQUENCE", initialValue = 1, allocationSize = 1)
-    public Long getId() {
+    //     //     //        //    } )
+                    public Long getId() {
         return this.id;
     }
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Column(name="PATIENTID", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPatientId() {
+        public String getPatientId() {
         return this.patientId;
     }
     public void setPatientId(String patientId) {
         this.patientId = patientId;
     }
 
-    @Column(name="DATEOFEVENT", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getDateOfEvent() {
+        public String getDateOfEvent() {
         return this.dateOfEvent;
     }
     
@@ -334,8 +315,7 @@ public class Mds3, Mds {
         this.dateOfEvent = dateOfEvent;
     }
 
-    @Column(name="EXAMTYPE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getExamType() {
+        public String getExamType() {
         return this.examType;
     }
     
@@ -343,8 +323,7 @@ public class Mds3, Mds {
         this.examType = examType;
     }
 	
-    @Column(name="GENDER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-
+    
     public String getGender() {
         return this.gender;
     }
@@ -353,8 +332,7 @@ public class Mds3, Mds {
         this.gender = gender;
     }
 
-    @Column(name="BIRTHDATE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getBirthdate() {
+        public String getBirthdate() {
         return this.birthdate;
     }
     
@@ -362,24 +340,21 @@ public class Mds3, Mds {
         this.birthdate = birthdate;
     }
 
-   @Column(name="LOCATION", unique=false, nullable=true, insertable=true, updatable=true, length=10)
-   public String getLocation() {
+      public String getLocation() {
 	    return location;
 	}
     public void setLocation(String location) {
 	this.location = location;
     }
 
-   @Column(name="RACE", unique=false, nullable=true, insertable=true, updatable=true, length=10)
-   public String getRace() {
+      public String getRace() {
 	    return race;
 	}
     public void setRace(String race) {
 	this.race = race;
     }
 
-   @Column(name="MARITALSTATUS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getMaritalstatus() {
+      public String getMaritalstatus() {
 	    return marital_status;
 	}
     public void setMaritalstatus(String marital_status) {
@@ -387,8 +362,7 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="CANCER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getCancer() {
+      public String getCancer() {
 	    return cancer;
 	}
     public void setCancer(String cancer) {
@@ -396,16 +370,14 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="SCHIZOPHRENIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getSchizophrenia() {
+      public String getSchizophrenia() {
 	    return schizophrenia;
 	}
     public void setSchizophrenia(String schizophrenia) {
 	this.schizophrenia = schizophrenia;
     }
 
-   @Column(name="FALLSSINCEADMISSION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getFallssinceadmission() {
+      public String getFallssinceadmission() {
 	    return fallssincelastadmission;
 	}
     public void setFallssinceadmission(String fallssincelastadmission) {
@@ -413,8 +385,7 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="FALLSONEMONTHAGO", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getFallsonemonthago() {
+      public String getFallsonemonthago() {
 	    return falls1monthago;
 	}
     public void setFallsonemonthago(String falls1monthago) {
@@ -422,40 +393,35 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="FALLSTWOTOSIXMONTHS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getFallstwotosixmonths() {
+      public String getFallstwotosixmonths() {
 	    return falls2to6monthsago;
 	}
     public void setFallstwotosixmonths(String falls2to6monthsago) {
 	this.falls2to6monthsago = falls2to6monthsago;
     }
 
-   @Column(name="HIPFRACTURE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getHipfracture() {
+      public String getHipfracture() {
 	    return hipfracture;
 	}
     public void setHipfracture(String hipfracture) {
 	this.hipfracture = hipfracture;
     }
 
-   @Column(name="OTHERFRACTURE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getOtherfracture() {
+      public String getOtherfracture() {
 	    return pathologicalbonefracture;
 	}
     public void setOtherfracture(String pathologicalbonefracture) {
 	this.pathologicalbonefracture = pathologicalbonefracture;
     }
 
-   @Column(name="ARTHRITIS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getArthritis() {
+      public String getArthritis() {
 	    return arthritis;
 	}
     public void setArthritis(String arthritis) {
 	this.arthritis = arthritis;
     }
 
-   @Column(name="OSTEOPOROSIS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getOsteoporosis() {
+      public String getOsteoporosis() {
 	    return osteoporosis;
 	}
     public void setOsteoporosis(String osteoporosis) {
@@ -463,16 +429,14 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="STROKE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getStroke() {
+      public String getStroke() {
 	    return cerebrovascularaccident;
 	}
     public void setStroke(String cerebrovascularaccident) {
 	this.cerebrovascularaccident = cerebrovascularaccident;
     }
 
-   @Column(name="DIABETES", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getDiabetes() {
+      public String getDiabetes() {
 	    return diabetes;
 	}
     public void setDiabetes(String diabetes) {
@@ -480,16 +444,14 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="HYPERTENSION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getHypertension() {
+      public String getHypertension() {
 	    return hypertension;
 	}
     public void setHypertension(String hypertension) {
 	this.hypertension = hypertension;
     }
 
-   @Column(name="HYPOTENSION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getHypotension() {
+      public String getHypotension() {
 	    return hypotension;
 	}
     public void setHypotension(String hypotension) {
@@ -497,16 +459,14 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="EMPHYSEMACOPD", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getEmphysemacopd() {
+      public String getEmphysemacopd() {
 	    return ephysemacopd;
 	}
     public void setEmphysemacopd(String ephysemacopd) {
 	this.ephysemacopd = ephysemacopd;
     }
 
-   @Column(name="ASHD", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getAshd() {
+      public String getAshd() {
 	    return ashd;
 	}
     public void setAshd(String ashd) {
@@ -514,8 +474,7 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="GERDORGIULCER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getGerdorgiulcer() {
+      public String getGerdorgiulcer() {
 	    return gerdorgiulcer;
 	}
     public void setGerdorgiulcer(String gerdorgiulcer) {
@@ -523,8 +482,7 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="PARKINSONS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getParkinsons() {
+      public String getParkinsons() {
 	    return parkinsons;
 	}
     public void setParkinsons(String parkinsons) {
@@ -532,8 +490,7 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="ALZHEIMERS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getAlzheimers() {
+      public String getAlzheimers() {
 	    return alzheimers;
 	}
     public void setAlzheimers(String alzheimers) {
@@ -541,16 +498,14 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="DEMENTIAOTHERTHANALZHEIMERS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getDementiaotherthanalzheimers() {
+      public String getDementiaotherthanalzheimers() {
 	    return dementiaotherthanalzheimers;
 	}
     public void setDementiaotherthanalzheimers(String dementiaotherthanalzheimers) {
 	this.dementiaotherthanalzheimers = dementiaotherthanalzheimers;
     }
 
-   @Column(name="COGNITIVESKILLS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getCognitiveskills() {
+      public String getCognitiveskills() {
 	    return cognitiveskills;
 	}
     public void setCognitiveskills(String cognitiveskills) {
@@ -558,16 +513,14 @@ public class Mds3, Mds {
     }
 
 
-   @Column(name="DELIRIUM", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getDelirium() {
+      public String getDelirium() {
 	    return delirium;
 	}
     public void setDelirium(String delirium) {
 	this.delirium = delirium;
     }
 
-   @Column(name="ANXIETY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getAnxiety() {
+      public String getAnxiety() {
 	    return anxiety;
 	}
     public void setAnxiety(String anxiety) {
@@ -576,8 +529,7 @@ public class Mds3, Mds {
     
     /// NOTE: as of 12/31/2014 - this is replaced by DepressionNHCompare
     // jlj69: had to change this to match what this is, the other depression getter is for icd9
-   // @Column(name="DEPRESSIONSCALE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   // public String getDepressionScale() {
+   //    // public String getDepressionScale() {
    // 	    return depressionScale;
    // 	}
    //  public void setDepressionScale(String depressionScale) {
@@ -585,40 +537,35 @@ public class Mds3, Mds {
    //  }
 
 
-   @Column(name="PSYCHOSIS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getPsychosis() {
+      public String getPsychosis() {
 	    return psychosis;
 	}
     public void setPsychosis(String psychosis) {
 	this.psychosis = psychosis;
     }
 
-   @Column(name="PTSD", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getPtsd() {
+      public String getPtsd() {
 	    return ptsd;
 	}
     public void setPtsd(String ptsd) {
 	this.ptsd = ptsd;
     }
 
-   @Column(name="ADLDEPENDENCE", unique=false, nullable=true, insertable=true, updatable=true, precision=22, scale=0)
-   public BigDecimal getAdldependence() {
+      public BigDecimal getAdldependence() {
 	    return adldependence;
 	}
     public void setAdldependence(BigDecimal adldependence) {
 	this.adldependence = adldependence;
     }
 
-   @Column(name="BEHAVIORALSYMPTOMS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-   public String getBehavioralsymptoms() {
+      public String getBehavioralsymptoms() {
 	    return behavioralsymptoms;
 	}
     public void setBehavioralsymptoms(String behavioralsymptoms) {
 	this.behavioralsymptoms = behavioralsymptoms;
     }
     // jlj69: start here 10/1/2013
-    @Column(name="INFECTIONOFTHEFOOT", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getInfectionOfTheFoot() {
+        public String getInfectionOfTheFoot() {
 	return infectionofthefoot;
     }
     
@@ -626,8 +573,7 @@ public class Mds3, Mds {
 	this.infectionofthefoot = infectionofthefoot;
     }
 
-    @Column(name="PROVIDERTYPE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getProviderType() {
+        public String getProviderType() {
 	return providertype;
     }
     
@@ -635,8 +581,7 @@ public class Mds3, Mds {
 	this.providertype = providertype;
     }
     
-    @Column(name="FEDERALOBRAASSESSMENT", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getFederalObraAssessment() {
+    	public String getFederalObraAssessment() {
 	return federalobraassessment;
     }
 
@@ -644,8 +589,7 @@ public class Mds3, Mds {
 	this.federalobraassessment = federalobraassessment;
     }
     
-    @Column(name="PPSASSESSMENT", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getPpsassessment() {
+    	public String getPpsassessment() {
 	return ppsassessment;
     }
    
@@ -653,8 +597,7 @@ public class Mds3, Mds {
 	this.ppsassessment = ppsassessment;
     }
 
-    @Column(name="OTHERPPSOMRAASSESSMENT", unique=false, nullable=true, insertable=true, updatable=true, length=100)
-	public String getOtherppsomraassessment() {
+    	public String getOtherppsomraassessment() {
 	return otherppsomraassessment;
     }
     
@@ -662,8 +605,7 @@ public class Mds3, Mds {
 	this.otherppsomraassessment = otherppsomraassessment;
     }
 
-    @Column(name="FIRSTASSESSMENT", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getFirstassessment() {
+    	public String getFirstassessment() {
 	return firstassessment;
     }
     
@@ -671,8 +613,7 @@ public class Mds3, Mds {
 	this.firstassessment = firstassessment;
     }
    
-    @Column(name="ENTRYDISCHARGEREPORT", unique=false, nullable=true, insertable=true, updatable=true, length=100)
-	public String getEntrydischargereport() {
+    	public String getEntrydischargereport() {
 	return entrydischargereport;
     }
 
@@ -680,8 +621,7 @@ public class Mds3, Mds {
 	this.entrydischargereport = entrydischargereport;
     }
 
-    @Column(name="PREADDMISSIONSCREENING", unique=false, nullable=true, insertable=true, updatable=true, length=50)
-	public String getPreaddmissionscreening() {
+    	public String getPreaddmissionscreening() {
 	return preaddmissionscreening;
     }
 
@@ -689,8 +629,7 @@ public class Mds3, Mds {
 	this.preaddmissionscreening = preaddmissionscreening;
     }
 
-    @Column(name="ENTRYDATE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getEntrydate() {
+    	public String getEntrydate() {
 	return entrydate;
     }
 
@@ -698,8 +637,7 @@ public class Mds3, Mds {
 	this.entrydate= entrydate;
     }
 
-    @Column(name="TYPEOFENTRY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getTypeofentry() {
+    	public String getTypeofentry() {
 	return typeofentry;
     }
 
@@ -707,8 +645,7 @@ public class Mds3, Mds {
 	this.typeofentry = typeofentry;
     }
 
-    @Column(name="ENTEREDFORM", unique=false, nullable=true, insertable=true, updatable=true, length=50)
-	public String getEnteredform() {
+    	public String getEnteredform() {
 	return enteredform;
     }
 
@@ -716,8 +653,7 @@ public class Mds3, Mds {
 	this.enteredform = enteredform;
     }
 
-    @Column(name="DISCHARGEDATE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getDischargedate() {
+    	public String getDischargedate() {
 	return dischargedate;
     }
 
@@ -725,8 +661,7 @@ public class Mds3, Mds {
 	this.dischargedate = dischargedate;
     }
 
-    @Column(name="DISCHARGESTATUS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getDischargestatus() {
+    	public String getDischargestatus() {
 	return dischargestatus;
     }
 
@@ -734,8 +669,7 @@ public class Mds3, Mds {
 	this.dischargestatus = dischargestatus;
     }
 
-    @Column(name="ASSESSMENTREFERENCEDATE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getAssessmentreferencedate() {
+    	public String getAssessmentreferencedate() {
 	return assessmentreferencedate;
     }
 
@@ -743,8 +677,7 @@ public class Mds3, Mds {
 	this.assessmentreferencedate = assessmentreferencedate;
     }
 
-    @Column(name="MEDICARECOVERAGE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getMedicarecoverage() {
+    	public String getMedicarecoverage() {
 	return medicarecoverage;
     }
     
@@ -752,8 +685,7 @@ public class Mds3, Mds {
 	this.medicarecoverage = medicarecoverage;
     }
 
-    @Column(name="STARTOFMEDICARESTAY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getStartofmedicarestay() { 
+    	public String getStartofmedicarestay() { 
 	return startofmedicarestay;
     }
 
@@ -761,8 +693,7 @@ public class Mds3, Mds {
 	this.startofmedicarestay = startofmedicarestay;
     }
 
-    @Column(name="ENDOFMEDICARESTAY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getEndofmedicarestay() {
+    	public String getEndofmedicarestay() {
 	return endofmedicarestay;
     }
 
@@ -770,8 +701,7 @@ public class Mds3, Mds {
 	this.endofmedicarestay = endofmedicarestay;
     }
 
-    @Column(name="COMATOSE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getComatose() {
+    	public String getComatose() {
 	return comatose;
     }
     
@@ -779,8 +709,7 @@ public class Mds3, Mds {
 	this.comatose = comatose;
     }
 
-    @Column(name="HEARINGABILITY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getHearingability() {
+    	public String getHearingability() {
 	return hearingability;
     }
 
@@ -788,8 +717,7 @@ public class Mds3, Mds {
 	this.hearingability = hearingability;
     }
 
-    @Column(name="HEARINGAID", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getHearingaid() {
+    	public String getHearingaid() {
 	return hearingaid;
     }
     
@@ -797,8 +725,7 @@ public class Mds3, Mds {
 	this.hearingaid = hearingaid;
     }
 
-    @Column(name="SPEECHCLARITY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getSpeechclarity() {
+    	public String getSpeechclarity() {
 	return speechclarity;
     }
 
@@ -806,8 +733,7 @@ public class Mds3, Mds {
 	this.speechclarity = speechclarity;
     }
 
-    @Column(name="UNDERSTANDABLE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getUnderstandable() {
+    	public String getUnderstandable() {
 	return understandable;
     }
     
@@ -815,8 +741,7 @@ public class Mds3, Mds {
 	this.understandable = understandable;
     }
 
-    @Column(name="UNDERSTANDOTHERS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getUnderstandothers() {
+    	public String getUnderstandothers() {
 	return understandothers;
     }
 
@@ -824,8 +749,7 @@ public class Mds3, Mds {
 	this.understandothers = understandothers;
     }
 
-    @Column(name="VISION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getVision() {
+    	public String getVision() {
 	return vision;
     }
    
@@ -833,8 +757,7 @@ public class Mds3, Mds {
 	this.vision = vision;
     }
 
-    @Column(name="CORRECTIVELENSES", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getCorrectivelenses() {
+    	public String getCorrectivelenses() {
 	return correctivelenses;
     }
     
@@ -842,8 +765,7 @@ public class Mds3, Mds {
 	this.correctivelenses = correctivelenses;
     }
 
-    @Column(name="DOESRESIDENTWANDER", unique=false, nullable=true, insertable=true, updatable=true, length=100)
-	public String getDoesresidentwander() {
+    	public String getDoesresidentwander() {
 	return doesresidentwander;
     }
 
@@ -851,8 +773,7 @@ public class Mds3, Mds {
 	this.doesresidentwander = doesresidentwander;
     }
 
-    @Column(name="WANDERISINTRUSIVE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getWanderisintrusive() {
+    	public String getWanderisintrusive() {
 	return wanderisintrusive;
     }
 
@@ -860,8 +781,7 @@ public class Mds3, Mds {
 	this.wanderisintrusive = wanderisintrusive;
     }
 
-    @Column(name="INDWELLINGCATHETER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getIndwellingcatheter() {
+    	public String getIndwellingcatheter() {
 	return indwellingcatheter;
     }
 
@@ -869,8 +789,7 @@ public class Mds3, Mds {
 	this.indwellingcatheter = indwellingcatheter;
     }
 
-    @Column(name="EXTERNALCATHETER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getExternalcatheter() {
+    	public String getExternalcatheter() {
 	return externalcatheter;
     }
 
@@ -878,8 +797,7 @@ public class Mds3, Mds {
 	this.externalcatheter = externalcatheter;
     }
 
-    @Column(name="OSTOMY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getOstomy() {
+    	public String getOstomy() {
 	return ostomy;
     }
     
@@ -887,8 +805,7 @@ public class Mds3, Mds {
 	this.ostomy = ostomy;
     }
 
-    @Column(name="CONSTIPATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getConstipation() {
+    	public String getConstipation() {
 	return constipation;
     }
 
@@ -896,8 +813,7 @@ public class Mds3, Mds {
 	this.constipation = constipation;
     }
 
-    @Column(name="ANEMIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getAnemia() {
+    	public String getAnemia() {
 	return anemia;
     }
 
@@ -914,8 +830,7 @@ public class Mds3, Mds {
 	//this.fibrillation = fibrillation;
     //}
 
-    @Column(name="DVTPEPTE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getDvtpepte() {
+    	public String getDvtpepte() {
 	return dvtpepte;
     }
 
@@ -923,8 +838,7 @@ public class Mds3, Mds {
 	this.dvtpepte = dvtpepte;
     }
 
-    @Column(name="HEARTFAILURE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getHeartfailure() {
+    	public String getHeartfailure() {
 	return heartfailure;
     }
 
@@ -932,8 +846,7 @@ public class Mds3, Mds {
 	this.heartfailure = heartfailure;
     }
 
-    @Column(name="CIRRHOSIS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getCirrhosis() {
+    	public String getCirrhosis() {
 	return cirrhosis;
     }
     
@@ -941,8 +854,7 @@ public class Mds3, Mds {
 	this.cirrhosis = cirrhosis;
     }
 
-    @Column(name="BENIGNPROSTATICHYPERPLASIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getBenignprostatichyperplasia() {
+    	public String getBenignprostatichyperplasia() {
 	return benignprostatichyperplasia;
     }
 
@@ -950,8 +862,7 @@ public class Mds3, Mds {
 	this.benignprostatichyperplasia = benignprostatichyperplasia;
     }
 
-    @Column(name="NEUROGENICBLADDER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getNeurogenicbladder() {
+    	public String getNeurogenicbladder() {
 	return neurogenicbladder;
     }
     
@@ -959,8 +870,7 @@ public class Mds3, Mds {
 	this.neurogenicbladder = neurogenicbladder;
     }
 
-    @Column(name="OBSTRUCTIVEUROPATHY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getObstructiveuropathy() {
+    	public String getObstructiveuropathy() {
 	return obstructiveuropathy;
     }
 
@@ -968,8 +878,7 @@ public class Mds3, Mds {
 	this.obstructiveuropathy = obstructiveuropathy;
     }
 
-    @Column(name="MULTIDRUGRESISTANTORGANISM", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getMultidrugresistantorganism() {
+    	public String getMultidrugresistantorganism() {
 	return multidrugresistantorganism;
     }
 
@@ -977,8 +886,7 @@ public class Mds3, Mds {
 	this.multidrugresistantorganism = multidrugresistantorganism;
     }
 
-    @Column(name="PNEUMONIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getPneumonia() {
+    	public String getPneumonia() {
 	return pneumonia;
     }
 
@@ -986,8 +894,7 @@ public class Mds3, Mds {
 	this.pneumonia = pneumonia;
     }
 
-    @Column(name="SEPTICEMIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getSepticemia() {
+    	public String getSepticemia() {
 	return septicemia;
     }
 
@@ -995,8 +902,7 @@ public class Mds3, Mds {
 	this.septicemia = septicemia;
     }
 
-    @Column(name="TUBERCULOSIS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getTuberculosis() {
+    	public String getTuberculosis() {
 	return tuberculosis;
     }
 
@@ -1004,8 +910,7 @@ public class Mds3, Mds {
 	this.tuberculosis = tuberculosis;
     }
 
-    @Column(name="URINARYTRACTINFECTION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getUrinarytractinfection() {
+    	public String getUrinarytractinfection() {
 	return urinarytractinfection;
     }
 
@@ -1013,8 +918,7 @@ public class Mds3, Mds {
 	this.urinarytractinfection = urinarytractinfection;
     }
 
-    @Column(name="VIRALHEPATITIS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getViralhepatitis() {
+    	public String getViralhepatitis() {
 	return viralhepatitis;
     }
     
@@ -1022,8 +926,7 @@ public class Mds3, Mds {
 	this.viralhepatitis = viralhepatitis;
     }
 
-    @Column(name="WOUNDINFECTIONNOTFOOT", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getWoundinfectionnotfoot() {
+    	public String getWoundinfectionnotfoot() {
 	return woundinfectionnotfoot;
     }
     
@@ -1031,8 +934,7 @@ public class Mds3, Mds {
 	this.woundinfectionnotfoot = woundinfectionnotfoot;
     }
 
-    @Column(name="HYPONATREMIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getHyponatremia() {
+    	public String getHyponatremia() {
 	return hyponatremia;
     }
 
@@ -1040,8 +942,7 @@ public class Mds3, Mds {
 	this.hyponatremia = hyponatremia;
     }
 
-    @Column(name="HYPERKALEMIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getHyperkalemia() {
+    	public String getHyperkalemia() {
 	return hyperkalemia;
     }
 
@@ -1049,8 +950,7 @@ public class Mds3, Mds {
 	this.hyperkalemia = hyperkalemia;
     }
 
-    @Column(name="HYPERLIPIDEMIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getHyperlipidemia() {
+    	public String getHyperlipidemia() {
 	return hyperlipidemia;
     }
 
@@ -1059,8 +959,7 @@ public class Mds3, Mds {
     }
 
     // TODO: I have ThyroidDisorder but not hyper and hypo thyroidism
-    @Column(name="THYROIDDISORDER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getThyroiddisorder() {
+    	public String getThyroiddisorder() {
 	return thyroiddisorder;
     }
     
@@ -1068,8 +967,7 @@ public class Mds3, Mds {
 	this.thyroiddisorder = thyroiddisorder;
     }
 
-    @Column(name="APHASIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getAphasia() {
+    	public String getAphasia() {
 	return aphasia;
     }
     
@@ -1077,8 +975,7 @@ public class Mds3, Mds {
 	this.aphasia = aphasia;
     }
 
-    @Column(name="CEREBRALPALSY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getCerebralpalsy() {
+    	public String getCerebralpalsy() {
 	return cerebralpalsy;
     }
 
@@ -1086,8 +983,7 @@ public class Mds3, Mds {
 	this.cerebralpalsy = cerebralpalsy;
     }
 
-    @Column(name="HEMIPLAGIAORHEMIPARESIS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getHemiplegiahemiparesis() {
+    	public String getHemiplegiahemiparesis() {
 	return hemiplegiahemiparesis;
     }
 
@@ -1095,8 +991,7 @@ public class Mds3, Mds {
 	this.hemiplegiahemiparesis = hemiplegiahemiparesis;
     }
 
-    @Column(name="PARAPLEGIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getParaplegia() {
+    	public String getParaplegia() {
 	return paraplegia;
     }
 
@@ -1104,8 +999,7 @@ public class Mds3, Mds {
 	this.paraplegia = paraplegia;
     }
 
-    @Column(name="QUADRIPLEGIA", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getQuadriplegia() {
+    	public String getQuadriplegia() {
 	return quadriplegia;
     }
 
@@ -1113,8 +1007,7 @@ public class Mds3, Mds {
 	this.quadriplegia = quadriplegia;
     }
 
-    @Column(name="MULTIPLESCLEROSIS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getMultiplesclerosis() {
+    	public String getMultiplesclerosis() {
 	return multiplesclerosis;
     }
 
@@ -1122,8 +1015,7 @@ public class Mds3, Mds {
 	this.multiplesclerosis = multiplesclerosis;
     }
 
-    @Column(name="HUNTINGTONSDISEASE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getHuntingtonsDisease() {
+    	public String getHuntingtonsDisease() {
 	return huntingtonsdisease;
     }
     
@@ -1132,8 +1024,7 @@ public class Mds3, Mds {
 
     }
 
-    @Column(name="TOURETTESSYNDROME", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getTourettessyndrome() {
+    	public String getTourettessyndrome() {
 	return tourettessyndrome;
     }
 
@@ -1141,8 +1032,7 @@ public class Mds3, Mds {
 	this.tourettessyndrome = tourettessyndrome;
     }
 
-    @Column(name="SEIZUREDISORDEROREPILEPSY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getSeizuredisorderorepilepsy() {
+    	public String getSeizuredisorderorepilepsy() {
 	return seizuredisorderorepilepsy;
     }
 
@@ -1150,8 +1040,7 @@ public class Mds3, Mds {
 	this.seizuredisorderorepilepsy = seizuredisorderorepilepsy;
     }
 
-    @Column(name="TRAUMATICBRAININJURY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getTraumaticbraininjury() {
+    	public String getTraumaticbraininjury() {
 	return traumaticbraininjury;
     }
 
@@ -1159,8 +1048,7 @@ public class Mds3, Mds {
 	this.traumaticbraininjury = traumaticbraininjury;
     }
 
-    @Column(name="DEPRESSION", unique=false, nullable=true, insertable=true,updatable=true, length=30)
-	public String getDepression() {
+    	public String getDepression() {
 	return depression;
     }
 
@@ -1168,8 +1056,7 @@ public class Mds3, Mds {
 	this.depression = depression;
     }
 
-    @Column(name="MANICDEPRESSION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-	public String getManicdepression() {
+    	public String getManicdepression() {
 	return manicdepression;
     }
 
@@ -1177,8 +1064,7 @@ public class Mds3, Mds {
 	this.manicdepression = manicdepression;
     }
 
-    @Column(name="BIMSSUM", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getBimssum() {
+        public String getBimssum() {
 	return bimssum;
     }
 
@@ -1186,8 +1072,7 @@ public class Mds3, Mds {
 	this.bimssum = bimssum;
     }
 
-    @Column(name="FALLSMAJORINJURY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getFallsmajorinjury() {
+        public String getFallsmajorinjury() {
 	return fallsmajorinjury;
     }
 
@@ -1195,8 +1080,7 @@ public class Mds3, Mds {
 	this.fallsmajorinjury = fallsmajorinjury;
     }
 
-    @Column(name="FALLSMINORINJURY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getFallsminorinjury() {
+        public String getFallsminorinjury() {
 	return fallsminorinjury;
     }
 
@@ -1204,8 +1088,7 @@ public class Mds3, Mds {
 	this.fallsminorinjury = fallsminorinjury;
     }
 
-    @Column(name="FALLSWITHNOINJURY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getFallswithnoinjury() {
+        public String getFallswithnoinjury() {
 	return fallswithnoinjury;
     }
 
@@ -1213,8 +1096,7 @@ public class Mds3, Mds {
 	this.fallswithnoinjury = fallswithnoinjury;
     }
 
-    @Column(name="CONDUCTPAINASSESSMENTINTERV", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getConductPainAssessmentInterv() {
+        public String getConductPainAssessmentInterv() {
 	return conductPainAssessmentInterv;
     }
 
@@ -1222,8 +1104,7 @@ public class Mds3, Mds {
 	this.conductPainAssessmentInterv = conductPainAssessmentInterv;
     }
 
-    @Column(name="PAININLAST5DAYS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPainInLast5Days() {
+        public String getPainInLast5Days() {
 	return painInLast5Days;
     }
 
@@ -1231,8 +1112,7 @@ public class Mds3, Mds {
 	this.painInLast5Days = painInLast5Days;
     }
 
-    @Column(name="PAINFREQUENCYLAST5DAYS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPainFrequencyLast5Days() {
+        public String getPainFrequencyLast5Days() {
 	return painFrequencyLast5Days;
     }
 
@@ -1241,8 +1121,7 @@ public class Mds3, Mds {
     }
 
 
-    @Column(name="PAININTENSITY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPainIntensity() {
+        public String getPainIntensity() {
 	return painIntensity;
     }
 
@@ -1250,8 +1129,7 @@ public class Mds3, Mds {
 	this.painIntensity = painIntensity;
     }
 
-    @Column(name="PAINNONVERBAL", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPainNonVerbal() {
+        public String getPainNonVerbal() {
 	return painNonVerbal;
     }
 
@@ -1260,8 +1138,7 @@ public class Mds3, Mds {
     }
 
 
-    @Column(name="PAINMEDICATIONREGIMEN", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPainMedicationRegimen() {
+        public String getPainMedicationRegimen() {
 	return painMedicationRegimen;
     }
 
@@ -1269,8 +1146,7 @@ public class Mds3, Mds {
 	this.painMedicationRegimen = painMedicationRegimen;
     }
 
-    @Column(name="RECEIVEDPRNPAINMEDICATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getReceivedPRNPainMedication() {
+        public String getReceivedPRNPainMedication() {
 	return receivedPRNPainMedication;
     }
 
@@ -1278,8 +1154,7 @@ public class Mds3, Mds {
 	this.receivedPRNPainMedication = receivedPRNPainMedication;
     }
 
-    @Column(name="RECEIVEDNONMEDICATIONFORPAIN", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getReceivedNonMedicationForPain() {
+        public String getReceivedNonMedicationForPain() {
 	return receivedNonMedicationForPain;
     }
 
@@ -1287,8 +1162,7 @@ public class Mds3, Mds {
 	this.receivedNonMedicationForPain = receivedNonMedicationForPain;
     }
 
-    @Column(name="IMPAIREDBEDMOBILITY", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getImpairedBedMobility() {
+        public String getImpairedBedMobility() {
 	return impairedBedMobility;
     }
 
@@ -1296,8 +1170,7 @@ public class Mds3, Mds {
 	this.impairedBedMobility = impairedBedMobility;
     }
 
-    @Column(name="IMPAIREDTRANSFER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getImpairedTransfer() {
+        public String getImpairedTransfer() {
 	return impairedTransfer;
     }
 
@@ -1305,8 +1178,7 @@ public class Mds3, Mds {
 	this.impairedTransfer = impairedTransfer;
     }
 
-    @Column(name="MALNUTRITION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getMalnutrition() {
+        public String getMalnutrition() {
 	return malnutrition;
     }
 
@@ -1314,8 +1186,7 @@ public class Mds3, Mds {
 	this.malnutrition = malnutrition;
     }
 
-    @Column(name="PRESSUREULCERSTAGE1", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPressureUlcerStage1() {
+        public String getPressureUlcerStage1() {
 	return pressureUlcerStage1;
     }
 
@@ -1323,8 +1194,7 @@ public class Mds3, Mds {
 	this.pressureUlcerStage1 = pressureUlcerStage1;
     }
 
-    @Column(name="PRESSUREULCERSTAGE2", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPressureUlcerStage2() {
+        public String getPressureUlcerStage2() {
 	return pressureUlcerStage2;
     }
 
@@ -1333,8 +1203,7 @@ public class Mds3, Mds {
     }
 
 
-    @Column(name="PRESSUREULCERSTAGE3", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPressureUlcerStage3() {
+        public String getPressureUlcerStage3() {
 	return pressureUlcerStage3;
     }
 
@@ -1343,8 +1212,7 @@ public class Mds3, Mds {
     }
 
 
-    @Column(name="PRESSUREULCERSTAGE4", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getPressureUlcerStage4() {
+        public String getPressureUlcerStage4() {
 	return pressureUlcerStage4;
     }
 
@@ -1352,8 +1220,7 @@ public class Mds3, Mds {
 	this.pressureUlcerStage4 = pressureUlcerStage4;
     }
 
-    @Column(name="ANTIPSYCHOTICMEDICATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getAntipsychoticMedication() {
+        public String getAntipsychoticMedication() {
 	return antipsychoticMedication;
     }
 
@@ -1362,8 +1229,7 @@ public class Mds3, Mds {
     }
     
 
-    @Column(name="ANTIANXIETYMEDICATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getAntianxietyMedication() {
+        public String getAntianxietyMedication() {
 	return antianxietyMedication;
     }
 
@@ -1372,8 +1238,7 @@ public class Mds3, Mds {
     }
 
 
-    @Column(name="ANTIDEPRESSANTMEDICATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getAntidepressantMedication() {
+        public String getAntidepressantMedication() {
 	return antidepressantMedication;
     }
 
@@ -1381,8 +1246,7 @@ public class Mds3, Mds {
 	this.antidepressantMedication = antidepressantMedication;
     }
 
-    @Column(name="HYPNOTICMEDICATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getHypnoticMedication() {
+        public String getHypnoticMedication() {
 	return hypnoticMedication;
     }
 
@@ -1390,8 +1254,7 @@ public class Mds3, Mds {
 	this.hypnoticMedication = hypnoticMedication;
     }
 
-    @Column(name="ANTICOAGULANTMEDICATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getAnticoagulantMedication() {
+        public String getAnticoagulantMedication() {
 	return anticoagulantMedication;
     }
 
@@ -1399,8 +1262,7 @@ public class Mds3, Mds {
 	this.anticoagulantMedication = anticoagulantMedication;
     }
 
-    @Column(name="ANTIBIOTICMEDICATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getAntibioticMedication() {
+        public String getAntibioticMedication() {
 	return antibioticMedication;
     }
 
@@ -1408,8 +1270,7 @@ public class Mds3, Mds {
 	this.antibioticMedication = antibioticMedication;
     }
 
-    @Column(name="DIURETICMEDICATION", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getDiureticMedication() {
+        public String getDiureticMedication() {
 	return diureticMedication;
     }
 
@@ -1417,8 +1278,7 @@ public class Mds3, Mds {
 	this.diureticMedication = diureticMedication;
     }
 
-    @Column(name="BEHAVIORALSYMPTOMSTOOTHERS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getBehavioralSymptomsToOthers() {
+        public String getBehavioralSymptomsToOthers() {
 	return behavioralSymptomsToOthers;
     }
 
@@ -1426,8 +1286,7 @@ public class Mds3, Mds {
 	this.behavioralSymptomsToOthers = behavioralSymptomsToOthers;
     }
 
-    @Column(name="DEPRESSIONNHCOMPARE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getDepressionNHCompare() {
+        public String getDepressionNHCompare() {
 	return depressionNHCompare;
     }
 
@@ -1435,8 +1294,7 @@ public class Mds3, Mds {
 	this.depressionNHCompare = depressionNHCompare;
     }
 
-    @Column(name="EXCESSIVEWEIGHTLOSS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getExcessiveWeightLoss() {
+        public String getExcessiveWeightLoss() {
 	return excessiveWeightLoss;
     }
 
@@ -1444,8 +1302,7 @@ public class Mds3, Mds {
 	this.excessiveWeightLoss = excessiveWeightLoss;
     }
 
-    @Column(name="FEVER", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getFever() {
+        public String getFever() {
 	return fever;
     }
 
@@ -1453,8 +1310,7 @@ public class Mds3, Mds {
 	this.fever = fever;
     }
 
-    @Column(name="VOMITING", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getVomiting() {
+        public String getVomiting() {
 	return vomiting;
     }
 
@@ -1462,8 +1318,7 @@ public class Mds3, Mds {
 	this.vomiting = vomiting;
     }
 
-    @Column(name="DEHYDRATED", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getDehydrated() {
+        public String getDehydrated() {
 	return dehydrated;
     }
 
@@ -1471,8 +1326,7 @@ public class Mds3, Mds {
 	this.dehydrated = dehydrated;
     }
 
-    @Column(name="INTERNALBLEEDING", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getInternalBleeding() {
+        public String getInternalBleeding() {
 	return internalBleeding;
     }
 
@@ -1480,8 +1334,7 @@ public class Mds3, Mds {
 	this.internalBleeding = internalBleeding;
     }
 
-    @Column(name="NOPROBLEMCONDITIONS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getNoProblemConditions() {
+        public String getNoProblemConditions() {
 	return noProblemConditions;
     }
 
@@ -1489,8 +1342,7 @@ public class Mds3, Mds {
 	this.noProblemConditions = noProblemConditions;
     }
 
-    @Column(name="RISKOFPRESSUREULCERS", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getRiskOfPressureUlcers() {
+        public String getRiskOfPressureUlcers() {
 	return riskOfPressureUlcers;
     }
 
@@ -1498,8 +1350,7 @@ public class Mds3, Mds {
 	this.riskOfPressureUlcers = riskOfPressureUlcers;
     }
 
-    @Column(name="BOWELINCONTINENCE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getBowelIncontinence() {
+        public String getBowelIncontinence() {
 	return bowelIncontinence;
     }
 
@@ -1507,8 +1358,7 @@ public class Mds3, Mds {
 	this.bowelIncontinence = bowelIncontinence;
     }
 
-    @Column(name="URINARYINCONTINENCE", unique=false, nullable=true, insertable=true, updatable=true, length=30)
-    public String getUrinaryIncontinence() {
+        public String getUrinaryIncontinence() {
 	return urinaryIncontinence;
     }
 
