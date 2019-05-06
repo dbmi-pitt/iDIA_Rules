@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="VISIT_OCCURRENCE")
 
-public class VisitOccurrence  implements java.io.Serializable {
+public class VisitOccurrence  {
 
     // Fields    
 

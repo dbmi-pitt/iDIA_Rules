@@ -18,7 +18,7 @@ import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
  */
 @Entity
 
-public class ExtendedDrugExposure extends DrugExposure implements java.io.Serializable {
+public class ExtendedDrugExposure extends DrugExposure {
 
     // Constructors
     /** default constructor */

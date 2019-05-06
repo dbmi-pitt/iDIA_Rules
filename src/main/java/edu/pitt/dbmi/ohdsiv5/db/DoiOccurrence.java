@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="DOI_OCCURRENCE")
 
-public class DoiOccurrence  implements java.io.Serializable {
+public class DoiOccurrence  {
 
 
     // Fields    

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="OMOP_DRUG_ERA")
 
-public class OmopDrugEra  implements java.io.Serializable {
+public class OmopDrugEra  {
 
 
     // Fields    

@@ -16,7 +16,7 @@ import java.util.Calendar;
 @Entity
 @Table(name="CONCEPT", uniqueConstraints = {  })
 
-public class Concept  implements java.io.Serializable {
+public class Concept  {
 
     // Fields    
     private Integer conceptId;

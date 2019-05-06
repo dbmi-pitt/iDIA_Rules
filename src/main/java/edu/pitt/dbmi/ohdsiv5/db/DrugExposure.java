@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name="DRUG_EXPOSURE")
 
-public class DrugExposure  implements java.io.Serializable {
+public class DrugExposure  {
 
     // Constructors
     /** default constructor */

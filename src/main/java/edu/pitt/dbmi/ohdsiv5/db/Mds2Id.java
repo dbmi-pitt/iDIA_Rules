@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 
-public class Mds2Id  implements java.io.Serializable {
+public class Mds2Id  {
 
 
     // Fields    

@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="PERSON")
 
-public class Person  implements java.io.Serializable {
+public class Person  {
 
 	/**
 	 * 

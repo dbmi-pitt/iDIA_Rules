@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="OMOP_CONDITION_ERA")
 
-public class OmopConditionEra  implements java.io.Serializable {
+public class OmopConditionEra  {
 
 
     // Fields    

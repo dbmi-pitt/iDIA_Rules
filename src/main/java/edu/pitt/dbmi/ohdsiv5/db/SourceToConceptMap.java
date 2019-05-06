@@ -19,7 +19,7 @@ import edu.pitt.dbmi.ohdsiv5.db.util.HibernateUtil;
 @Entity
 @Table(name="SOURCE_TO_CONCEPT_MAP")
 
-	public class SourceToConceptMap  implements java.io.Serializable {
+	public class SourceToConceptMap  {
 
 
 	// Fields    

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="OBSERVATION")
 
-public class Observation  implements java.io.Serializable {
+public class Observation  {
  
     // Constructors
 

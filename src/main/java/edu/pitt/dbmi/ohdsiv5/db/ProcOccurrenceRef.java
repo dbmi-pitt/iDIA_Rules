@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="PROC_OCCURRENCE_REF")
 
-public class ProcOccurrenceRef  implements java.io.Serializable {
+public class ProcOccurrenceRef  {
 
 
     // Fields    

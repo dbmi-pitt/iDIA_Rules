@@ -13,7 +13,7 @@ import java.util.Calendar;
 @Entity
 @Table(name="CONCEPT_RELATIONSHIP", uniqueConstraints = {  })
 
-public class ConceptRelationship  implements java.io.Serializable {
+public class ConceptRelationship  {
 
 
     // Fields    

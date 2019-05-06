@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CONCEPT_SYNONYM", uniqueConstraints = {  })
 
-public class ConceptSynonym  implements java.io.Serializable {
+public class ConceptSynonym  {
 
 
     // Fields    

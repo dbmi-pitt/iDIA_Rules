@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="MEASUREMENT")
 
-public class Measurement implements java.io.Serializable {
+public class Measurement {
 
     // Constructors
     /** default constructor */

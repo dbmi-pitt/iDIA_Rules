@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="PROCEDURE_OCCURRENCE")
 
-public class ProcedureOccurrence  implements java.io.Serializable {
+public class ProcedureOccurrence  {
 
 
     // Constructors

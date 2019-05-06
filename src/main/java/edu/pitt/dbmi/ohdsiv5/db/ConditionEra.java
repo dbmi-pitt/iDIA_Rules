@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CONDITION_ERA")
 
-public class ConditionEra  implements java.io.Serializable {
+public class ConditionEra  {
 
     // Constructors
 

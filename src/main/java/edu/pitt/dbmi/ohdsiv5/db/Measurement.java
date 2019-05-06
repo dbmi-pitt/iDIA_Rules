@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 @Table(name="MEASUREMENT")
 
-public class Measurement implements java.io.Serializable {
+public class Measurement {
 
 	private int measurementId;
 	private int personId;

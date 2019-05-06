@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CONCEPT_ANCESTOR", uniqueConstraints = {  })
 
-public class ConceptAncestor  implements java.io.Serializable {
+public class ConceptAncestor  {
 
 
     // Fields   
