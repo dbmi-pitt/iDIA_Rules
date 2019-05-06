@@ -18,7 +18,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    // create Observation for case where the value is a number
                # Replace Windows newlines with Unix newlines    // concept. Pass TRUE for checkVocab if the observation concept is
                # Replace Windows newlines with Unix newlines    // thought to be in the Standard Vocabulary 
-               # Replace Windows newlines with Unix newlines    public Observation(Long personId, String sourceObsCode,
+               # Replace Windows newlines with Unix newlines/*    public Observation(Long personId, String sourceObsCode,
                # Replace Windows newlines with Unix newlines		       Integer obsConceptId, Integer obsType, double obsValueAsNumber, Calendar obsDate, Boolean checkVocab) {
                # Replace Windows newlines with Unix newlines		super();
                # Replace Windows newlines with Unix newlines		this.personId = personId;
@@ -34,7 +34,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines		this.obsUnitsConceptId = obsUnitsConceptId;
                # Replace Windows newlines with Unix newlines		this.obsDate = obsDate;
                # Replace Windows newlines with Unix newlines		this.providerId = 9999; // No provider
-               # Replace Windows newlines with Unix newlines	}
+               # Replace Windows newlines with Unix newlines	}*/
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    // create Observation for case where the value is a number
                # Replace Windows newlines with Unix newlines    // concept and the observation concept id is known
@@ -55,7 +55,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    // TRUE for checkVocab if the observation concept is thought to be
                # Replace Windows newlines with Unix newlines    // in the Standard Vocabulary. NOTE: obsConceptId will not be used if
                # Replace Windows newlines with Unix newlines    // checkVocab is TRUE
-               # Replace Windows newlines with Unix newlines    public Observation(Long personId, String sourceObsCode, 
+               # Replace Windows newlines with Unix newlines/*    public Observation(Long personId, String sourceObsCode, 
                # Replace Windows newlines with Unix newlines		       String obsValueAsString, Integer obsType, Calendar obsDate, Boolean checkVocab, Integer obsConceptId) {
                # Replace Windows newlines with Unix newlines		super();
                # Replace Windows newlines with Unix newlines		this.personId = personId;
@@ -72,14 +72,14 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines		this.obsType = obsType;
                # Replace Windows newlines with Unix newlines		this.obsDate = obsDate;
                # Replace Windows newlines with Unix newlines		this.providerId = 9999; // No provider
-               # Replace Windows newlines with Unix newlines	}
+               # Replace Windows newlines with Unix newlines	}*/
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines        // create Observation for case where the value is a concept. Pass
                # Replace Windows newlines with Unix newlines        // TRUE for checkVocab if the observation concept is thought to be
                # Replace Windows newlines with Unix newlines        // in the Standard Vocabulary. NOTE: obsConceptId will not be used if
                # Replace Windows newlines with Unix newlines        // checkVocab is TRUE
-               # Replace Windows newlines with Unix newlines        public Observation(Long personId, String sourceObsCode, 
+               # Replace Windows newlines with Unix newlines/*        public Observation(Long personId, String sourceObsCode, 
                # Replace Windows newlines with Unix newlines		       Long obsValueAsConceptId, Integer obsType, Calendar obsDate, Boolean checkVocab, Integer obsConceptId) {
                # Replace Windows newlines with Unix newlines		super();
                # Replace Windows newlines with Unix newlines		this.personId = personId;
@@ -96,7 +96,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines		this.obsType = obsType;
                # Replace Windows newlines with Unix newlines		this.obsDate = obsDate;
                # Replace Windows newlines with Unix newlines		this.providerId = 9999; // No provider
-               # Replace Windows newlines with Unix newlines	}
+               # Replace Windows newlines with Unix newlines	}*/
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines 
                # Replace Windows newlines with Unix newlines	/**
