@@ -1,8 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
 
-@Entity
-@Table(name="SIG_MAPPING")
 
 public class SigMapping {
 
@@ -27,9 +25,7 @@ public class SigMapping {
     }
 
     // Property accessors
-    @Id
-    @Column(name="ID", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-    Integer id;
+            Integer id;
     public Integer getSigMappingId() {
     return this.id;
     }
@@ -38,8 +34,7 @@ public class SigMapping {
     }
 
 
-    @Column(name="sig", unique=false, nullable=false, insertable=true, updatable=true, length=200)
-    String sig;
+        String sig;
     public String getSig() {
     return this.sig;
     }
@@ -47,8 +42,7 @@ public class SigMapping {
     this.sig = sig;
     }
 
-    @Column(name="expected", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-    Integer expected;
+        Integer expected;
     public Integer getSigExpected() {
     return this.expected;
     }
@@ -56,8 +50,7 @@ public class SigMapping {
     this.expected = expected;
     }
 
-    @Column(name="min", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-    Integer min;
+        Integer min;
     public Integer getSigMin() {
     return this.min;
     }
@@ -65,8 +58,7 @@ public class SigMapping {
     this.min = min;
     }
 
-    @Column(name="max", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-    Integer max;
+        Integer max;
     public Integer getSigMax() {
     return this.max;
     }
