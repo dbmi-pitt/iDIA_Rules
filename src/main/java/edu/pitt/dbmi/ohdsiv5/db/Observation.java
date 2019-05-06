@@ -18,7 +18,7 @@ public class Observation  {
     // create Observation for case where the value is a number
     // concept. Pass TRUE for checkVocab if the observation concept is
     // thought to be in the Standard Vocabulary 
-    public Observation(Long personId, String sourceObsCode,
+/*    public Observation(Long personId, String sourceObsCode,
 		       Integer obsConceptId, Integer obsType, double obsValueAsNumber, Calendar obsDate, Boolean checkVocab) {
 		super();
 		this.personId = personId;
@@ -34,7 +34,7 @@ public class Observation  {
 		this.obsUnitsConceptId = obsUnitsConceptId;
 		this.obsDate = obsDate;
 		this.providerId = 9999; // No provider
-	}
+	}*/
 
     // create Observation for case where the value is a number
     // concept and the observation concept id is known
@@ -55,7 +55,7 @@ public class Observation  {
     // TRUE for checkVocab if the observation concept is thought to be
     // in the Standard Vocabulary. NOTE: obsConceptId will not be used if
     // checkVocab is TRUE
-    public Observation(Long personId, String sourceObsCode, 
+/*    public Observation(Long personId, String sourceObsCode, 
 		       String obsValueAsString, Integer obsType, Calendar obsDate, Boolean checkVocab, Integer obsConceptId) {
 		super();
 		this.personId = personId;
@@ -72,14 +72,14 @@ public class Observation  {
 		this.obsType = obsType;
 		this.obsDate = obsDate;
 		this.providerId = 9999; // No provider
-	}
+	}*/
 
 
         // create Observation for case where the value is a concept. Pass
         // TRUE for checkVocab if the observation concept is thought to be
         // in the Standard Vocabulary. NOTE: obsConceptId will not be used if
         // checkVocab is TRUE
-        public Observation(Long personId, String sourceObsCode, 
+/*        public Observation(Long personId, String sourceObsCode, 
 		       Long obsValueAsConceptId, Integer obsType, Calendar obsDate, Boolean checkVocab, Integer obsConceptId) {
 		super();
 		this.personId = personId;
@@ -96,7 +96,7 @@ public class Observation  {
 		this.obsType = obsType;
 		this.obsDate = obsDate;
 		this.providerId = 9999; // No provider
-	}
+	}*/
 
  
 	/**
