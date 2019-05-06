@@ -8,10 +8,6 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.KieBaseConfiguration; 
 
-
-
-
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,14 +18,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import com.sample.model.ConceptSetItem;
 
-import edu.pitt.dbmi.ohdsiv5.db.util.HibernateUtil;
 import edu.pitt.dbmi.ohdsiv5.db.Concept;
 import edu.pitt.dbmi.ohdsiv5.db.ConceptRelationship;
 import edu.pitt.dbmi.ohdsiv5.db.ConditionOccurrence;
@@ -47,17 +37,7 @@ import edu.pitt.dbmi.ohdsiv5.db.VisitOccurrence;
 
 
 public class DroolsTest {
-/*
-    static SessionFactory session = HibernateUtil.getSession().getSessionFactory();  
 
-    private static void openDbSession() {
-	session.openSession();
-    }
-
-    private static void closeDbSession() {
-	session.close();
-    }
-    */
     @SuppressWarnings({ "unchecked" })
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
@@ -284,127 +264,6 @@ public class DroolsTest {
         kSession.insert(ex_dexp);
         cnt++;
 	}
-
-	/*
-	iter = dexpResults.iterator();
-	DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	while (iter.hasNext()) {
-		Map map = (Map) iter.next();
-		System.out.println("DEXP QUERY: " + map.toString());
-		ExtendedDrugExposure ex_dexp = new ExtendedDrugExposure();
-	    ex_dexp.setDrugExposureId(Long.parseLong(map.get("drug_exposure_id").toString()));
-	    ex_dexp.setPersonId(Long.parseLong(map.get("person_id").toString()));
-	    ex_dexp.setDrugConceptId(Integer.parseInt(map.get("drug_concept_id").toString()));
-	    try {
-			LocalDateTime ldt = LocalDateTime.parse(map.get("drug_exposure_start_date").toString(),df);
-			Calendar cal = Calendar.getInstance();
-			cal.set(ldt.getYear(), ldt.getMonthValue()-1, ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
-			ex_dexp.setDrugExposureStartDateCal(cal);
-	    } 
-	    catch (DateTimeParseException e) { e.printStackTrace(); }
-	    if(map.get("drug_exposure_end_date").toString() != "null"){
-	      try 
-	      {
-		  LocalDateTime ldt2 = LocalDateTime.parse(map.get("drug_exposure_end_date").toString(),df);
-		  Calendar cal2 = Calendar.getInstance();
-		  cal2.set(ldt2.getYear(), ldt2.getMonthValue()-1, ldt2.getDayOfMonth(), ldt2.getHour(), ldt2.getMinute(), ldt2.getSecond());
-		  ex_dexp.setDrugExposureEndDateCal(cal2);
-	      } 
-	      catch (DateTimeParseException e) 
-	      {
-		  e.printStackTrace();
-	      }}
-	    else { continue; }
-
-	    ex_dexp.setDrugTypeConceptId(Integer.parseInt(map.get("drug_type_concept_id").toString()));
-	    if(map.get("stop_reason") != null){
-	    	ex_dexp.setStopReason(map.get("stop_reason").toString());
-		}
-	    if(map.get("refills") != null){
-			ex_dexp.setRefills(Short.parseShort(map.get("refills").toString()));
-		}
-	    if(map.get("quantity") != null){
-	    	ex_dexp.setDrugQuantity(Integer.parseInt(map.get("quantity").toString()));
-	    }	   
-	    if(map.get("days_supply") != null){
-	    	ex_dexp.setDaysSupply(Short.parseShort(map.get("days_supply").toString()));
-	    }
-	    ex_dexp.setSig(map.get("sig").toString());
-
-	    
-	    if(map.get("expected") != null){
-			ex_dexp.setSigExpected(Integer.parseInt(map.get("expected").toString()));
-		}
-	    if(map.get("min") != null){
-			ex_dexp.setSigMin(Integer.parseInt(map.get("min").toString()));
-		}
-	    if(map.get("max") != null){
-			ex_dexp.setSigMax(Integer.parseInt(map.get("max").toString()));
-		}
-	    if(map.get("route_concept_id") != null){
-			ex_dexp.setRouteConceptId(Integer.parseInt(map.get("route_concept_id").toString()));
-		}
-		if(map.get("lot_number") != null){
-			ex_dexp.setLotNumber(map.get("lot_number").toString());
-		}
- 	    if(map.get("provider_id") != null){
-			ex_dexp.setProviderId(Integer.parseInt(map.get("provider_id").toString()));
-		}
-	    if(map.get("visit_occurrence_id") != null){
-			ex_dexp.setVisitOccurrenceId(Long.parseLong(map.get("visit_occurrence_id").toString()));
-		}
-		if(map.get("drug_source_value") != null){
-			ex_dexp.setDrugSourceValue(map.get("drug_source_value").toString());
-		}	    
-	    if(map.get("drug_source_concept_id") != null){
-			ex_dexp.setDrugSourceConceptId(Integer.parseInt(map.get("drug_source_concept_id").toString()));
-		}
-		if(map.get("route_source_value") != null) {
-	    	ex_dexp.setRouteSourceValue(map.get("route_source_value").toString());
-		}
-		if(map.get("dose-unit_source_value") != null) {
-		    ex_dexp.setDoseUnitSourceValue(map.get("dose_unit_source_value").toString());
-		}	    
-	    if(map.get("amount_value") != null){
-	    	ex_dexp.setAmountValue(Double.parseDouble(map.get("amount_value").toString()));
-	    }
-	    if(map.get("amount_unit_concept_id") != null){
-	    	ex_dexp.setAmountUnitConceptId(Integer.parseInt(map.get("amount_unit_concept_id").toString()));
-	    }	    
-	    if(map.get("numerator_value") != null){
-	    	ex_dexp.setNumeratorValue(Double.parseDouble(map.get("numerator_value").toString()));
-	    }	    if(map.get("numerator_unit_concept_id") != null){
-	    	ex_dexp.setNumeratorUnitConceptId(Integer.parseInt(map.get("numerator_unit_concept_id").toString()));
-	  	}	    
-	    if(map.get("dose_unit_source_value") != null){
-	    	ex_dexp.setDenominatorValue(Double.parseDouble(map.get("dose_unit_source_value").toString()));
-	    }
-	    if(map.get("denominator_unit_concept_id") != null){
-	    	ex_dexp.setDenominatorUnitConceptId(Integer.parseInt(map.get("denominator_unit_concept_id").toString()));
-	    }	      
-
-        
-	    if(map.get("amount_value") != null && map.get("expected") != null){
-                ex_dexp.setSigDailyDosage(Double.parseDouble(map.get("amount_value").toString()), Double.parseDouble(map.get("expected").toString()));
-	    }
-	    else if(map.get("quantity") != null && map.get("days_supply") != null && map.get("amount_value") != null){
-	      ex_dexp.setRegDailyDosage(Integer.parseInt(map.get("quantity").toString()), Short.parseShort(map.get("days_supply").toString()), Double.parseDouble(map.get("amount_value").toString()));
-	  	}
-            
-	    else if(map.get("quantity") != null && map.get("days_supply") != null && map.get("numerator_value") != null){
-	      ex_dexp.setComplexDailyDosage(Integer.parseInt(map.get("quantity").toString()), Short.parseShort(map.get("days_supply").toString()), Double.parseDouble(map.get("numerator_value").toString()));
-	  	}
-	    
-	    else{
-	      ex_dexp.setNullDailyDosage(0.00);
-	  	}	      
-	    ex_dexp.setIngredientConceptId(Integer.parseInt(map.get("ingredient_concept_id").toString()));
-	    if(map.get("indication_concept_id") != null){
-	      ex_dexp.setIndicationConceptId(Integer.parseInt(map.get("indication_concept_id").toString()));
-	    }
-	    kSession.insert(ex_dexp);
-
-	}*/
 
 	// System.out.println("Number of facts asserted: " + cnt);	System.out.println("Total number of facts that should've been asserted: " + total_cnt);
 
