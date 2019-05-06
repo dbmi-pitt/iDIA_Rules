@@ -44,7 +44,7 @@ public class Concept  {
     }
    
     // Property accessors
-            //    public Integer getConceptId() {
+    public Integer getConceptId() {
 	return conceptId;
     }
     public void setConceptId(Integer conceptId) {

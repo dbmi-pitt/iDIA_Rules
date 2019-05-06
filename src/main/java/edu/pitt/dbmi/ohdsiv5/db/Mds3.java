@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 /**
  * Mds3 
  */
-public class Mds3, Mds {
+public class Mds3 {
 	// Fields    
 	Long id;
 	private String patientId;

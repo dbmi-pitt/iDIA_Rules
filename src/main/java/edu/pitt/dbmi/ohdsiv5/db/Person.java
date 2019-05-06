@@ -8,9 +8,6 @@ import java.sql.Date;
 
 public class Person  {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	Long personId;
@@ -26,95 +23,95 @@ public class Person  {
         String ethnicitySourceCode;
     // Constructors
 
-    /** default constructor */
+    // default constructor
     public Person() {
     }
 
-    /**                 	public Long getPersonId() {
+                     	public Long getPersonId() {
 		return personId;
         }
 
-    /** 	public void setPersonId(Long personId) {
+     	public void setPersonId(Long personId) {
 		this.personId = personId;
 	}
 
-    /** 		public Integer getYearOfBirth() {
+     		public Integer getYearOfBirth() {
 		return yearOfBirth;
 	}
 
-    /** 	public void setYearOfBirth(Integer yearOfBirth) {
+     	public void setYearOfBirth(Integer yearOfBirth) {
 		this.yearOfBirth = yearOfBirth;
 	}
 	
-    /** 		public Integer getMonthOfBirth() {
+     		public Integer getMonthOfBirth() {
 		return monthOfBirth;
 	}
 
-    /** 	public void setMonthOfBirth(Integer monthOfBirth) {
+     	public void setMonthOfBirth(Integer monthOfBirth) {
 		this.monthOfBirth = monthOfBirth;
 	}
 	
-    /** 		public Integer getDayOfBirth() {
+     		public Integer getDayOfBirth() {
 		return dayOfBirth;
 	}
 
-    /** 	public void setDayOfBirth(Integer dayOfBirth) {
+     	public void setDayOfBirth(Integer dayOfBirth) {
 		this.dayOfBirth = dayOfBirth;
 	}	
 	
-    /** 		public Integer getGenderCUI() {
+     		public Integer getGenderCUI() {
 		return genderCUI;
 	}
 	
-    /** 	public void setGenderCUI(Integer genderCUI) {
+     	public void setGenderCUI(Integer genderCUI) {
 		this.genderCUI = genderCUI;
 	}
 	
-    /** 		public Integer getRaceCUI() {
+     		public Integer getRaceCUI() {
 		return raceCUI;
 	}
 
-    /** 	public void setRaceCUI(Integer raceCUI) {
+     	public void setRaceCUI(Integer raceCUI) {
 		this.raceCUI = raceCUI;
 	}
 
-    /** 		public Integer getLocationId() {
+     		public Integer getLocationId() {
 		return locationId;
 	}
 
-    /** 	public void setLocationId(Integer locationId) {
+     	public void setLocationId(Integer locationId) {
 		this.locationId = locationId;
 	}
 
-    /** 		public String getGenderSourceCode() {
+     		public String getGenderSourceCode() {
 		return genderSourceCode;
 	}
 
-    /**         public void setEthnicityCUI(Integer ethnicityCUI) {
+             public void setEthnicityCUI(Integer ethnicityCUI) {
                 this.ethnicityCUI = ethnicityCUI;
         }
 
-    /**                 public Integer getEthnicityCUI() {
+                     public Integer getEthnicityCUI() {
 	        return ethnicityCUI;
         } 
 
-    /**         public void setEthnicitySourceCode(String ethnicitySourceCode) {
+             public void setEthnicitySourceCode(String ethnicitySourceCode) {
        	        this.ethnicitySourceCode = ethnicitySourceCode;
          }
 
-    /**                 public String getEthnicitySourceCode() {
+                     public String getEthnicitySourceCode() {
 	        return ethnicitySourceCode;
         }
 
-    /** 	public void setGenderSourceCode(String genderSourceCode) {
+     	public void setGenderSourceCode(String genderSourceCode) {
 		this.genderSourceCode = genderSourceCode;
 	}
 
-    /** 		public String getRaceSourceCode() {
+     		public String getRaceSourceCode() {
 		return raceSourceCode;
 	}
 
-    /** 	public void setRaceSourceCode(String raceSourceCode) {
+     	public void setRaceSourceCode(String raceSourceCode) {
 		this.raceSourceCode = raceSourceCode;
 	}
 }
