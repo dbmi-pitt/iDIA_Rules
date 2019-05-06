@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="DRUG_EXPOSURE_REF")
 
-public class DrugExposureRef  implements java.io.Serializable {
+public class DrugExposureRef  {
 
 
     // Fields    

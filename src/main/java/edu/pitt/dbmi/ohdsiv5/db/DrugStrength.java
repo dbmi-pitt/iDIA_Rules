@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="DRUG_STRENGTH")
 
-public class DrugStrength implements java.io.Serializable {
+public class DrugStrength {
     
     // Constructor
 

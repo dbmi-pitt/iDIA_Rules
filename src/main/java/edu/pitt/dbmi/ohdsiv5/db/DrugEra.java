@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="DRUG_ERA")
 
-public class DrugEra  implements java.io.Serializable {
+public class DrugEra  {
 
     // Constructors
 

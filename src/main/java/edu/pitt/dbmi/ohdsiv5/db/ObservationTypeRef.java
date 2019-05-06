@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="OBSERVATION_TYPE_REF")
 
-public class ObservationTypeRef  implements java.io.Serializable {
+public class ObservationTypeRef  {
 
 
     // Fields    

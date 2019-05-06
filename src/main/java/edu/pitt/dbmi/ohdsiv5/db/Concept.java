@@ -16,7 +16,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines@Entity
                # Replace Windows newlines with Unix newlines@Table(name="CONCEPT", uniqueConstraints = {  })
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlinespublic class Concept  implements java.io.Serializable {
+               # Replace Windows newlines with Unix newlinespublic class Concept  {
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    // Fields    
                # Replace Windows newlines with Unix newlines    private Integer conceptId;

@@ -19,7 +19,7 @@ import javax.persistence.SequenceGenerator;
  */
 @Entity
 @Table(name="MDS2")
-    public class Mds2 implements java.io.Serializable, Mds {
+    public class Mds2, Mds {
 
 
     // Fields    

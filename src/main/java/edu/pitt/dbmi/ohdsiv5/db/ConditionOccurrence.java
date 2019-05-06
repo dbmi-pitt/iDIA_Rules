@@ -17,7 +17,7 @@ import java.util.Calendar;
 @Entity
 @Table(name="CONDITION_OCCURRENCE")
 
-public class ConditionOccurrence  implements java.io.Serializable {
+public class ConditionOccurrence  {
 
     // Constructors
 

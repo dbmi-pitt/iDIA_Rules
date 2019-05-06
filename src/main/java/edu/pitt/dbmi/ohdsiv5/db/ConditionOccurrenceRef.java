@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CONDITION_OCCURRENCE_REF")
 
-public class ConditionOccurrenceRef  implements java.io.Serializable {
+public class ConditionOccurrenceRef  {
 
 
     // Fields    

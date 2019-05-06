@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="MDS3")
-public class Mds3 implements java.io.Serializable, Mds {
+public class Mds3, Mds {
 	// Fields    
 	Long id;
 	private String patientId;

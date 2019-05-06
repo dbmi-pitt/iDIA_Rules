@@ -12,7 +12,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines@Entity
                # Replace Windows newlines with Unix newlines@Table(name="CONCEPT_ANCESTOR", uniqueConstraints = {  })
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlinespublic class ConceptAncestor  implements java.io.Serializable {
+               # Replace Windows newlines with Unix newlinespublic class ConceptAncestor  {
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    // Fields   

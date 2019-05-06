@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="OBSERVATION_PERIOD")
 
-public class ObservationPeriod  implements java.io.Serializable {
+public class ObservationPeriod  {
 
 
     // Constructors

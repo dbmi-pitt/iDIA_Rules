@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 
-public class DrugExposureRefId  implements java.io.Serializable {
+public class DrugExposureRefId  {
 
 
     // Fields    

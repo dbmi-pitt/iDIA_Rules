@@ -16,7 +16,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines@Entity
                # Replace Windows newlines with Unix newlines@Table(name="OBSERVATION")
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlinespublic class Observation  implements java.io.Serializable {
+               # Replace Windows newlines with Unix newlinespublic class Observation  {
                # Replace Windows newlines with Unix newlines 
                # Replace Windows newlines with Unix newlines    // Constructors
                # Replace Windows newlines with Unix newlines

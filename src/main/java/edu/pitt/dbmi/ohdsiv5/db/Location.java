@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="LOCATION")
 
-public class Location  implements java.io.Serializable {
+public class Location  {
 
 
     // Fields    

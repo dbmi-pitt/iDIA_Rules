@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="SIG_MAPPING")
 
-public class SigMapping implements java.io.Serializable {
+public class SigMapping {
 
     // Constructor
 

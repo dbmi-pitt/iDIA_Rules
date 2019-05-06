@@ -19,7 +19,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines@Entity
                # Replace Windows newlines with Unix newlines@Table(name="SOURCE_TO_CONCEPT_MAP")
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlines	public class SourceToConceptMap  implements java.io.Serializable {
+               # Replace Windows newlines with Unix newlines	public class SourceToConceptMap  {
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines	// Fields    

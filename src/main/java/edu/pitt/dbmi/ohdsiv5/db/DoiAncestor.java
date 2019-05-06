@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="DOI_ANCESTOR")
 
-public class DoiAncestor  implements java.io.Serializable {
+public class DoiAncestor  {
 
 
     // Fields    

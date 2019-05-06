@@ -14,7 +14,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines@Entity
                # Replace Windows newlines with Unix newlines@Table(name="CONCEPT_SYNONYM", uniqueConstraints = {  })
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlinespublic class ConceptSynonym  implements java.io.Serializable {
+               # Replace Windows newlines with Unix newlinespublic class ConceptSynonym  {
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    // Fields    
