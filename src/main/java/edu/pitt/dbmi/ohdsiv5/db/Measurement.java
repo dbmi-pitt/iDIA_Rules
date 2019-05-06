@@ -1,13 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 // Generated Jun 1, 2016 2:26:24 PM by Hibernate Tools 3.4.0.CR1
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
 

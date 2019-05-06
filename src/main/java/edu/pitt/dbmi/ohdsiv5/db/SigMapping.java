@@ -1,9 +1,5 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="SIG_MAPPING")

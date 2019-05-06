@@ -1,10 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 // Generated Aug 25, 2010 7:48:41 AM by Hibernate Tools 3.1.0.beta4
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Calendar;
 
 /**
