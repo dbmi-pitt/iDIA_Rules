@@ -2,8 +2,6 @@ package edu.pitt.dbmi.ohdsiv5.db;
 
 import java.util.Calendar;
 
-@Entity
-@Table(name="DRUG_STRENGTH")
 
 public class DrugStrength {
     
@@ -40,9 +38,7 @@ public class DrugStrength {
     }
 
     // Property accessors
-    @Id
-    @Column(name="DRUG_CONCEPT_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-    Integer drugConceptId;
+            Integer drugConceptId;
     public Integer getDrugConceptId() {
 	return this.drugConceptId;
     }
@@ -50,8 +46,7 @@ public class DrugStrength {
 	this.drugConceptId = drugConceptId;
     }
 
-    @Column(name="INGREDIENT_CONCEPT_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-    Integer ingredientConceptId;
+        Integer ingredientConceptId;
     public Integer getIngredientConceptId() {
 	return this.ingredientConceptId;
     }
@@ -59,8 +54,7 @@ public class DrugStrength {
 	this.ingredientConceptId = ingredientConceptId;
     }
 
-    @Column(name="AMOUNT_VALUE", unique=false, nullable=true, insertable=true, updatable=true, precision=12, scale=0)
-    Double amountValue;
+        Double amountValue;
     public Double getAmountValue() {
 	return this.amountValue;
     }
@@ -68,8 +62,7 @@ public class DrugStrength {
 	this.amountValue = amountValue;
     }
 
-    @Column(name="AMOUNT_UNIT_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-    Integer amountUnitConceptId;
+        Integer amountUnitConceptId;
     public Integer getAmountUnitConceptId() {
 	return this.amountUnitConceptId;
     }
@@ -77,8 +70,7 @@ public class DrugStrength {
 	this.amountUnitConceptId = amountUnitConceptId;
     }
 
-    @Column(name="NUMERATOR_VALUE", unique=false,nullable=true, updatable=true, insertable=true, precision=8, scale=0)
-    Double numeratorValue;
+        Double numeratorValue;
     public Double getNumeratorValue() {
 	return this.numeratorValue;
     }
@@ -86,8 +78,7 @@ public class DrugStrength {
 	this.numeratorValue = numeratorValue;
     }
 
-    @Column(name="NUMERATOR_UNIT_CONCEPT_ID", unique=false, nullable=true, updatable=true, insertable=true, precision=8, scale=0)
-    Integer numeratorUnitConceptId;
+        Integer numeratorUnitConceptId;
     public Integer getNumeratorUnitConceptId() {
 	return this.numeratorUnitConceptId;
     }
@@ -95,8 +86,7 @@ public class DrugStrength {
 	this.numeratorUnitConceptId = numeratorUnitConceptId;
     }
 
-    @Column(name="DENOMINATOR_VALUE", unique=false,nullable=true, updatable=true, insertable=true, precision=8, scale=0)
-    Double denominatorValue;
+        Double denominatorValue;
     public Double getDenominatorValue() {
 	return this.denominatorValue;
     }
@@ -104,8 +94,7 @@ public class DrugStrength {
 	this.denominatorValue = denominatorValue;
     }
     
-    @Column(name="DENOMINATOR_UNIT_CONCEPT_ID", unique=false, nullable=true, updatable=true, insertable=true, precision=8, scale=0)
-    Integer denominatorUnitConceptId;
+        Integer denominatorUnitConceptId;
     public Integer getDenominatorUnitConceptId() {
 	return this.denominatorUnitConceptId;
     }
@@ -113,8 +102,7 @@ public class DrugStrength {
 	this.denominatorUnitConceptId = denominatorUnitConceptId;
     }
 
-    @Column(name="VALID_START_DATE", unique=false, nullable=false, insertable=true, updatable=true, length=7) 
-    Calendar validStartDate;
+        Calendar validStartDate;
     public Calendar getValidStartDate() {
 	return this.validStartDate;
     }
@@ -122,8 +110,7 @@ public class DrugStrength {
 	this.validStartDate = validStartDate;
     }    
    
-    @Column(name="VALID_END_DATE", unique=false, nullable=false, insertable=true, updatable=true, length=7) 
-    Calendar validEndDate;
+        Calendar validEndDate;
     public Calendar getValidEndDate() {
 	return this.validEndDate;
     }
@@ -131,8 +118,7 @@ public class DrugStrength {
 	this.validEndDate = validEndDate;
     }
 
-    @Column(name="INVALID_REASON", unique=false, nullable=true, updatable=true, insertable=true, length=1)
-    String invalidReason;
+        String invalidReason;
     public String getInvalidReason() {
 	return this.invalidReason;
     }

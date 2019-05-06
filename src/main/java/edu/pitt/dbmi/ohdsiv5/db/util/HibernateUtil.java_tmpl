@@ -17,10 +17,7 @@ public class HibernateUtil {
 	
 	//TODO put in property file
 	// Work Computer
-	private static String defaultUsername = "@defaultUsername@";
-	private static String defaultPassword = "@defaultPassword@";
-	private static String defaultConnectionURL  = "jdbc:oracle:thin:@lnx01.dbmi.pitt.edu:1521:dbmi01";
-	//TODO set up port, hostname, etc. for later
+	private static String defaultUsername = "	private static String defaultPassword = "	private static String defaultConnectionURL  = "jdbc:oracle:thin:	//TODO set up port, hostname, etc. for later
 	private static Configuration hibernateConf = null;
 	private static boolean validConnection = false;
 	
