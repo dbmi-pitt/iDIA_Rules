@@ -44,7 +44,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines   
                # Replace Windows newlines with Unix newlines    // Property accessors
-               # Replace Windows newlines with Unix newlines            //    public Integer getConceptId() {
+               # Replace Windows newlines with Unix newlines    public Integer getConceptId() {
                # Replace Windows newlines with Unix newlines	return conceptId;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines    public void setConceptId(Integer conceptId) {
