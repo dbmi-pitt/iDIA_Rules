@@ -42,29 +42,6 @@
         <artifactId>opencsv</artifactId>
         <version>2.3</version>
       </dependency>
-
-      <!-- mvn install:install-file -Dfile=./lib/hibernate-core-3.3.0.SP1.jar -DgroupId=hibernate -DartifactId=hibernate -Dversion=3.3.0 -Dpackaging=jar -->
-      <dependency>
-        <groupId>hibernate</groupId>
-        <artifactId>hibernate</artifactId>
-        <version>3.3.0</version>
-      </dependency>
-
-      <!-- mvn install:install-file -Dfile=./lib/hibernate-annotations-3.4.0.GA.jar -DgroupId=hibernate -DartifactId=hibernate-annotations -Dversion=3.4.0 -Dpackaging=jar -->
-      <dependency>
-        <groupId>hibernate</groupId>
-        <artifactId>hibernate-annotations</artifactId>
-        <version>3.4.0</version>
-      </dependency>
-      
-      
-      <!-- mvn install:install-file -Dfile=./lib/hibernate-commons-annotations-3.1.0.GA.jar -DgroupId=hibernate -DartifactId=hibernate-commons-annotations -Dversion=3.1.0 -Dpackaging=jar -->
-      <dependency>
-        <groupId>hibernate</groupId>
-        <artifactId>hibernate-commons-annotations</artifactId>
-        <version>3.1.0</version>
-      </dependency>
-
       
       <!-- mvn install:install-file -Dfile=./lib/ehcache-core-2.1.0.jar -DgroupId=ehcache -DartifactId=ehcache-core -Dversion=2.1.0 -Dpackaging=jar -->
       <dependency>
