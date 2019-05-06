@@ -69,95 +69,24 @@ public class DroolsTest {
 		}
 	}
 
-    Class.forName("org.postgresql.Driver");
-	String url = "jdbc:postgresql://localhost:5432/idiarules";
-	Properties props = new Properties();
-	props.setProperty("user","postgres");
-	props.setProperty("password","e123779871435990");
-
-	Connection conn = DriverManager.getConnection(url, props);
-
-	System.out.println("Gathering data...");
-
-	////////////////////////////////////////////////////////////////////////////
-	// QUERIES...
-	////////////////////////////////////////////////////////////////////////////
-
-	Statement personSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-	ResultSet personQuery = personSt.executeQuery(
-			"SELECT " 
-			+ "person_id"
-			+ ",gender_concept_id"
-			+ ",year_of_birth"
-			+ ",race_concept_id"
-			+ ",ethnicity_concept_id"
-			+ " FROM person"
-		);
-	personQuery.last(); // cursor to last row to get # of results
-	System.out.println("INFO: # of persons: " + personQuery.getRow());
-	personQuery.beforeFirst(); // reset cursor so that iterators below will work. 
-
-	Statement csSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-	ResultSet csQuery = csSt.executeQuery(
-			"SELECT" 
-			+ " concept_set_name"
-			+ ",concept_id" 
-			+ " FROM ohdsi.concept_set cs" 
-			+ " INNER JOIN ohdsi.concept_set_item csi" 
-			+ " ON cs.concept_set_id = csi.concept_set_id"
-		);
-	csQuery.last(); 
-	System.out.println("INFO: # of conceptTpls: " + csQuery.getRow()); 
-	csQuery.beforeFirst();
-
-	Statement deraSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-	ResultSet deraQuery = deraSt.executeQuery(
-			"SELECT"
-			+ " drug_era_start_date"
-			+ ",person_id"
-			+ ",drug_era_end_date"
-			+ ",drug_concept_id"
-			+ ",drug_exposure_count"
-			+ " FROM drug_era"
-			+ " WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
-		);
-	deraQuery.last();
-	System.out.println("INFO: # of deras: " + deraQuery.getRow());
-	deraQuery.beforeFirst();
-
-	Statement dexpSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-	ResultSet dexpQuery = dexpSt.executeQuery(
-			"SELECT"
-			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, to_char(dexp.drug_exposure_start_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_start_date, to_char(dexp.drug_exposure_end_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_end_date, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, dexp.indication_concept_id"
-			+ " FROM drug_exposure dexp, drug_strength dstr, sig_mapping sm"
-			+ " WHERE dexp.drug_concept_id = dstr.drug_concept_id"
-			+ " AND dexp.sig = sm.sig"
-			+ " AND dexp.person_id IN"
-			+ "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
-		);
-	dexpQuery.last();
-	System.out.println("INFO: # of dexps: " + dexpQuery.getRow());
-	dexpQuery.beforeFirst();
-
-	////////////////////////////////////////////////////////////////////////////
-	// CREATE OBJECTS...
-	////////////////////////////////////////////////////////////////////////////
-
-	System.out.println("Done gathering data...");
-	// int total_cnt = (csItemResults.size() + deraResults.size() + personResults.size() + ceras.size() + msnts.size() + dexpResults.size() + voccs.size());
-
-	KieServices ks = KieServices.Factory.get();
-    KieContainer kContainer = ks.getKieClasspathContainer();
-    
+  
 	System.out.println("INFO: Rule engine session open!");
-    
+
+	//////////////////////////////
+	// Set up Drools KIE
+	//////////////////////////////
+	KieServices ks = KieServices.Factory.get();
+        KieContainer kContainer = ks.getKieClasspathContainer();
+
 	KieBaseConfiguration kconfig = ks.newKieBaseConfiguration();
-    
-    kconfig.setOption(RuleEngineOption.PHREAK);
-    KieBase kbase = kContainer.newKieBase("rules_progress", kconfig);
-    KieSession kSession = kbase.newKieSession();
+	// kconfig.setOption(RuleEngineOption.RETEOO);
+        kconfig.setOption(RuleEngineOption.PHREAK);
+        KieBase kbase = kContainer.newKieBase("rules_progress", kconfig);
+        KieSession kSession = kbase.newKieSession();
 	KieRuntimeLogger kieLogger = ks.getLoggers().newFileLogger(kSession, "audit");
 
+	List entries = (List) kSession.getWorkingMemoryEntryPoints();
+	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	try 
 	{
@@ -178,13 +107,34 @@ public class DroolsTest {
 	{
 	  e.printStackTrace();
 	}
-		   
-	System.out.println("Asserting facts...");
-	int cnt = 0;
-	while (csQuery.next()){
-	    kSession.insert( new ConceptSetItem(csQuery.getString(1), csQuery.getInt(2)) );
-	    cnt++;
-	}
+
+	////////////////////////////////////////////////////////////////////////////
+	// QUERY AND LOAD
+	////////////////////////////////////////////////////////////////////////////
+        Class.forName("org.postgresql.Driver");
+	String url = "jdbc:postgresql://localhost:5432/idiarules";
+	Properties props = new Properties();
+	props.setProperty("user","postgres");
+	props.setProperty("password","e123779871435990");
+	Connection conn = DriverManager.getConnection(url, props);
+
+	int cnt = 0; // fact counter - counts what is iterated, not necessarily what is finally in working memory
+	
+	System.out.println("Gathering data...");
+	Statement personSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet personQuery = personSt.executeQuery(
+			"SELECT " 
+			+ "person_id"
+			+ ",gender_concept_id"
+			+ ",year_of_birth"
+			+ ",race_concept_id"
+			+ ",ethnicity_concept_id"
+			+ " FROM person"
+		);
+	personQuery.last(); // cursor to last row to get # of results
+	System.out.println("INFO: # of persons: " + personQuery.getRow());
+	personQuery.beforeFirst(); // reset cursor so that iterators below will work.
+
 	while (personQuery.next()){
 		Person p = new Person();
 		p.setPersonId(personQuery.getLong(1));
@@ -192,6 +142,39 @@ public class DroolsTest {
 		kSession.insert(p);
 		cnt++;
 	} 
+
+	Statement csSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet csQuery = csSt.executeQuery(
+			"SELECT" 
+			+ " concept_set_name"
+			+ ",concept_id" 
+			+ " FROM ohdsi.concept_set cs" 
+			+ " INNER JOIN ohdsi.concept_set_item csi" 
+			+ " ON cs.concept_set_id = csi.concept_set_id"
+		);
+	csQuery.last(); 
+	System.out.println("INFO: # of conceptTpls: " + csQuery.getRow()); 
+	csQuery.beforeFirst();
+	while (csQuery.next()){
+	    kSession.insert( new ConceptSetItem(csQuery.getString(1), csQuery.getInt(2)) );
+	    cnt++;
+	}
+
+	
+	Statement deraSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet deraQuery = deraSt.executeQuery(
+			"SELECT"
+			+ " drug_era_start_date"
+			+ ",person_id"
+			+ ",drug_era_end_date"
+			+ ",drug_concept_id"
+			+ ",drug_exposure_count"
+			+ " FROM drug_era"
+			+ " WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+		);
+	deraQuery.last();
+	System.out.println("INFO: # of deras: " + deraQuery.getRow());
+	deraQuery.beforeFirst();
 	while (deraQuery.next()){
 		Calendar start = Calendar.getInstance();
 		start.setTime((java.util.Date) deraQuery.getDate(1));
@@ -201,6 +184,21 @@ public class DroolsTest {
 		kSession.insert( new DrugEra(start, deraQuery.getLong(2), end, deraQuery.getInt(4), deraQuery.getInt(5)) );
 		cnt++;
 	}
+	
+	Statement dexpSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet dexpQuery = dexpSt.executeQuery(
+			"SELECT"
+			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, to_char(dexp.drug_exposure_start_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_start_date, to_char(dexp.drug_exposure_end_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_end_date, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, dexp.indication_concept_id"
+			+ " FROM drug_exposure dexp, drug_strength dstr, sig_mapping sm"
+			+ " WHERE dexp.drug_concept_id = dstr.drug_concept_id"
+			+ " AND dexp.sig = sm.sig"
+			+ " AND dexp.person_id IN"
+			+ "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
+		);
+	dexpQuery.last();
+	System.out.println("INFO: # of dexps: " + dexpQuery.getRow());
+	dexpQuery.beforeFirst();
+
 	DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	while (dexpQuery.next()){
 		Calendar start = Calendar.getInstance();
@@ -264,9 +262,14 @@ public class DroolsTest {
         kSession.insert(ex_dexp);
         cnt++;
 	}
+	
+	////////////////////////////////////////////////////////////////////////////
+	// CREATE OBJECTS...
+	////////////////////////////////////////////////////////////////////////////
 
-	// System.out.println("Number of facts asserted: " + cnt);	System.out.println("Total number of facts that should've been asserted: " + total_cnt);
+	System.out.println("Done gathering and loading data...");
 
+	
 	System.out.println("Firing rules for assessment...");
 	int nrules = -1;
 	try {
