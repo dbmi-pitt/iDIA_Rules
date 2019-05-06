@@ -1,6 +1,5 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import javax.persistence.MappedSuperclass;
 
 /**
  * @author Jeremy Jao

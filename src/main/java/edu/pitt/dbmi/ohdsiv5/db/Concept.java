@@ -1,13 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines// Generated Aug 25, 2010 7:28:02 AM by Hibernate Tools 3.1.0.beta4
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.CascadeType;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Column;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Entity;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.FetchType;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Id;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.OneToMany;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Table;
                # Replace Windows newlines with Unix newlinesimport java.util.Calendar;
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines/**

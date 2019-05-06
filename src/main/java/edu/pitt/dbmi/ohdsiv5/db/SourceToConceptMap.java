@@ -2,10 +2,6 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlinesimport java.util.List;
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Column;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Entity;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Id;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Table;
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlinesimport org.hibernate.classic.Session;
                # Replace Windows newlines with Unix newlinesimport org.hibernate.criterion.Example;

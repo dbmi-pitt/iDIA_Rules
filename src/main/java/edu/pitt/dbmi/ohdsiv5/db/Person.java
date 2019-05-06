@@ -2,15 +2,6 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlinesimport java.sql.Date;
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.AttributeOverride;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.AttributeOverrides;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Column;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Entity;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.GeneratedValue;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.GenerationType;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Id;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.SequenceGenerator;
-               # Replace Windows newlines with Unix newlinesimport javax.persistence.Table;
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines// NOTE: not all rows are mapped
                # Replace Windows newlines with Unix newlines

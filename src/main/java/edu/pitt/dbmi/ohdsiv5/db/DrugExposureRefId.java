@@ -2,8 +2,6 @@ package edu.pitt.dbmi.ohdsiv5.db;
 // Generated Jun 15, 2010 5:43:41 PM by Hibernate Tools 3.1.0.beta4
 
 import java.math.BigDecimal;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 
 
 /**
