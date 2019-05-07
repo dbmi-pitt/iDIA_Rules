@@ -87,7 +87,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS - ERAS"
     $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
     $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
     $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
+          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) && drugExposureStartDateCal.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH)
           && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
     // $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
@@ -95,11 +95,17 @@ rule "EPINEPHRINE - BETA-BLOCKERS - ERAS"
     //       && drugExposureEndDateCal != null && drugExposureEndDateCal.compareTo($dexp1.getDrugExposureStartDateCal()) >= 0
     //       && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
     //       && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
-
+    
     $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-        && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
-        && drugExposureEndDateCal != null && drugExposureEndDateCal > currentDate
-        && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
+          && drugExposureStartDateCal != null && (drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) <= currentDate.get(Calendar.DAY_OF_MONTH) || drugExposureStartDateCal.get(Calendar.YEAR) <= currentDate.get(Calendar.YEAR) || drugExposureStartDateCal.get(Calendar.MONTH) <= currentDate.get(Calendar.MONTH))
+          && drugExposureEndDateCal != null && (drugExposureEndDateCal.get(Calendar.DAY_OF_MONTH) >= currentDate.get(Calendar.DAY_OF_MONTH) || drugExposureEndDateCal.get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR) || drugExposureEndDateCal.get(Calendar.MONTH) >= currentDate.get(Calendar.MONTH))
+          && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
+
+    // $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+    //     && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
+    //     && drugExposureEndDateCal != null && drugExposureEndDateCal > currentDate
+    //     && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
   then
     String s = String.format("PERSON %d has DRUG ERAS for epi %d and beta %d", $person.getPersonId(), $de1.getDrugEraId(), $de2.getDrugEraId());
     System.out.println(s);
