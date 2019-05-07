@@ -14,8 +14,9 @@ public class DrugEra  {
     public DrugEra() {
     }
 
-    public DrugEra(Calendar drugEraStartDate, Long personId, Calendar drugEraEndDate, Integer drugConceptID, Integer drugExposureCount) {
+    public DrugEra(Long drugEraId, Calendar drugEraStartDate, Long personId, Calendar drugEraEndDate, Integer drugConceptID, Integer drugExposureCount) {
 	super();
+    this.drugEraId = drugEraId;
 	this.drugEraStartDate = drugEraStartDate;
 	this.personId = personId;
 	this.drugEraEndDate = drugEraEndDate;

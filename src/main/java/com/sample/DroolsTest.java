@@ -7,6 +7,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.KieBaseConfiguration; 
+import org.kie.api.event.kiebase.KieBaseEventManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -79,13 +80,11 @@ public class DroolsTest {
         KieContainer kContainer = ks.getKieClasspathContainer();
 
 	KieBaseConfiguration kconfig = ks.newKieBaseConfiguration();
-	// kconfig.setOption(RuleEngineOption.RETEOO);
+		// kconfig.setOption(RuleEngineOption.RETEOO);
         kconfig.setOption(RuleEngineOption.PHREAK);
         KieBase kbase = kContainer.newKieBase("rules_progress", kconfig);
         KieSession kSession = kbase.newKieSession();
 	KieRuntimeLogger kieLogger = ks.getLoggers().newFileLogger(kSession, "audit");
-
-	List entries = (List) kSession.getWorkingMemoryEntryPoints();
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	try 
@@ -164,7 +163,8 @@ public class DroolsTest {
 	Statement deraSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	ResultSet deraQuery = deraSt.executeQuery(
 			"SELECT"
-			+ " drug_era_start_date"
+			+ " drug_era_id"
+			+ ",drug_era_start_date"
 			+ ",person_id"
 			+ ",drug_era_end_date"
 			+ ",drug_concept_id"
@@ -177,11 +177,11 @@ public class DroolsTest {
 	deraQuery.beforeFirst();
 	while (deraQuery.next()){
 		Calendar start = Calendar.getInstance();
-		start.setTime((java.util.Date) deraQuery.getDate(1));
+		start.setTime((java.util.Date) deraQuery.getDate(2));
 		Calendar end = Calendar.getInstance();
-		end.setTime((java.util.Date) deraQuery.getDate(3));
+		end.setTime((java.util.Date) deraQuery.getDate(4));
 		// System.out.println("DRUG ERA: " + deraQuery.getDate(1) + " | " + deraQuery.getLong(2) + " | " + deraQuery.getDate(3) + " | " + deraQuery.getInt(4) + " | " + deraQuery.getInt(5));
-		kSession.insert( new DrugEra(start, deraQuery.getLong(2), end, deraQuery.getInt(4), deraQuery.getInt(5)) );
+		kSession.insert( new DrugEra(deraQuery.getLong(1), start, deraQuery.getLong(3), end, deraQuery.getInt(5), deraQuery.getInt(6)) );
 		cnt++;
 	}
 	
@@ -209,7 +209,7 @@ public class DroolsTest {
 			LocalDateTime ldt2 = LocalDateTime.parse(dexpQuery.getString(5),df);
 			end.set(ldt.getYear(), ldt.getMonthValue()-1, ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
 	    } catch (DateTimeParseException e) { e.printStackTrace(); }
-	    System.out.println("CREATING EX_DEXP: " + dexpQuery.getLong(1) + "\n" + "\t" + start + "\n" + "\t" + end + "\n" + "\t" + null + "\n" + "\t" + null + "\n" + "\t" + dexpQuery.getLong(2) + "\n" + "\t" + dexpQuery.getInt(3) + "\n" + "\t" + dexpQuery.getInt(6) + "\n" + "\t" + dexpQuery.getString(7) + "\n" + "\t" + dexpQuery.getShort(8) + "\n" + "\t" + dexpQuery.getInt(9) + "\n" + "\t" + dexpQuery.getShort(10) + "\n" + "\t" + dexpQuery.getString(11) + "\n" + "\t" + dexpQuery.getInt(12) + "\n" + "\t" + dexpQuery.getInt(13) + "\n" + "\t" + dexpQuery.getInt(14) + "\n" + "\t" + dexpQuery.getInt(15) + "\n" + "\t" + dexpQuery.getString(16) + "\n" + "\t" + dexpQuery.getInt(17) + "\n" + "\t" + dexpQuery.getLong(18) + "\n" + "\t" + dexpQuery.getString(19) + "\n" + "\t" + dexpQuery.getInt(20) + "\n" + "\t" + dexpQuery.getString(21) + "\n" + "\t" + dexpQuery.getString(22) + "\n" + "\t" + dexpQuery.getInt(23) + "\n" + "\t" + dexpQuery.getDouble(24) + "\n" + "\t" + dexpQuery.getInt(25) + "\n" + "\t" + dexpQuery.getDouble(26) + "\n" + "\t" + dexpQuery.getInt(27) + "\n" + "\t" + dexpQuery.getDouble(28) + "\n" + "\t" + dexpQuery.getInt(29) + "\n" + "\t" + 0.00 + "\n" + "\t" + dexpQuery.getInt(30));
+	    // System.out.println("CREATING EX_DEXP: " + dexpQuery.getLong(1) + "\n" + "\t" + start + "\n" + "\t" + end + "\n" + "\t" + null + "\n" + "\t" + null + "\n" + "\t" + dexpQuery.getLong(2) + "\n" + "\t" + dexpQuery.getInt(3) + "\n" + "\t" + dexpQuery.getInt(6) + "\n" + "\t" + dexpQuery.getString(7) + "\n" + "\t" + dexpQuery.getShort(8) + "\n" + "\t" + dexpQuery.getInt(9) + "\n" + "\t" + dexpQuery.getShort(10) + "\n" + "\t" + dexpQuery.getString(11) + "\n" + "\t" + dexpQuery.getInt(12) + "\n" + "\t" + dexpQuery.getInt(13) + "\n" + "\t" + dexpQuery.getInt(14) + "\n" + "\t" + dexpQuery.getInt(15) + "\n" + "\t" + dexpQuery.getString(16) + "\n" + "\t" + dexpQuery.getInt(17) + "\n" + "\t" + dexpQuery.getLong(18) + "\n" + "\t" + dexpQuery.getString(19) + "\n" + "\t" + dexpQuery.getInt(20) + "\n" + "\t" + dexpQuery.getString(21) + "\n" + "\t" + dexpQuery.getString(22) + "\n" + "\t" + dexpQuery.getInt(23) + "\n" + "\t" + dexpQuery.getDouble(24) + "\n" + "\t" + dexpQuery.getInt(25) + "\n" + "\t" + dexpQuery.getDouble(26) + "\n" + "\t" + dexpQuery.getInt(27) + "\n" + "\t" + dexpQuery.getDouble(28) + "\n" + "\t" + dexpQuery.getInt(29) + "\n" + "\t" + 0.00 + "\n" + "\t" + dexpQuery.getInt(30));
 		ExtendedDrugExposure ex_dexp = new ExtendedDrugExposure(
 					dexpQuery.getLong(1), // drugExposureId
 					start,
@@ -247,16 +247,16 @@ public class DroolsTest {
 				);
 		if(dexpQuery.getString(24) != "null" && dexpQuery.getString(12) != "null"){
             ex_dexp.setSigDailyDosage(dexpQuery.getDouble(24), dexpQuery.getDouble(12));
-            System.out.println("\tSET SIG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
+            // System.out.println("\tSET SIG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
         }
         else if(dexpQuery.getString(9) != "null" && dexpQuery.getString(10) != "null" && dexpQuery.getString(24) != "null"){
           	ex_dexp.setRegDailyDosage(dexpQuery.getInt(9), dexpQuery.getShort(10), dexpQuery.getDouble(24));
-			System.out.println("\tSET REG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
+			// System.out.println("\tSET REG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
 
         }
         else if(dexpQuery.getString(9) != "null" && dexpQuery.getString(10) != "null" && dexpQuery.getString(26) != "null"){
           	ex_dexp.setComplexDailyDosage(dexpQuery.getInt(9), dexpQuery.getShort(10),dexpQuery.getDouble(26));
-			System.out.println("\tSET COMPLEX DAILY DOSAGE: " + ex_dexp.getDailyDosage());
+			// System.out.println("\tSET COMPLEX DAILY DOSAGE: " + ex_dexp.getDailyDosage());
 
         }
         kSession.insert(ex_dexp);
@@ -274,7 +274,6 @@ public class DroolsTest {
 	int nrules = -1;
 	try {
 	  nrules = kSession.fireAllRules();
-	  
 	} catch (Throwable t) {     
 		System.out.println("Firing rules triggered an exception:");
 		t.printStackTrace();

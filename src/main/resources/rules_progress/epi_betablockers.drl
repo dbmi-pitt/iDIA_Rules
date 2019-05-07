@@ -46,6 +46,72 @@ global java.util.Calendar within28days;
 // Rules
 /////////// 
 
+rule "ALL EPINEPHRINE DRUG EXPOSURES"
+  when
+    $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
+    $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId())
+    $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
+    $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
+          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+    $person : Person(personId == $de1.getPersonId())
+  then
+    String s = String.format("MATCHED EPINEPHRINE DRUG EXPOSURE ID %d for PERSON ID %d", $dexp1.getDrugExposureId(), $de1.getPersonId());
+    System.out.println(s);
+end
+
+rule "ALL BETA-BLOCKER DRUG EXPOSURES"
+  when
+    $clinDrugConcept1 : ConceptSetItem(csName == "Beta-Blockers Ingredients")
+    $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId())
+    $clinDrugConcept3 : ConceptSetItem(csName == "Beta-Blockers") 
+    $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
+          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+    $person : Person(personId == $de1.getPersonId())
+  then
+    String s = String.format("MATCHED BETA-BLOCKER DRUG EXPOSURE ID %d for PERSON ID %d", $dexp1.getDrugExposureId(), $de1.getPersonId());
+    System.out.println(s);
+end
+
+rule "EPINEPHRINE - BETA-BLOCKERS - ERAS"
+  when
+    $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
+    $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+    $clinDrugConcept2 : ConceptSetItem(csName == "Beta-Blockers Ingredients")
+    $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+    $person : Person(personId == $de1.getPersonId());
+
+    $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
+    $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
+    $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
+          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+    // $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+    //       && drugExposureStartDateCal != null && drugExposureStartDateCal.compareTo($dexp1.getDrugExposureStartDateCal()) <= 0
+    //       && drugExposureEndDateCal != null && drugExposureEndDateCal.compareTo($dexp1.getDrugExposureStartDateCal()) >= 0
+    //       && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+    //       && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
+
+    $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
+        && drugExposureEndDateCal != null && drugExposureEndDateCal > currentDate
+        && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
+  then
+    String s = String.format("PERSON %d has DRUG ERAS for epi %d and beta %d", $person.getPersonId(), $de1.getDrugEraId(), $de2.getDrugEraId());
+    System.out.println(s);
+    String dexp1 = String.format("\tDRUG EXPOSURE for epi: %d", $dexp1.getDrugConceptId());
+    System.out.println(dexp1);
+    String dexp2 = String.format("\tDRUG EXPOSURE for beta: %d", $dexp2.getDrugConceptId());
+    System.out.println(dexp2);
+
+    // create rhsstate with just one drug exposure and find the second concurrent exposure in downstream rules?
+    // RHSState rhsCur = new RHSState("basic exposure to epinephrine", "yes", $dexp1);
+end
+/*
 // The first rule is a basic check to identify all patients on any dosage or form of epinephrine and a beta-blocker at the same time (beta-blocker first)
 rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"  
     when
@@ -74,10 +140,10 @@ rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"
     then  
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
-      /* String debugDexp = String.format("DEBUG\n\tdexp1: %s\n\tdexp2: %s\n\tCREATE RHS FOR %s", $dexp1.getDrugExposureId(), $dexp2.getDrugExposureId(),$person.getPersonId());
+      String debugDexp = String.format("DEBUG\n\tdexp1: %s\n\tdexp2: %s\n\tCREATE RHS FOR %s", $dexp1.getDrugExposureId(), $dexp2.getDrugExposureId(),$person.getPersonId());
       System.out.println(debugDexp);
       System.out.flush(); 
-      */
+      
       RHSState rhsCur = new RHSState("basic concomitant exposure of epinephrine and a beta-blocker", "yes", $person);
       insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
