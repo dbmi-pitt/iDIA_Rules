@@ -2,7 +2,7 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 
 
 
@@ -15,7 +15,7 @@ public class ProcedureOccurrence  {
     public ProcedureOccurrence() {
     }
 
-    public ProcedureOccurrence(Long personId, Calendar procedureDate, Integer procedureConceptId, Integer procedureTypeConceptId, String procedureSourceValue) {
+    public ProcedureOccurrence(Long personId, Timestamp procedureDate, Integer procedureConceptId, Integer procedureTypeConceptId, String procedureSourceValue) {
 	super();
 	this.personId = personId;
 	this.procedureDate = procedureDate;
@@ -54,11 +54,11 @@ public class ProcedureOccurrence  {
 	this.procedureConceptId = procedureConceptId;
     }
 
-        Calendar procedureDate;
-    public void setProcedureDate(Calendar procedureDate) {
+        Timestamp procedureDate;
+    public void setProcedureDate(Timestamp procedureDate) {
 	this.procedureDate = procedureDate;
     }    
-    public Calendar getProcedureDate() {
+    public Timestamp getProcedureDate() {
 	return procedureDate;
     }
 

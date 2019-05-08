@@ -16,8 +16,8 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines    /** full constructor */
                # Replace Windows newlines with Unix newlines    public DrugExposure(Long drugExposureId,
-               # Replace Windows newlines with Unix newlines            // Calendar drugExposureStartDate,
-               # Replace Windows newlines with Unix newlines            // Calendar drugExposureEndDate,
+               # Replace Windows newlines with Unix newlines            // Timestamp drugExposureStartDate,
+               # Replace Windows newlines with Unix newlines            // Timestamp drugExposureEndDate,
                # Replace Windows newlines with Unix newlines            Timestamp drugExposureStartDate,
                # Replace Windows newlines with Unix newlines            Timestamp drugExposureEndDate,
                # Replace Windows newlines with Unix newlines            Long personId,
@@ -74,11 +74,11 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines        this.drugExposureId = drugExposureId;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlines    //    // Calendar drugExposureStartDate;
-               # Replace Windows newlines with Unix newlines    // public Calendar getDrugExposureStartDate() {
+               # Replace Windows newlines with Unix newlines    //    // Timestamp drugExposureStartDate;
+               # Replace Windows newlines with Unix newlines    // public Timestamp getDrugExposureStartDate() {
                # Replace Windows newlines with Unix newlines    //     return this.drugExposureStartDate;
                # Replace Windows newlines with Unix newlines    // }    
-               # Replace Windows newlines with Unix newlines    // public void setDrugExposureStartDate(Calendar drugExposureStartDate) {
+               # Replace Windows newlines with Unix newlines    // public void setDrugExposureStartDate(Timestamp drugExposureStartDate) {
                # Replace Windows newlines with Unix newlines    //     this.drugExposureStartDate = drugExposureStartDate;
                # Replace Windows newlines with Unix newlines    // }
                # Replace Windows newlines with Unix newlines        Timestamp drugExposureStartDate;
@@ -89,11 +89,11 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines        this.drugExposureStartDate = drugExposureStartDate;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines    
-               # Replace Windows newlines with Unix newlines    //    // Calendar drugExposureEndDate;
-               # Replace Windows newlines with Unix newlines    // public Calendar getDrugExposureEndDate() {
+               # Replace Windows newlines with Unix newlines    //    // Timestamp drugExposureEndDate;
+               # Replace Windows newlines with Unix newlines    // public Timestamp getDrugExposureEndDate() {
                # Replace Windows newlines with Unix newlines    //     return this.drugExposureEndDate;
                # Replace Windows newlines with Unix newlines    // }
-               # Replace Windows newlines with Unix newlines    // public void setDrugExposureEndDate(Calendar drugExposureEndDate) {
+               # Replace Windows newlines with Unix newlines    // public void setDrugExposureEndDate(Timestamp drugExposureEndDate) {
                # Replace Windows newlines with Unix newlines    //     this.drugExposureEndDate = drugExposureEndDate;
                # Replace Windows newlines with Unix newlines    // }
                # Replace Windows newlines with Unix newlines        Timestamp drugExposureEndDate;

@@ -1,6 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 
 
 /**
@@ -16,7 +16,7 @@ public class ConditionOccurrence  {
     }
     
     /** full constructor */
-    public ConditionOccurrence(Long personId, Calendar conditionStartDate, Calendar conditionEndDate, Integer occurrenceType, Integer conditionConceptID, String sourceConditionCode, Integer conditionSourceConceptId) {
+    public ConditionOccurrence(Long personId, Timestamp conditionStartDate, Timestamp conditionEndDate, Integer occurrenceType, Integer conditionConceptID, String sourceConditionCode, Integer conditionSourceConceptId) {
 	super();
         this.personId = personId;
 	this.conditionStartDate = conditionStartDate;
@@ -30,7 +30,7 @@ public class ConditionOccurrence  {
     
   
     // Property accessors
-                    Long conditionOccurrenceId;
+        Long conditionOccurrenceId;
     public Long getConditionOccurrenceId() {
         return this.conditionOccurrenceId;
     }    
@@ -55,19 +55,19 @@ public class ConditionOccurrence  {
     }
  
 
-        Calendar conditionStartDate;
-    public void setConditionStartDate(Calendar conditionStartDate) {
+        Timestamp conditionStartDate;
+    public void setConditionStartDate(Timestamp conditionStartDate) {
 	this.conditionStartDate = conditionStartDate;
     }    
-    public Calendar getConditionStartDate() {
+    public Timestamp getConditionStartDate() {
 	return conditionStartDate;
     }
 
-        Calendar conditionEndDate;
-    public void setConditionEndDate(Calendar conditionEndDate) {
+        Timestamp conditionEndDate;
+    public void setConditionEndDate(Timestamp conditionEndDate) {
 	this.conditionEndDate = conditionEndDate;
     }
-    public Calendar getConditionEndDate() {
+    public Timestamp getConditionEndDate() {
 	return conditionEndDate;
     }
     
