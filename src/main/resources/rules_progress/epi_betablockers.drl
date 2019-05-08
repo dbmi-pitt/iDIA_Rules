@@ -168,17 +168,17 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrin
           && indicationConceptId == $clinIndicationConcept1.getConceptId())
     then
   // This creates a new "state" for any patients who are found to be on epinephrine with an indication for anaphylaxis
-        String debugDexp = String.format("DEBUG\n\tdexp1: %s\tindication1: %s", $dexp1.getDrugExposureId(), $dexp1.getIndicationConceptId());
-        System.out.println(debugDexp);
+      // String debugDexp = String.format("DEBUG\n\tdexp1: %s\tindication1: %s", $dexp1.getDrugExposureId(), $dexp1.getIndicationConceptId());
+      // System.out.println(debugDexp);
 
-        RHSState rhsNN = new RHSState("epinephrine, beta-blocker, epi indication for anaphylaxis yes", "yes", $rhs.getPerson());
-        insertLogical(rhsNN);
-        String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient with epinephrine indication for anaphylaxis: %s.\n\tClinical implication: (TODO)\n\tMitigating factor: (TODO)\n\tRecommendation: Benefit likely to outweigh risk. Acute hypertensive reaction is possible.\n\tExplanation: (TODO)", 
-          $de1.getPersonId(), 
-          $dexp1.getDrugConceptId(),
-          $dexp1.getIndicationConceptId());
-        System.out.println(s);
+      RHSState rhsNN = new RHSState("epinephrine, beta-blocker, epi indication for anaphylaxis yes", "yes", $rhs.getPerson());
+      insertLogical(rhsNN);
+      String s = String.format(
+        "Epinephrine - Beta-blocker interaction for patient with epinephrine indication for anaphylaxis: %s.\n\tClinical implication: (TODO)\n\tMitigating factor: (TODO)\n\tRecommendation: Benefit likely to outweigh risk. Acute hypertensive reaction is possible.\n\tExplanation: (TODO)", 
+        $de1.getPersonId(), 
+        $dexp1.getDrugConceptId(),
+        $dexp1.getIndicationConceptId());
+      System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, beta-blocker, epi indication for anaphylaxis yes", currentDateStr, $person.getPersonId());
       System.out.println(s);   
 
