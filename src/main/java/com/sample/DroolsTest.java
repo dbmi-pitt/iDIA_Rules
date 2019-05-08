@@ -154,7 +154,7 @@ public class DroolsTest {
 	System.out.println("INFO: # of conceptTpls: " + csQuery.getRow()); 
 	csQuery.beforeFirst();
 	while (csQuery.next()){
-	    kSession.insert( new ConceptSetItem(csQuery.getString(1), csQuery.getInt(2)) );
+	    kSession.insert( new ConceptSetItem(csQuery.getString("concept_set_name"), csQuery.getInt("concept_id")) );
 	    cnt++;
 	}
 
@@ -175,9 +175,9 @@ public class DroolsTest {
 	System.out.println("INFO: # of deras: " + deraQuery.getRow());
 	deraQuery.beforeFirst();
 	while (deraQuery.next()){
-		Timestamp start = Timestamp.valueOf(deraQuery.getString(2));
-	    Timestamp end = Timestamp.valueOf(deraQuery.getString(4));
-		kSession.insert( new DrugEra(deraQuery.getLong(1), start, deraQuery.getLong(3), end, deraQuery.getInt(5), deraQuery.getInt(6)) );
+		Timestamp start = Timestamp.valueOf(deraQuery.getString("drug_era_start_date"));
+	    Timestamp end = Timestamp.valueOf(deraQuery.getString("drug_era_end_date"));
+		kSession.insert( new DrugEra(deraQuery.getLong("drug_era_id"), start, deraQuery.getLong("person_id"), end, deraQuery.getInt("drug_concept_id"), deraQuery.getInt("drug_exposure_count")) );
 		cnt++;
 	}
 	
@@ -201,49 +201,49 @@ public class DroolsTest {
 
 	while (dexpQuery.next()){
 		ExtendedDrugExposure ex_dexp = new ExtendedDrugExposure(
-					dexpQuery.getLong(1), // drugExposureId
-					dexpQuery.getTimestamp(4), // Timestamp drugExposureStartDate
-					dexpQuery.getTimestamp(5), // Timestamp drugeExposureEndDate
-					dexpQuery.getLong(2), // personId
-					dexpQuery.getInt(3), // drugConceptId
-					dexpQuery.getInt(6), // drugTypeConceptId
-					dexpQuery.getString(7), // stopReason
-					dexpQuery.getShort(8), // refills
-					dexpQuery.getInt(9), // drugQuantity
-					dexpQuery.getShort(10), // daysSupply
-					dexpQuery.getString(11), // sig
-					dexpQuery.getInt(12), // sigExpected
-					dexpQuery.getInt(13), // sigMin
-					dexpQuery.getInt(14), // sigMax
-					dexpQuery.getInt(15), // routeConceptId
-					dexpQuery.getString(16), // lotNumber
-					dexpQuery.getInt(17), // providerId
-					dexpQuery.getLong(18), // visitOccurrenceId
-					dexpQuery.getString(19), // drugSourceValue
-					dexpQuery.getInt(20), // drugSourceConceptId
-					dexpQuery.getString(21), // routeSourceValue
-					dexpQuery.getString(22), // doseUnitSourceValue
-					dexpQuery.getInt(23), // ingredientConceptId
-					dexpQuery.getDouble(24), // amountValue
-					dexpQuery.getInt(25), // amountUnitConceptId
-					dexpQuery.getDouble(26), // numeratorValue
-					dexpQuery.getInt(27), // numeratorUnitConceptId
-					dexpQuery.getDouble(28), // denominatorValue
-					dexpQuery.getInt(29), // denominatorUnitConceptId
+					dexpQuery.getLong("drug_exposure_id"), // drugExposureId
+					dexpQuery.getTimestamp("drug_exposure_start_datetime"), // Timestamp drugExposureStartDate
+					dexpQuery.getTimestamp("drug_exposure_end_datetime"), // Timestamp drugeExposureEndDate
+					dexpQuery.getLong("person_id"), // personId
+					dexpQuery.getInt("drug_concept_id"), // drugConceptId
+					dexpQuery.getInt("drug_type_concept_id"), // drugTypeConceptId
+					dexpQuery.getString("stop_reason"), // stopReason
+					dexpQuery.getShort("refills"), // refills
+					dexpQuery.getInt("quantity"), // drugQuantity
+					dexpQuery.getShort("days_supply"), // daysSupply
+					dexpQuery.getString("sig"), // sig
+					dexpQuery.getInt("expected"), // sigExpected
+					dexpQuery.getInt("min"), // sigMin
+					dexpQuery.getInt("max"), // sigMax
+					dexpQuery.getInt("route_concept_id"), // routeConceptId
+					dexpQuery.getString("lot_number"), // lotNumber
+					dexpQuery.getInt("provider_id"), // providerId
+					dexpQuery.getLong("visit_occurrence_id"), // visitOccurrenceId
+					dexpQuery.getString("drug_source_value"), // drugSourceValue
+					dexpQuery.getInt("drug_source_concept_id"), // drugSourceConceptId
+					dexpQuery.getString("route_source_value"), // routeSourceValue
+					dexpQuery.getString("dose_unit_source_value"), // doseUnitSourceValue
+					dexpQuery.getInt("ingredient_concept_id"), // ingredientConceptId
+					dexpQuery.getDouble("amount_value"), // amountValue
+					dexpQuery.getInt("amount_unit_concept_id"), // amountUnitConceptId
+					dexpQuery.getDouble("numerator_value"), // numeratorValue
+					dexpQuery.getInt("numerator_unit_concept_id"), // numeratorUnitConceptId
+					dexpQuery.getDouble("denominator_value"), // denominatorValue
+					dexpQuery.getInt("denominator_unit_concept_id"), // denominatorUnitConceptId
 					0.00, // dailyDosage - default value 0.00, set below
-					dexpQuery.getInt(30)  // indicationConceptId
+					dexpQuery.getInt("indication_concept_id")  // indicationConceptId
 				);
-		if(dexpQuery.getString(24) != "null" && dexpQuery.getString(12) != "null"){
-            ex_dexp.setSigDailyDosage(dexpQuery.getDouble(24), dexpQuery.getDouble(12));
+		if(dexpQuery.getString("amount_value") != "null" && dexpQuery.getString("expected") != "null"){
+            ex_dexp.setSigDailyDosage(dexpQuery.getDouble("amount_value"), dexpQuery.getDouble("expected"));
             // System.out.println("\tSET SIG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
         }
-        else if(dexpQuery.getString(9) != "null" && dexpQuery.getString(10) != "null" && dexpQuery.getString(24) != "null"){
-          	ex_dexp.setRegDailyDosage(dexpQuery.getInt(9), dexpQuery.getShort(10), dexpQuery.getDouble(24));
+        else if(dexpQuery.getString("quantity") != "null" && dexpQuery.getString("days_supply") != "null" && dexpQuery.getString("amount_value") != "null"){
+          	ex_dexp.setRegDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"), dexpQuery.getDouble("amount_value"));
 			// System.out.println("\tSET REG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
 
         }
-        else if(dexpQuery.getString(9) != "null" && dexpQuery.getString(10) != "null" && dexpQuery.getString(26) != "null"){
-          	ex_dexp.setComplexDailyDosage(dexpQuery.getInt(9), dexpQuery.getShort(10),dexpQuery.getDouble(26));
+        else if(dexpQuery.getString("quantity") != "null" && dexpQuery.getString("days_supply") != "null" && dexpQuery.getString("numerator_value") != "null"){
+          	ex_dexp.setComplexDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"),dexpQuery.getDouble("numerator_value"));
 			// System.out.println("\tSET COMPLEX DAILY DOSAGE: " + ex_dexp.getDailyDosage());
 
         }
