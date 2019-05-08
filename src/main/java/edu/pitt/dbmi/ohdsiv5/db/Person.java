@@ -27,6 +27,14 @@ public class Person  {
     public Person() {
     }
 
+    public Person(Long personId, Integer yearOfBirth, Integer genderCUI, Integer raceCUI, Integer ethnicityCUI) {
+        this.personId = personId;
+        this.yearOfBirth = yearOfBirth;
+        this.genderCUI = genderCUI;
+        this.raceCUI = raceCUI;
+        this.ethnicityCUI = ethnicityCUI;
+    }
+
     public Long getPersonId() {
 		return personId;
     }
