@@ -27,6 +27,14 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    public Person() {
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines
+               # Replace Windows newlines with Unix newlines    public Person(Long personId, Integer yearOfBirth, Integer genderCUI, Integer raceCUI, Integer ethnicityCUI) {
+               # Replace Windows newlines with Unix newlines        this.personId = personId;
+               # Replace Windows newlines with Unix newlines        this.yearOfBirth = yearOfBirth;
+               # Replace Windows newlines with Unix newlines        this.genderCUI = genderCUI;
+               # Replace Windows newlines with Unix newlines        this.raceCUI = raceCUI;
+               # Replace Windows newlines with Unix newlines        this.ethnicityCUI = ethnicityCUI;
+               # Replace Windows newlines with Unix newlines    }
+               # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    public Long getPersonId() {
                # Replace Windows newlines with Unix newlines		return personId;
                # Replace Windows newlines with Unix newlines    }

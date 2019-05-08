@@ -136,9 +136,7 @@ public class DroolsTest {
 	personQuery.beforeFirst(); // reset cursor so that iterators below will work.
 
 	while (personQuery.next()){
-		Person p = new Person();
-		p.setPersonId(personQuery.getLong(1));
-		p.setYearOfBirth(personQuery.getInt(3));
+		Person p = new Person(personQuery.getLong("person_id"), personQuery.getInt("year_of_birth"), personQuery.getInt("gender_concept_id"), personQuery.getInt("race_concept_id"), personQuery.getInt("ethnicity_concept_id"));
 		kSession.insert(p);
 		cnt++;
 	} 
