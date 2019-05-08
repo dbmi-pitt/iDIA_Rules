@@ -1,6 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 
 
 public class DrugStrength {
@@ -20,8 +20,8 @@ public class DrugStrength {
 			Integer numeratorUnitConceptId,
 			Double denominatorValue,
 			Integer denominatorUnitConceptId,
-			Calendar validEndDate,
-			Calendar validStartDate,
+			Timestamp validEndDate,
+			Timestamp validStartDate,
 			String invalidReason
 			) {
 	this.drugConceptId = drugConceptId;
@@ -102,19 +102,19 @@ public class DrugStrength {
 	this.denominatorUnitConceptId = denominatorUnitConceptId;
     }
 
-        Calendar validStartDate;
-    public Calendar getValidStartDate() {
+        Timestamp validStartDate;
+    public Timestamp getValidStartDate() {
 	return this.validStartDate;
     }
-    public void setValidStartDate(Calendar validStartDate) {
+    public void setValidStartDate(Timestamp validStartDate) {
 	this.validStartDate = validStartDate;
     }    
    
-        Calendar validEndDate;
-    public Calendar getValidEndDate() {
+        Timestamp validEndDate;
+    public Timestamp getValidEndDate() {
 	return this.validEndDate;
     }
-    public void setValidEndDate(Calendar validEndDate) {
+    public void setValidEndDate(Timestamp validEndDate) {
 	this.validEndDate = validEndDate;
     }
 

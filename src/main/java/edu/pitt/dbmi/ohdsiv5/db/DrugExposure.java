@@ -16,8 +16,8 @@ public class DrugExposure  {
     }
     /** full constructor */
     public DrugExposure(Long drugExposureId,
-            // Calendar drugExposureStartDate,
-            // Calendar drugExposureEndDate,
+            // Timestamp drugExposureStartDate,
+            // Timestamp drugExposureEndDate,
             Timestamp drugExposureStartDate,
             Timestamp drugExposureEndDate,
             Long personId,
@@ -74,11 +74,11 @@ public class DrugExposure  {
         this.drugExposureId = drugExposureId;
     }
 
-    //    // Calendar drugExposureStartDate;
-    // public Calendar getDrugExposureStartDate() {
+    //    // Timestamp drugExposureStartDate;
+    // public Timestamp getDrugExposureStartDate() {
     //     return this.drugExposureStartDate;
     // }    
-    // public void setDrugExposureStartDate(Calendar drugExposureStartDate) {
+    // public void setDrugExposureStartDate(Timestamp drugExposureStartDate) {
     //     this.drugExposureStartDate = drugExposureStartDate;
     // }
         Timestamp drugExposureStartDate;
@@ -89,11 +89,11 @@ public class DrugExposure  {
         this.drugExposureStartDate = drugExposureStartDate;
     }
     
-    //    // Calendar drugExposureEndDate;
-    // public Calendar getDrugExposureEndDate() {
+    //    // Timestamp drugExposureEndDate;
+    // public Timestamp getDrugExposureEndDate() {
     //     return this.drugExposureEndDate;
     // }
-    // public void setDrugExposureEndDate(Calendar drugExposureEndDate) {
+    // public void setDrugExposureEndDate(Timestamp drugExposureEndDate) {
     //     this.drugExposureEndDate = drugExposureEndDate;
     // }
         Timestamp drugExposureEndDate;

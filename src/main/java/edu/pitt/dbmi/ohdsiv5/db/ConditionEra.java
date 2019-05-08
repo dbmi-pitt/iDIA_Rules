@@ -1,6 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 
 
 
@@ -13,7 +13,7 @@ public class ConditionEra  {
     public ConditionEra() {
     }
 
-    public ConditionEra(Calendar conditionEraStartDate, Calendar conditionEraEndDate, Long personId, Integer conditionConceptID, Integer conditionOccurrenceCount) {
+    public ConditionEra(Timestamp conditionEraStartDate, Timestamp conditionEraEndDate, Long personId, Integer conditionConceptID, Integer conditionOccurrenceCount) {
 	super();
 	this.conditionEraStartDate = conditionEraStartDate;
 	this.conditionEraEndDate = conditionEraEndDate;
@@ -40,21 +40,21 @@ public class ConditionEra  {
     }
 
 
-        Calendar conditionEraStartDate;
-    public void setConditionEraStartDate(Calendar conditionEraStartDate) {
+        Timestamp conditionEraStartDate;
+    public void setConditionEraStartDate(Timestamp conditionEraStartDate) {
 	this.conditionEraStartDate = conditionEraStartDate;
     }    
-    public Calendar getConditionEraStartDate() {
+    public Timestamp getConditionEraStartDate() {
 	return conditionEraStartDate;
     }
 
 
 
-        Calendar conditionEraEndDate;
-    public void setConditionEraEndDate(Calendar conditionEraEndDate) {
+        Timestamp conditionEraEndDate;
+    public void setConditionEraEndDate(Timestamp conditionEraEndDate) {
 	this.conditionEraEndDate = conditionEraEndDate;
     }    
-    public Calendar getConditionEraEndDate() {
+    public Timestamp getConditionEraEndDate() {
 	return conditionEraEndDate;
     }
 

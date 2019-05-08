@@ -89,21 +89,19 @@ public class DroolsTest {
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	try 
 	{
-	  kSession.setGlobal("currentDateStr", dateStr);
-	  Calendar cal2 = Calendar.getInstance();
-	  cal2.setTime(sdf.parse(dateStr));
-	  kSession.setGlobal("currentDate", cal2);
-	  Calendar cal3 = Calendar.getInstance();
-	  cal3.setTime(sdf.parse(dateStr));
-	  cal3.add(Calendar.DAY_OF_YEAR, -2);	  
-	  kSession.setGlobal("within48hours", cal3);
-	  Calendar cal4 = Calendar.getInstance();
-	  cal4.setTime(sdf.parse(dateStr));
-	  cal4.add(Calendar.DAY_OF_YEAR, -28);
-	  kSession.setGlobal("within28days", cal4);
-	  kSession.setGlobal("currentDateTimeStamp", new Timestamp(cal2.getTimeInMillis()));
-	  kSession.setGlobal("within48hoursTimeStamp", new Timestamp(cal3.getTimeInMillis()));
-	  kSession.setGlobal("within28daysTimeStamp", new Timestamp(cal4.getTimeInMillis()));
+		// calendar object still useful here for subtracting days
+		kSession.setGlobal("currentDateStr", dateStr);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(sdf.parse(dateStr));
+		Calendar cal3 = Calendar.getInstance();
+		cal3.setTime(sdf.parse(dateStr));
+		cal3.add(Calendar.DAY_OF_YEAR, -2);	  
+		Calendar cal4 = Calendar.getInstance();
+		cal4.setTime(sdf.parse(dateStr));
+		cal4.add(Calendar.DAY_OF_YEAR, -28);
+		kSession.setGlobal("currentDate", new Timestamp(cal2.getTimeInMillis()));
+		kSession.setGlobal("within48hours", new Timestamp(cal3.getTimeInMillis()));
+		kSession.setGlobal("within28days", new Timestamp(cal4.getTimeInMillis()));
 	} 
 	catch (ParseException e) 
 	{
@@ -167,9 +165,9 @@ public class DroolsTest {
 	ResultSet deraQuery = deraSt.executeQuery(
 			"SELECT"
 			+ " drug_era_id"
-			+ ",drug_era_start_date"
+			+ ",to_char(drug_era_start_date, 'yyyy-MM-dd HH24:MI:SS') as drug_era_start_date"
 			+ ",person_id"
-			+ ",drug_era_end_date"
+			+ ",to_char(drug_era_end_date, 'yyyy-MM-dd HH24:MI:SS') as drug_era_end_date"
 			+ ",drug_concept_id"
 			+ ",drug_exposure_count"
 			+ " FROM drug_era"
@@ -179,19 +177,20 @@ public class DroolsTest {
 	System.out.println("INFO: # of deras: " + deraQuery.getRow());
 	deraQuery.beforeFirst();
 	while (deraQuery.next()){
-		Calendar start = Calendar.getInstance();
-		start.setTime((java.util.Date) deraQuery.getDate(2));
-		Calendar end = Calendar.getInstance();
-		end.setTime((java.util.Date) deraQuery.getDate(4));
-		// System.out.println("DRUG ERA: " + deraQuery.getDate(1) + " | " + deraQuery.getLong(2) + " | " + deraQuery.getDate(3) + " | " + deraQuery.getInt(4) + " | " + deraQuery.getInt(5));
+		Timestamp start = Timestamp.valueOf(deraQuery.getString(2));
+	    Timestamp end = Timestamp.valueOf(deraQuery.getString(4));
 		kSession.insert( new DrugEra(deraQuery.getLong(1), start, deraQuery.getLong(3), end, deraQuery.getInt(5), deraQuery.getInt(6)) );
 		cnt++;
 	}
 	
 	Statement dexpSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	/* If datetime fields are not available use: 
+	to_char(dexp.drug_exposure_start_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_start_date, to_char(dexp.drug_exposure_end_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_end_date
+	Instead of drug_exposure_start_datetime, drug_exposure_end_datetime
+	*/
 	ResultSet dexpQuery = dexpSt.executeQuery(
 			"SELECT"
-			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, to_char(dexp.drug_exposure_start_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_start_date, to_char(dexp.drug_exposure_end_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_end_date, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, dexp.indication_concept_id"
+			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, dexp.indication_concept_id"
 			+ " FROM drug_exposure dexp, drug_strength dstr, sig_mapping sm"
 			+ " WHERE dexp.drug_concept_id = dstr.drug_concept_id"
 			+ " AND dexp.sig = sm.sig"
@@ -202,25 +201,11 @@ public class DroolsTest {
 	System.out.println("INFO: # of dexps: " + dexpQuery.getRow());
 	dexpQuery.beforeFirst();
 
-	DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	while (dexpQuery.next()){
-		Calendar start = Calendar.getInstance();
-		Calendar end = Calendar.getInstance();
-		try {
-			LocalDateTime ldt = LocalDateTime.parse(dexpQuery.getString(4),df);
-			start.set(ldt.getYear(), ldt.getMonthValue()-1, ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
-			LocalDateTime ldt2 = LocalDateTime.parse(dexpQuery.getString(5),df);
-			end.set(ldt.getYear(), ldt.getMonthValue()-1, ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
-	    } catch (DateTimeParseException e) { e.printStackTrace(); }
-	    Timestamp s = Timestamp.valueOf(dexpQuery.getString(4));
-	    Timestamp e = Timestamp.valueOf(dexpQuery.getString(5));
-	    // System.out.println("CREATING EX_DEXP: " + dexpQuery.getLong(1) + "\n" + "\t" + start + "\n" + "\t" + end + "\n" + "\t" + s + "\n" + "\t" + e + "\n" + "\t" + dexpQuery.getLong(2) + "\n" + "\t" + dexpQuery.getInt(3) + "\n" + "\t" + dexpQuery.getInt(6) + "\n" + "\t" + dexpQuery.getString(7) + "\n" + "\t" + dexpQuery.getShort(8) + "\n" + "\t" + dexpQuery.getInt(9) + "\n" + "\t" + dexpQuery.getShort(10) + "\n" + "\t" + dexpQuery.getString(11) + "\n" + "\t" + dexpQuery.getInt(12) + "\n" + "\t" + dexpQuery.getInt(13) + "\n" + "\t" + dexpQuery.getInt(14) + "\n" + "\t" + dexpQuery.getInt(15) + "\n" + "\t" + dexpQuery.getString(16) + "\n" + "\t" + dexpQuery.getInt(17) + "\n" + "\t" + dexpQuery.getLong(18) + "\n" + "\t" + dexpQuery.getString(19) + "\n" + "\t" + dexpQuery.getInt(20) + "\n" + "\t" + dexpQuery.getString(21) + "\n" + "\t" + dexpQuery.getString(22) + "\n" + "\t" + dexpQuery.getInt(23) + "\n" + "\t" + dexpQuery.getDouble(24) + "\n" + "\t" + dexpQuery.getInt(25) + "\n" + "\t" + dexpQuery.getDouble(26) + "\n" + "\t" + dexpQuery.getInt(27) + "\n" + "\t" + dexpQuery.getDouble(28) + "\n" + "\t" + dexpQuery.getInt(29) + "\n" + "\t" + 0.00 + "\n" + "\t" + dexpQuery.getInt(30));
 		ExtendedDrugExposure ex_dexp = new ExtendedDrugExposure(
 					dexpQuery.getLong(1), // drugExposureId
-					start, // Calendar drugExposureStartDateCal
-					end, // Calendar drugExposureEndDateCal
-					s, // Timestamp drugExposureStartDate
-					e, // Timestamp drugeExposureEndDate
+					dexpQuery.getTimestamp(4), // Timestamp drugExposureStartDate
+					dexpQuery.getTimestamp(5), // Timestamp drugeExposureEndDate
 					dexpQuery.getLong(2), // personId
 					dexpQuery.getInt(3), // drugConceptId
 					dexpQuery.getInt(6), // drugTypeConceptId

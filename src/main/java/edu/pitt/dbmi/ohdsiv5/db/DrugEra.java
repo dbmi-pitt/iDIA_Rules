@@ -2,7 +2,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
 
 
 import java.util.Calendar;
-
+import java.sql.Timestamp;
 
 
 
@@ -14,7 +14,7 @@ public class DrugEra  {
     public DrugEra() {
     }
 
-    public DrugEra(Long drugEraId, Calendar drugEraStartDate, Long personId, Calendar drugEraEndDate, Integer drugConceptID, Integer drugExposureCount) {
+    public DrugEra(Long drugEraId, Timestamp drugEraStartDate, Long personId, Timestamp drugEraEndDate, Integer drugConceptID, Integer drugExposureCount) {
 	super();
     this.drugEraId = drugEraId;
 	this.drugEraStartDate = drugEraStartDate;
@@ -25,7 +25,7 @@ public class DrugEra  {
     }
 
     // Property accessors
-                    Long drugEraId;
+    Long drugEraId;
     public Long getDrugEraId() {
         return this.drugEraId;
     }    
@@ -33,24 +33,24 @@ public class DrugEra  {
         this.drugEraId = id;
     }
 
-        Calendar drugEraStartDate;
-    public void setDrugEraStartDate(Calendar drugEraStartDate) {
+    Timestamp drugEraStartDate;
+    public void setDrugEraStartDate(Timestamp drugEraStartDate) {
 	this.drugEraStartDate = drugEraStartDate;
     }    
-    public Calendar getDrugEraStartDate() {
+    public Timestamp getDrugEraStartDate() {
 	return drugEraStartDate;
     }
 
 
-        Calendar drugEraEndDate;
-    public void setDrugEraEndDate(Calendar drugEraEndDate) {
+    Timestamp drugEraEndDate;
+    public void setDrugEraEndDate(Timestamp drugEraEndDate) {
 	this.drugEraEndDate = drugEraEndDate;
     }    
-    public Calendar getDrugEraEndDate() {
+    public Timestamp getDrugEraEndDate() {
 	return drugEraEndDate;
     }
 
-        Long personId;
+    Long personId;
     public Long getPersonId() {
 	return personId;
     }
@@ -58,7 +58,7 @@ public class DrugEra  {
 	this.personId = personId;
     }
 
-        Integer drugConceptID;
+    Integer drugConceptID;
     public void setDrugConceptId(Integer condId) { 
 	this.drugConceptID = condId;
     }
@@ -66,7 +66,7 @@ public class DrugEra  {
 	return drugConceptID;
     }
 
-        Integer drugExposureCount;
+    Integer drugExposureCount;
     public void setDrugExposureCount(Integer drugExposureCount) { 
 	this.drugExposureCount = drugExposureCount;
     }

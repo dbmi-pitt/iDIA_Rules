@@ -1,6 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 import java.sql.Timestamp;
 
 import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
@@ -17,8 +17,8 @@ public class ExtendedDrugExposure extends DrugExposure {
     }
     /** full constructor */
     public ExtendedDrugExposure (Long drugExposureId,
-            Calendar drugExposureStartDateCal,
-            Calendar drugExposureEndDateCal,
+            // Timestamp drugExposureStartDateCal,
+            // Timestamp drugExposureEndDateCal,
             Timestamp drugExposureStartDate,
             Timestamp drugExposureEndDate,
             Long personId,
@@ -85,19 +85,19 @@ public class ExtendedDrugExposure extends DrugExposure {
         this.indicationConceptId = indicationConceptId;
     }
 
-    Calendar drugExposureStartDateCal;
-    public Calendar getDrugExposureStartDateCal() {
+    Timestamp drugExposureStartDateCal;
+    public Timestamp getDrugExposureStartDateCal() {
         return this.drugExposureStartDateCal;
     }
-    public void setDrugExposureStartDateCal(Calendar drugExposureStartDateCal) {
+    public void setDrugExposureStartDateCal(Timestamp drugExposureStartDateCal) {
         this.drugExposureStartDateCal = drugExposureStartDateCal;
     }
     
-    Calendar drugExposureEndDateCal;
-    public Calendar getDrugExposureEndDateCal() {
+    Timestamp drugExposureEndDateCal;
+    public Timestamp getDrugExposureEndDateCal() {
         return this.drugExposureEndDateCal;
     }
-    public void setDrugExposureEndDateCal(Calendar drugExposureEndDateCal) {
+    public void setDrugExposureEndDateCal(Timestamp drugExposureEndDateCal) {
         this.drugExposureEndDateCal = drugExposureEndDateCal;
     }
     

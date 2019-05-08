@@ -33,12 +33,9 @@ import edu.pitt.dbmi.ohdsiv5.db.Person;
 // declare any global variables here
 /////////// 
 global java.lang.String currentDateStr;
-global java.util.Calendar currentDate;
-global java.util.Calendar within48hours;
-global java.util.Calendar within28days;
-global java.sql.Timestamp currentDateTimeStamp;
-global java.sql.Timestamp within48hoursTimeStamp;
-global java.sql.Timestamp within28daysTimeStamp;
+global java.sql.Timestamp currentDate;
+global java.sql.Timestamp within48hours;
+global java.sql.Timestamp within28days;
 
 
 /////////// 
@@ -49,36 +46,6 @@ global java.sql.Timestamp within28daysTimeStamp;
 /////////// 
 // Rules
 /////////// 
-
-rule "ALL EPINEPHRINE DRUG EXPOSURES"
-  when
-    $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
-    $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId())
-    $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
-    $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
-          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
-          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
-    $person : Person(personId == $de1.getPersonId())
-  then
-    String s = String.format("MATCHED EPINEPHRINE DRUG EXPOSURE ID %d for PERSON ID %d", $dexp1.getDrugExposureId(), $de1.getPersonId());
-    System.out.println(s);
-end
-
-rule "ALL BETA-BLOCKER DRUG EXPOSURES"
-  when
-    $clinDrugConcept1 : ConceptSetItem(csName == "Beta-Blockers Ingredients")
-    $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId())
-    $clinDrugConcept3 : ConceptSetItem(csName == "Beta-Blockers") 
-    $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
-          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
-          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
-    $person : Person(personId == $de1.getPersonId())
-  then
-    String s = String.format("MATCHED BETA-BLOCKER DRUG EXPOSURE ID %d for PERSON ID %d", $dexp1.getDrugExposureId(), $de1.getPersonId());
-    System.out.println(s);
-end
 
 rule "EPINEPHRINE - BETA-BLOCKERS"
   when
@@ -92,7 +59,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS"
     $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
 
     $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate.equals(currentDateTimeStamp)
+          && drugExposureStartDate != null && drugExposureStartDate.equals(currentDate)
           && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
 

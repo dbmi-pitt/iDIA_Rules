@@ -1,6 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 
 
 /**
@@ -19,7 +19,7 @@ public class Observation  {
     // concept. Pass TRUE for checkVocab if the observation concept is
     // thought to be in the Standard Vocabulary 
 /*    public Observation(Long personId, String sourceObsCode,
-		       Integer obsConceptId, Integer obsType, double obsValueAsNumber, Calendar obsDate, Boolean checkVocab) {
+		       Integer obsConceptId, Integer obsType, double obsValueAsNumber, Timestamp obsDate, Boolean checkVocab) {
 		super();
 		this.personId = personId;
 		this.sourceObsCode = sourceObsCode;
@@ -39,7 +39,7 @@ public class Observation  {
     // create Observation for case where the value is a number
     // concept and the observation concept id is known
     public Observation(Long personId, Integer observationId, String sourceObsCode,
-		       double obsValueAsNumber, Integer obsType, Calendar obsDate) {
+		       double obsValueAsNumber, Integer obsType, Timestamp obsDate) {
 		super();
 		this.personId = personId;
 		this.obsConceptId = observationId;
@@ -56,7 +56,7 @@ public class Observation  {
     // in the Standard Vocabulary. NOTE: obsConceptId will not be used if
     // checkVocab is TRUE
 /*    public Observation(Long personId, String sourceObsCode, 
-		       String obsValueAsString, Integer obsType, Calendar obsDate, Boolean checkVocab, Integer obsConceptId) {
+		       String obsValueAsString, Integer obsType, Timestamp obsDate, Boolean checkVocab, Integer obsConceptId) {
 		super();
 		this.personId = personId;
 		if ( sourceObsCode != null && sourceObsCode.length() > 50)
@@ -80,7 +80,7 @@ public class Observation  {
         // in the Standard Vocabulary. NOTE: obsConceptId will not be used if
         // checkVocab is TRUE
 /*        public Observation(Long personId, String sourceObsCode, 
-		       Long obsValueAsConceptId, Integer obsType, Calendar obsDate, Boolean checkVocab, Integer obsConceptId) {
+		       Long obsValueAsConceptId, Integer obsType, Timestamp obsDate, Boolean checkVocab, Integer obsConceptId) {
 		super();
 		this.personId = personId;
 		if ( sourceObsCode != null && sourceObsCode.length() > 49)
@@ -176,15 +176,15 @@ public class Observation  {
 
 	/**
 	 * 	 */
-		Calendar obsDate;
-	public Calendar getObsDate() {
+		Timestamp obsDate;
+	public Timestamp getObsDate() {
 		return obsDate;
 	}
 
 
 	/**
 	 * 	 */
-	public void setObsDate(Calendar obsDate) {
+	public void setObsDate(Timestamp obsDate) {
 		this.obsDate = obsDate;
 	}
 

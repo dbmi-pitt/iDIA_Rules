@@ -1,6 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 
 
 
@@ -13,7 +13,7 @@ public class ObservationPeriod  {
     public ObservationPeriod() {
     }
 
-    public ObservationPeriod(Calendar observationPeriodStartDate, Calendar observationPeriodEndDate, Long personId, Long periodTypeConceptId) {
+    public ObservationPeriod(Timestamp observationPeriodStartDate, Timestamp observationPeriodEndDate, Long personId, Long periodTypeConceptId) {
 	super();
 	this.observationPeriodStartDate = observationPeriodStartDate;
 	this.observationPeriodEndDate = observationPeriodEndDate;
@@ -32,21 +32,21 @@ public class ObservationPeriod  {
     }
 
 
-        Calendar observationPeriodStartDate;
-    public void setObservationPeriodStartDate(Calendar observationPeriodStartDate) {
+        Timestamp observationPeriodStartDate;
+    public void setObservationPeriodStartDate(Timestamp observationPeriodStartDate) {
 	this.observationPeriodStartDate = observationPeriodStartDate;
     }    
-    public Calendar getObservationPeriodStartDate() {
+    public Timestamp getObservationPeriodStartDate() {
 	return observationPeriodStartDate;
     }
  
 
 
-        Calendar observationPeriodEndDate;
-    public void setObservationPeriodEndDate(Calendar observationPeriodEndDate) {
+        Timestamp observationPeriodEndDate;
+    public void setObservationPeriodEndDate(Timestamp observationPeriodEndDate) {
 	this.observationPeriodEndDate = observationPeriodEndDate;
     }    
-    public Calendar getObservationPeriodEndDate() {
+    public Timestamp getObservationPeriodEndDate() {
 	return observationPeriodEndDate;
     }
     

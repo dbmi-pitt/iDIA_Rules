@@ -1,7 +1,7 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 // Generated Jun 15, 2010 5:47:01 PM by Hibernate Tools 3.1.0.beta4
 
-import java.util.Calendar;
+import java.sql.Timestamp;
 
 
 /**
@@ -19,7 +19,7 @@ public class VisitOccurrence  {
     }
     
     /** full constructor */
-    public VisitOccurrence(Long visitOccurrenceId, Long personId, Calendar visitStartDate, Calendar visitEndDate, Integer visitConceptId) {
+    public VisitOccurrence(Long visitOccurrenceId, Long personId, Timestamp visitStartDate, Timestamp visitEndDate, Integer visitConceptId) {
         this.visitOccurrenceId = visitOccurrenceId;
         this.personId = personId;
         this.visitStartDate = visitStartDate;
@@ -44,19 +44,19 @@ public class VisitOccurrence  {
 	this.personId = personId;
     }  
    
-        Calendar visitStartDate;
-    public Calendar getVisitStartDate() {
+        Timestamp visitStartDate;
+    public Timestamp getVisitStartDate() {
         return this.visitStartDate;
     }    
-    public void setVisitStartDate(Calendar visitStartDate) {
+    public void setVisitStartDate(Timestamp visitStartDate) {
         this.visitStartDate = visitStartDate;
     }
 
-        Calendar visitEndDate;
-    public Calendar getVisitEndDate() {
+        Timestamp visitEndDate;
+    public Timestamp getVisitEndDate() {
         return this.visitEndDate;
     }
-    public void setVisitDate(Calendar visitEndDate) {
+    public void setVisitDate(Timestamp visitEndDate) {
         this.visitEndDate = visitEndDate;
     }
    
