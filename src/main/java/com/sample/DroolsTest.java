@@ -101,6 +101,9 @@ public class DroolsTest {
 	  cal4.setTime(sdf.parse(dateStr));
 	  cal4.add(Calendar.DAY_OF_YEAR, -28);
 	  kSession.setGlobal("within28days", cal4);
+	  kSession.setGlobal("currentDateTimeStamp", new Timestamp(cal2.getTimeInMillis()));
+	  kSession.setGlobal("within48hoursTimeStamp", new Timestamp(cal3.getTimeInMillis()));
+	  kSession.setGlobal("within28daysTimeStamp", new Timestamp(cal4.getTimeInMillis()));
 	} 
 	catch (ParseException e) 
 	{
@@ -209,13 +212,15 @@ public class DroolsTest {
 			LocalDateTime ldt2 = LocalDateTime.parse(dexpQuery.getString(5),df);
 			end.set(ldt.getYear(), ldt.getMonthValue()-1, ldt.getDayOfMonth(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
 	    } catch (DateTimeParseException e) { e.printStackTrace(); }
-	    // System.out.println("CREATING EX_DEXP: " + dexpQuery.getLong(1) + "\n" + "\t" + start + "\n" + "\t" + end + "\n" + "\t" + null + "\n" + "\t" + null + "\n" + "\t" + dexpQuery.getLong(2) + "\n" + "\t" + dexpQuery.getInt(3) + "\n" + "\t" + dexpQuery.getInt(6) + "\n" + "\t" + dexpQuery.getString(7) + "\n" + "\t" + dexpQuery.getShort(8) + "\n" + "\t" + dexpQuery.getInt(9) + "\n" + "\t" + dexpQuery.getShort(10) + "\n" + "\t" + dexpQuery.getString(11) + "\n" + "\t" + dexpQuery.getInt(12) + "\n" + "\t" + dexpQuery.getInt(13) + "\n" + "\t" + dexpQuery.getInt(14) + "\n" + "\t" + dexpQuery.getInt(15) + "\n" + "\t" + dexpQuery.getString(16) + "\n" + "\t" + dexpQuery.getInt(17) + "\n" + "\t" + dexpQuery.getLong(18) + "\n" + "\t" + dexpQuery.getString(19) + "\n" + "\t" + dexpQuery.getInt(20) + "\n" + "\t" + dexpQuery.getString(21) + "\n" + "\t" + dexpQuery.getString(22) + "\n" + "\t" + dexpQuery.getInt(23) + "\n" + "\t" + dexpQuery.getDouble(24) + "\n" + "\t" + dexpQuery.getInt(25) + "\n" + "\t" + dexpQuery.getDouble(26) + "\n" + "\t" + dexpQuery.getInt(27) + "\n" + "\t" + dexpQuery.getDouble(28) + "\n" + "\t" + dexpQuery.getInt(29) + "\n" + "\t" + 0.00 + "\n" + "\t" + dexpQuery.getInt(30));
+	    Timestamp s = Timestamp.valueOf(dexpQuery.getString(4));
+	    Timestamp e = Timestamp.valueOf(dexpQuery.getString(5));
+	    // System.out.println("CREATING EX_DEXP: " + dexpQuery.getLong(1) + "\n" + "\t" + start + "\n" + "\t" + end + "\n" + "\t" + s + "\n" + "\t" + e + "\n" + "\t" + dexpQuery.getLong(2) + "\n" + "\t" + dexpQuery.getInt(3) + "\n" + "\t" + dexpQuery.getInt(6) + "\n" + "\t" + dexpQuery.getString(7) + "\n" + "\t" + dexpQuery.getShort(8) + "\n" + "\t" + dexpQuery.getInt(9) + "\n" + "\t" + dexpQuery.getShort(10) + "\n" + "\t" + dexpQuery.getString(11) + "\n" + "\t" + dexpQuery.getInt(12) + "\n" + "\t" + dexpQuery.getInt(13) + "\n" + "\t" + dexpQuery.getInt(14) + "\n" + "\t" + dexpQuery.getInt(15) + "\n" + "\t" + dexpQuery.getString(16) + "\n" + "\t" + dexpQuery.getInt(17) + "\n" + "\t" + dexpQuery.getLong(18) + "\n" + "\t" + dexpQuery.getString(19) + "\n" + "\t" + dexpQuery.getInt(20) + "\n" + "\t" + dexpQuery.getString(21) + "\n" + "\t" + dexpQuery.getString(22) + "\n" + "\t" + dexpQuery.getInt(23) + "\n" + "\t" + dexpQuery.getDouble(24) + "\n" + "\t" + dexpQuery.getInt(25) + "\n" + "\t" + dexpQuery.getDouble(26) + "\n" + "\t" + dexpQuery.getInt(27) + "\n" + "\t" + dexpQuery.getDouble(28) + "\n" + "\t" + dexpQuery.getInt(29) + "\n" + "\t" + 0.00 + "\n" + "\t" + dexpQuery.getInt(30));
 		ExtendedDrugExposure ex_dexp = new ExtendedDrugExposure(
 					dexpQuery.getLong(1), // drugExposureId
-					start,
-					end,
-					null,
-					null,
+					start, // Calendar drugExposureStartDateCal
+					end, // Calendar drugExposureEndDateCal
+					s, // Timestamp drugExposureStartDate
+					e, // Timestamp drugeExposureEndDate
 					dexpQuery.getLong(2), // personId
 					dexpQuery.getInt(3), // drugConceptId
 					dexpQuery.getInt(6), // drugTypeConceptId

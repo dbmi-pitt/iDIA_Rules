@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Calendar;
 import java.lang.String;
+import java.sql.Timestamp;
 
 import com.sample.model.ConceptSetItem;
 import com.sample.model.RHSState;
@@ -35,6 +36,9 @@ global java.lang.String currentDateStr;
 global java.util.Calendar currentDate;
 global java.util.Calendar within48hours;
 global java.util.Calendar within28days;
+global java.sql.Timestamp currentDateTimeStamp;
+global java.sql.Timestamp within48hoursTimeStamp;
+global java.sql.Timestamp within28daysTimeStamp;
 
 
 /////////// 
@@ -76,7 +80,7 @@ rule "ALL BETA-BLOCKER DRUG EXPOSURES"
     System.out.println(s);
 end
 
-rule "EPINEPHRINE - BETA-BLOCKERS - ERAS"
+rule "EPINEPHRINE - BETA-BLOCKERS"
   when
     $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
     $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
@@ -86,26 +90,18 @@ rule "EPINEPHRINE - BETA-BLOCKERS - ERAS"
 
     $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
     $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
+
     $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) && drugExposureStartDateCal.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH)
+          && drugExposureStartDate != null && drugExposureStartDate.equals(currentDateTimeStamp)
           && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
-    // $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-    //       && drugExposureStartDateCal != null && drugExposureStartDateCal.compareTo($dexp1.getDrugExposureStartDateCal()) <= 0
-    //       && drugExposureEndDateCal != null && drugExposureEndDateCal.compareTo($dexp1.getDrugExposureStartDateCal()) >= 0
-    //       && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
-    //       && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
-    
+
     $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && (drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) <= currentDate.get(Calendar.DAY_OF_MONTH) || drugExposureStartDateCal.get(Calendar.YEAR) <= currentDate.get(Calendar.YEAR) || drugExposureStartDateCal.get(Calendar.MONTH) <= currentDate.get(Calendar.MONTH))
-          && drugExposureEndDateCal != null && (drugExposureEndDateCal.get(Calendar.DAY_OF_MONTH) >= currentDate.get(Calendar.DAY_OF_MONTH) || drugExposureEndDateCal.get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR) || drugExposureEndDateCal.get(Calendar.MONTH) >= currentDate.get(Calendar.MONTH))
+          && drugExposureStartDate != null && drugExposureStartDate.compareTo($dexp1.getDrugExposureStartDate()) <= 0
+          && drugExposureEndDate != null && drugExposureEndDate.compareTo($dexp1.getDrugExposureStartDate()) >= 0
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
 
-    // $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-    //     && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
-    //     && drugExposureEndDateCal != null && drugExposureEndDateCal > currentDate
-    //     && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
   then
     String s = String.format("PERSON %d has DRUG ERAS for epi %d and beta %d", $person.getPersonId(), $de1.getDrugEraId(), $de2.getDrugEraId());
     System.out.println(s);
@@ -113,7 +109,6 @@ rule "EPINEPHRINE - BETA-BLOCKERS - ERAS"
     System.out.println(dexp1);
     String dexp2 = String.format("\tDRUG EXPOSURE for beta: %d", $dexp2.getDrugConceptId());
     System.out.println(dexp2);
-
     // create rhsstate with just one drug exposure and find the second concurrent exposure in downstream rules?
     // RHSState rhsCur = new RHSState("basic exposure to epinephrine", "yes", $dexp1);
 end
