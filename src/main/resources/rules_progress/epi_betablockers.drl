@@ -47,40 +47,8 @@ global java.sql.Timestamp within28days;
 // Rules
 /////////// 
 
-rule "EPINEPHRINE - BETA-BLOCKERS"
-  when
-    $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
-    $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
-    $clinDrugConcept2 : ConceptSetItem(csName == "Beta-Blockers Ingredients")
-    $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
-    $person : Person(personId == $de1.getPersonId());
-
-    $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
-    $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
-
-    $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate.equals(currentDate)
-          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
-          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
-
-    $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate.compareTo($dexp1.getDrugExposureStartDate()) <= 0
-          && drugExposureEndDate != null && drugExposureEndDate.compareTo($dexp1.getDrugExposureStartDate()) >= 0
-          && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
-          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
-
-  then
-    String s = String.format("PERSON %d has DRUG ERAS for epi %d and beta %d", $person.getPersonId(), $de1.getDrugEraId(), $de2.getDrugEraId());
-    System.out.println(s);
-    String dexp1 = String.format("\tDRUG EXPOSURE for epi: %d", $dexp1.getDrugConceptId());
-    System.out.println(dexp1);
-    String dexp2 = String.format("\tDRUG EXPOSURE for beta: %d", $dexp2.getDrugConceptId());
-    System.out.println(dexp2);
-    // create rhsstate with just one drug exposure and find the second concurrent exposure in downstream rules?
-    // RHSState rhsCur = new RHSState("basic exposure to epinephrine", "yes", $dexp1);
-end
-/*
 // The first rule is a basic check to identify all patients on any dosage or form of epinephrine and a beta-blocker at the same time (beta-blocker first)
+// TODO - adjust simulated patient data and logic so that BB is BEFORE, not before or equal
 rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"  
     when
       // First, we look for patients exposed to epinephrine on the ingredient level
@@ -95,23 +63,20 @@ rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"
       $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
       // beta-blocker before epinephrine (handle the other case in a very similar rule below 
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
+          && drugExposureStartDate != null && drugExposureStartDate == currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= $dexp1.getDrugExposureStartDateCal()
-          && drugExposureEndDateCal != null && drugExposureEndDateCal >= $dexp1.getDrugExposureStartDateCal()
-          && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
-
+          && drugExposureStartDate != null && drugExposureStartDate < $dexp1.getDrugExposureStartDate()
+          && drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate()
+          && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
       // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
-      $person : Person(personId == $de1.getPersonId())
-    then  
+      $person : Person(personId == $de1.getPersonId());
+
+    then
       // This creates a new "state" for any patients who are found to be on both drugs...
-      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
-      String debugDexp = String.format("DEBUG\n\tdexp1: %s\n\tdexp2: %s\n\tCREATE RHS FOR %s", $dexp1.getDrugExposureId(), $dexp2.getDrugExposureId(),$person.getPersonId());
-      System.out.println(debugDexp);
-      System.out.flush(); 
-      
+      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules      
       RHSState rhsCur = new RHSState("basic concomitant exposure of epinephrine and a beta-blocker", "yes", $person);
       insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
@@ -121,24 +86,21 @@ rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      System.out.flush(); 
-      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tbasic concomitant exposure\t%s\t%d-%d-%d %d:%d:%d\t%d-%d-%d %d:%d:%d\t%s\t%d-%d-%d %d:%d:%d\t%d-%d-%d %d:%d:%d",
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tbasic concomitant exposure, bb first\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
       $person.getPersonId(),
       $dexp1.getDrugConceptId(),
-      $dexp1.getDrugExposureStartDateCal().get(Calendar.YEAR), $dexp1.getDrugExposureStartDateCal().get(Calendar.MONTH) + 1, $dexp1.getDrugExposureStartDateCal().get(Calendar.DAY_OF_MONTH), $dexp1.getDrugExposureStartDateCal().get(Calendar.HOUR), $dexp1.getDrugExposureStartDateCal().get(Calendar.MINUTE), $dexp1.getDrugExposureStartDateCal().get(Calendar.SECOND),
-      $dexp1.getDrugExposureEndDateCal().get(Calendar.YEAR), $dexp1.getDrugExposureEndDateCal().get(Calendar.MONTH) + 1, $dexp1.getDrugExposureEndDateCal().get(Calendar.DAY_OF_MONTH), $dexp1.getDrugExposureEndDateCal().get(Calendar.HOUR), $dexp1.getDrugExposureEndDateCal().get(Calendar.MINUTE), $dexp1.getDrugExposureEndDateCal().get(Calendar.SECOND),
+      $dexp1.getDrugExposureStartDate().toString(),
+      $dexp1.getDrugExposureEndDate().toString(),
       $dexp2.getDrugConceptId(),
-      $dexp2.getDrugExposureStartDateCal().get(Calendar.YEAR), $dexp2.getDrugExposureStartDateCal().get(Calendar.MONTH) + 1, $dexp2.getDrugExposureStartDateCal().get(Calendar.DAY_OF_MONTH), $dexp2.getDrugExposureStartDateCal().get(Calendar.HOUR), $dexp2.getDrugExposureStartDateCal().get(Calendar.MINUTE), $dexp2.getDrugExposureStartDateCal().get(Calendar.SECOND),
-      $dexp2.getDrugExposureEndDateCal().get(Calendar.YEAR), $dexp2.getDrugExposureEndDateCal().get(Calendar.MONTH) + 1, $dexp2.getDrugExposureEndDateCal().get(Calendar.DAY_OF_MONTH), $dexp2.getDrugExposureEndDateCal().get(Calendar.HOUR), $dexp2.getDrugExposureEndDateCal().get(Calendar.MINUTE), $dexp2.getDrugExposureEndDateCal().get(Calendar.SECOND)
+      $dexp2.getDrugExposureStartDate().toString(),
+      $dexp2.getDrugExposureEndDate().toString()
       );
       System.out.println(s);    
-      System.out.flush();  
 end
-/*
 
 // This just follows the first rule and is a basic check to identify all patients on any dosage or form of epinephrine and a beta-blocker at the same time (epinephrine first)
-rule "EPINEPHRINE - BETA-BLOCKERS - EPI FIRST -- NO FILTER"
+rule "EPINEPHRINE - BETA-BLOCKERS - EPI FIRST -- NO FILTER"  
     when
       // First, we look for patients exposed to epinephrine on the ingredient level
       $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
@@ -152,20 +114,22 @@ rule "EPINEPHRINE - BETA-BLOCKERS - EPI FIRST -- NO FILTER"
       $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
       //  epinephrine before beta-blocker
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) && drugExposureStartDateCal.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR)
-    && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+          && drugExposureStartDate != null && drugExposureStartDate == currentDate
+          && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= $dexp1.getDrugExposureStartDateCal()
-    && drugExposureEndDateCal != null && drugExposureEndDateCal >= $dexp1.getDrugExposureStartDateCal()
-          && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())    
+          && drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureStartDate()
+          && drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate()
+          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())    
       // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
       $person : Person(personId == $de1.getPersonId())
     then  
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
-      RHSState rhsCur = new RHSState("basic concomitant exposure of epinephrine and a beta-blocker", "yes", $person);
-      insertLogical(rhsCur);
+      // NOTE - no RHSState should be inserted for this - if epi is given first there are no alerts in v5
+      // RHSState rhsCur = new RHSState("basic concomitant exposure of epinephrine and a beta-blocker", "yes", $person);
+      // insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
           "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Epinephrine: %s; Beta-Blocker: %s.", 
@@ -173,15 +137,15 @@ rule "EPINEPHRINE - BETA-BLOCKERS - EPI FIRST -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tbasic concomitant exposure\t%s\t%d-%d-%d %d:%d:%d\t%d-%d-%d %d:%d:%d\t%s\t%d-%d-%d %d:%d:%d\t%d-%d-%d %d:%d:%d",
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tbasic concomitant exposure, epi first\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
       $person.getPersonId(),
       $dexp1.getDrugConceptId(),
-      $dexp1.getDrugExposureStartDateCal().get(Calendar.YEAR), $dexp1.getDrugExposureStartDateCal().get(Calendar.MONTH) + 1, $dexp1.getDrugExposureStartDateCal().get(Calendar.DAY_OF_MONTH), $dexp1.getDrugExposureStartDateCal().get(Calendar.HOUR), $dexp1.getDrugExposureStartDateCal().get(Calendar.MINUTE), $dexp1.getDrugExposureStartDateCal().get(Calendar.SECOND),
-      $dexp1.getDrugExposureEndDateCal().get(Calendar.YEAR), $dexp1.getDrugExposureEndDateCal().get(Calendar.MONTH) + 1, $dexp1.getDrugExposureEndDateCal().get(Calendar.DAY_OF_MONTH), $dexp1.getDrugExposureEndDateCal().get(Calendar.HOUR), $dexp1.getDrugExposureEndDateCal().get(Calendar.MINUTE), $dexp1.getDrugExposureEndDateCal().get(Calendar.SECOND),
+      $dexp1.getDrugExposureStartDate().toString(),
+      $dexp1.getDrugExposureEndDate().toString(),
       $dexp2.getDrugConceptId(),
-      $dexp2.getDrugExposureStartDateCal().get(Calendar.YEAR), $dexp2.getDrugExposureStartDateCal().get(Calendar.MONTH) + 1, $dexp2.getDrugExposureStartDateCal().get(Calendar.DAY_OF_MONTH), $dexp2.getDrugExposureStartDateCal().get(Calendar.HOUR), $dexp2.getDrugExposureStartDateCal().get(Calendar.MINUTE), $dexp2.getDrugExposureStartDateCal().get(Calendar.SECOND),
-      $dexp2.getDrugExposureEndDateCal().get(Calendar.YEAR), $dexp2.getDrugExposureEndDateCal().get(Calendar.MONTH) + 1, $dexp2.getDrugExposureEndDateCal().get(Calendar.DAY_OF_MONTH), $dexp2.getDrugExposureEndDateCal().get(Calendar.HOUR), $dexp2.getDrugExposureEndDateCal().get(Calendar.MINUTE), $dexp2.getDrugExposureEndDateCal().get(Calendar.SECOND)
+      $dexp2.getDrugExposureStartDate().toString(),
+      $dexp2.getDrugExposureEndDate().toString()
       );
       System.out.println(s);      
 end
@@ -198,7 +162,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrin
         $clinIndicationConcept1 : ConceptSetItem(csName == "Anaphylaxis Indication")
         // epinephrine drug exposure has anaphylaxis indication
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId()
           && indicationConceptId == $clinIndicationConcept1.getConceptId())
@@ -219,7 +183,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrin
       System.out.println(s);   
 
 end
-
+/*
 rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
     when
   // This checks the state of the patients to identify only those who were identified to be on both medications of interest
@@ -231,7 +195,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Oral")
         $clinRouteConcept1 : ConceptSetItem(csName == "Oral Route")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() && routeConceptId == $clinRouteConcept1.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
     then
@@ -259,7 +223,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Eye Drops")
         $clinRouteConcept1 : ConceptSetItem(csName == "Eye Drops Route")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() && routeConceptId == $clinRouteConcept1.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
     then
@@ -286,7 +250,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol"
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Metoprolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())    
     then
@@ -313,7 +277,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol"
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Nebivolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())          
     then
@@ -343,7 +307,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Clearance)"
         // Then the patient's Atenolol exposure on the clinical drug level
         $clinDrugConcept2 : ConceptSetItem(csName == "Atenolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
   // using eGFR as a measure for kidney function, alert if below 60 based on the rule specification
@@ -381,7 +345,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol"
         // Then the patient's Atenolol exposure on the clinical drug level along with a dosage check for over 100
         $clinDrugConcept2 : ConceptSetItem(csName == "Atenolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
     //&& dailyDosage != null && dailyDosage >= 100 )                
@@ -412,7 +376,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Clearance)"
         // Then the patient's Bisoprolol exposure on the clinical drug level
         $clinDrugConcept2 : ConceptSetItem(csName == "Bisoprolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
   // using eGFR as a measure for kidney function, alert if below 60 based on the rule specification
@@ -451,7 +415,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol"
         // Then the patient's Bisoprolol exposure on the clinical drug level along with a dosage check for over 20
         $clinDrugConcept2 : ConceptSetItem(csName == "Bisoprolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
     //&& dailyDosage != null && dailyDosage > 20 )                
@@ -482,7 +446,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Betaxolol"
         // Betaxolol clinical drug exposure and dosage check (no alert if below threshold of 20 mg/day)
         $clinDrugConcept2 : ConceptSetItem(csName == "Betaxolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
     //&& dailyDosage != null && dailyDosage > 20 )                
@@ -513,7 +477,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol" // THIS RULE IS INCOMPLETE, NOT FU
         // Esmolol clinical drug exposure and dosage check (no alert if below threshold of 300 mcg/kg/min)
         $clinDrugConcept2 : ConceptSetItem(csName == "Esmolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDateCal != null && drugExposureStartDateCal <= currentDate && drugExposureEndDateCal >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
     && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
     && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
     //&& ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage != null && dailyDosage > 300 )                
