@@ -8,7 +8,7 @@
   <version>1.0</version>
   <packaging>jar</packaging>
   <properties>
-    <droolsVersion>6.3.0.Final</droolsVersion>
+    <droolsVersion>6.5.0.Final</droolsVersion>
   </properties>
   
   <dependencies>
