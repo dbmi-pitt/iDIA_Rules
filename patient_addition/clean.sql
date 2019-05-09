@@ -12,7 +12,7 @@ DELETE FROM visit_occurrence WHERE person_id >= 1495;
 
 DELETE FROM drug_era WHERE person_id >= 1495;
 
-DELETE FROM condition_era WWHERE person_id >= 1495;
+DELETE FROM condition_era WHERE person_id >= 1495;
 
 DELETE FROM drug_exposure WHERE person_id >= 1495;
 
