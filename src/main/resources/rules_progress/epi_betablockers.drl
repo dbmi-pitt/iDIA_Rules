@@ -159,7 +159,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrin
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId()) 
 
         $clinDrugConcept2 : ConceptSetItem(csName == "Epinephrines") 
-        $clinIndicationConcept1 : ConceptSetItem(csName == "Anaphylaxis Indication")
+        $clinIndicationConcept1 : ConceptSetItem(csName == "Anaphylaxis Indications")
         // epinephrine drug exposure has anaphylaxis indication
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
