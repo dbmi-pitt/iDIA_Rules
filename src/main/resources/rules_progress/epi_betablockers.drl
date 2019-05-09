@@ -151,21 +151,21 @@ rule "EPINEPHRINE - BETA-BLOCKERS - EPI FIRST -- NO FILTER"
 end
 
 rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrine)"
-// need to create concept sets for "Systemic" injection?
+// TODO need to create concept sets for "Systemic" injection?
     when
-  // This checks the state of the patients to identify only those who were identified to be on both medications of interest
-        $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)
-        $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
-        $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId()) 
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)
+      $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId()) 
 
-        $clinDrugConcept2 : ConceptSetItem(csName == "Epinephrines") 
-        $clinIndicationConcept1 : ConceptSetItem(csName == "Anaphylaxis Indications")
-        // epinephrine drug exposure has anaphylaxis indication
-        $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId()
-          && indicationConceptId == $clinIndicationConcept1.getConceptId())
+      $clinDrugConcept2 : ConceptSetItem(csName == "Epinephrines") 
+      $clinIndicationConcept1 : ConceptSetItem(csName == "Anaphylaxis Indications")
+      // epinephrine drug exposure has anaphylaxis indication
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId()
+        && indicationConceptId == $clinIndicationConcept1.getConceptId())
     then
   // This creates a new "state" for any patients who are found to be on epinephrine with an indication for anaphylaxis
       // String debugDexp = String.format("DEBUG\n\tdexp1: %s\tindication1: %s", $dexp1.getDrugExposureId(), $dexp1.getIndicationConceptId());
@@ -181,9 +181,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrin
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, beta-blocker, epi indication for anaphylaxis yes", currentDateStr, $person.getPersonId());
       System.out.println(s);   
-
 end
-/*
+
 rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
     when
   // This checks the state of the patients to identify only those who were identified to be on both medications of interest
@@ -193,11 +192,11 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
         $clinDrugConcept1 : ConceptSetItem(csName == "Timolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Oral")
-        $clinRouteConcept1 : ConceptSetItem(csName == "Oral Route")
+        $clinRouteConcept1 : ConceptSetItem(csName == "Oral Routes")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() && routeConceptId == $clinRouteConcept1.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
     then
   // This creates a new "state" for any patients who are found to be on timolol eye drops
         RHSState rhsNN = new RHSState("epinephrine, timolol, oral yes", "yes", $rhs.getPerson());
@@ -217,15 +216,16 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
   // This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)
         not ($rhs2 : RHSState(stateName == "epinephrine, beta-blocker, epi indication for anaphylaxis yes" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+        not ($rhs3 : RHSState(stateName == "epinephrine, timolol, oral yes" && state == "yes" && person.getPersonId() == $person.getPersonId()))
   // Next, we bring in the patient's Timolol exposure on the ingredient level and the clinical drug level (Eye Drops only b/c they're the only form that have this effect)
         $clinDrugConcept1 : ConceptSetItem(csName == "Timolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Eye Drops")
-        $clinRouteConcept1 : ConceptSetItem(csName == "Eye Drops Route")
+        $clinRouteConcept1 : ConceptSetItem(csName == "Eye Drops Routes")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() && routeConceptId == $clinRouteConcept1.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
     then
   // This creates a new "state" for any patients who are found to be on timolol eye drops
         RHSState rhsNN = new RHSState("epinephrine, timolol, eye drops yes", "yes", $rhs.getPerson());
@@ -240,6 +240,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
       System.out.println(s);    
 end
 
+
 rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol"
     when
   // This checks the state of the patients to identify only those who were identified to be on both medications of interest
@@ -251,8 +252,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol"
         $clinDrugConcept2 : ConceptSetItem(csName == "Metoprolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())    
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())    
     then
   // This creates a new "state" for any patients who are found to be on metoprolol
         RHSState rhsNN = new RHSState("epinephrine, metoprolol", "yes", $rhs.getPerson());
@@ -278,8 +279,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol"
         $clinDrugConcept2 : ConceptSetItem(csName == "Nebivolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())          
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())          
     then
   // This creates a new "state" for any patients who are found to be on nebivolol and a cyp2d6 poor metabolizers
         RHSState rhsNN = new RHSState("epinephrine, nebivolol", "yes", $rhs.getPerson());
@@ -293,43 +294,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol"
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and nebivolol", currentDateStr, $person.getPersonId());
       System.out.println(s);              
 end
-/*
-// The twelfth rule is the first of a set of two about Atenolol
-// This rule fires for patients who are on Atenolol but have a creatinine clearance level below 40 mL/min
-rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol (Clearance)"
-    when
-  // This checks the state of the patients to identify only those who were identified to be on both medications of interest
-        $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)
-        not ($rhs2 : RHSState(stateName == "epinephrine, beta-blocker, epi indication for anaphylaxis yes" && state == "yes" && person.getPersonId() == $person.getPersonId()))
-  // Next, we bring in the patient's Atenolol exposure on the ingredient level
-        $clinDrugConcept1 : ConceptSetItem(csName == "Atenolols Ingredients")
-        $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
-        // Then the patient's Atenolol exposure on the clinical drug level
-        $clinDrugConcept2 : ConceptSetItem(csName == "Atenolols")
-        $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
-  // using eGFR as a measure for kidney function, alert if below 60 based on the rule specification
-        // TODO: fix to ensure measurement is not too distant in the past, e,g, use within48Hours
-    $measurement : Measurement(personId == $person.getPersonId() && (measurementConceptId == 3053283 || measurementConceptId == 3016723) && valueAsNumber < 60 && (unitSourceValue == 'mL/min/1.73m2' || unitSourceValue ==  'ml/min/1.73sq.m') && (measurementDate >= within48hours.getTime()) && (measurementDate <= currentDate.getTime()))
-    then  
-  // This creates a new "state" for any patients who are found to be on Atenolol with low creatinine clearance
-        RHSState rhsNN = new RHSState("epinephrine, atenolol, and low clearance", "yes", $rhs.getPerson());
-        insertLogical(rhsNN);
-        // This outputs the recommendations and rationale for the patient because this is a leaf node       
-        String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Atenolol and a poor kidney function based on eGFR measurement (%s %s, compared to the threshold value of 60 mL/min).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Atenolol undergoes renal elimination and may produce nonselective beta-blockade with significant renal impairment, which can cause an acute hypertensive reaction.", 
-          $de1.getPersonId(), 
-          $measurement.getValueAsNumber(),
-          $measurement.getUnitSourceValue());
-        System.out.println(s);
-        System.out.println("MEASUREMENT DATE: " + $measurement.getMeasurementDate() + "\nWITHIN 48 HOURS DATE: " + within48hours.getTime() + "\nCURRENT DATE: " + currentDate.getTime());
-      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, atenolol, and low clearance", currentDateStr, $person.getPersonId());
-      System.out.println(s);  
-end
-*/
-/*
+
 // The thirteenth rule is the second of a set of two about Atenolol
 // This rule fires for patients who are on Atenolol and have adequate creatinine clearance, but are on high doses of Atenolol
 rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol"
@@ -346,12 +311,12 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol"
         $clinDrugConcept2 : ConceptSetItem(csName == "Atenolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
-    //&& dailyDosage != null && dailyDosage >= 100 )                
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
+          //&& dailyDosage != null && dailyDosage >= 100 )                
     then  
   // This creates a new "state" for any patients who are found to be on Atenolol with high dosage
-        RHSState rhsNN = new RHSState("epinephrine and high atenolol dosage", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and atenolol", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -363,45 +328,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol"
       System.out.println(s);    
 end
 
-// The fourteenth rule is the second of a set of two about Bisoprolol
-// This rule fires for patients who are on Bisoprolol but have a creatinine clearance level below 40 mL/min
-rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol (Clearance)"
-    when
-  // This checks the state of the patients to identify only those who were identified to be on both medications of interest
-        $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)
-        not ($rhs2 : RHSState(stateName == "epinephrine, beta-blocker, epi indication for anaphylaxis yes" && state == "yes" && person.getPersonId() == $person.getPersonId())) 
-        // Next, we bring in the patient's Bisoprolol exposure on the ingredient level
-        $clinDrugConcept1 : ConceptSetItem(csName == "Bisoprolols Ingredients")
-        $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
-        // Then the patient's Bisoprolol exposure on the clinical drug level
-        $clinDrugConcept2 : ConceptSetItem(csName == "Bisoprolols")
-        $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
-  // using eGFR as a measure for kidney function, alert if below 60 based on the rule specification
-      // TODO: fix to ensure measurement is not too distant in the past, e,g, use within48Hours
-    $measurement : Measurement(personId == $person.getPersonId() && (measurementConceptId == 3053283 || measurementConceptId == 3016723) && valueAsNumber < 60 && (unitSourceValue == 'mL/min/1.73m2' || unitSourceValue ==  'ml/min/1.73sq.m') && (measurementDate >= within48hours.getTime()) && (measurementDate <= currentDate.getTime()))
-    then  
-  // This creates a new "state" for any patients who are found to be on Bisoprolol with low creatinine clearance
-        RHSState rhsNN = new RHSState("epinephrine, bisoprolol, and low clearance", "yes", $rhs.getPerson());
-        insertLogical(rhsNN);
-        // This outputs the recommendations and rationale for the patient because this is a leaf node       
-        String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Bisoprolol and poor kidney function as measure by eGFR (%s %s, compared to the threshold value of 60 mL/min).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Bisoprolol undergoes renal elimination and may produce nonselective beta-blockade with significant renal impairment, which can cause an acute hypertensive reaction.", 
-          $de1.getPersonId(), 
-          $measurement.getValueAsNumber(),
-          $measurement.getUnitSourceValue());
-        System.out.println(s);
-        System.out.println("MEASUREMENT DATE: " + $measurement.getMeasurementDate() + "\nWITHIN 48 HOURS DATE: " + within48hours.getTime() + "\nCURRENT DATE: " + currentDate.getTime());
-      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, bisoprolol, and low clearance", currentDateStr, $person.getPersonId());
-      System.out.println(s);    
-end
-*/
 // The fifteenth rule is the second of a set of two about Bisoprolol
 // This rule fires for patients who are on Bisoprolol and have adequate creatinine clearance, but are on high doses of Bisoprolol
-
-/*
 rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol"
     when
   // This checks the state of the patients to identify only those who were identified to be on both medications of interest
@@ -416,12 +344,12 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol"
         $clinDrugConcept2 : ConceptSetItem(csName == "Bisoprolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
-    //&& dailyDosage != null && dailyDosage > 20 )                
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
+          //&& dailyDosage != null && dailyDosage > 20 )                
     then
   // This creates a new "state" for any patients who are found to be on Bisoprolol with high dosage
-        RHSState rhsNN = new RHSState("epinephrine and high bisoprolol dosage", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and bisoprolol", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -447,12 +375,12 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Betaxolol"
         $clinDrugConcept2 : ConceptSetItem(csName == "Betaxolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
-    //&& dailyDosage != null && dailyDosage > 20 )                
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
+          //&& dailyDosage != null && dailyDosage > 20 )                
     then  
   // This creates a new "state" for any patients who are found to be on Betaxolol with high dosage  
-        RHSState rhsNN = new RHSState("epinephrine and high betaxolol dose", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and betaxolol", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -466,7 +394,7 @@ end
 
 // The seventeenth and final rule is about Esmolol
 // This rule checks to see if a patient has been given Esmolol where the dose is > 300 mcg/kg/min
-rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol" // THIS RULE IS INCOMPLETE, NOT FUNCTIONING CORRECTLY
+rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol"
     when
   // This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)  
@@ -478,12 +406,12 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol" // THIS RULE IS INCOMPLETE, NOT FU
         $clinDrugConcept2 : ConceptSetItem(csName == "Esmolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-    && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
-    && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
-    //&& ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage != null && dailyDosage > 300 )                
+        && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+        //&& ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage != null && dailyDosage > 300 )
     then
   // This creates a new "state" for any patients who are found to be on Esmolol with high dosage
-        RHSState rhsNN = new RHSState("epinephrine and high esmolol dosage", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("epinephrine and esmolol", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
@@ -494,4 +422,79 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol" // THIS RULE IS INCOMPLETE, NOT FU
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and esmolol", currentDateStr, $person.getPersonId());
       System.out.println(s);      
 end
-*/
+
+rule "EPINEPHRINE - BETA-BLOCKERS -- Acebutolol"
+    when
+  // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+        $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)  
+        not ($rhs2 : RHSState(stateName == "epinephrine, beta-blocker, epi indication for anaphylaxis yes" && state == "yes" && person.getPersonId() == $person.getPersonId())) 
+        // Next, we bring in the patient's Esmolol exposure on the ingredient level
+        $clinDrugConcept1 : ConceptSetItem(csName == "Acebutolols Ingredients")
+        $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
+        $clinDrugConcept2 : ConceptSetItem(csName == "Acebutolols")
+        $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+    then
+  // This creates a new "state" for any patients who are found to be on Esmolol with high dosage
+        RHSState rhsNN = new RHSState("epinephrine and acebutolol", "yes", $rhs.getPerson());
+        insertLogical(rhsNN);
+        // This outputs the recommendations and rationale for the patient because this is a leaf node       
+        String s = String.format(
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: (TODO)", 
+          $de1.getPersonId(), 
+          $dexp1.getDailyDosage());
+        System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and acebutolol", currentDateStr, $person.getPersonId());
+      System.out.println(s);      
+end
+
+// is "non-selective" a correct classification for this or should these be split up? Created the followiong concept sets that are currently used:
+/*Carteolol
+Levobunolol
+Nadolol
+Penbutolol
+Pindolol
+Propranolol
+Sotalol*/
+rule "EPINEPHRINE - BETA-BLOCKERS -- Non-Selective"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      // it doesn't appear that the "Beta-Blockers" concept set overlaps with the 7 non-selective beta-blockers listed above. No RHS used for now.
+      $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+      // Second, we similarly look for exposure to a beta-blocker on the ingredient level
+      $clinDrugConcept2 : ConceptSetItem(csName == "Carteolols Ingredients" || csName == "Levobunolols Ingredients" || csName == "Nadolols Ingredients" || csName == "Pindolols Ingredients" || csName == "Propranolols Ingredients" || csName == "Sotalols Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+      // Next, we identify the specific drug exposures for both epinephrine and the beta-blocker
+      // The epinephrine concept set excludes opthalmic and inhaled epinephrine
+      $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
+      $clinDrugConcept4 : ConceptSetItem(csName == "Carteolols" || csName == "Levobunolols" || csName == "Nadolols" || csName == "Pindolols" || csName == "Propranolols" || csName == "Sotalols")
+      // beta-blocker before epinephrine (handle the other case in a very similar rule below 
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && drugExposureStartDate != null && drugExposureStartDate == currentDate
+          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+      $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && drugExposureStartDate != null && drugExposureStartDate < $dexp1.getDrugExposureStartDate()
+          && drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate()
+          && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
+      $person : Person(personId == $de1.getPersonId());
+
+    then
+      // This creates a new "state" for any patients who are found to be on both drugs...
+      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules      
+      RHSState rhsNN = new RHSState("epinephrine and non-selective beta-blocker", "yes", $person);
+      insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node       
+      String s = String.format(
+        "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Acute hypertensive reaction is likely.\n\tMitigating factor: (TODO)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: (TODO)", 
+        $de1.getPersonId(), 
+        $dexp1.getDailyDosage());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and non-selective beta-blocker", currentDateStr, $person.getPersonId());
+      System.out.println(s);     
+end
