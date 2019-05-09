@@ -54,6 +54,7 @@ public class DroolsTest {
 	String schema = "";
 	Properties prop = new Properties();
 	InputStream input = null;
+	// TODO read property file for connection properties below
 	try {
 		input = new FileInputStream("config.properties");
 			prop.load(input);
@@ -111,12 +112,10 @@ public class DroolsTest {
 	////////////////////////////////////////////////////////////////////////////
 	// QUERY AND LOAD
 	////////////////////////////////////////////////////////////////////////////
-        Class.forName("org.postgresql.Driver");
-	String url = "jdbc:postgresql://url:port/db";
-	Properties props = new Properties();
-	props.setProperty("user","postgres");
-	props.setProperty("password","examplePass # Replace literal string 'PASSWORD1' with '***REMOVED***' (default)");
-	Connection conn = DriverManager.getConnection(url, props);
+    Class.forName("org.postgresql.Driver");
+  	String url = prop.getProperty("connectionURL") + "?currentSchema=" + prop.getProperty("schema");
+	// String url = "jdbc:postgresql://url:port/db?currentSchema=public";
+	Connection conn = DriverManager.getConnection(url, prop.getProperty("user"), prop.getProperty("password"));
 
 	int cnt = 0; // fact counter - counts what is iterated, not necessarily what is finally in working memory
 	
