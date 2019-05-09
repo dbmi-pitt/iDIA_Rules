@@ -54,7 +54,6 @@ public class DroolsTest {
 	String schema = "";
 	Properties prop = new Properties();
 	InputStream input = null;
-	// TODO read property file for connection properties below
 	try {
 		input = new FileInputStream("config.properties");
 			prop.load(input);
@@ -112,8 +111,8 @@ public class DroolsTest {
 	////////////////////////////////////////////////////////////////////////////
 	// QUERY AND LOAD
 	////////////////////////////////////////////////////////////////////////////
-    Class.forName("org.postgresql.Driver");
-  	String url = prop.getProperty("connectionURL") + "?currentSchema=" + prop.getProperty("schema");
+	Class.forName("org.postgresql.Driver");
+	String url = prop.getProperty("connectionURL") + "?currentSchema=" + prop.getProperty("schema");
 	// String url = "jdbc:postgresql://localhost:5432/idiarules?currentSchema=public";
 	Connection conn = DriverManager.getConnection(url, prop.getProperty("user"), prop.getProperty("password"));
 
