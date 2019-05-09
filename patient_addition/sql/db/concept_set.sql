@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.16
 -- Dumped by pg_dump version 9.3.16
--- Started on 2019-04-29 10:34:06
+-- Started on 2019-05-09 13:21:20
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -20,7 +20,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 217 (class 1259 OID 16490)
+-- TOC entry 219 (class 1259 OID 16490)
 -- Name: concept_set; Type: TABLE; Schema: ohdsi; Owner: postgres; Tablespace: 
 --
 
@@ -33,8 +33,8 @@ CREATE TABLE concept_set (
 ALTER TABLE ohdsi.concept_set OWNER TO postgres;
 
 --
--- TOC entry 2528 (class 0 OID 16490)
--- Dependencies: 217
+-- TOC entry 2530 (class 0 OID 16490)
+-- Dependencies: 219
 -- Data for Name: concept_set; Type: TABLE DATA; Schema: ohdsi; Owner: postgres
 --
 
@@ -130,15 +130,35 @@ COPY concept_set (concept_set_id, concept_set_name) FROM stdin;
 11533	Clonidines Ingredients
 11549	COPY OF: Atenolols
 11570	DOACs
-12000	Anaphylaxis Indication
-12001	Eye Drops Route
-12002	Oral Route
 12003	Timolols Oral
+11700	Carteolols
+11698	Carteolols Ingredients
+11719	Levobunolols Ingredients
+11721	Levobunolols
+11738	Nadolols Ingredients
+11740	Nadolols
+12002	Oral Routes
+12001	Eye Drops Routes
+11764	Penbutolols Ingredients
+11766	Penbutolols
+11781	Pindolols Ingredients
+11783	Pindolols
+11807	Propranolols Ingredients
+11809	Propranolols
+12000	Anaphylaxis Indications
+11936	Sotalols Ingredients
+11938	Sotalols
+11985	Carvedilols Ingredients
+11987	Carvedilols
+12038	Labetalols Ingredients
+12040	Labetalols
+12086	Acebutolols Ingredients
+12088	Acebutolols
 \.
 
 
 --
--- TOC entry 2420 (class 2606 OID 16896)
+-- TOC entry 2422 (class 2606 OID 16896)
 -- Name: pk_concept_set; Type: CONSTRAINT; Schema: ohdsi; Owner: postgres; Tablespace: 
 --
 
@@ -146,7 +166,7 @@ ALTER TABLE ONLY concept_set
     ADD CONSTRAINT pk_concept_set PRIMARY KEY (concept_set_id);
 
 
--- Completed on 2019-04-29 10:34:06
+-- Completed on 2019-05-09 13:21:20
 
 --
 -- PostgreSQL database dump complete
