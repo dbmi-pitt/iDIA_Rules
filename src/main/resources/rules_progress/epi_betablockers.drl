@@ -10,10 +10,7 @@ package com.sample
 //list any import classes here.
 import function com.sample.DRLLogger.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Calendar;
+import java.util.*;
 import java.lang.String;
 import java.sql.Timestamp;
 
@@ -36,7 +33,7 @@ global java.lang.String currentDateStr;
 global java.sql.Timestamp currentDate;
 global java.sql.Timestamp within48hours;
 global java.sql.Timestamp within28days;
-
+global java.sql.Timestamp plus1day
 
 /////////// 
 // declare any types here
@@ -63,7 +60,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"
       $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
       // beta-blocker before epinephrine (handle the other case in a very similar rule below 
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate == currentDate
+          && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
           && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
@@ -114,7 +111,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS - EPI FIRST -- NO FILTER"
       $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
       //  epinephrine before beta-blocker
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate == currentDate
+          && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
@@ -192,10 +189,11 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
         $clinDrugConcept1 : ConceptSetItem(csName == "Timolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Oral")
-        $clinRouteConcept1 : ConceptSetItem(csName == "Oral Routes")
+        // $clinRouteConcept1 : ConceptSetItem(csName == "Oral Routes")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
+          // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
     then
   // This creates a new "state" for any patients who are found to be on timolol eye drops
@@ -221,10 +219,11 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
         $clinDrugConcept1 : ConceptSetItem(csName == "Timolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Eye Drops")
-        $clinRouteConcept1 : ConceptSetItem(csName == "Eye Drops Routes")
+        // $clinRouteConcept1 : ConceptSetItem(csName == "Eye Drops Routes")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
-          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
+          && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
+          // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
     then
   // This creates a new "state" for any patients who are found to be on timolol eye drops
@@ -473,7 +472,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Non-Selective"
       $clinDrugConcept4 : ConceptSetItem(csName == "Carteolols" || csName == "Levobunolols" || csName == "Nadolols" || csName == "Pindolols" || csName == "Propranolols" || csName == "Sotalols")
       // beta-blocker before epinephrine (handle the other case in a very similar rule below 
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate == currentDate
+          && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
           && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
