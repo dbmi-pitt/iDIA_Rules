@@ -99,9 +99,13 @@ public class DroolsTest {
 		Calendar cal4 = Calendar.getInstance();
 		cal4.setTime(sdf.parse(dateStr));
 		cal4.add(Calendar.DAY_OF_YEAR, -28);
+		Calendar cal5 = Calendar.getInstance();
+		cal5.setTime(sdf.parse(dateStr));
+		cal5.add(Calendar.DAY_OF_YEAR, 1);
 		kSession.setGlobal("currentDate", new Timestamp(cal2.getTimeInMillis()));
 		kSession.setGlobal("within48hours", new Timestamp(cal3.getTimeInMillis()));
 		kSession.setGlobal("within28days", new Timestamp(cal4.getTimeInMillis()));
+		kSession.setGlobal("plus1day", new Timestamp(cal5.getTimeInMillis()));
 	} 
 	catch (ParseException e) 
 	{
