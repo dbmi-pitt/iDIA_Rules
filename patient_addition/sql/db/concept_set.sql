@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.16
 -- Dumped by pg_dump version 9.3.16
--- Started on 2019-05-09 13:21:20
+-- Started on 2019-05-10 11:48:41
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -154,6 +154,7 @@ COPY concept_set (concept_set_id, concept_set_name) FROM stdin;
 12040	Labetalols
 12086	Acebutolols Ingredients
 12088	Acebutolols
+12108	Timolols
 \.
 
 
@@ -166,7 +167,7 @@ ALTER TABLE ONLY concept_set
     ADD CONSTRAINT pk_concept_set PRIMARY KEY (concept_set_id);
 
 
--- Completed on 2019-05-09 13:21:20
+-- Completed on 2019-05-10 11:48:41
 
 --
 -- PostgreSQL database dump complete
