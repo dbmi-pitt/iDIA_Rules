@@ -44,8 +44,11 @@ global java.sql.Timestamp plus1day
 // Rules
 /////////// 
 
+// TODO anaphylaxis - epinephrine dose 0.3 to 0.6 mg. Is this to be daily dose?
+// TODO epinephrine combined with local anesthetic.
+// TODO beta has to be within 2 hours of epi?
+
 // The first rule is a basic check to identify all patients on any dosage or form of epinephrine and a beta-blocker at the same time (beta-blocker first)
-// TODO - adjust simulated patient data and logic so that BB is BEFORE, not before or equal
 rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"  
     when
       // First, we look for patients exposed to epinephrine on the ingredient level
@@ -85,13 +88,13 @@ rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tbasic concomitant exposure, bb first\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
-      $person.getPersonId(),
-      $dexp1.getDrugConceptId(),
-      $dexp1.getDrugExposureStartDate().toString(),
-      $dexp1.getDrugExposureEndDate().toString(),
-      $dexp2.getDrugConceptId(),
-      $dexp2.getDrugExposureStartDate().toString(),
-      $dexp2.getDrugExposureEndDate().toString()
+            $person.getPersonId(),
+            $dexp1.getDrugConceptId(),
+            $dexp1.getDrugExposureStartDate().toString(),
+            $dexp1.getDrugExposureEndDate().toString(),
+            $dexp2.getDrugConceptId(),
+            $dexp2.getDrugExposureStartDate().toString(),
+            $dexp2.getDrugExposureEndDate().toString()
       );
       System.out.println(s);    
 end
@@ -235,8 +238,8 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, timolol, eye drops yes", currentDateStr, $person.getPersonId());
-      System.out.println(s);    
+        s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, timolol, eye drops yes", currentDateStr, $person.getPersonId());
+        System.out.println(s);    
 end
 
 
@@ -464,12 +467,12 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Non-Selective"
       $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
       $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
       // Second, we similarly look for exposure to a beta-blocker on the ingredient level
-      $clinDrugConcept2 : ConceptSetItem(csName == "Carteolols Ingredients" || csName == "Levobunolols Ingredients" || csName == "Nadolols Ingredients" || csName == "Pindolols Ingredients" || csName == "Propranolols Ingredients" || csName == "Sotalols Ingredients")
+      $clinDrugConcept2 : ConceptSetItem(csName == "Carteolols Ingredients" || csName == "Levobunolols Ingredients" || csName == "Nadolols Ingredients" || csName == "Penbutolols Ingredients" || csName == "Pindolols Ingredients" || csName == "Propranolols Ingredients" || csName == "Sotalols Ingredients")
       $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
       // Next, we identify the specific drug exposures for both epinephrine and the beta-blocker
       // The epinephrine concept set excludes opthalmic and inhaled epinephrine
       $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
-      $clinDrugConcept4 : ConceptSetItem(csName == "Carteolols" || csName == "Levobunolols" || csName == "Nadolols" || csName == "Pindolols" || csName == "Propranolols" || csName == "Sotalols")
+      $clinDrugConcept4 : ConceptSetItem(csName == "Carteolols" || csName == "Levobunolols" || csName == "Nadolols" || csName == "Penbutolols" || csName == "Pindolols" || csName == "Propranolols" || csName == "Sotalols")
       // beta-blocker before epinephrine (handle the other case in a very similar rule below 
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
