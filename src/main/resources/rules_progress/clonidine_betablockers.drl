@@ -61,8 +61,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
           && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureStartDate()
-          && drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate()
+          && (drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureEndDate()
+          || drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate())
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
       // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
@@ -123,7 +123,7 @@ rule "CLONIDINE - BETA-BLOCKERS -- Non-Selective Beta-Blockers"
 end
 
 // The third rule is the first of a set of three about Timolol
-// This rule checks to see if the patients are on Timolol Eye Drops
+// This rule checks to see if the patients are on Timolol Eye Drops and the clondine formulation is a patch (topical/transdermal)
 rule "CLONIDINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
     when
   // This checks the state of the patients to identify only those who were identified to be on both medications of interest
@@ -137,17 +137,27 @@ rule "CLONIDINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
           // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+
+        $clinDrugConcept3 : ConceptSetItem(csName == "Clonidinese Ingredients")
+        $de2 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept3.getConceptId())        
+        $clinDrugConcept4 : ConceptSetItem(csName == "Clonidines Topical")
+        $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && (drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureEndDate()
+          || drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate())
+          && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
     then
   // This creates a new "state" for any patients who are found to be on timolol and a cyp2d6 poor metabolizers
         RHSState rhsNN = new RHSState("clonidine, timolol, eye drops yes", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Clonidine - Beta-blocker interaction for patient: %s.\n\tClinical implication: (TODO)\n\tMitigating factor: Timolol eye drops given.\n\tRecommendation: Avoid if possible, treat with cardioselective beta-blocker instead.\n\tExplanation: (TODO)", 
+          "Clonidine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Rebound hypertension possible on discontinuation of clonidine\n\tRecommendation: Assess risk and take action if necessary\n\tMitigating factor: Timolol eye drops given.\n\tExplanation: Timolol Eye Drop = %s, Clonidine Topical = %s", 
           $de1.getPersonId(), 
-          $dexp1.getDrugConceptId());
+          $dexp1.getDrugConceptId(),
+          $dexp2.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, timolol, eye drops yes", currentDateStr, $person.getPersonId());
+        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, patch yes, timolol, eye drops yes", currentDateStr, $person.getPersonId());
         System.out.println(s);
 end
 
