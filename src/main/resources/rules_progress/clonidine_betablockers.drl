@@ -283,7 +283,7 @@ end
 
 // The fourth rule is the third of a set of three about Timolol
 // This rule checks to see if patients are on Timolol Systemic
-// (TODO - need "Timolols Systemic" concept set to complete this)
+// (TODO - "Timolols Systemic" concept set?)
 /*
 rule "CLONIDINE - BETA-BLOCKERS -- Timolol (Systemic)"
     when
@@ -329,9 +329,3 @@ Labetalol
 result in no special precautions
 */
 
-/*
-TODO Clonidine formulation concept sets for:
-Patch
-Oral
-Epidural
-*/
