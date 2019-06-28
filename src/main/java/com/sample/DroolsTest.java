@@ -102,6 +102,9 @@ public class DroolsTest {
 		Calendar cal5 = Calendar.getInstance();
 		cal5.setTime(sdf.parse(dateStr));
 		cal5.add(Calendar.DAY_OF_YEAR, 1);
+		cal5.set(Calendar.HOUR, 0);
+    cal5.set(Calendar.MINUTE, 0);
+    cal5.set(Calendar.SECOND, 0);
 		kSession.setGlobal("currentDate", new Timestamp(cal2.getTimeInMillis()));
 		kSession.setGlobal("within48hours", new Timestamp(cal3.getTimeInMillis()));
 		kSession.setGlobal("within28days", new Timestamp(cal4.getTimeInMillis()));
