@@ -60,9 +60,10 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
           && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
           && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
+      // ((de2.drug_exposure_start_date <= de1.drug_exposure_end_date AND de2.drug_exposure_start_date >= de1.drug_exposure_start_date) OR (de1.drug_exposure_start_date <= de2.drug_exposure_end_date AND de1.drug_exposure_start_date >= de2.drug_exposure_start_date))
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && (drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureEndDate()
-          || drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate())
+          && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
       // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
@@ -74,10 +75,12 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
       insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
-          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Clonidine: %s; Beta-Blocker: %s.", 
+          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Clonidine: %s -- dexpid %s: start %s -- end %s; Beta-Blocker: %s -- dexpid %s: start %s -- end %s;", 
           $de1.getPersonId(), 
           $clinDrugConcept3.getConceptId(), 
-          $clinDrugConcept4.getConceptId());
+          $dexp1.getDrugExposureId(), $dexp1.getDrugExposureStartDate(), $dexp1.getDrugExposureEndDate(),
+          $clinDrugConcept4.getConceptId(),
+          $dexp2.getDrugExposureId(), $dexp2.getDrugExposureStartDate(), $dexp2.getDrugExposureEndDate());
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
      System.out.println(s);
@@ -113,8 +116,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine Patch, Non-Selective Beta-Blockers"
         $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == $clinDrugConcept3.getConceptId())        
         $clinDrugConcept4 : ConceptSetItem(csName == "Clonidines Topical")
         $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && (drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureEndDate()
-          || drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate())
+          && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept3.getConceptId())
 
@@ -153,8 +156,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine (Oral or Epidural), Non-Selective B
         $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == $clinDrugConcept3.getConceptId())        
         $clinDrugConcept4 : ConceptSetItem(csName == "Clonidines Oral" || csName == "Clonidines Injectable") // NOTE: can Injectable be used for "epidural"?
         $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && (drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureEndDate()
-          || drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate())
+          && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept3.getConceptId())
 
@@ -193,8 +196,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine (Patch), Timolol (Eye Drops)"
         $de2 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept3.getConceptId())        
         $clinDrugConcept4 : ConceptSetItem(csName == "Clonidines Topical")
         $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && (drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureEndDate()
-          || drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate())
+          && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept3.getConceptId())
     then
@@ -232,8 +235,8 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine (Oral or Epidural), Timolol (Eye Dr
         $de2 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept3.getConceptId())        
         $clinDrugConcept4 : ConceptSetItem(csName == "Clonidines Oral" || csName == "Clonidines Injectable") // NOTE: can Injectable be used for "epidural"?
         $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && (drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureEndDate()
-          || drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate())
+          && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept3.getConceptId())
     then

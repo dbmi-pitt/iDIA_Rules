@@ -65,8 +65,8 @@ rule "CITALOPRAM - QT-AGENT -- NO FILTER"
             && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
         $clinDrugConcept4 : ConceptSetItem(csName == "QT-Agents")
         $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-            && (drugExposureStartDate != null && drugExposureStartDate <= $dexp1.getDrugExposureEndDate()
-            || drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate())
+            && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+            || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
             && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
             && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
         // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
