@@ -95,7 +95,29 @@ Clonidines Oral
 Clonidines Transdermal
 */
 
-select distinct i.concept_id from ohdsi.concept_set cs
+BEGIN TRANSACTION;
+
+CREATE TABLE ohdsi.temp_concept_set_item (
+  concept_set_item_id serial NOT NULL,
+  concept_set_id int4 NOT NULL,
+  concept_id int4 NOT NULL,
+  is_excluded int4 NOT NULL,
+  include_descendants int4 NOT NULL,
+  include_mapped int4 NOT NULL
+);
+
+INSERT INTO ohdsi.temp_concept_set_item
+(select i.concept_set_item_id, i.concept_set_id, i.concept_id, i.is_excluded, i.include_descendants, i.include_mapped 
+from ohdsi.concept_set cs
 inner join ohdsi.concept_set_item i
 on i.concept_set_id = cs.concept_set_id
-where cs.concept_set_name in ('Clonidines','Clonidines Injectable','Clonidines Oral','Clonidines Transdermal');
+where cs.concept_set_name in ('Clonidines','Clonidines Injectable','Clonidines Oral','Clonidines Transdermal'));
+
+DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 11501;
+
+INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
+(select 11501 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
+
+DROP TABLE ohdsi.temp_concept_set_item;
+
+COMMIT TRANSACTION;
