@@ -60,7 +60,6 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
           && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
           && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $clinDrugConcept4 : ConceptSetItem(csName == "Beta-Blockers")
-      // ((de2.drug_exposure_start_date <= de1.drug_exposure_end_date AND de2.drug_exposure_start_date >= de1.drug_exposure_start_date) OR (de1.drug_exposure_start_date <= de2.drug_exposure_end_date AND de1.drug_exposure_start_date >= de2.drug_exposure_start_date))
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
           || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
@@ -75,15 +74,22 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
       insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
-          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Clonidine: %s -- dexpid %s: start %s -- end %s; Beta-Blocker: %s -- dexpid %s: start %s -- end %s;", 
+          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Clonidine: %s; Beta-Blocker: %s;", 
           $de1.getPersonId(), 
           $clinDrugConcept3.getConceptId(), 
-          $dexp1.getDrugExposureId(), $dexp1.getDrugExposureStartDate(), $dexp1.getDrugExposureEndDate(),
-          $clinDrugConcept4.getConceptId(),
-          $dexp2.getDrugExposureId(), $dexp2.getDrugExposureStartDate(), $dexp2.getDrugExposureEndDate());
+          $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tbasic concomitant exposure", currentDateStr, $person.getPersonId());
-     System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
+            currentDateStr,
+            $person.getPersonId(),
+            $dexp1.getDrugConceptId(),
+            $dexp1.getDrugExposureStartDate().toString(),
+            $dexp1.getDrugExposureEndDate().toString(),
+            $dexp2.getDrugConceptId(),
+            $dexp2.getDrugExposureStartDate().toString(),
+            $dexp2.getDrugExposureEndDate().toString()
+      );
+      System.out.println(s);
 end
 
 /*Carteolol
