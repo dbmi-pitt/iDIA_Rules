@@ -1,0 +1,110 @@
+// Ceftriaxone - Calcium DDI Alerting Rule
+
+package com.sample
+
+//list any import classes here.
+import function com.sample.DRLLogger.*;
+
+import java.util.*;
+import java.lang.String;
+import java.sql.Timestamp;
+
+import com.sample.model.ConceptSetItem;
+import com.sample.model.RHSState;
+
+import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
+import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.Measurement;
+import edu.pitt.dbmi.ohdsiv5.db.Person;
+
+
+/////////// 
+// declare any global variables here
+/////////// 
+global java.lang.String currentDateStr;
+global java.sql.Timestamp currentDate;
+global java.sql.Timestamp within48hours;
+global java.sql.Timestamp within28days;
+global java.sql.Timestamp plus1day
+
+/////////// 
+// declare any types here
+/////////// 
+
+
+/////////// 
+// Rules
+/////////// 
+
+rule "CEFTRIAXONE - CALCIUM -- NO FILTER "
+    when
+      // First, we look for patients exposed to Ceftriaxone on the ingredient level
+      $clinDrugConcept1 : ConceptSetItem(csName == "Ceftriaxones Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+      // Second, we similarly look for exposure to a calcium on the ingredient level
+      $clinDrugConcept2 : ConceptSetItem(csName == "Calciums Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+      // Next, we identify the specific drug exposures for both Ceftriaxone and the calcium
+      $clinDrugConcept3 : ConceptSetItem(csName == "Ceftriaxones") 
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
+          && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept4 : ConceptSetItem(csName == "Calciums")
+      $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+          && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
+          && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
+      $person : Person(personId == $de1.getPersonId())
+    then
+      // This creates a new "state" for any patients who are found to be on both drugs...
+      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
+      RHSState rhsCur = new RHSState("basic concomitant exposure of ceftriaxone and a calcium", "yes", $person);
+      insertLogical(rhsCur);
+      // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
+      String s = String.format(
+          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Ceftriaxone: %s; Calcium: %s;", 
+          $de1.getPersonId(), 
+          $clinDrugConcept3.getConceptId(), 
+          $clinDrugConcept4.getConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
+            currentDateStr,
+            $person.getPersonId(),
+            $dexp1.getDrugConceptId(),
+            $dexp1.getDrugExposureStartDate().toString(),
+            $dexp1.getDrugExposureEndDate().toString(),
+            $dexp2.getDrugConceptId(),
+            $dexp2.getDrugExposureStartDate().toString(),
+            $dexp2.getDrugExposureEndDate().toString()
+      );
+      System.out.println(s);
+end
+
+rule "CEFTRIAXONE - CALCIUM -- patient age >28 days old"
+    when
+      // currently use as a sandbox for patient age
+      $rhs : RHSState(stateName == "basic concomitant exposure of ceftriaxone and a calcium" && state == "yes", $person : person)
+      $person28DaysOld : Person(personId == $person.getPersonId() 
+        && ((int) ($person28DaysOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))) >= 28)
+    then
+      RHSState rhsCur = new RHSState("basic concomitant exposure of ceftriaxone and a calcium, patient age >28 days old", "yes", $person);
+      insertLogical(rhsCur);
+      String s = String.format(
+        "\tPatient ID: %s;\n\tPatient DoB: %s;\n\tPatient age in days: %s",
+          $rhs.getPerson().getPersonId(),
+          $person28DaysOld.getDateOfBirth(),
+          ((int) ($person28DaysOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age >28 days old",
+          currentDateStr,
+          $rhs.getPerson().getPersonId()
+      );
+      System.out.println(s);
+end
+
+// All items in the Ceftriaxone & Calcium concept sets are injectible. Are they all therefore IV?
