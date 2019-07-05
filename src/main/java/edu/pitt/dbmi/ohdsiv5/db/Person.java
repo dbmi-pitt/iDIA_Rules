@@ -1,6 +1,8 @@
 package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlinesimport java.sql.Date;
+               # Replace Windows newlines with Unix newlinesimport java.util.Calendar;
+               # Replace Windows newlines with Unix newlinesimport java.sql.Timestamp;
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines// NOTE: not all rows are mapped
@@ -21,6 +23,7 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines	String raceSourceCode;
                # Replace Windows newlines with Unix newlines    Integer ethnicityCUI;
                # Replace Windows newlines with Unix newlines    String ethnicitySourceCode;
+               # Replace Windows newlines with Unix newlines  Timestamp dateOfBirth;
                # Replace Windows newlines with Unix newlines    // Constructors
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    // default constructor
@@ -42,6 +45,28 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    public void setPersonId(Long personId) {
                # Replace Windows newlines with Unix newlines		this.personId = personId;
                # Replace Windows newlines with Unix newlines	}
+               # Replace Windows newlines with Unix newlines
+               # Replace Windows newlines with Unix newlines  public void setDateOfBirth() {
+               # Replace Windows newlines with Unix newlines    if (this.yearOfBirth != null && this.monthOfBirth != null && this.dayOfBirth != null) {
+               # Replace Windows newlines with Unix newlines      Calendar b = Calendar.getInstance();
+               # Replace Windows newlines with Unix newlines      b.set(Calendar.YEAR, this.yearOfBirth);
+               # Replace Windows newlines with Unix newlines      b.set(Calendar.MONTH, this.monthOfBirth);
+               # Replace Windows newlines with Unix newlines      b.set(Calendar.DAY_OF_MONTH, this.dayOfBirth);
+               # Replace Windows newlines with Unix newlines      Timestamp dob = new Timestamp(b.getTimeInMillis());
+               # Replace Windows newlines with Unix newlines      this.dateOfBirth = dob;
+               # Replace Windows newlines with Unix newlines    }
+               # Replace Windows newlines with Unix newlines  }
+               # Replace Windows newlines with Unix newlines  public Timestamp getDateOfBirth() {
+               # Replace Windows newlines with Unix newlines    return this.dateOfBirth;
+               # Replace Windows newlines with Unix newlines  }
+               # Replace Windows newlines with Unix newlines
+               # Replace Windows newlines with Unix newlines  public Long getDobDateDiffInMillis(Timestamp otherDate) {
+               # Replace Windows newlines with Unix newlines    if (this.dateOfBirth != null) {
+               # Replace Windows newlines with Unix newlines      long diff = (otherDate.getTime() - this.dateOfBirth.getTime());
+               # Replace Windows newlines with Unix newlines      return diff;
+               # Replace Windows newlines with Unix newlines    }
+               # Replace Windows newlines with Unix newlines    else return null;
+               # Replace Windows newlines with Unix newlines  }
                # Replace Windows newlines with Unix newlines
                # Replace Windows newlines with Unix newlines    public Integer getYearOfBirth() {
                # Replace Windows newlines with Unix newlines		return yearOfBirth;
