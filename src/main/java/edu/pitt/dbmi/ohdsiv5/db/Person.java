@@ -1,6 +1,8 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
 import java.sql.Date;
+import java.util.Calendar;
+import java.sql.Timestamp;
 
 
 // NOTE: not all rows are mapped
@@ -21,6 +23,7 @@ public class Person  {
 	String raceSourceCode;
     Integer ethnicityCUI;
     String ethnicitySourceCode;
+  Timestamp dateOfBirth;
     // Constructors
 
     // default constructor
@@ -42,6 +45,28 @@ public class Person  {
     public void setPersonId(Long personId) {
 		this.personId = personId;
 	}
+
+  public void setDateOfBirth() {
+    if (this.yearOfBirth != null && this.monthOfBirth != null && this.dayOfBirth != null) {
+      Calendar b = Calendar.getInstance();
+      b.set(Calendar.YEAR, this.yearOfBirth);
+      b.set(Calendar.MONTH, this.monthOfBirth);
+      b.set(Calendar.DAY_OF_MONTH, this.dayOfBirth);
+      Timestamp dob = new Timestamp(b.getTimeInMillis());
+      this.dateOfBirth = dob;
+    }
+  }
+  public Timestamp getDateOfBirth() {
+    return this.dateOfBirth;
+  }
+
+  public Long getDobDateDiffInMillis(Timestamp otherDate) {
+    if (this.dateOfBirth != null) {
+      long diff = (otherDate.getTime() - this.dateOfBirth.getTime());
+      return diff;
+    }
+    else return null;
+  }
 
     public Integer getYearOfBirth() {
 		return yearOfBirth;

@@ -132,6 +132,8 @@ public class DroolsTest {
 			+ "person_id"
 			+ ",gender_concept_id"
 			+ ",year_of_birth"
+			+ ",month_of_birth"
+			+ ",day_of_birth"
 			+ ",race_concept_id"
 			+ ",ethnicity_concept_id"
 			+ " FROM person"
@@ -142,6 +144,9 @@ public class DroolsTest {
 
 	while (personQuery.next()){
 		Person p = new Person(personQuery.getLong("person_id"), personQuery.getInt("year_of_birth"), personQuery.getInt("gender_concept_id"), personQuery.getInt("race_concept_id"), personQuery.getInt("ethnicity_concept_id"));
+		p.setMonthOfBirth(personQuery.getInt("month_of_birth"));
+		p.setDayOfBirth(personQuery.getInt("day_of_birth"));
+		p.setDateOfBirth();
 		kSession.insert(p);
 		cnt++;
 	} 
