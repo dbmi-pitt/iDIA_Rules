@@ -104,14 +104,16 @@ rule "CITALOPRAM -- Citalopram High Dosage"
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
             && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
             && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId()
-            && dailyDosage >= 60 && doseUnitSourceValue == 'mg') // TODO can we rely on doseUnitSourceValue to be filled in?
+            && dailyDosage >= 60 )
+            //&& doseUnitSourceValue == 'mg') // TODO not sure we can rely on doseUnitSourceValue if we need to filter by unit.
         $person : Person(personId == $de1.getPersonId())
     then
         RHSState rhsNN = new RHSState("citalopram, high dosage yes", "yes", $person);
         insertLogical(rhsNN);
         String s = String.format(
-            "Found high citalopram daily dosage for the patient: Patient ID: %s; Citalopram Dosage = %s", 
-          $de1.getPersonId(), 
+            "Found high citalopram daily dosage for the patient: Patient ID: %s; Citalopram: %s, Citalopram Dosage: %s", 
+          $de1.getPersonId(),
+          $dexp1.getDrugConceptId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
         s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes", currentDateStr, $person.getPersonId());

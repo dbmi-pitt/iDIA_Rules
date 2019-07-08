@@ -150,6 +150,32 @@ rule "EPINEPHRINE - BETA-BLOCKERS - EPI FIRST -- NO FILTER"
       System.out.println(s);      
 end
 
+rule "EPINEPHRINE - BETA-BLOCKERS -- Epinephrine daily dosage 0.3 to 0.6 mg"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)
+      $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId()) 
+
+      $clinDrugConcept2 : ConceptSetItem(csName == "Epinephrines")
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId()
+        && dailyDosage >= 0.3 && dailyDosage <= 0.6 )
+        // && doseUnitSourceValue == 'mg') // TODO not sure we can rely on doseUnitSourceValue if we need to filter by unit.
+    then
+      RHSState rhsNN = new RHSState("epinephrine, beta-blocker, epi daily dosage 0.3 to 0.6 mg", "yes", $rhs.getPerson());
+      insertLogical(rhsNN);
+      String s = String.format(
+        "Found epi daily dosage between 0.3 to 0.6 mg for the patient: Patient ID: %s; Epinephrine: %s; Epinephrine Dosage: %s",
+        $de1.getPersonId(),
+        $dexp1.getDrugConceptId(),
+        $dexp1.getDailyDosage());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine, beta-blocker, epi daily dosage 0.3 to 0.6 mg", currentDateStr, $person.getPersonId());
+      System.out.println(s); 
+end
+
 rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrine)"
 // TODO need to create concept sets for "Systemic" injection?
     when
