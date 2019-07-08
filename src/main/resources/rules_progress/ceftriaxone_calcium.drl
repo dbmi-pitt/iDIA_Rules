@@ -152,6 +152,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, simultaneous administr
 
     then
       RHSState rhsNN = new RHSState("simultaneous ceftriaxone and calcium, patient >= 28 days old", "yes", $person);
+      insertLogical(rhsNN);
       String s = String.format(
         "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical impliciation: Start another IV line.\n\tMitigating factor: (TODO).\n\tRecommendation: Avoid!\n\tExplanation: Both ceftriaxone and calcium administered on %s;Patient born %s; age in days is %s.",
         $rhs.getPerson().getPersonId(),
