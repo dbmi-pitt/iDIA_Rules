@@ -135,7 +135,7 @@
                # Replace Windows newlines with Unix newlinesD_ERA,1514,,1343916,2/13/08,4/27/08,,,,,,,,,
                # Replace Windows newlines with Unix newlinesD_ERA,1514,,1338005,2/13/08,4/27/08,,,,,,,,,
                # Replace Windows newlines with Unix newlinesVIS,1514,,,2/13/08,4/27/08,,9201,,,,,,,
-               # Replace Windows newlines with Unix newlinesD_EXP,1514,,19076899,2/13/08,4/27/08,,,1,1,,,4 times daily,null,null
+               # Replace Windows newlines with Unix newlinesD_EXP,1514,,40226826,2/13/08,4/27/08,,,60,1,,,4 times daily,null,null
                # Replace Windows newlines with Unix newlinesD_EXP,1514,,40162867,2/13/08,4/27/08,,,90,30,,,2 times daily,null,null
                # Replace Windows newlines with Unix newlinesMEA,1514,,3016723,2/13/08,,45,8795,,,,,,,
                # Replace Windows newlines with Unix newlinesPER,1515,1985,,,,,,,,1,1,,,
@@ -273,7 +273,7 @@
                # Replace Windows newlines with Unix newlinesD_ERA,1534,,1307046,2/13/08,4/27/08,,,,,,,,,
                # Replace Windows newlines with Unix newlinesC_ERA,1534,,4309669,2/13/08,4/27/08,,,,,,,,,
                # Replace Windows newlines with Unix newlinesVIS,1534,,,2/13/08,4/27/08,,9201,,,,,,,
-               # Replace Windows newlines with Unix newlinesD_EXP,1534,,19076899,2/14/08,4/27/08,,,1,1,,,4 times daily,null,null
+               # Replace Windows newlines with Unix newlinesD_EXP,1534,,19127146,2/14/08,4/27/08,,,3,1,,,3 times daily,null,null
                # Replace Windows newlines with Unix newlinesD_EXP,1534,,46221724,2/13/08,4/27/08,,,60,30,,,2 times daily,null,null
                # Replace Windows newlines with Unix newlinesPER,1535,1945,,,,,,,,1,1,,,
                # Replace Windows newlines with Unix newlinesD_ERA,1535,,1343916,2/13/08,4/27/08,,,,,,,,,
@@ -489,7 +489,7 @@
                # Replace Windows newlines with Unix newlinesD_ERA,1567,,1343916,2/13/08,4/27/08,,,,,,,,,
                # Replace Windows newlines with Unix newlinesD_ERA,1567,,902427,2/13/08,4/27/08,,,,,,,,,
                # Replace Windows newlines with Unix newlinesVIS,1567,,,2/13/08,4/27/08,,9201,,,,,,,
-               # Replace Windows newlines with Unix newlinesD_EXP,1567,,19076899,2/14/08,4/27/08,,,30,1,,,4 times daily,null,null
+               # Replace Windows newlines with Unix newlinesD_EXP,1567,,19127146,2/14/08,4/27/08,,,2,1,,,2 times daily,null,null
                # Replace Windows newlines with Unix newlinesD_EXP,1567,,902431,2/13/08,4/27/08,,,20,30,,,3 times daily,null,4132161
                # Replace Windows newlines with Unix newlinesPER,1568,1960,,,,,,,,1,1,,,
                # Replace Windows newlines with Unix newlinesD_ERA,1568,,1398937,2/13/08,4/27/08,,,,,,,,,
