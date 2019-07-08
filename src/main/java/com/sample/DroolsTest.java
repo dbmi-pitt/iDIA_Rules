@@ -243,22 +243,23 @@ public class DroolsTest {
 					0.00, // dailyDosage - default value 0.00, set below
 					dexpQuery.getInt("indication_concept_id")  // indicationConceptId
 				);
-		if(dexpQuery.getString("amount_value") != "null" && dexpQuery.getString("expected") != "null"){
-            ex_dexp.setSigDailyDosage(dexpQuery.getDouble("amount_value"), dexpQuery.getDouble("expected"));
-            // System.out.println("\tSET SIG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
-        }
-        else if(dexpQuery.getString("quantity") != "null" && dexpQuery.getString("days_supply") != "null" && dexpQuery.getString("amount_value") != "null"){
-          	ex_dexp.setRegDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"), dexpQuery.getDouble("amount_value"));
-			// System.out.println("\tSET REG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
 
-        }
-        else if(dexpQuery.getString("quantity") != "null" && dexpQuery.getString("days_supply") != "null" && dexpQuery.getString("numerator_value") != "null"){
-          	ex_dexp.setComplexDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"),dexpQuery.getDouble("numerator_value"));
-			// System.out.println("\tSET COMPLEX DAILY DOSAGE: " + ex_dexp.getDailyDosage());
+		if(dexpQuery.getString("amount_value") != null && dexpQuery.getString("expected") != null){
+	      ex_dexp.setSigDailyDosage(dexpQuery.getDouble("amount_value"), dexpQuery.getDouble("expected"));
+	      // System.out.println("\tSET SIG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
+    }
+    else if(dexpQuery.getString("quantity") != null && dexpQuery.getString("days_supply") != null && dexpQuery.getString("amount_value") != null){
+      	ex_dexp.setRegDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"), dexpQuery.getDouble("amount_value"));
+				// System.out.println("\tSET REG DAILY DOSAGE: " + ex_dexp.getDailyDosage());
 
-        }
-        kSession.insert(ex_dexp);
-        cnt++;
+    }
+    else if(dexpQuery.getString("quantity") != null && dexpQuery.getString("days_supply") != null && dexpQuery.getString("numerator_value") != null){
+      	ex_dexp.setComplexDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"),dexpQuery.getDouble("numerator_value"));
+				// System.out.println("\tSET COMPLEX DAILY DOSAGE: " + ex_dexp.getDailyDosage());
+	    	// System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptId() + " COMPLEX DAILY DOSAGE SET: " + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * numerator " + dexpQuery.getDouble("numerator_value") + " / daysSupply " + dexpQuery.getShort("days_supply") );
+    }
+    kSession.insert(ex_dexp);
+    cnt++;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////
