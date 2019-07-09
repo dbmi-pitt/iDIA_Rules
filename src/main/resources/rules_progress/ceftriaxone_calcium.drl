@@ -28,7 +28,7 @@ global java.lang.String currentDateStr;
 global java.sql.Timestamp currentDate;
 global java.sql.Timestamp within48hours;
 global java.sql.Timestamp within28days;
-global java.sql.Timestamp plus1day
+global java.sql.Timestamp plus1day;
 
 /////////// 
 // declare any types here
@@ -90,7 +90,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old"
       // currently use as a sandbox for patient age
       $rhs : RHSState(stateName == "basic concomitant exposure of ceftriaxone and a calcium" && state == "yes", $person : person)
       $person28DaysOld : Person(personId == $person.getPersonId() 
-        && ((int) ($person28DaysOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))) >= 28)
+        && ((double) ($person28DaysOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))) >= 28)
     then
       RHSState rhsCur = new RHSState("basic concomitant exposure of ceftriaxone and a calcium, patient age >=28 days old", "yes", $person);
       insertLogical(rhsCur);
@@ -98,7 +98,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old"
         "\tPatient ID: %s;\n\tPatient DoB: %s;\n\tPatient age in days: %s",
           $rhs.getPerson().getPersonId(),
           $person28DaysOld.getDateOfBirth(),
-          ((int) ($person28DaysOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
+          ((double) ($person28DaysOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age AT LEAST 28 days old",
           currentDateStr,
@@ -107,6 +107,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old"
       System.out.println(s);
 end
 
+// leaf node for patient < 28 days old with concomitant ceftriaxone/calcium
 rule "CEFTRIAXONE - CALCIUM -- patient age <28 days old"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of ceftriaxone and a calcium" && state == "yes", $person : person)
@@ -117,7 +118,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age <28 days old"
         "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical impliciation: Combination incompatible.\n\tMitigating factor: (TODO).\n\tRecommendation: Avoid!\n\tExplanation: Patient born %s; age in days is %s.",
         $rhs.getPerson().getPersonId(),
         $rhs.getPerson().getDateOfBirth(),
-        ((int) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
+        ((double) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age LESS THAN 28 days old",
           currentDateStr,
@@ -126,8 +127,8 @@ rule "CEFTRIAXONE - CALCIUM -- patient age <28 days old"
       System.out.println(s);
 end
 
-// leaf node for patient >= 28 days old, and calcium / ceftriaxone are simultaneously administrated in the same line
-// TODO All items in the Ceftriaxone & Calcium concept sets are injectible. Are they all therefore IV?
+// leaf node for patient >= 28 days old, and ceftriaxone/calcium are simultaneously administrated in the same line
+// TODO All items in the Ceftriaxone & Calcium concept sets are injectible. Are they all therefore IV, or do we need another concept set?
 // TODO Clarify how to determine "simultaneous" administration? Is there a certain time window to look at, or should they be same datetime or same day?
 rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, simultaneous administration"
     when
@@ -158,7 +159,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, simultaneous administr
         $rhs.getPerson().getPersonId(),
         $dexp1.getDrugExposureStartDate(),
         $rhs.getPerson().getDateOfBirth(),
-        ((int) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
+        ((double) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tsimultaneous ceftriaxone and calcium administration, patient age AT LEAST 28 days old",
           currentDateStr,
