@@ -79,7 +79,7 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tClonidine - Beta-blocker interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
             $dexp1.getDrugConceptId(),
