@@ -136,17 +136,18 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- high dosage Fluconazole PO, patient age
 
       $clinDrugConcept1 : ConceptSetItem(csName == "Fluconazoles Ingredients")
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
-      // From there, we can pull in the specific intravenous fluconazole drug exposure, and check it against our 200 mg/day threshold
+      // From there, we can pull in the specific intravenous fluconazole drug exposure, and check it against our 100 mg/day threshold
       $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles PO")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
         && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId == $clinDrugConcept2.getConceptId() 
         && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage >= 100) 
     then
       RHSState rhsNN = new RHSState("immunosuppressant and high dose fluconazole, oral yes", "yes", $rhs.getPerson());
       insertLogical(rhsNN);
       String s = String.format(
         "Immunosuppressant - Fluconazole interaction for patient: %s.\n\tClinical implication: Monitor immunosuppressant levels.\n\tMitigating factor: Presence of an immunosuppressant and a high dose of oral fluconazole (Daily Dosage: %s mg/day, compared to the threshold value of 100 mg/day).\n\tRecommendation: Use only if benefit outweighs risk. Increased risk of immunosuppressant toxicity likely.\n\tExplanation: Azole antifungals inhibit cytochrome P450 (CYP450) enzymes that metabolize immunosuppressants, leading to a potential risk of toxicity.", 
-        $de1.getPersonId(), 
+        $person.getPersonId(), 
         $dexp1.getDailyDosage());
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\timmunosuppressant and a fluconazole interaction\timmunosuppressant and high dose of oral fluconazole", currentDateStr, $person.getPersonId());
@@ -165,6 +166,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- high dosage Fluconazole IV, patient age
       $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles PO")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
         && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId == $clinDrugConcept2.getConceptId() 
         && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage >= 200) 
     then
       RHSState rhsNN = new RHSState("immunosuppressant and high dose fluconazole, intravenous yes", "yes", $rhs.getPerson());
@@ -187,10 +189,11 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- Fluconazole PO, patient age >18 years o
 
       $clinDrugConcept1 : ConceptSetItem(csName == "Fluconazoles Ingredients")
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
-      // From there, we can pull in the specific intravenous fluconazole drug exposure, and check it against our 200 mg/day threshold
+      // From there, we can pull in the specific intravenous fluconazole drug exposure, and check it against our 100 mg/day threshold
       $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles PO")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
         && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId == $clinDrugConcept2.getConceptId() 
         && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage < 100) 
     then
       RHSState rhsNN = new RHSState("immunosuppressant and fluconazole, oral yes", "yes", $rhs.getPerson());
@@ -209,13 +212,14 @@ end
 rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- Fluconazole IV, patient age >18 years old"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of immunosuppressant and a fluconazole, patient age >=18 years old" && state == "yes", $person : person)
-      
+
       $clinDrugConcept1 : ConceptSetItem(csName == "Fluconazoles Ingredients")
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
       // From there, we can pull in the specific intravenous fluconazole drug exposure, and check it against our 200 mg/day threshold
       $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles PO")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
         && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId == $clinDrugConcept2.getConceptId() 
         && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage < 200) 
     then
       RHSState rhsNN = new RHSState("immunosuppressant and fluconazole, intravenous yes", "yes", $rhs.getPerson());
