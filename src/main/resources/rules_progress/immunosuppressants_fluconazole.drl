@@ -40,7 +40,7 @@ global java.sql.Timestamp plus1day;
 /////////// 
 
 // basic check of any dosage or form of immunosuppressants / fluconazole at the same time
-rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- NO FILTER "
+rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- NO FILTER"
     when
       // First, we look for patients exposed to immunosuppressant on the ingredient level
       $clinDrugConcept1 : ConceptSetItem(csName == "Immunosuppressants Ingredients")
