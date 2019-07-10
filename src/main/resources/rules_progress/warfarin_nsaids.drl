@@ -111,3 +111,5 @@ rule "WARFARIN - NSAID -- PPI or misoprostol"
       s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tproton pump inhibitor or misoprostol", currentDateStr, $person.getPersonId());
       System.out.println(s);
 end
+
+// TODO how to determine if patient is able to start on PPI?
