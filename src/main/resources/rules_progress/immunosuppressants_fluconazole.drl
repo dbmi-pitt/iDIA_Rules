@@ -163,7 +163,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- high dosage Fluconazole IV, patient age
       $clinDrugConcept1 : ConceptSetItem(csName == "Fluconazoles Ingredients")
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
       // From there, we can pull in the specific intravenous fluconazole drug exposure, and check it against our 200 mg/day threshold
-      $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles PO")
+      $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles IV")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
         && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
         && drugConceptId == $clinDrugConcept2.getConceptId() 
@@ -216,7 +216,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- Fluconazole IV, patient age >18 years o
       $clinDrugConcept1 : ConceptSetItem(csName == "Fluconazoles Ingredients")
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
       // From there, we can pull in the specific intravenous fluconazole drug exposure, and check it against our 200 mg/day threshold
-      $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles PO")
+      $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles IV")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
         && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
         && drugConceptId == $clinDrugConcept2.getConceptId() 
