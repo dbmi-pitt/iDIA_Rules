@@ -1,4 +1,26 @@
 // fluconazole - opioids DDI Alerting Rule
+/*
+
+SELECT de1.person_id, de1.drug_exposure_id AS clon_dexp, de1.drug_concept_id AS clon_id, c1.concept_name AS clon_name, cs1.concept_name AS clon_ingr, de1.drug_exposure_start_datetime AS clon_start, de1.drug_exposure_end_datetime AS clon_end, de1.quantity, de1.sig, de1.route_concept_id as clon_route_id, de1.route_source_value as clon_route,
+de2.drug_exposure_id AS bb_dexp, de2.drug_concept_id AS bb_id, c2.concept_name AS bb_name, cs2.concept_name AS bb_ingr, de2.drug_exposure_start_datetime AS beta_start, de2.drug_exposure_end_datetime AS beta_end, ds2.*, de2.quantity, de2.sig, de2.route_concept_id AS bb_route_id, de2.route_source_value AS bb_route
+FROM drug_exposure de1 
+INNER JOIN drug_exposure de2 ON de1.person_id = de2.person_id 
+INNER JOIN concept c1 ON de1.drug_concept_id = c1.concept_id
+INNER JOIN concept c2 ON de2.drug_concept_id = c2.concept_id
+INNER JOIN drug_strength ds1 ON ds1.drug_concept_id = de1.drug_concept_id
+INNER JOIN concept cs1 ON ds1.ingredient_concept_id = cs1.concept_id
+INNER JOIN drug_strength ds2 ON ds2.drug_concept_id = de2.drug_concept_id
+INNER JOIN concept cs2 ON ds2.ingredient_concept_id = cs2.concept_id
+WHERE de1.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7224)
+AND de2.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7205)
+AND ds1.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7221) -- opioids ingredients
+AND ds2.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7203) -- fluc ingredients
+AND ((de2.drug_exposure_start_datetime >= de1.drug_exposure_start_datetime AND de2.drug_exposure_start_datetime <= de1.drug_exposure_end_datetime)
+OR (de2.drug_exposure_end_datetime >= de1.drug_exposure_start_datetime AND de2.drug_exposure_end_datetime <= de1.drug_exposure_end_datetime))
+AND de1.drug_exposure_id != de2.drug_exposure_id
+ORDER BY person_id ASC;
+
+*/
 
 package com.sample
 
@@ -86,3 +108,117 @@ rule "FLUCONAZOLE - OPIOIDS -- NO FILTER"
       System.out.println(s);
 end
 
+// rule checks to see if any of the patients identified by the first rule are outpatients
+// NOTE currently commented out since it doesn't look like anyone in the banner data set has visit concept id of 9202. Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit÷
+/*
+rule "FLUCONAZOLE - OPIOIDS -- PATIENT STATUS"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs : RHSState(stateName == "basic concomitant exposure of fluconazole and an opioid" && state == "yes", $person : person)      
+      // This checks for visits that are outpatient for a given patient... (no alerts fired if they are inpatient)
+      $vo1 : VisitOccurrence(personId == $person.getPersonId() && visitConceptId == 9202)
+    then  
+      // New RHS state that the next branch of the rule uses, this time indicating the exposure is outpatient
+      RHSState rhsCur = new RHSState("outpatient exposure to fluconazole and an opioid", "yes", $person);
+      insertLogical(rhsCur);
+      // Nothing hugely important to output here, just an update to show how many patients were outpatient
+      String s = String.format(
+          "Matched drug exposures for an 'outpatient' patient: Patient ID: %s.", 
+          $person.getPersonId());
+      System.out.println(s);
+end
+*/
+
+// check dosage of fluconazole for >50.0 mg/day
+// NOTE outpatient currently not being considered
+rule "FLUCONAZOLE - OPIOIDS -- FLUCONAZOLE DOSAGE"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs : RHSState(stateName == "basic concomitant exposure of fluconazole and an opioid" && state == "yes", $person : person)    
+      // We also check to make sure that they are an outpatient
+      // $rhs2 : RHSState(stateName == "outpatient exposure to fluconazole and an opioid" && state == "yes" && person.getPersonId() == $person.getPersonId())
+      // Next, we need to bring back the patient's fluconazole exposure to check its dosage to match it against a threshold value (50 mg/day)
+      $clinDrugConcept1 : ConceptSetItem(csName == "Fluconazoles Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())    
+      $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles")
+      $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage >= 50.0)
+    then  
+      // New RHS state that the next branch of the rule uses, this time including that there is a high dose of fluconazole
+      // RHSState rhsCur = new RHSState("outpatient exposure to high dosage fluconazole and an opioid", "yes", $person);
+      RHSState rhsCur = new RHSState("exposure to high dosage fluconazole and an opioid", "yes", $person);
+      insertLogical(rhsCur);
+      // Nothing hugely important to output here, just an update to show how many patients had high enough dosage
+      String s = String.format(
+          // "Matched high dosages of fluconazole for an outpatient patient: Patient ID: %s; Fluconazole: %s (Daily Dosage: %s mg/day, Threshold Value: 50.0 mg/day).", 
+          "Matched high dosages of fluconazole for a patient: Patient ID: %s; Fluconazole: %s (Daily Dosage: %s mg/day, Threshold Value: 50.0 mg/day).", 
+          $person.getPersonId(),
+          $dexp1.getDrugConceptId(),
+          $dexp1.getDailyDosage());
+      System.out.println(s);
+end
+
+// leaf node for high dose of fluconazole and fentanyl
+rule "FLUCONAZOLE - OPIOIDS -- FENTANYL"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs : RHSState(stateName == "basic concomitant exposure of fluconazole and an opioid" && state == "yes", $person : person)    
+      // We also check to make sure that they are an outpatient
+      // $rhs2 : RHSState(stateName == "outpatient exposure to fluconazole and an opioid" && state == "yes" && person.getPersonId() == $person.getPersonId())
+      // We also have to check to make sure that they are on a high dose of fluconazole
+      // $rhs3 : RHSState(stateName == "outpatient exposure to high dosage fluconazole and an opioid" && state == "yes" && person.getPersonId() == $person.getPersonId()) 
+      $rhs3 : RHSState(stateName == "exposure to high dosage fluconazole and an opioid" && state == "yes" && person.getPersonId() == $person.getPersonId()) 
+      // Next, we check to see if the patients who met all of these criteria are also on fentanyl (check ingredient level first)
+      $clinDrugConcept1 : ConceptSetItem(csName == "Fentanyls Ingredients")
+      $de1 : DrugEra(personId == $rhs.getPerson().getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+      // Finally, we check the specific drug product of fentanyl that they were exposed to... no further filtering in this branch
+      $clinDrugConcept2 : ConceptSetItem(csName == "Fentanyls")
+      $dexp1 : ExtendedDrugExposure(personId == $rhs.getPerson().getPersonId() 
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())                
+    then  
+      // This state is largely unused atm, as it is a leaf node (end of a branch)
+      RHSState rhsNN = new RHSState("high dose fluconazole and fentanyl", "yes", $rhs.getPerson());
+      insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node  
+      String s = String.format(
+        "Fluconazole - Fentanyl interaction for patient: %s.\n\tClinical implication: CNS depression likely.\n\tMitigating factor: Co-prescription of fluconazole and fentanyl (%s).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation:  Fluconazole inhibits CYP3A4, which may cause an increase in opioid plasma concentration.", 
+        $de1.getPersonId(), 
+        $dexp1.getDrugConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and fentanyl", currentDateStr, $person.getPersonId());
+      System.out.println(s);            
+end
+
+// leaf node for high dosage of fluconazole and high dose of oxycodone
+rule "FLUCONAZOLE - OPIOIDS -- OXYCODONE"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs : RHSState(stateName == "basic concomitant exposure of fluconazole and an opioid" && state == "yes", $person : person)    
+      // We also check to make sure that they are an outpatient
+      // $rhs2 : RHSState(stateName == "outpatient exposure to fluconazole and an opioid" && state == "yes" && person.getPersonId() == $person.getPersonId())
+      // We also have to check to make sure that they are on a high dose of fluconazole
+      // $rhs3 : RHSState(stateName == "outpatient exposure to high dosage fluconazole and an opioid" && state == "yes" && person.getPersonId() == $person.getPersonId()) 
+      $rhs3 : RHSState(stateName == "exposure to high dosage fluconazole and an opioid" && state == "yes" && person.getPersonId() == $person.getPersonId()) 
+      // Next, we check to see if the patients who met all of these criteria are also on fentanyl (check ingredient level first)
+      $clinDrugConcept1 : ConceptSetItem(csName == "Oxycodones Ingredients")
+      $de1 : DrugEra(personId == $rhs.getPerson().getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+      // Finally, we check the specific drug product of fentanyl that they were exposed to... no further filtering in this branch
+      $clinDrugConcept2 : ConceptSetItem(csName == "Oxycodones")
+      $dexp1 : ExtendedDrugExposure(personId == $rhs.getPerson().getPersonId() 
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage >= 10.0)                
+    then  
+      // This state is largely unused atm, as it is a leaf node (end of a branch)
+      RHSState rhsNN = new RHSState("high dose fluconazole and high dose oxycodone", "yes", $rhs.getPerson());
+      insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node    
+      String s = String.format(
+        "Fluconazole - Oxycodone interaction for patient: %s.\n\tClinical implication: CNS depression likely.\n\tMitigating factor: Co-prescription of fluconazole and a high dose of oxycodone (Daily Dosage: %s mg/day, Threshold Value 10.0 mg/day).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation:  Fluconazole inhibits CYP3A4, which may cause an increase in opioid plasma concentration.", 
+        $de1.getPersonId(), 
+        $dexp1.getDailyDosage());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and high dose oxycodone", currentDateStr, $person.getPersonId());
+      System.out.println(s);                  
+end
