@@ -40,7 +40,7 @@ global java.sql.Timestamp plus1day;
 /////////// 
 
 // basic check of any dosage or form of Warfarin / NSAIDs at the same time
-rule "FLUCONAZOLE - OPIOIDS -- NO FILTER"
+rule "WARFARIN - NSAID -- NO FILTER"
     when
       // First, we look for patients exposed to warfarin on the ingredient level
       $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins Ingredients")
