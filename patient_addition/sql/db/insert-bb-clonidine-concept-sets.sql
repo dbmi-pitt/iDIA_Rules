@@ -1,4 +1,4 @@
-insert into ohdsi.concept_set (concept_set_id, concept_set_name)
+﻿insert into ohdsi.concept_set (concept_set_id, concept_set_name)
 values (12109, 'Timolols Eye Gels'), 
 (12110, 'Clonidines Oral'), 
 (12111, 'Clonidines Injectable'), 
