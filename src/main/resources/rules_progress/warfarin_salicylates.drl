@@ -1,0 +1,193 @@
+// warfarin - salicylates DDI alerting rule
+
+package com.sample
+
+//list any import classes here.
+import function com.sample.DRLLogger.*;
+
+import java.util.*;
+import java.lang.String;
+import java.sql.Timestamp;
+
+import com.sample.model.ConceptSetItem;
+import com.sample.model.RHSState;
+
+import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
+import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
+import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
+import edu.pitt.dbmi.ohdsiv5.db.Measurement;
+import edu.pitt.dbmi.ohdsiv5.db.Person;
+
+
+/////////// 
+// declare any global variables here
+/////////// 
+global java.lang.String currentDateStr;
+global java.sql.Timestamp currentDate;
+global java.sql.Timestamp within48hours;
+global java.sql.Timestamp within28days;
+global java.sql.Timestamp plus1day;
+
+/////////// 
+// declare any types here
+/////////// 
+
+
+/////////// 
+// Rules
+/////////// 
+
+// basic check of any dosage or form of warfarin and a salicylate at the same time
+
+rule "WARFARIN - SALICYLATES -- NO FILTER"
+    when
+      // First, we look for patients exposed to warfarin on the ingredient level
+      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+      // Second, we similarly look for exposure to a salicylate on the ingredient level
+      $clinDrugConcept2 : ConceptSetItem(csName == "Salicylates Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+      // Next, we identify the specific drug exposures for both warfarin and the salicylate
+      $clinDrugConcept3 : ConceptSetItem(csName == "Warfarins") 
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
+        && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept4 : ConceptSetItem(csName == "Salicylates")
+      $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+        || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
+        && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
+      $person : Person(personId == $de1.getPersonId())
+    then
+      // This creates a new "state" for any patients who are found to be on both drugs...
+      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
+      RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and a salicylate", "yes", $person);
+      // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
+      String s = String.format(
+          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Anticoagulant: %s; NSAID: %s;", 
+          $de1.getPersonId(), 
+          $clinDrugConcept3.getConceptId(), 
+          $clinDrugConcept4.getConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
+          currentDateStr,
+          $person.getPersonId(),
+          $dexp1.getDrugConceptId(),
+          $dexp1.getDrugExposureStartDate().toString(),
+          $dexp1.getDrugExposureEndDate().toString(),
+          $dexp2.getDrugConceptId(),
+          $dexp2.getDrugExposureStartDate().toString(),
+          $dexp2.getDrugExposureEndDate().toString()
+      );
+      System.out.println(s);
+end
+
+// TODO filter out "Salicylate Topical" / differentiate "Salicylate Systemic" routes of administration? Need to get additional concept set(s) to do this
+
+// filters patients with basic concomitant exposures to those on aspirin
+// NOTE how to determine if aspirin is for "Prevention of thromboembolic events"?
+rule "WARFARIN - SALICYLATES -- ASPIRIN"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and a salicylate" && state == "yes", $person : person)
+
+      $clinDrugConcept1 : ConceptSetItem(csName == "Aspirins Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept2 : ConceptSetItem(csName == "Aspirins")
+      $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
+        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())        
+    then
+      RHSState rhsNN = new RHSState("warfarin and aspirin", "yes", $person);
+        insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node
+      String s = String.format(
+        "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding.\n\tMitigating factor: Presence of aspirin (%s) (TODO - prevention of thromboembolic events?)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If the aspirin is being used as an analgesic or antipyretic, it would be prudent to use an alternative such as acetaminophen. \n\tIn some people, acetaminophen can increase the anticoagulant effect of warfarin, so monitor the INR if acetaminophen is used in doses over \n\t2 g/day for a few days. If the aspirin is being used as an anti-inflammatory agent, also consider using acetaminophen. The use of NSAIDs \n\tsince NSAIDs increase the risk of GI hemorrhage in patients on warfarin. NSAIDs also have antiplatelet effects but unlike aspirin, the \n\tantiplatelet effect is not for the life of the platelet, but rather only as long as the NSAID is in the circulation.", 
+        $person.getPersonId(),
+        $dexp1.getDrugConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin", currentDateStr, $person.getPersonId());
+      System.out.println(s);  
+end
+
+rule "WARFARIN - SALICYLATES -- ASPIRIN"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and a salicylate" && state == "yes", $person : person)
+
+      $clinDrugConcept1 : ConceptSetItem(csName == "Aspirins Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept2 : ConceptSetItem(csName == "Aspirins")
+      $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
+        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())        
+    then
+      RHSState rhsNN = new RHSState("warfarin and aspirin", "yes", $person);
+        insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node
+      String s = String.format(
+        "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding.\n\tMitigating factor: Presence of aspirin (%s) (TODO - prevention of thromboembolic events?)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If the aspirin is being used as an analgesic or antipyretic, it would be prudent to use an alternative such as acetaminophen. \n\tIn some people, acetaminophen can increase the anticoagulant effect of warfarin, so monitor the INR if acetaminophen is used in doses over \n\t2 g/day for a few days. If the aspirin is being used as an anti-inflammatory agent, also consider using acetaminophen. The use of NSAIDs \n\tsince NSAIDs increase the risk of GI hemorrhage in patients on warfarin. NSAIDs also have antiplatelet effects but unlike aspirin, the \n\tantiplatelet effect is not for the life of the platelet, but rather only as long as the NSAID is in the circulation.", 
+        $person.getPersonId(),
+        $dexp1.getDrugConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin", currentDateStr, $person.getPersonId());
+      System.out.println(s);  
+end
+
+// filters patients with basic concomitant exposures to those on a non-acetylated salicylate
+// This does not include Bismuth subsalicylate, as it has a different dosage threshold than the rest
+// In this case, we check to see if the dosage of the salicylate is over 3g/day (= 3000 mg/day. Use MG since this is what the unit used in the drug names/quantities) and fire an alert if so
+rule "WARFARIN - SALICYLATES -- NON-ACETYLATED"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and a salicylate" && state == "yes", $person : person)
+
+      $clinDrugConcept1 : ConceptSetItem(csName == "Non-acetylated Salicylates Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept2 : ConceptSetItem(csName == "Non-acetylated Salicylates")
+      $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
+        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 3000)        
+    then
+      RHSState rhsNN = new RHSState("warfarin and a non-acetylated salicylate", "yes", $person);
+        insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node
+      String s = String.format(
+          "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding.\n\tMitigating factor: High dosage of a non-acetylated salicylate (%s at %s mg/day, compared to a threshold value of 3000.0 mg/day).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: While non-acetylated salicylates do not affect platelets and would not interact with warfarin on that basis, high serum concentrations of salicylate can increase the INR.", 
+          $person.getPersonId(),
+          $dexp1.getDrugConceptId(),
+          $dexp1.getDailyDosage());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and a non-acetylated salicylate", currentDateStr, $person.getPersonId());
+      System.out.println(s);
+end
+
+// NOTE previous rule file had "Bismuth Subsalicylate" rule - not in either old or new diagrams. Still include?
+// filters patients with basic concomitant exposures to those taking bismuth subsalicylate
+// This is a non-acetylated salicylate, so we need to check if its dosage equivalent is equal to 3000 mg/day Aspirin
+// Unlike the other salicylates, bismuth subsalicylate is does not have equivalent dosage to aspirin, therefore a conversion must be made
+// Bismuth Salicylate is 2.57g / 1 g of Aspirin
+rule "WARFARIN - SALICYLATES -- BISMUTH SUBSALICYLATE"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and a salicylate" && state == "yes", $person : person)
+
+      $clinDrugConcept1 : ConceptSetItem(csName == "Bismuth Subsalicylates Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept2 : ConceptSetItem(csName == "Bismuth Subsalicylates")
+      $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
+        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 7710)        
+    then
+      RHSState rhsNN = new RHSState("warfarin and bismuth subsalicylate", "yes", $person);
+        insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node
+      String s = String.format(
+          "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding.\n\tMitigating factor: High dosage of Bismuth Subsalicylate (%s at %s mg/day, compared to a threshold value of 7710.0 mg/day).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: WWhile non-acetylated salicylates do not affect platelets and would not interact with warfarin on that basis, high serum concentrations of salicylate can increase the INR.", 
+          $person.getPersonId(),
+          $dexp1.getDrugConceptId(),
+          $dexp1.getDailyDosage());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and bismuth subsalicylate", currentDateStr, $person.getPersonId());
+      System.out.println(s);
+end
