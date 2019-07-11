@@ -40,7 +40,6 @@ global java.sql.Timestamp plus1day;
 /////////// 
 
 // basic check of any dosage or form of warfarin and a salicylate at the same time
-
 rule "WARFARIN - SALICYLATES -- NO FILTER"
     when
       // First, we look for patients exposed to warfarin on the ingredient level
@@ -90,29 +89,6 @@ end
 
 // filters patients with basic concomitant exposures to those on aspirin
 // NOTE how to determine if aspirin is for "Prevention of thromboembolic events"?
-rule "WARFARIN - SALICYLATES -- ASPIRIN"
-    when
-      $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and a salicylate" && state == "yes", $person : person)
-
-      $clinDrugConcept1 : ConceptSetItem(csName == "Aspirins Ingredients")
-      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
-      $clinDrugConcept2 : ConceptSetItem(csName == "Aspirins")
-      $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
-        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())        
-    then
-      RHSState rhsNN = new RHSState("warfarin and aspirin", "yes", $person);
-        insertLogical(rhsNN);
-      // This outputs the recommendations and rationale for the patient because this is a leaf node
-      String s = String.format(
-        "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding.\n\tMitigating factor: Presence of aspirin (%s) (TODO - prevention of thromboembolic events?)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If the aspirin is being used as an analgesic or antipyretic, it would be prudent to use an alternative such as acetaminophen. \n\tIn some people, acetaminophen can increase the anticoagulant effect of warfarin, so monitor the INR if acetaminophen is used in doses over \n\t2 g/day for a few days. If the aspirin is being used as an anti-inflammatory agent, also consider using acetaminophen. The use of NSAIDs \n\tsince NSAIDs increase the risk of GI hemorrhage in patients on warfarin. NSAIDs also have antiplatelet effects but unlike aspirin, the \n\tantiplatelet effect is not for the life of the platelet, but rather only as long as the NSAID is in the circulation.", 
-        $person.getPersonId(),
-        $dexp1.getDrugConceptId());
-      System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin", currentDateStr, $person.getPersonId());
-      System.out.println(s);  
-end
-
 rule "WARFARIN - SALICYLATES -- ASPIRIN"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and a salicylate" && state == "yes", $person : person)
