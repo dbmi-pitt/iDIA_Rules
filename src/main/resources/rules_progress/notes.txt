@@ -1,0 +1,27 @@
+TODO
+CEFTRIAXONE - CALCIUM
+  All items in the Ceftriaxone & Calcium concept sets are injectible. Are they all therefore IV, or do we need another concept set?
+  Clarify how to determine "simultaneous" administration of calcium / ceftriaxone on an IV? Is there a certain time window to look at, or should they be same datetime or same day? (currently using same datetime)
+CLONIDINE - BB
+  need "Timolols Systemic" concept set?
+EPI - BB
+  How to tell if epinephrine is combined with local anesthetic?
+  Is beta-blocker required to be within 2 hours of epi?
+  need to create concept sets for "Systemic" injection of epinephrine?
+WARFARIN - ANTIDEPRESSANTS
+  basic concomitant of warfarin and mirtazapine (concept set needed) or tricyclics, buproprion (concepts set needed) as leaf nodes that are outside of SSRI/SNRI
+WARFARIN - NSAIDS
+  how to determine if patient is able to start on PPI?
+  filter out "Salicylate Topical" / differentiate "Salicylate Systemic" routes of administration? Need to get additional concept set(s) to do this
+
+NOTES:
+For daily doses,not sure we can rely on doseUnitSourceValue if we need to filter by unit.
+CLONIDINE - BB
+  Can "Clonidines Injectable" be used for "epidural"?
+EPI - BB
+  "Patient in anaphylaxis", "Anaphylaxis prevention", "Dermatological or dental use", "Plastic surgery use" branches currently not considered since the database does not have any support for "Indications", and there are no patients in the dataset that have these conditions based on the current condition concept sets.
+FLUCONAZOLE - OPIOIDS
+  "Outpatient?" branch currently not considered since it doesn't look like anyone in the banner data set has visit concept id of 9202 for "outpatient". Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit"
+WARFARIN - SALICYLATES
+  how to determine if aspirin is for "Prevention of thromboembolic events"?
+  previous rule file had "Bismuth Subsalicylate" rule - but this branch is not depicted in either old or new diagrams. Still include?
