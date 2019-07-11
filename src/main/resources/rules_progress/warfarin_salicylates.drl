@@ -67,7 +67,7 @@ rule "WARFARIN - SALICYLATES -- NO FILTER"
       RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and a salicylate", "yes", $person);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
-          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Anticoagulant: %s; NSAID: %s;", 
+          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Anticoagulant: %s; Salicylate: %s;", 
           $de1.getPersonId(), 
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
