@@ -13,6 +13,8 @@ WARFARIN - ANTIDEPRESSANTS
 WARFARIN - NSAIDS
   how to determine if patient is able to start on PPI?
   filter out "Salicylate Topical" / differentiate "Salicylate Systemic" routes of administration? Need to get additional concept set(s) to do this
+WARFARIN - SSRI+SNRI
+  Still need concept sets for "History of CNS hemorrhaghic bleeding" conditions and "Anti-platelet medications" drugs
 
 NOTES:
 For daily doses,not sure we can rely on doseUnitSourceValue if we need to filter by unit.
