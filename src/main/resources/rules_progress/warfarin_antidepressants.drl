@@ -42,7 +42,7 @@ global java.sql.Timestamp plus1day;
 // TODO basic concomitant of warfarin and mirtazapine (concept set needed) or tricyclics, buproprion (concepts set needed) as leaf nodes that are outside of SSRI/SNRI
 
 // basic check of any dosage or form of warfarin and an SSRI/SNRI at the same time
-rule "WARFARIN - SALICYLATES -- NO FILTER"
+rule "WARFARIN - SSRI+SNRI -- NO FILTER"
     when
       // First, we look for patients exposed to warfarin on the ingredient level
       $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins Ingredients")
@@ -87,16 +87,113 @@ rule "WARFARIN - SALICYLATES -- NO FILTER"
       System.out.println(s);
 end
 
-// TODO risk factors for major bleeding:
+// basic concomitant and PATIENT AGE risk factor of patient being >= 64 years old
+rule "WARFARIN - SSRI+SNRI -- patient age >=64 years old"
+    when
+      // currently use as a sandbox for patient age
+      $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
+      $person64YearsOld : Person(personId == $person.getPersonId() 
+        && ((double) ($person64YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365) >= 64) // assuming 365 days in a year
+    then
+      // This tags a given patient as "yes for risks"... There are three potential types of risks but all of them result in this same RHS state
+      RHSState rhsCur = new RHSState("warfarin and SSRI/SNRI exposure - yes risk", "yes", $person);
+      insertLogical(rhsCur);
+      String s = String.format(
+        "\tMatched drug exposures for the patient with AGE as a risk factor: Patient ID: %s;\n\tPatient DoB: %s;\n\tPatient age in years >= threshold of 65: %s",
+          $rhs.getPerson().getPersonId(),
+          $person64YearsOld.getDateOfBirth(),
+          ((double) ($person64YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365));
+      System.out.println(s);
+end
+
 /*
-CONDITIONS
-history of CNS hemorraghic bleeding (SEE PROTOCOL for ICD9/10 sets)
-history of UGIB or peptic ulcer (SEE PROTOCOL for ICD9/10 sets)
-*/
-// Age > 64 years
-/*
-OTHER DRUGS
+basic concomitant and OTHER DRUGS risk factor
 Systemic corticosteroids
 Aldosterone antagonists
-Anti-platelet medications
+Anti-platelet medications -- (TODO) need this concept set
 */
+rule "WARFARIN - SSRI+SNRI -- OTHER DRUGS"
+    when
+      $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
+      // This checks to see if the patient is on either group drug of interest at the ingredient level
+      $clinDrugConcept1 : ConceptSetItem(csName == "Corticosteroids Ingredients" || csName == "Aldosterone Antagonists Ingredients" || csName == "NSAIDs Ingredients" || csName == "Aspirins Ingredients") // TODO || csName == "Anti-Platelets Medications Ingredients"
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
+      // This identifies the specific clinical drug that the patient was exposed to as a risk factor
+      $clinDrugConcept2 : ConceptSetItem(csName == "Systemic Corticosteroids" || csName == "Aldosterone Antagonists" || csName == "NSAIDs" || csName == "Aspirins") // TODO || csName == "Anti-Platelets"
+      $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())        
+    then
+      // This tags a given patient as "yes for risks"... There are three potential types of risks but all of them result in this same RHS state
+      RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - yes risk", "yes", $person);
+      insertLogical(rhsNN);
+      String s = String.format(
+        "Matched drug exposures for the patient with ANOTHER DRUG as a risk factor: Patient ID: %s; Drug %s.", 
+        $person.getPersonId(),
+        $dexp1.getDrugConceptId());
+      System.out.println(s);
+end
+
+/*
+basic concomitant and CONDITIONS risk factor
+history of CNS hemorraghic bleeding -- (TODO) need this concept set
+history of UGIB or peptic ulcer 
+*/
+rule "WARFARIN - SSRI+SNRI -- CONDITIONS"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
+      // This checks to see if the patient has any of the conditions of interest
+      $condConcept1 : ConceptSetItem(csName == "History of GI Bleeds")  // TODO || csName == 
+      $ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId())
+    then  
+      // This tags a given patient as "yes for risks"... There are three potential types of risks but all of them result in this same RHS state
+        RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - yes risk", "yes", $person);
+        insertLogical(rhsNN);
+        // Nothing hugely important to output here, just an update to show how many patients were at risk due to conditions
+        String s = String.format(
+          "Matched drug exposures for the patient with a CONDITION as a risk factor - Patient ID: %s; Condition: %s.", 
+          $person.getPersonId(),
+        $ce1.getConditionConceptId());
+        System.out.println(s);
+end
+
+// one of two leaf nodes -- check if patients had any risk factors as identified above, if they do, an alert is fired
+rule "WARFARIN - SSRI+SNRI -- YES RISKS"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person) 
+      // Next, we check if the patient was exposed to any other risk factors
+      $rhs2 : RHSState(stateName == "warfarin and SSRI/SNRI exposure - yes risk" && state == "yes" && person.getPersonId() == $person.getPersonId())
+    then  
+        // This state is largely unused atm, as it is a leaf node (end of a branch)
+      RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - yes risks", "yes", $person);
+      insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node    
+      String s = String.format(
+        "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased GI and non-GI bleeding risk is likely.\n\tContextual factor: Presence of age, condition, or drug-factor risks. \n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If possible avoid drugs that increase bleeding risk (e.g., NSAIDs, aldosterone antagonists, aspirin, corticoids). \n\tTo reduce risk of GI bleeds consider adding a PPI and avoiding the SSRI/SNRI.", 
+        $person.getPersonId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risks", currentDateStr, $person.getPersonId());
+      System.out.println(s);        
+end
+
+// other leaf node -- basic concomitant exposure but no additional risks
+rule "WARFARIN - SSRI+SNRI -- NO RISKS"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
+      // Next, we make sure that the patient was not exposed to any other risk factors
+      not (RHSState(stateName == "warfarin and SSRI/SNRI exposure - yes risk" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+    then  
+      // This state is largely unused atm, as it is a leaf node (end of a branch)
+      RHSState rhsNN = new RHSState("warfarin and SSRI/SNRI exposure - no risks", "yes", $person);
+      insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node    
+      String s = String.format(
+        "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased GI and non-GI bleeding risk is possible.\n\tContextual factor: No age, condition, or drug-factor risks.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: To reduce the bleeding risk, consider avoiding the SSRI/SNRI.", 
+        $person.getPersonId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tno risks", currentDateStr, $person.getPersonId());
+      System.out.println(s);          
+end
