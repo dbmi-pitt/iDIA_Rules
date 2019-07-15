@@ -29,3 +29,5 @@ FLUCONAZOLE - OPIOIDS
 WARFARIN - SALICYLATES
   how to determine if aspirin is for "Prevention of thromboembolic events"?
   previous rule file had "Bismuth Subsalicylate" rule - but this branch is not depicted in either old or new diagrams. Still include?
+K - K-SPARING
+  Just to be clear, the diagram wants to find if the K level 48 hours prior is between 5 and 5.5 and doesn't exceed 5.5 until the current alert date?

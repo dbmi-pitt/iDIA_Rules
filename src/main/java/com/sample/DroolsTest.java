@@ -104,7 +104,7 @@ public class DroolsTest {
 		cal5.add(Calendar.DAY_OF_YEAR, 1);
 		cal5.set(Calendar.HOUR, 0);
     cal5.set(Calendar.MINUTE, 0);
-    cal5.set(Calendar.SECOND, 0);
+    cal5.set(Calendar.SECOND, 0); // midnight of the next day
 		kSession.setGlobal("currentDate", new Timestamp(cal2.getTimeInMillis()));
 		kSession.setGlobal("within48hours", new Timestamp(cal3.getTimeInMillis()));
 		kSession.setGlobal("within28days", new Timestamp(cal4.getTimeInMillis()));
@@ -168,7 +168,60 @@ public class DroolsTest {
 	    cnt++;
 	}
 
-	
+	Statement measSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet measQuery = measSt.executeQuery(
+			"SELECT"
+			+ " measurement_id"
+			+ ",person_id"
+		 	+ ",measurement_concept_id"
+		 	+ ",measurement_date"
+		 	+ ",measurement_datetime"
+		 	+ ",measurement_time"
+		 	+ ",measurement_type_concept_id"
+		 	+ ",operator_concept_id"
+		 	+ ",value_as_number"
+		 	+ ",value_as_concept_id"
+		 	+ ",unit_concept_id"
+		 	+ ",range_low"
+		 	+ ",range_high"
+		 	+ ",provider_id"
+		 	+ ",visit_occurrence_id"
+		 	+ ",measurement_source_value"
+		 	+ ",measurement_source_concept_id"
+		 	+ ",unit_source_value"
+		 	+ ",value_source_value"
+		 	+ " FROM measurement"
+		 	+ " WHERE MEASUREMENT_DATE = TO_DATE('" + dateStr + "','yyyy-MM-dd')"
+	 	);
+	measQuery.last();
+	System.out.println("INFO: # of meas: " + measQuery.getRow());
+	measQuery.beforeFirst();
+	while (measQuery.next()){
+		Measurement meas = new Measurement(
+				measQuery.getInt("measurement_id"),
+				measQuery.getInt("person_id"),
+				measQuery.getInt("measurement_concept_id"),
+				measQuery.getDate("measurement_date"),
+				measQuery.getTimestamp("measurement_datetime"),
+				measQuery.getString("measurement_time"),
+				measQuery.getInt("measurement_type_concept_id"),
+				measQuery.getInt("operator_concept_id"),
+				measQuery.getBigDecimal("value_as_number"),
+				measQuery.getInt("value_as_concept_id"),
+				measQuery.getInt("unit_concept_id"),
+				measQuery.getBigDecimal("range_low"),
+				measQuery.getBigDecimal("range_high"),
+				measQuery.getInt("provider_id"),
+				measQuery.getInt("visit_occurrence_id"),
+				measQuery.getString("measurement_source_value"),
+				measQuery.getInt("measurement_source_concept_id"),
+				measQuery.getString("unit_source_value"),
+				measQuery.getString("value_source_value")
+			);
+		kSession.insert(meas);
+		cnt++;
+	}
+
 	Statement deraSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	ResultSet deraQuery = deraSt.executeQuery(
 			"SELECT"
@@ -186,7 +239,7 @@ public class DroolsTest {
 	deraQuery.beforeFirst();
 	while (deraQuery.next()){
 		Timestamp start = Timestamp.valueOf(deraQuery.getString("drug_era_start_date"));
-	    Timestamp end = Timestamp.valueOf(deraQuery.getString("drug_era_end_date"));
+		Timestamp end = Timestamp.valueOf(deraQuery.getString("drug_era_end_date"));
 		kSession.insert( new DrugEra(deraQuery.getLong("drug_era_id"), start, deraQuery.getLong("person_id"), end, deraQuery.getInt("drug_concept_id"), deraQuery.getInt("drug_exposure_count")) );
 		cnt++;
 	}
@@ -287,6 +340,8 @@ public class DroolsTest {
 	personSt.close();
 	csQuery.close();
 	csSt.close();
+	measQuery.close();
+	measSt.close();
 	deraQuery.close();	
 	deraSt.close();
 	dexpQuery.close();

@@ -1,7 +1,6 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
 import java.sql.Timestamp;
-import java.sql.Timestamp;
 
 import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
 
