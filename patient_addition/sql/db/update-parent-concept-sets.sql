@@ -152,3 +152,39 @@ INSERT INTO ohdsi.concept_set_item (concept_id, concept_set_id, is_excluded, inc
 DROP TABLE ohdsi.temp_concept_set_item;
 
 COMMIT TRANSACTION;
+
+/*
+Update K-sparing Diuretics
+Includes: 
+Spironolactones
+Amilorides
+Eplerenones
+Triamterenes
+*/
+
+BEGIN TRANSACTION;
+
+CREATE TABLE ohdsi.temp_concept_set_item (
+  concept_set_item_id serial NOT NULL,
+  concept_set_id int4 NOT NULL,
+  concept_id int4 NOT NULL,
+  is_excluded int4 NOT NULL,
+  include_descendants int4 NOT NULL,
+  include_mapped int4 NOT NULL
+);
+
+INSERT INTO ohdsi.temp_concept_set_item
+(select i.concept_set_item_id, i.concept_set_id, i.concept_id, i.is_excluded, i.include_descendants, i.include_mapped 
+from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+where cs.concept_set_name in ('Spironolactones','Amilorides','Eplerenones','Triamterenes'));
+
+DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 6563;
+
+INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
+(select 6563 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
+
+DROP TABLE ohdsi.temp_concept_set_item;
+
+COMMIT TRANSACTION;
