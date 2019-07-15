@@ -205,7 +205,7 @@ ORDER BY freq_dexp DESC
 ;
 
 -- plastic surgery concept ID's
-select * from concept where concept_code IN ('Z41.1', 'Z42');	
+select * from concept where concept_code IN ('Z41.1', 'Z42'); 
 select * from concept where concept_name ilike '%plastic surgery%' and vocabulary_id ilike '%icd9%';
 select * from concept where concept_code IN ('V50.1', 'V51', 'V51.0', 'V51.8') and vocabulary_id = 'ICD9CM';
 -- procedure concept id 44831963
@@ -335,24 +335,28 @@ ORDER BY de1.drug_exposure_start_datetime ASC;
 -- TODO count the above basic concomitant exposures for people with multiple exposures
 
 -- frequency of each bb across ALL patients
-SELECT c.concept_name AS bb_ingr, 
+SELECT 
+c.concept_name AS bb,
 COUNT(DISTINCT de.drug_exposure_id) AS freq_dexp,  
 COUNT(DISTINCT de.person_id) AS freq_person
 FROM drug_exposure de
-INNER JOIN concept c ON c.concept_id = ds.drug_concept_id
+--INNER JOIN concept c ON c.concept_id = de.drug_concept_id
 INNER JOIN drug_strength ds ON ds.drug_concept_id = de.drug_concept_id
+INNER JOIN concept c ON c.concept_id = ds.ingredient_concept_id
 WHERE ds.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7756)
 GROUP BY c.concept_name
 ORDER BY freq_dexp DESC
 ;
 
 -- frequency of all epi drugs
-SELECT c.concept_name AS epi_ingr, 
+SELECT 
+c.concept_name AS epi, 
 COUNT(DISTINCT de.drug_exposure_id) AS freq_dexp,  
 COUNT(DISTINCT de.person_id) AS freq_person
 FROM drug_exposure de
-INNER JOIN concept c ON c.concept_id = ds.drug_concept_id
+INNER JOIN concept c ON c.concept_id = de.drug_concept_id
 INNER JOIN drug_strength ds ON ds.drug_concept_id = de.drug_concept_id
+INNER JOIN concept c ON c.concept_id = ds.ingredient_concept_id
 WHERE de.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7728)
 GROUP BY c.concept_name
 ORDER BY freq_dexp DESC
