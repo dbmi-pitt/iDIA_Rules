@@ -239,7 +239,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrin
       RHSState rhsNN = new RHSState("epinephrine, beta-blocker, epi indication for anaphylaxis yes", "yes", $rhs.getPerson());
       insertLogical(rhsNN);
       String s = String.format(
-        "Epinephrine - Beta-blocker interaction for patient with epinephrine indication for anaphylaxis: %s.\n\tClinical implication: (TODO)\n\tMitigating factor: (TODO)\n\tRecommendation: Benefit likely to outweigh risk. Acute hypertensive reaction is possible.\n\tExplanation: (TODO)", 
+        "Epinephrine - Beta-blocker interaction for patient with epinephrine indication for anaphylaxis: %s.\n\tClinical implication: (TODO)\n\tMitigating factor: (TODO)\n\tRecommendation: Benefit likely to outweigh risk. Acute hypertensive reaction is possible.\n\tExplanation: Beta-blocker: %s; Indication: %s;", 
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId(),
         $dexp1.getIndicationConceptId());
@@ -269,7 +269,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: High risk of acute hypertensive reaction.\n\tMitigating factor: Timolol oral given.\n\tRecommendation: Use only if benefit outweighs risk. Acute hypertensive reaction likely.\n\tExplanation: (TODO) Timolol is a nonselective beta-blocker, and timolol oral have been shown to produce systemic beta-blockade. This could lead to an acute hypertensive reaction.", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: High risk of acute hypertensive reaction.\n\tMitigating factor: Timolol oral given.\n\tRecommendation: Use only if benefit outweighs risk. Acute hypertensive reaction likely.\n\tExplanation: Timolol: %s; Timolol is a nonselective beta-blocker, and timolol oral have been shown to produce systemic beta-blockade. This could lead to an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
@@ -299,7 +299,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Intermediate risk of acute hypertensive reaction.\n\tMitigating factor: Timolol eye drops given.\n\tRecommendation: Assess risk and take action if necessary. Acute hypertensive reaction is possible.\n\tExplanation: (TODO) Timolol is a nonselective beta-blocker, and timolol eye drops have been shown to produce systemic beta-blockade. This could lead to an acute hypertensive reaction.", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Intermediate risk of acute hypertensive reaction.\n\tMitigating factor: Timolol eye drops given.\n\tRecommendation: Assess risk and take action if necessary. Acute hypertensive reaction is possible.\n\tExplanation: Timolol: %s; Timolol is a nonselective beta-blocker, and timolol eye drops have been shown to produce systemic beta-blockade. This could lead to an acute hypertensive reaction.", 
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
@@ -327,7 +327,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Metoprolol given.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: (TODO)", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Metoprolol given.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Metoprolol: %s;", 
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
@@ -354,7 +354,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Nebivolol given.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: (TODO).", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: Nebivolol given.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Nebivolol: %s;", 
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
@@ -387,9 +387,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: (TODO)", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Atenolol: %s;", 
           $de1.getPersonId(), 
-          $dexp1.getDailyDosage());
+          $dexp1.getDrugConceptId());
         System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and atenolol", currentDateStr, $person.getPersonId());
       System.out.println(s);    
@@ -420,9 +420,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: High dosage of bisoprolol (Daily Dosage: %s mg/day, compared to the threshold value of 20.0 mg/day).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: At doses of 20 mg/day or higher, bisoprolol can result in nonselective beta-blockade, which can cause an acute hypertensive reaction.", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: High dosage of bisoprolol (Daily Dosage: %s mg/day, compared to the threshold value of 20.0 mg/day).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Bisoprolol: %s; At doses of 20 mg/day or higher, bisoprolol can result in nonselective beta-blockade, which can cause an acute hypertensive reaction.", 
           $de1.getPersonId(), 
-          $dexp1.getDailyDosage());
+          $dexp1.getDrugConceptId());
         System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and bisoprolol", currentDateStr, $person.getPersonId());
       System.out.println(s);  
@@ -451,9 +451,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Betaxolol"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Large doses of betaxolol may result in nonselective beta-blockade, which can cause an acute hypertensive reaction.", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Betaxolol: %s; Large doses of betaxolol may result in nonselective beta-blockade, which can cause an acute hypertensive reaction.", 
           $de1.getPersonId(), 
-          $dexp1.getDailyDosage());
+          $dexp1.getDrugConceptId());
         System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and betaxolol", currentDateStr, $person.getPersonId());
       System.out.println(s);    
@@ -482,9 +482,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: (TODO)", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Esmolol: %s;", 
           $de1.getPersonId(), 
-          $dexp1.getDailyDosage());
+          $dexp1.getDrugConceptId());
         System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and esmolol", currentDateStr, $person.getPersonId());
       System.out.println(s);      
@@ -509,9 +509,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Acebutolol"
         insertLogical(rhsNN);
         // This outputs the recommendations and rationale for the patient because this is a leaf node       
         String s = String.format(
-          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: (TODO)", 
+          "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: (TODO)\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Acebutolol: %s;", 
           $de1.getPersonId(), 
-          $dexp1.getDailyDosage());
+          $dexp1.getDrugConceptId());
         System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and acebutolol", currentDateStr, $person.getPersonId());
       System.out.println(s);      
@@ -558,9 +558,9 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Non-Selective"
       insertLogical(rhsNN);
       // This outputs the recommendations and rationale for the patient because this is a leaf node       
       String s = String.format(
-        "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Acute hypertensive reaction is likely.\n\tMitigating factor: (TODO)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: (TODO)", 
+        "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Acute hypertensive reaction is likely.\n\tMitigating factor: (TODO)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Non-Selective Beta-Blocker: %s", 
         $de1.getPersonId(), 
-        $dexp1.getDailyDosage());
+        $dexp1.getDrugConceptId());
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and non-selective beta-blocker", currentDateStr, $person.getPersonId());
       System.out.println(s);     
