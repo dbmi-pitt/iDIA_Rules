@@ -3,7 +3,7 @@
     <kbase name="rules_complete" packages="rules_complete">
         <ksession name="ksession-rules"/>
     </kbase>
-    <kbase name="rules_progress" packages="rules_progress">
+    <kbase name="rules_progress" packages="rules_progress" equalsBehavior="equality">
         <ksession name="ksession-progress"/>
     </kbase>
 </kmodule>
