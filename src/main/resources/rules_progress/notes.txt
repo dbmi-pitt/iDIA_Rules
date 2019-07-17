@@ -2,25 +2,51 @@ TODO
 CEFTRIAXONE - CALCIUM
   All items in the Ceftriaxone & Calcium concept sets are injectible. Are they all therefore IV, or do we need another concept set?
   Clarify how to determine "simultaneous" administration of calcium / ceftriaxone on an IV? Is there a certain time window to look at, or should they be same datetime or same day? (currently using same datetime)
+    (*) e-mail Dan/Andrew/Nicole
 CLONIDINE - BB
   need "Timolols Systemic" concept set?
 EPI - BB
   How to tell if epinephrine is combined with local anesthetic?
-  Is beta-blocker required to be within 2 hours of epi?
+    (*) e-mail 
   need to create concept sets for "Systemic" injection of epinephrine?
 WARFARIN - ANTIDEPRESSANTS
   basic concomitant of warfarin and mirtazapine (concept set needed) or tricyclics, buproprion (concepts set needed) as leaf nodes that are outside of SSRI/SNRI
 WARFARIN - NSAIDS
   how to determine if patient is able to start on PPI?
+    (*) e-mail
+WARFARIN - SALICYLATES
+  how to determine if aspirin is for "Prevention of thromboembolic events"?
+    May potentially refer to low dose aspirin
+    (*) e-mail
   filter out "Salicylate Topical" / differentiate "Salicylate Systemic" routes of administration? Need to get additional concept set(s) to do this
 WARFARIN - SSRI+SNRI
   Still need concept sets for "History of CNS hemorrhaghic bleeding" conditions and "Anti-platelet medications" drugs
-K - K-Sparing Diuretics
-  Need concept sets for Spironolactone, Amiloride, Eplerenone
 ACE I/ARB - K-Sparing Diuretics
-  eGFR Measurements
+  eGFR Measurements -- diagrams use "ml/hour" but databse uses "ml/min/1.73sq.m"
+    concept ID's:
+      3049187
+      3053283
+      3030354
+    LOINC:
+      48642-3
+      48643-1
+      33914-3
 Fluconazole - Opioids
-  eGFR Measurements
+  eGFR Measurements (see above)
+K - K-SPARING
+  Just to be clear, the diagram wants to find if the K level 48 hours prior is between 5 and 5.5 and doesn't exceed 5.5 until the current alert date?
+    (*) e-mail - error?
+
+CONCEPT SET TODO's:
+History of CNS hemorraghic bleeding
+Mirtazapine
+Tricyclics
+Buproprion
+Anti-platelet medications
+Topical salicylates
+Systemic salicylates
+Systemic Timolols (?)
+Systemic Epinephrine (Injection?)
 
 NOTES:
 For daily doses,not sure we can rely on doseUnitSourceValue if we need to filter by unit.
@@ -31,7 +57,5 @@ EPI - BB
 FLUCONAZOLE - OPIOIDS
   "Outpatient?" branch currently not considered since it doesn't look like anyone in the banner data set has visit concept id of 9202 for "outpatient". Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit"
 WARFARIN - SALICYLATES
-  how to determine if aspirin is for "Prevention of thromboembolic events"?
   previous rule file had "Bismuth Subsalicylate" rule - but this branch is not depicted in either old or new diagrams. Still include?
-K - K-SPARING
-  Just to be clear, the diagram wants to find if the K level 48 hours prior is between 5 and 5.5 and doesn't exceed 5.5 until the current alert date?
+
