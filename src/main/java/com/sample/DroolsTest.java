@@ -168,6 +168,32 @@ public class DroolsTest {
 	    cnt++;
 	}
 
+	Statement voSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet voQuery = voSt.executeQuery(
+			"SELECT"
+			+ " visit_occurrence_id"
+			+ ",person_id"
+			+ ",visit_start_date"
+			+ ",visit_end_date"
+			+ ",visit_concept_id"
+			+ " FROM visit_occurrence"
+			+ " WHERE visit_start_date <= (TO_DATE('" + dateStr + "','yyyy-MM-dd')) AND visit_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+		);
+	voQuery.last();
+	System.out.println("INFO: # of visits: " + voQuery.getRow());
+	voQuery.beforeFirst();
+	while (voQuery.next()){
+		VisitOccurrence vo = new VisitOccurrence(
+				voQuery.getLong("visit_occurrence_id"),
+				voQuery.getLong("person_id"),
+				voQuery.getTimestamp("visit_start_date"),
+				voQuery.getTimestamp("visit_end_date"),
+				voQuery.getInt("visit_concept_id")
+			);
+		kSession.insert(vo);
+		cnt++;
+	}
+
 	Statement measSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	ResultSet measQuery = measSt.executeQuery(
 			"SELECT"
@@ -340,6 +366,8 @@ public class DroolsTest {
 	personSt.close();
 	csQuery.close();
 	csSt.close();
+	voQuery.close();
+	voSt.close();
 	measQuery.close();
 	measSt.close();
 	deraQuery.close();	
