@@ -16,7 +16,11 @@ WARFARIN - NSAIDS
 WARFARIN - SSRI+SNRI
   Still need concept sets for "History of CNS hemorrhaghic bleeding" conditions and "Anti-platelet medications" drugs
 K - K-Sparing Diuretics
-   Need concept sets for Spironolactone, Amiloride, Eplerenone
+  Need concept sets for Spironolactone, Amiloride, Eplerenone
+ACE I/ARB - K-Sparing Diuretics
+  eGFR Measurements
+Fluconazole - Opioids
+  eGFR Measurements
 
 NOTES:
 For daily doses,not sure we can rely on doseUnitSourceValue if we need to filter by unit.

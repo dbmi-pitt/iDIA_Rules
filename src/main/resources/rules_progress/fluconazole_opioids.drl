@@ -109,7 +109,7 @@ rule "FLUCONAZOLE - OPIOIDS -- NO FILTER"
 end
 
 // rule checks to see if any of the patients identified by the first rule are outpatients
-// NOTE currently commented out since it doesn't look like anyone in the banner data set has visit concept id of 9202. Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit÷
+// NOTE currently commented out since it doesn't look like anyone in the banner data set has visit concept id of 9202. Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit"
 /*
 rule "FLUCONAZOLE - OPIOIDS -- PATIENT STATUS"
     when
@@ -128,6 +128,8 @@ rule "FLUCONAZOLE - OPIOIDS -- PATIENT STATUS"
       System.out.println(s);
 end
 */
+
+// TODO eGFR measurement
 
 // check dosage of fluconazole for >50.0 mg/day
 // NOTE outpatient currently not being considered
