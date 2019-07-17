@@ -122,7 +122,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- patient age >=18 years old"
           $person18YearsOld.getDateOfBirth(),
           ((double) ($person18YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\timmunosuppressant and a fluconazole interaction\tbasic concomitant exposure, patient age AT LEAST 18 years old",
+      s = String.format("DATA\t%s\t%s\tImmunosuppresant - Fluconazole interaction\tbasic concomitant exposure, patient age AT LEAST 18 years old",
           currentDateStr,
           $rhs.getPerson().getPersonId()
       );
@@ -142,7 +142,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- patient age <18 years old"
         $rhs.getPerson().getDateOfBirth(),
         ((double) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\timmunosuppressant and a fluconazole interaction\tbasic concomitant exposure, patient age LESS THAN 18 years old",
+      s = String.format("DATA\t%s\t%s\tImmunosuppresant - Fluconazole interaction\tbasic concomitant exposure, patient age LESS THAN 18 years old",
           currentDateStr,
           $rhs.getPerson().getPersonId()
       );
@@ -171,7 +171,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- high dosage Fluconazole PO, patient age
         $person.getPersonId(), 
         $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\timmunosuppressant and a fluconazole interaction\timmunosuppressant and high dose of oral fluconazole", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tImmunosuppresant - Fluconazole interaction\timmunosuppressant and high dose of oral fluconazole", currentDateStr, $person.getPersonId());
       System.out.println(s); 
 end
 
@@ -198,7 +198,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- high dosage Fluconazole IV, patient age
         $de1.getPersonId(), 
         $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\timmunosuppressant and a fluconazole interaction\timmunosuppressant and high dose of intravenous fluconazole", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tImmunosuppresant - Fluconazole interaction\timmunosuppressant and high dose of intravenous fluconazole", currentDateStr, $person.getPersonId());
       System.out.println(s);   
 end
 
@@ -224,7 +224,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- Fluconazole PO, patient age >18 years o
         $de1.getPersonId(), 
         $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\timmunosuppressant and a fluconazole interaction\timmunosuppressant and oral fluconazole (dose <100 mg/day)", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tImmunosuppresant - Fluconazole interaction\timmunosuppressant and oral fluconazole (dose <100 mg/day)", currentDateStr, $person.getPersonId());
       System.out.println(s); 
 end
 
@@ -251,6 +251,6 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- Fluconazole IV, patient age >18 years o
         $de1.getPersonId(), 
         $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\timmunosuppressant and a fluconazole interaction\timmunosuppressant and intravenous fluconazole (dose <200 mg/day)", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tImmunosuppresant - Fluconazole interaction\timmunosuppressant and intravenous fluconazole (dose <200 mg/day)", currentDateStr, $person.getPersonId());
       System.out.println(s);   
 end
