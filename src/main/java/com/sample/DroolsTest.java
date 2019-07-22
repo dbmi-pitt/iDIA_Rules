@@ -277,10 +277,11 @@ public class DroolsTest {
 	*/
 	ResultSet dexpQuery = dexpSt.executeQuery(
 			"SELECT"
-			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, dexp.indication_concept_id"
-			+ " FROM drug_exposure dexp, drug_strength dstr, sig_mapping sm"
+			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, dexp.indication_concept_id, c.concept_name"
+			+ " FROM drug_exposure dexp, drug_strength dstr, sig_mapping sm, concept c"
 			+ " WHERE dexp.drug_concept_id = dstr.drug_concept_id"
 			+ " AND dexp.sig = sm.sig"
+			+ " AND dexp.drug_concept_id = c.concept_id"
 			+ " AND dexp.person_id IN"
 			+ "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
 		);
@@ -320,7 +321,8 @@ public class DroolsTest {
 					dexpQuery.getDouble("denominator_value"), // denominatorValue
 					dexpQuery.getInt("denominator_unit_concept_id"), // denominatorUnitConceptId
 					0.00, // dailyDosage - default value 0.00, set below
-					dexpQuery.getInt("indication_concept_id")  // indicationConceptId
+					dexpQuery.getInt("indication_concept_id"),  // indicationConceptId
+					dexpQuery.getString("concept_name")
 				);
 
 		if(dexpQuery.getString("amount_value") != null && dexpQuery.getString("expected") != null){
