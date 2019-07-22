@@ -47,7 +47,8 @@ public class ExtendedDrugExposure extends DrugExposure {
             Double denominatorValue,
             Integer denominatorUnitConceptId,
             Double dailyDosage,
-            Integer indicationConceptId
+            Integer indicationConceptId,
+            String conceptName
             ) {
         this.drugExposureId = drugExposureId;
         this.drugExposureStartDateCal = drugExposureStartDateCal;
@@ -82,6 +83,15 @@ public class ExtendedDrugExposure extends DrugExposure {
         this.denominatorUnitConceptId = denominatorUnitConceptId;
         this.dailyDosage = dailyDosage;
         this.indicationConceptId = indicationConceptId;
+        this.drugConceptName = conceptName;
+    }
+
+    String drugConceptName;
+    public String getDrugConceptName() {
+        return this.drugConceptName;
+    }
+    public void setDrugConceptName(String drugConceptName) {
+        this.drugConceptName = drugConceptName;
     }
 
     Timestamp drugExposureStartDateCal;
