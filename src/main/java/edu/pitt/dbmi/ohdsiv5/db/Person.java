@@ -60,9 +60,9 @@ package edu.pitt.dbmi.ohdsiv5.db;
                # Replace Windows newlines with Unix newlines    return this.dateOfBirth;
                # Replace Windows newlines with Unix newlines  }
                # Replace Windows newlines with Unix newlines
-               # Replace Windows newlines with Unix newlines  public Long getDobDateDiffInMillis(Timestamp otherDate) {
+               # Replace Windows newlines with Unix newlines  public Double getDobDateDiffInMillis(Timestamp otherDate) {
                # Replace Windows newlines with Unix newlines    if (this.dateOfBirth != null) {
-               # Replace Windows newlines with Unix newlines      long diff = (otherDate.getTime() - this.dateOfBirth.getTime());
+               # Replace Windows newlines with Unix newlines      double diff = (otherDate.getTime() - this.dateOfBirth.getTime());
                # Replace Windows newlines with Unix newlines      return diff;
                # Replace Windows newlines with Unix newlines    }
                # Replace Windows newlines with Unix newlines    else return null;
