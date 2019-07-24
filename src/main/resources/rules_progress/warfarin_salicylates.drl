@@ -99,7 +99,7 @@ rule "WARFARIN - SALICYLATES -- ASPIRIN"
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
       $clinDrugConcept2 : ConceptSetItem(csName == "Aspirins")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate 
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())        
     then
       RHSState rhsNN = new RHSState("warfarin and aspirin", "yes", $person);
@@ -125,7 +125,7 @@ rule "WARFARIN - SALICYLATES -- NON-ACETYLATED"
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
       $clinDrugConcept2 : ConceptSetItem(csName == "Non-acetylated Salicylates")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate 
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 3000)        
     then
       RHSState rhsNN = new RHSState("warfarin and a non-acetylated salicylate", "yes", $person);
@@ -154,7 +154,7 @@ rule "WARFARIN - SALICYLATES -- BISMUTH SUBSALICYLATE"
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
       $clinDrugConcept2 : ConceptSetItem(csName == "Bismuth Subsalicylates")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate 
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage > 7710)        
     then
       RHSState rhsNN = new RHSState("warfarin and bismuth subsalicylate", "yes", $person);

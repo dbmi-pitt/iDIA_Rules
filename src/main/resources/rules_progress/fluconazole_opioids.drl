@@ -182,7 +182,7 @@ rule "FLUCONAZOLE - OPIOIDS -- FLUCONAZOLE DOSAGE"
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())    
       $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage >= 50.0)
     then  
       // New RHS state that the next branch of the rule uses, this time including that there is a high dose of fluconazole
@@ -215,7 +215,7 @@ rule "FLUCONAZOLE - OPIOIDS -- FENTANYL"
       // Finally, we check the specific drug product of fentanyl that they were exposed to... no further filtering in this branch
       $clinDrugConcept2 : ConceptSetItem(csName == "Fentanyls")
       $dexp1 : ExtendedDrugExposure(personId == $rhs.getPerson().getPersonId() 
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())                
     then  
       // This state is largely unused atm, as it is a leaf node (end of a branch)
@@ -247,7 +247,7 @@ rule "FLUCONAZOLE - OPIOIDS -- OXYCODONE"
       // Finally, we check the specific drug product of fentanyl that they were exposed to... no further filtering in this branch
       $clinDrugConcept2 : ConceptSetItem(csName == "Oxycodones")
       $dexp1 : ExtendedDrugExposure(personId == $rhs.getPerson().getPersonId() 
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage >= 10.0)                
     then  
       // This state is largely unused atm, as it is a leaf node (end of a branch)

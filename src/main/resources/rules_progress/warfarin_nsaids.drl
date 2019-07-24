@@ -98,7 +98,7 @@ rule "WARFARIN - NSAID -- PPI or misoprostol"
   // Next, we identify the specific drug exposures for the PPI/misoprostol
       $clinDrugConcept2 : ConceptSetItem(csName == "PPIs and Misoprostols")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId() 
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate 
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate 
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())                
   then    
     // Creates a new RHS state that is used by other rules to double check that a patient did not reach at this leaf node
