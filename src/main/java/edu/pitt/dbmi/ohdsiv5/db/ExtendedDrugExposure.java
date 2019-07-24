@@ -110,9 +110,9 @@ public class ExtendedDrugExposure extends DrugExposure {
         this.drugExposureEndDateCal = drugExposureEndDateCal;
     }
 
-    public Long getDateDiffFromStartInMillis(Timestamp otherDate) {
+    public Double getDateDiffFromStartInMillis(Timestamp otherDate) {
         if (this.drugExposureStartDate != null) {
-            long diff = (otherDate.getTime() - this.drugExposureStartDate.getTime());
+            double diff = (otherDate.getTime() - this.drugExposureStartDate.getTime());
             return diff;
         }
         else return null;

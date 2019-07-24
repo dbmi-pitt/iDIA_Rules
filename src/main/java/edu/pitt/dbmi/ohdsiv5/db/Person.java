@@ -60,9 +60,9 @@ public class Person  {
     return this.dateOfBirth;
   }
 
-  public Long getDobDateDiffInMillis(Timestamp otherDate) {
+  public Double getDobDateDiffInMillis(Timestamp otherDate) {
     if (this.dateOfBirth != null) {
-      long diff = (otherDate.getTime() - this.dateOfBirth.getTime());
+      double diff = (otherDate.getTime() - this.dateOfBirth.getTime());
       return diff;
     }
     else return null;
