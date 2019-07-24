@@ -44,9 +44,7 @@ global java.sql.Timestamp plus1day
 // Rules
 /////////// 
 
-// TODO anaphylaxis - epinephrine dose 0.3 to 0.6 mg. Is this to be daily dose?
 // TODO epinephrine combined with local anesthetic.
-// TODO beta has to be within 2 hours of epi?
 
 // The first rule is a basic check to identify all patients on any dosage or form of epinephrine and a beta-blocker at the same time (beta-blocker first)
 rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"  
@@ -164,7 +162,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Epinephrine daily dosage 0.3 to 0.6 mg"
 
       $clinDrugConcept2 : ConceptSetItem(csName == "Epinephrines")
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId()
         && dailyDosage >= 0.3 && dailyDosage <= 0.6 )
@@ -202,7 +200,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- timing of administration"
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate < $dexp1.getDrugExposureStartDate()
           && drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate()
-          && ((double) ($dexp2.getDateDiffFromStartInMillis($dexp1.getDrugExposureStartDate()) / (3600 * 1000))) >= 2.0
+          && ((double) ($dexp2.getDateDiffFromStartInMillis($dexp1.getDrugExposureStartDate()) / (3600 * 1000))) <= 2.0
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
     then
@@ -231,7 +229,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Anaphylaxis Indication (Systemic Eipnephrin
       $clinIndicationConcept1 : ConceptSetItem(csName == "Anaphylaxis Indications")
       // epinephrine drug exposure has anaphylaxis indication
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId()
         && indicationConceptId == $clinIndicationConcept1.getConceptId())
@@ -263,7 +261,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Oral")
         // $clinRouteConcept1 : ConceptSetItem(csName == "Oral Routes")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
           // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
@@ -286,14 +284,13 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
   // This checks the state of the patients to identify only those who were identified to be on both medications of interest
         $rhs : RHSState(stateName == "basic concomitant exposure of epinephrine and a beta-blocker" && state == "yes", $person : person)
         not ($rhs2 : RHSState(stateName == "epinephrine, beta-blocker, epi indication for anaphylaxis yes" && state == "yes" && person.getPersonId() == $person.getPersonId()))
-        not ($rhs3 : RHSState(stateName == "epinephrine, timolol, oral yes" && state == "yes" && person.getPersonId() == $person.getPersonId()))
   // Next, we bring in the patient's Timolol exposure on the ingredient level and the clinical drug level (Eye Drops only b/c they're the only form that have this effect)
         $clinDrugConcept1 : ConceptSetItem(csName == "Timolols Ingredients")
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Eye Drops")
         // $clinRouteConcept1 : ConceptSetItem(csName == "Eye Drops Routes")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
           // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
@@ -322,7 +319,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol"
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Metoprolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())    
     then
@@ -349,7 +346,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol"
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Nebivolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())          
     then
@@ -381,7 +378,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol"
         // Then the patient's Atenolol exposure on the clinical drug level along with a dosage check for over 100
         $clinDrugConcept2 : ConceptSetItem(csName == "Atenolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
           //&& dailyDosage != null && dailyDosage >= 100 )                
@@ -414,7 +411,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol"
         // Then the patient's Bisoprolol exposure on the clinical drug level along with a dosage check for over 20
         $clinDrugConcept2 : ConceptSetItem(csName == "Bisoprolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
           //&& dailyDosage != null && dailyDosage > 20 )                
@@ -445,7 +442,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Betaxolol"
         // Betaxolol clinical drug exposure and dosage check (no alert if below threshold of 20 mg/day)
         $clinDrugConcept2 : ConceptSetItem(csName == "Betaxolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() )
           //&& dailyDosage != null && dailyDosage > 20 )                
@@ -476,7 +473,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol"
         // Esmolol clinical drug exposure and dosage check (no alert if below threshold of 300 mcg/kg/min)
         $clinDrugConcept2 : ConceptSetItem(csName == "Esmolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
         //&& ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage != null && dailyDosage > 300 )
@@ -504,7 +501,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Acebutolol"
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Acebutolols")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
     then
