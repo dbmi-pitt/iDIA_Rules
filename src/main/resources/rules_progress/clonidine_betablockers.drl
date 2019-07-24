@@ -195,7 +195,7 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine (Patch), Timolol (Eye Drops)"
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Eye Drops")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
           // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
@@ -234,7 +234,7 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine (Oral or Epidural), Timolol (Eye Dr
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Eye Drops")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
           // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
@@ -274,7 +274,7 @@ rule "CLONIDINE - BETA-BLOCKERS -- Timolol (Eye Gels)"
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Eye Gels")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
           // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
@@ -309,7 +309,7 @@ rule "CLONIDINE - BETA-BLOCKERS -- Timolol (Systemic)"
         $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
         $clinDrugConcept2 : ConceptSetItem(csName == "Timolols Systemic")
         $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+          && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
           // && routeConceptId != null && routeConceptId == $clinRouteConcept1.getConceptId()
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())     

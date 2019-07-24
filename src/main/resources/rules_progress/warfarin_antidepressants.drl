@@ -123,7 +123,7 @@ rule "WARFARIN - SSRI+SNRI -- OTHER DRUGS"
       // This identifies the specific clinical drug that the patient was exposed to as a risk factor
       $clinDrugConcept2 : ConceptSetItem(csName == "Systemic Corticosteroids" || csName == "Aldosterone Antagonists" || csName == "NSAIDs" || csName == "Aspirins") // TODO || csName == "Anti-Platelets"
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
-        && drugExposureStartDate != null && drugExposureStartDate <= currentDate && drugExposureEndDate >= currentDate
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())        
     then
       // This tags a given patient as "yes for risks"... There are three potential types of risks but all of them result in this same RHS state

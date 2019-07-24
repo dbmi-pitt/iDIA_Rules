@@ -96,7 +96,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- Recency of Lab Tests"
       // Take patient from RHS and check when their serum postassium labs were taken and if this was between 5 and 5.5 mEq/L
       $meas1 : Measurement(personId == $person.getPersonId() && measurementConceptId == 3023103 
         && valueAsNumber < 5.0 && unitConceptId == 9557
-        && measurementDateTime >= within48hours && measurementDateTime <= currentDate)
+        && measurementDateTime >= within48hours && measurementDateTime < plus1day)
     then  
       // Create a state object for the current node in the decision tree to be used by other LHS
       RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes", "yes", $rhs.getPerson());
