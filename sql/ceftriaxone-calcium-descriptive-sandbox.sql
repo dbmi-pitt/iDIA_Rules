@@ -23,3 +23,4 @@ AND (('2016-01-01' BETWEEN o.observation_period_start_date AND o.observation_per
 OR ('2016-04-30' BETWEEN o.observation_period_start_date AND o.observation_period_end_date))
 AND de1.drug_exposure_id != de2.drug_exposure_id
 ORDER BY person_id ASC;
+-- no concomitant exposures from neither query nor the rule output
