@@ -86,6 +86,19 @@ public class ExtendedDrugExposure extends DrugExposure {
         this.drugConceptName = conceptName;
     }
 
+    public String getLogInfo() {
+        String s = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s", 
+            this.getDrugConceptId(),
+            this.getDrugConceptName(),
+            this.getAmountValue(),
+            this.getSigExpected(),
+            this.getDailyDosage(),    
+            this.getDrugExposureStartDate().toString(),
+            this.getDrugExposureEndDate().toString()
+        );
+        return s;
+    }
+
     String drugConceptName;
     public String getDrugConceptName() {
         return this.drugConceptName;
