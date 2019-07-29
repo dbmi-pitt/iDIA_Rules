@@ -72,17 +72,12 @@ rule "WARFARIN - NSAID -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
-          currentDateStr,
-          $person.getPersonId(),
-          $dexp1.getDrugConceptId(),
-          $dexp1.getDrugConceptName(),
-          $dexp1.getDrugExposureStartDate().toString(),
-          $dexp1.getDrugExposureEndDate().toString(),
-          $dexp2.getDrugConceptId(),
-          $dexp2.getDrugConceptName(),
-          $dexp2.getDrugExposureStartDate().toString(),
-          $dexp2.getDrugExposureEndDate().toString()
+      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tbasic concomitant exposure\t%s\t%s\t%s",
+            currentDateStr,
+            $person.getPersonId(),
+            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+            $dexp1.getLogInfo(),
+            $dexp2.getLogInfo()
       );
       System.out.println(s);
 end
