@@ -188,3 +188,92 @@ INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, inc
 DROP TABLE ohdsi.temp_concept_set_item;
 
 COMMIT TRANSACTION;
+
+/*
+Update QT-Agents Ingredients
+Chlorpromazines Ingredients
+Cilostazols Ingredients
+Ciprofloxacins Ingredients
+Donepezils Ingredients
+Escitaloprams Ingredients
+Flecainides Ingredients
+Haloperidols Ingredients
+Levofloxacins Ingredients
+Methadones Ingredients
+Ondansetrons Ingredients
+Propofols Ingredients
+Quinines Ingredients
+Ranolazines Ingredients
+*/
+
+BEGIN TRANSACTION; 
+-- temp table
+CREATE TABLE ohdsi.temp_concept_set_item (
+  concept_set_item_id serial NOT NULL,
+  concept_set_id int4 NOT NULL,
+  concept_set_id int4 NOT NULL,
+  is_excluded int4 NOT NULL,
+  include_descendants int4 NOT NULL,
+  include_mapped int4 NOT NULL
+);
+
+INSERT INTO ohdsi.temp_concept_set_item
+(select i.concept_set_item_id, i.concept_set_id, i.concept_id, i.is_excluded, i.include_descendants, i.include_mapped 
+from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+where cs.concept_set_name in ('Chlorpromazines Ingredients','Cilostazols Ingredients','Ciprofloxacins Ingredients','Donepezils Ingredients','Escitaloprams Ingredients','Flecainides Ingredients','Haloperidols Ingredients','Levofloxacins Ingredients','Methadones Ingredients','Ondansetrons Ingredients','Propofols Ingredients','Quinines Ingredients','Ranolazines Ingredients'));
+
+--delete currently existing parent concept set items so that duplicates don't accumulate
+DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 11466;
+
+INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
+(select 11466 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
+
+DROP TABLE ohdsi.temp_concept_set_item;
+
+COMMIT TRANSACTION;
+
+/*
+Update QT-Agents:
+Chlorpromazines
+Cilostazols
+Ciprofloxacins
+Donepezils
+Escitaloprams
+Flecainides
+Haloperidols
+Levofloxacins
+Methadones
+Ondansetrons
+Propofols
+Quinines
+Ranolazines
+*/
+
+BEGIN TRANSACTION;
+
+CREATE TABLE ohdsi.temp_concept_set_item (
+  concept_set_item_id serial NOT NULL,
+  concept_set_id int4 NOT NULL,
+  concept_id int4 NOT NULL,
+  is_excluded int4 NOT NULL,
+  include_descendants int4 NOT NULL,
+  include_mapped int4 NOT NULL
+);
+
+INSERT INTO ohdsi.temp_concept_set_item
+(select i.concept_set_item_id, i.concept_set_id, i.concept_id, i.is_excluded, i.include_descendants, i.include_mapped 
+from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+where cs.concept_set_name in ('Chlorpromazines','Cilostazols','Ciprofloxacins','Donepezils','Escitaloprams','Flecainides','Haloperidols','Levofloxacins','Methadones','Ondansetrons','Propofols','Quinines','Ranolazines'));
+
+DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 11441;
+
+INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
+(select 11441 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
+
+DROP TABLE ohdsi.temp_concept_set_item;
+
+COMMIT TRANSACTION;
