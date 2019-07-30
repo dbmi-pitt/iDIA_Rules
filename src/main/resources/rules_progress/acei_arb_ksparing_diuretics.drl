@@ -75,7 +75,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- NO FILTER"
       s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            $person.getGenderSourceCode(),
+            $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
             $dexp2.getLogInfo()

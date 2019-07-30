@@ -76,7 +76,7 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- NO FILTER"
       s = String.format("DATA\t%s\t%s\tImmunosuppresant - Fluconazole interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            $person.getGenderSourceCode(),
+            $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
             $dexp2.getLogInfo()
