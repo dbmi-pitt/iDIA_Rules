@@ -48,7 +48,8 @@ public class ExtendedDrugExposure extends DrugExposure {
             Integer denominatorUnitConceptId,
             Double dailyDosage,
             Integer indicationConceptId,
-            String conceptName
+            String drugName,
+            String ingredientName
             ) {
         this.drugExposureId = drugExposureId;
         this.drugExposureStartDateCal = drugExposureStartDateCal;
@@ -83,13 +84,15 @@ public class ExtendedDrugExposure extends DrugExposure {
         this.denominatorUnitConceptId = denominatorUnitConceptId;
         this.dailyDosage = dailyDosage;
         this.indicationConceptId = indicationConceptId;
-        this.drugConceptName = conceptName;
+        this.drugConceptName = drugName;
+        this.ingredientConceptName = ingredientName;
     }
 
     public String getLogInfo() {
-        String s = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s", 
+        String s = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", 
             this.getDrugConceptId(),
             this.getDrugConceptName(),
+            this.getIngredientConceptName(),
             this.routeSourceValue,
             this.getAmountValue(),
             this.getSigExpected(),
@@ -106,6 +109,14 @@ public class ExtendedDrugExposure extends DrugExposure {
     }
     public void setDrugConceptName(String drugConceptName) {
         this.drugConceptName = drugConceptName;
+    }
+
+    String ingredientConceptName;
+    public String getIngredientConceptName() {
+        return this.ingredientConceptName;
+    }
+    public void setIngredientConceptName(String ingredientConceptName) {
+        this.ingredientConceptName = ingredientConceptName;
     }
 
     Timestamp drugExposureStartDateCal;
