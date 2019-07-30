@@ -90,6 +90,7 @@ public class ExtendedDrugExposure extends DrugExposure {
         String s = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s", 
             this.getDrugConceptId(),
             this.getDrugConceptName(),
+            this.routeSourceValue,
             this.getAmountValue(),
             this.getSigExpected(),
             this.getDailyDosage(),    
