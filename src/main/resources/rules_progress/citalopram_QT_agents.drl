@@ -81,9 +81,10 @@ rule "CITALOPRAM - QT-AGENT -- NO FILTER"
             $clinDrugConcept3.getConceptId(), 
             $clinDrugConcept4.getConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tbasic concomitant exposure\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
+            $person.getGenderSourceCode(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
             $dexp2.getLogInfo()
