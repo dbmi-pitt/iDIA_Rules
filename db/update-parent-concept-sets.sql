@@ -30,6 +30,10 @@ Timolols Eye Gels
 Timolols Oral
 */
 
+##########################################################################################
+## BETA-BLOCKERS
+##########################################################################################
+
 -- UPDATE BETA-BLOCKERS INGREDIENTS
 BEGIN TRANSACTION; 
 -- temp table
@@ -87,6 +91,10 @@ DROP TABLE ohdsi.temp_concept_set_item;
 
 COMMIT TRANSACTION;
 
+##########################################################################################
+## CLONIDINE
+##########################################################################################
+
 /*
 Clonidines Includes:
 Clonidines
@@ -122,6 +130,10 @@ DROP TABLE ohdsi.temp_concept_set_item;
 
 COMMIT TRANSACTION;
 
+
+##########################################################################################
+## GI BLEED CONDITIONS
+##########################################################################################
 /*
 Update "History of GI Bleeds" concept set based on ICD9/10 codes in protocol
 */
@@ -152,6 +164,10 @@ INSERT INTO ohdsi.concept_set_item (concept_id, concept_set_id, is_excluded, inc
 DROP TABLE ohdsi.temp_concept_set_item;
 
 COMMIT TRANSACTION;
+
+##########################################################################################
+## K-SPARING DIURETICS
+##########################################################################################
 
 /*
 Update K-sparing Diuretics
@@ -189,6 +205,9 @@ DROP TABLE ohdsi.temp_concept_set_item;
 
 COMMIT TRANSACTION;
 
+##########################################################################################
+## QT PROLONGING
+##########################################################################################
 /*
 Update QT-Agents Ingredients
 Chlorpromazines Ingredients
@@ -211,7 +230,7 @@ BEGIN TRANSACTION;
 CREATE TABLE ohdsi.temp_concept_set_item (
   concept_set_item_id serial NOT NULL,
   concept_set_id int4 NOT NULL,
-  concept_set_id int4 NOT NULL,
+  concept_id int4 NOT NULL,
   is_excluded int4 NOT NULL,
   include_descendants int4 NOT NULL,
   include_mapped int4 NOT NULL
@@ -235,7 +254,7 @@ DROP TABLE ohdsi.temp_concept_set_item;
 COMMIT TRANSACTION;
 
 /*
-Update QT-Agents:
+UPDATE QT-AGENTS
 Chlorpromazines
 Cilostazols
 Ciprofloxacins
@@ -273,6 +292,76 @@ DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 11441;
 
 INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
 (select 11441 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
+
+DROP TABLE ohdsi.temp_concept_set_item;
+
+COMMIT TRANSACTION;
+
+##########################################################################################
+## SALICYLATES
+##########################################################################################
+/*
+SALICYLATES INGREDIENTS:
+Non-aceylated Salicylates Ingredients
+Aspirins Ingredients
+*/
+
+BEGIN TRANSACTION; 
+-- temp table
+CREATE TABLE ohdsi.temp_concept_set_item (
+  concept_set_item_id serial NOT NULL,
+  concept_set_id int4 NOT NULL,
+  concept_id int4 NOT NULL,
+  is_excluded int4 NOT NULL,
+  include_descendants int4 NOT NULL,
+  include_mapped int4 NOT NULL
+);
+
+INSERT INTO ohdsi.temp_concept_set_item
+(select i.concept_set_item_id, i.concept_set_id, i.concept_id, i.is_excluded, i.include_descendants, i.include_mapped 
+from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+where cs.concept_set_name in ('Non-aceylated Salicylates Ingredients','Aspirins Ingredients'));
+
+--delete currently existing parent concept set items so that duplicates don't accumulate
+DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 9396;
+
+INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
+(select 9396 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
+
+DROP TABLE ohdsi.temp_concept_set_item;
+
+COMMIT TRANSACTION;
+
+/*
+SALICYLATES:
+Non-aceylated Salicylates
+Aspirins
+*/
+BEGIN TRANSACTION; 
+-- temp table
+CREATE TABLE ohdsi.temp_concept_set_item (
+  concept_set_item_id serial NOT NULL,
+  concept_set_id int4 NOT NULL,
+  concept_id int4 NOT NULL,
+  is_excluded int4 NOT NULL,
+  include_descendants int4 NOT NULL,
+  include_mapped int4 NOT NULL
+);
+
+INSERT INTO ohdsi.temp_concept_set_item
+(select i.concept_set_item_id, i.concept_set_id, i.concept_id, i.is_excluded, i.include_descendants, i.include_mapped 
+from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+where cs.concept_set_name in ('Non-aceylated Salicylates','Aspirins'));
+
+--delete currently existing parent concept set items so that duplicates don't accumulate
+DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 11215;
+
+INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
+(select 11215 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
 
 DROP TABLE ohdsi.temp_concept_set_item;
 
