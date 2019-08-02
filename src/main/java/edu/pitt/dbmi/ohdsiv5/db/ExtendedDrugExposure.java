@@ -95,7 +95,7 @@ public class ExtendedDrugExposure extends DrugExposure {
             this.getIngredientConceptName(),
             this.routeSourceValue,
             this.getAmountValue(),
-            this.getSigExpected(),
+            this.getNumeratorValue(),
             this.getDailyDosage(),    
             this.getDrugExposureStartDate().toString(),
             this.getDrugExposureEndDate().toString()

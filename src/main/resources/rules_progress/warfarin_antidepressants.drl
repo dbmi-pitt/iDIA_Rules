@@ -39,7 +39,93 @@ global java.sql.Timestamp plus1day;
 // Rules
 /////////// 
 
-// TODO basic concomitant of warfarin and mirtazapine (concept set needed) or tricyclics, buproprion (concepts set needed) as leaf nodes that are outside of SSRI/SNRI
+// leaf node for basic concomitant exposure of any dosage or form of Warfarin and a Tricyclic OR Bupropion at the same time
+rule "WARFARIN - TRICYCLIC OR BUPROPION -- NO FILTER"
+    when
+      // First, we look for patients exposed to warfarin on the ingredient level
+      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+      // Second, we similarly look for exposure to a Tricyclic or Bupropion on the ingredient level
+      $clinDrugConcept2 : ConceptSetItem(csName == "Tricyclics Ingredients" || csName == "Bupropions Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+      // Next, we identify the specific drug exposures for both warfarin and the tricyclic or bupropion
+      $clinDrugConcept3 : ConceptSetItem(csName == "Warfarins") 
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
+        && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept4 : ConceptSetItem(csName == "Tricyclics" || csName == "Bupropion")
+      $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+        || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
+        && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
+      $person : Person(personId == $de1.getPersonId())
+    then
+      // This creates a new "state" for any patients who are found to be on both drugs...
+      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
+      RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and tricyclic or bupropion", "yes", $person);
+      // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
+      String s = String.format(
+        "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased bleeding risk unlikely.\n\tContextual factor: \n\tRecommendation: No special precautions\n\tExplanation: Anticoagulant: %s; Tricyclic or Bupropion: %s;", 
+        $person.getPersonId(), 
+        $clinDrugConcept3.getConceptId(), 
+        $clinDrugConcept4.getConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure of warfarin and tricyclics or bupropion\t%s\t%s\t%s\t%s",
+            currentDateStr,
+            $person.getPersonId(),
+            $person.getGenderCUI(),
+            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+            $dexp1.getLogInfo(),
+            $dexp2.getLogInfo()
+      );
+      System.out.println(s);
+end 
+
+// leaf node for basic concomitant exposure of any dosage or form of Warfarin and a Tricyclic OR Bupropion at the same time
+rule "WARFARIN - MIRTAZAPINE -- NO FILTER"
+    when
+      // First, we look for patients exposed to warfarin on the ingredient level
+      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+      // Second, we similarly look for exposure to mirtazapine on the ingredient level
+      $clinDrugConcept2 : ConceptSetItem(csName == "Mirtazapines Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+      // Next, we identify the specific drug exposures for both warfarin and mirtazapine
+      $clinDrugConcept3 : ConceptSetItem(csName == "Warfarins") 
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
+        && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept4 : ConceptSetItem(csName == "Mirtazapines")
+      $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+        || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
+        && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
+      $person : Person(personId == $de1.getPersonId())
+    then
+      // This creates a new "state" for any patients who are found to be on both drugs...
+      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
+      RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and mirtazapine", "yes", $person);
+      // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
+      String s = String.format(
+        "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased GI and non-GI bleeding risk is possible.\n\tContextual factor: Presence of age, condition, or drug-factor risks. \n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: If possible avoid drugs that increase bleeding risk (e.g., NSAIDs, aldosterone antagonists, aspirin, corticoids). \n\tAnticoagulant: %s; Mirtazapine: %s;", 
+        $person.getPersonId(), 
+        $clinDrugConcept3.getConceptId(), 
+        $clinDrugConcept4.getConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure of warfarin and mirtazapine\t%s\t%s\t%s\t%s",
+            currentDateStr,
+            $person.getPersonId(),
+            $person.getGenderCUI(),
+            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+            $dexp1.getLogInfo(),
+            $dexp2.getLogInfo()
+      );
+      System.out.println(s);
+end 
 
 // basic check of any dosage or form of warfarin and an SSRI/SNRI at the same time
 rule "WARFARIN - SSRI+SNRI -- NO FILTER"
@@ -114,10 +200,10 @@ rule "WARFARIN - SSRI+SNRI -- OTHER DRUGS"
     when
       $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
       // This checks to see if the patient is on either group drug of interest at the ingredient level
-      $clinDrugConcept1 : ConceptSetItem(csName == "Corticosteroids Ingredients" || csName == "Aldosterone Antagonists Ingredients" || csName == "NSAIDs Ingredients" || csName == "Aspirins Ingredients") // TODO || csName == "Anti-Platelets Medications Ingredients"
+      $clinDrugConcept1 : ConceptSetItem(csName == "Corticosteroids Ingredients" || csName == "Aldosterone Antagonists Ingredients" || csName == "NSAIDs Ingredients" || csName == "Aspirins Ingredients" || csName == "Antiplatelet Medications Ingredients") 
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())
       // This identifies the specific clinical drug that the patient was exposed to as a risk factor
-      $clinDrugConcept2 : ConceptSetItem(csName == "Systemic Corticosteroids" || csName == "Aldosterone Antagonists" || csName == "NSAIDs" || csName == "Aspirins") // TODO || csName == "Anti-Platelets"
+      $clinDrugConcept2 : ConceptSetItem(csName == "Systemic Corticosteroids" || csName == "Aldosterone Antagonists" || csName == "NSAIDs" || csName == "Aspirins" || csName == "Antiplatelet Medications")
       $dexp1 : ExtendedDrugExposure(personId == $person.getPersonId()
         && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())        
