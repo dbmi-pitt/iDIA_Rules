@@ -322,7 +322,7 @@ INSERT INTO ohdsi.temp_concept_set_item
 from ohdsi.concept_set cs
 inner join ohdsi.concept_set_item i
 on i.concept_set_id = cs.concept_set_id
-where cs.concept_set_name in ('Non-aceylated Salicylates Ingredients','Aspirins Ingredients'));
+where cs.concept_set_name in ('Non-acetylated Salicylates Ingredients','Aspirins Ingredients'));
 
 --delete currently existing parent concept set items so that duplicates don't accumulate
 DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 9396;
@@ -355,13 +355,13 @@ INSERT INTO ohdsi.temp_concept_set_item
 from ohdsi.concept_set cs
 inner join ohdsi.concept_set_item i
 on i.concept_set_id = cs.concept_set_id
-where cs.concept_set_name in ('Non-aceylated Salicylates','Aspirins'));
+where cs.concept_set_name in ('Non-acetylated Salicylates','Aspirins'));
 
 --delete currently existing parent concept set items so that duplicates don't accumulate
-DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 11215;
+DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 60430;
 
 INSERT INTO ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
-(select 11215 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
+(select 60430 as concept_set_id, concept_id, is_excluded, include_descendants, include_mapped from ohdsi.temp_concept_set_item);
 
 DROP TABLE ohdsi.temp_concept_set_item;
 

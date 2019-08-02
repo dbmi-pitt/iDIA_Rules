@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.16
 -- Dumped by pg_dump version 9.3.16
--- Started on 2019-07-12 12:46:51
+-- Started on 2019-08-02 10:36:35
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -112,8 +112,6 @@ COPY concept_set (concept_set_id, concept_set_name) FROM stdin;
 10640	Cholinesterase Inhibitors
 10666	Antipsychotics
 11087	CYP2D6 PM
-11127	Aspirins
-11215	Salicylates
 11395	Bismuth Subsalicylates Ingredients
 11397	Bismuth Subsalicylates
 11404	Non-acetylated Salicylates Ingredients
@@ -168,6 +166,42 @@ COPY concept_set (concept_set_id, concept_set_name) FROM stdin;
 14570	Amilorides
 14692	Eplerenones Ingredients
 14694	Eplerenones
+14721	Chlorpromazines Ingredients
+14723	Chlorpromazines
+14854	Cilostazols Ingredients
+14856	Cilostazols
+14859	Ciprofloxacins Ingredients
+14861	Ciprofloxacins
+15050	Donepezils Ingredients
+15052	Donepezils
+15080	Escitaloprams Ingredients
+15082	Escitaloprams
+15251	Haloperidols Ingredients
+15253	Haloperidols
+15392	Levofloxacins Ingredients
+15394	Levofloxacins
+15435	Methadones Ingredients
+15437	Methadones
+15766	Propofols Ingredients
+15768	Propofols
+15836	Quinines Ingredients
+15838	Quinines
+11215	All Salicylates
+16041	Ranolazines Ingredients
+16043	Ranolazines
+16163	COPY OF: SSRIs and SNRIs
+22188	Antiplatelet Medications Ingredients
+22210	Antiplatelet Medications
+48394	Aspirins
+49329	Mirtazapines Ingredients
+49331	Mirtazapines
+49363	Tricyclics Ingredients
+49381	Tricyclics
+54933	All NSAIDs
+60430	Salicylates
+80935	COPY OF: Non-acetylated Salicylates
+49361	Bupropions Ingredients
+49362	Bupropions
 \.
 
 
@@ -180,7 +214,7 @@ ALTER TABLE ONLY concept_set
     ADD CONSTRAINT pk_concept_set PRIMARY KEY (concept_set_id);
 
 
--- Completed on 2019-07-12 12:46:52
+-- Completed on 2019-08-02 10:36:35
 
 --
 -- PostgreSQL database dump complete
