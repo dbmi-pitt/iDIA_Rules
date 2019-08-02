@@ -98,7 +98,7 @@ rule "WARFARIN - NSAID -- PPI or misoprostol"
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())                
   then    
     // Creates a new RHS state that is used by other rules to double check that a patient did not reach at this leaf node
-      RHSState rhsNN = new RHSState("proton pump inhibitor or misoprostol", "yes", $person);
+      RHSState rhsNN = new RHSState("proton pump inhibitor or misoprostol yes", "yes", $person);
       insertLogical(rhsNN);
       // This outputs the recommendations and rationale for the patient because this is a leaf node  
       String s = String.format(
@@ -106,8 +106,26 @@ rule "WARFARIN - NSAID -- PPI or misoprostol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tproton pump inhibitor or misoprostol", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tyes proton pump inhibitor or misoprostol", currentDateStr, $person.getPersonId());
       System.out.println(s);
 end
 
-// TODO how to determine if patient is able to start on PPI?
+// NOTE: if patient not on PPI or Misoprostol, rule says to check if patient is "able" to start on appropriate PPI. Not able to determine this, so assuming any patient can start on PPI.
+rule "WARFARIN - NSAID -- No PPI or misoprostol"
+    when
+        // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and NSAID" && state == "yes", $person : person)        
+      not (RHSState(stateName == "proton pump inhibitor or misoprostol yes" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+
+  then    
+    // Creates a new RHS state that is used by other rules to double check that a patient did not reach at this leaf node
+      RHSState rhsNN = new RHSState("proton pump inhibitor or misoprostol no", "yes", $person);
+      insertLogical(rhsNN);
+      // This outputs the recommendations and rationale for the patient because this is a leaf node  
+      String s = String.format(
+        "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Possible increased risk of bleeding\n\tRecommendation: Assess risk and take action if necessary. Start patient on proton pump inhibitor\n\tExplanation:  Proton pump inhibitors and misoprostol may reduce the risk of UGIB in patients receiving NSAIDs and warfarin.", 
+        $person.getPersonId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tproton pump inhibitor or misoprostol no", currentDateStr, $person.getPersonId());
+      System.out.println(s);
+end

@@ -126,8 +126,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age <28 days old"
 end
 
 // leaf node for patient >= 28 days old, and ceftriaxone/calcium are simultaneously administrated in the same line
-// TODO All items in the Ceftriaxone & Calcium concept sets are injectible. Are they all therefore IV, or do we need another concept set?
-// TODO Clarify how to determine "simultaneous" administration? Is there a certain time window to look at, or should they be same datetime or same day?
+// NOTE: All items in the Ceftriaxone & Calcium concept sets are injectible. Assume they are all IV?
 rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, simultaneous administration"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of ceftriaxone and a calcium, patient age >=28 days old" && state == "yes", $person : person)
