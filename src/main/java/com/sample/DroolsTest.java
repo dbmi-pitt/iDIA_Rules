@@ -269,6 +269,28 @@ public class DroolsTest {
 		kSession.insert( new DrugEra(deraQuery.getLong("drug_era_id"), start, deraQuery.getLong("person_id"), end, deraQuery.getInt("drug_concept_id"), deraQuery.getInt("drug_exposure_count")) );
 		cnt++;
 	}
+
+	Statement ceraSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	ResultSet ceraQuery = ceraSt.executeQuery(
+			"SELECT"
+			+ " condition_era_id"
+			+ ",to_char(condition_era_start_date, 'yyyy-MM-dd HH24:MI:SS') as condition_era_start_date"
+			+ ",to_char(condition_era_end_date, 'yyyy-MM-dd HH24:MI:SS') as condition_era_end_date"
+			+ ",person_id"
+			+ ",condition_concept_id"
+			+ ",condition_occurrence_count"
+			+ " FROM condition_era"
+			+ " WHERE CONDITION_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND CONDITION_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+		);
+	ceraQuery.last();
+	System.out.println("INFO: # of ceras: " + ceraQuery.getRow());
+	ceraQuery.beforeFirst();
+	while (ceraQuery.next()){
+		Timestamp start = Timestamp.valueOf(ceraQuery.getString("condition_era_start_date"));
+		Timestamp end = Timestamp.valueOf(ceraQuery.getString("condition_era_end_date"));
+		kSession.insert( new ConditionEra(ceraQuery.getLong("condition_era_id"), start, end, ceraQuery.getLong("person_id"), ceraQuery.getInt("condition_concept_id"), ceraQuery.getInt("condition_occurrence_count")) );
+		cnt++;
+	}
 	
 	Statement dexpSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	/* If datetime fields are not available use: 
@@ -374,8 +396,10 @@ public class DroolsTest {
 	voSt.close();
 	measQuery.close();
 	measSt.close();
-	deraQuery.close();	
+	deraQuery.close();
 	deraSt.close();
+	ceraQuery.close();	
+	ceraSt.close();
 	dexpQuery.close();
 	dexpSt.close();
 
