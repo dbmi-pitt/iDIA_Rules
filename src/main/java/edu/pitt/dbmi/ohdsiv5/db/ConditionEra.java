@@ -13,8 +13,9 @@ public class ConditionEra  {
     public ConditionEra() {
     }
 
-    public ConditionEra(Timestamp conditionEraStartDate, Timestamp conditionEraEndDate, Long personId, Integer conditionConceptID, Integer conditionOccurrenceCount) {
+    public ConditionEra(Long conditionEraId, Timestamp conditionEraStartDate, Timestamp conditionEraEndDate, Long personId, Integer conditionConceptID, Integer conditionOccurrenceCount) {
 	super();
+    this.conditionEraId = conditionEraId;
 	this.conditionEraStartDate = conditionEraStartDate;
 	this.conditionEraEndDate = conditionEraEndDate;
 	this.personId = personId;
