@@ -47,7 +47,7 @@ public class ExtendedDrugExposure extends DrugExposure {
             Double denominatorValue,
             Integer denominatorUnitConceptId,
             Double dailyDosage,
-            Integer indicationConceptId,
+            // Integer indicationConceptId,
             String drugName,
             String ingredientName
             ) {
@@ -83,7 +83,7 @@ public class ExtendedDrugExposure extends DrugExposure {
         this.denominatorValue = denominatorValue;
         this.denominatorUnitConceptId = denominatorUnitConceptId;
         this.dailyDosage = dailyDosage;
-        this.indicationConceptId = indicationConceptId;
+        // this.indicationConceptId = indicationConceptId;
         this.drugConceptName = drugName;
         this.ingredientConceptName = ingredientName;
     }

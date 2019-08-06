@@ -299,7 +299,7 @@ public class DroolsTest {
 	*/
 	ResultSet dexpQuery = dexpSt.executeQuery(
 			"SELECT"
-			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, dexp.indication_concept_id, cd.concept_name AS drug_name, ci.concept_name AS ingredient_name"
+			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, cd.concept_name AS drug_name, ci.concept_name AS ingredient_name"
 			+ " FROM drug_exposure dexp, drug_strength dstr, sig_mapping sm, concept cd, concept ci"
 			+ " WHERE dexp.drug_concept_id = dstr.drug_concept_id"
 			+ " AND dexp.sig = sm.sig"
@@ -344,7 +344,7 @@ public class DroolsTest {
 					dexpQuery.getDouble("denominator_value"), // denominatorValue
 					dexpQuery.getInt("denominator_unit_concept_id"), // denominatorUnitConceptId
 					0.00, // dailyDosage - default value 0.00, set below
-					dexpQuery.getInt("indication_concept_id"),  // indicationConceptId
+					// dexpQuery.getInt("indication_concept_id"),  // indicationConceptId
 					dexpQuery.getString("drug_name"),
 					dexpQuery.getString("ingredient_name")
 				);
