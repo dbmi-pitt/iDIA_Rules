@@ -83,10 +83,52 @@ rule "WARFARIN - SALICYLATES -- NO FILTER"
       System.out.println(s);
 end
 
-// TODO filter out "Salicylate Topical" / differentiate "Salicylate Systemic" routes of administration? Need to get additional concept set(s) to do this
+// Leaf node for topical salicylates
+rule "WARFARIN - SALICYLATES -- TOPICAL SALICYLATE"
+    when
+      // First, we look for patients exposed to warfarin on the ingredient level
+      $clinDrugConcept1 : ConceptSetItem(csName == "Warfarins Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+      // Second, we similarly look for exposure to a salicylate on the ingredient level
+      $clinDrugConcept2 : ConceptSetItem(csName == "Salicylates Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+      // Next, we identify the specific drug exposures for both warfarin and the salicylate
+      $clinDrugConcept3 : ConceptSetItem(csName == "Warfarins") 
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
+        && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
+      $clinDrugConcept4 : ConceptSetItem(csName == "Topical Non-acetylated Salicylates")
+      $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+        || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
+        && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
+      $person : Person(personId == $de1.getPersonId())     
+    then
+      // This creates a new "state" for any patients who are found to be on both drugs...
+      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
+      RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and a topical salicylate", "yes", $person);
+      // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
+      String s = String.format(
+        "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding unlikely.\n\tMitigating factor: Presence of topical salicylate\n\tRecommendation: No special precautions.\n\tExplanation: Anticoagulant: %s; Topical Salicylate: %s;", 
+        $person.getPersonId(),
+        $dexp1.getDrugConceptId(),
+        $dexp2.getDrugConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and a topical salicylate\t%s\t%s\t%s\t%s",
+            currentDateStr,
+            $person.getPersonId(),
+            $person.getGenderCUI(),
+            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+            $dexp1.getLogInfo(),
+            $dexp2.getLogInfo()
+      );
+      System.out.println(s);
+end
 
 // filters patients with basic concomitant exposures to those on aspirin
-// NOTE how to determine if aspirin is for "Prevention of thromboembolic events"?
+// NOTE "Prevention of thromboembolic events" not able to be considered in our data
 rule "WARFARIN - SALICYLATES -- ASPIRIN"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and a salicylate" && state == "yes", $person : person)
@@ -102,7 +144,7 @@ rule "WARFARIN - SALICYLATES -- ASPIRIN"
         insertLogical(rhsNN);
       // This outputs the recommendations and rationale for the patient because this is a leaf node
       String s = String.format(
-        "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding.\n\tMitigating factor: Presence of aspirin (%s) (TODO - prevention of thromboembolic events?)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If the aspirin is being used as an analgesic or antipyretic, it would be prudent to use an alternative such as acetaminophen. \n\tIn some people, acetaminophen can increase the anticoagulant effect of warfarin, so monitor the INR if acetaminophen is used in doses over \n\t2 g/day for a few days. If the aspirin is being used as an anti-inflammatory agent, also consider using acetaminophen. The use of NSAIDs \n\tsince NSAIDs increase the risk of GI hemorrhage in patients on warfarin. NSAIDs also have antiplatelet effects but unlike aspirin, the \n\tantiplatelet effect is not for the life of the platelet, but rather only as long as the NSAID is in the circulation.", 
+        "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding probably unintentional.\n\tMitigating factor: Presence of aspirin (%s)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If the aspirin is being used as an analgesic or antipyretic, it would be prudent to use an alternative such as acetaminophen. \n\tIn some people, acetaminophen can increase the anticoagulant effect of warfarin, so monitor the INR if acetaminophen is used in doses over \n\t2 g/day for a few days. If the aspirin is being used as an anti-inflammatory agent, also consider using acetaminophen. The use of NSAIDs \n\tsince NSAIDs increase the risk of GI hemorrhage in patients on warfarin. NSAIDs also have antiplatelet effects but unlike aspirin, the \n\tantiplatelet effect is not for the life of the platelet, but rather only as long as the NSAID is in the circulation.", 
         $person.getPersonId(),
         $dexp1.getDrugConceptId());
       System.out.println(s);
@@ -128,7 +170,7 @@ rule "WARFARIN - SALICYLATES -- NON-ACETYLATED"
         insertLogical(rhsNN);
       // This outputs the recommendations and rationale for the patient because this is a leaf node
       String s = String.format(
-          "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding.\n\tMitigating factor: High dosage of a non-acetylated salicylate (%s at %s mg/day, compared to a threshold value of 3000.0 mg/day).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: While non-acetylated salicylates do not affect platelets and would not interact with warfarin on that basis, high serum concentrations of salicylate can increase the INR.", 
+          "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding possible.\n\tMitigating factor: High dosage of a non-acetylated salicylate (%s at %s mg/day, compared to a threshold value of 3000.0 mg/day).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: While non-acetylated salicylates do not affect platelets and would not interact with warfarin on that basis, high serum concentrations of salicylate can increase the INR.", 
           $person.getPersonId(),
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
