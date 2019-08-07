@@ -411,6 +411,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol"
         String s = String.format(
           "Epinephrine - Beta-blocker interaction for patient: %s.\n\tClinical implication: Risk of acute hypertensive reaction.\n\tMitigating factor: High dosage of bisoprolol (Daily Dosage: %s mg/day, compared to the threshold value of 20.0 mg/day).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: Bisoprolol: %s; At doses of 20 mg/day or higher, bisoprolol can result in nonselective beta-blockade, which can cause an acute hypertensive reaction.", 
           $de1.getPersonId(), 
+          $dexp1.getDailyDosage(),
           $dexp1.getDrugConceptId());
         System.out.println(s);
       s = String.format("DATA\t%s\t%s\tEpinephrine and a Beta-blocker\tepinephrine and bisoprolol", currentDateStr, $person.getPersonId());
@@ -516,27 +517,14 @@ Sotalol*/
 rule "EPINEPHRINE - BETA-BLOCKERS -- Non-Selective"
     when
       $rhs : RHSState(stateName == "epinephrine, beta-blocker, systemic epinephrine" && state == "yes", $person : person)
-      $clinDrugConcept1 : ConceptSetItem(csName == "Epinephrines Ingredients")
-      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
-      // Second, we similarly look for exposure to a beta-blocker on the ingredient level
-      $clinDrugConcept2 : ConceptSetItem(csName == "Carteolols Ingredients" || csName == "Levobunolols Ingredients" || csName == "Nadolols Ingredients" || csName == "Penbutolols Ingredients" || csName == "Pindolols Ingredients" || csName == "Propranolols Ingredients" || csName == "Sotalols Ingredients")
-      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
-      // Next, we identify the specific drug exposures for both epinephrine and the beta-blocker
-      // The epinephrine concept set excludes opthalmic and inhaled epinephrine
-      $clinDrugConcept3 : ConceptSetItem(csName == "Epinephrines") 
-      $clinDrugConcept4 : ConceptSetItem(csName == "Carteolols" || csName == "Levobunolols" || csName == "Nadolols" || csName == "Penbutolols" || csName == "Pindolols" || csName == "Propranolols" || csName == "Sotalols")
-      // beta-blocker before epinephrine (handle the other case in a very similar rule below 
+      $clinDrugConcept1 : ConceptSetItem(csName == "Carteolols Ingredients" || csName == "Levobunolols Ingredients" || csName == "Nadolols Ingredients" || csName == "Penbutolols Ingredients" || csName == "Pindolols Ingredients" || csName == "Propranolols Ingredients" || csName == "Sotalols Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
+        // Esmolol clinical drug exposure and dosage check (no alert if below threshold of 300 mcg/kg/min)
+      $clinDrugConcept2 : ConceptSetItem(csName == "Carteolols" || csName == "Levobunolols" || csName == "Nadolols" || csName == "Penbutolols" || csName == "Pindolols" || csName == "Propranolols" || csName == "Sotalols")
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
-          && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId()
-          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
-      $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-          && drugExposureStartDate != null && drugExposureStartDate < $dexp1.getDrugExposureStartDate()
-          && drugExposureEndDate != null && drugExposureEndDate >= $dexp1.getDrugExposureStartDate()
-          && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
-          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
-      // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
-      $person : Person(personId == $de1.getPersonId());
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
+      && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+      && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
 
     then
       // This creates a new "state" for any patients who are found to be on both drugs...
