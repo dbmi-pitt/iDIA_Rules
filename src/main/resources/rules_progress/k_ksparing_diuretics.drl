@@ -107,63 +107,35 @@ rule "K - K-SPARING DIURETIC -- EPLERENONE"
       System.out.println(s);  
 end
 
-// intermediate check for if a K level test was done in the 48 hours prior to the current date, and this level was between 5 and 5.5 mEq/L
+// check if a K level test was done in the 48 hours prior to the current date, and this level was greater than the threshold of 5.5 mEq/L
 rule "K - K-SPARING DIURETIC -- Recency of Lab Tests"
     when
       // First check that patient was exposed to potassium and a diuretic
       $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
       // Take patient from RHS and check when their serum postassium labs were taken and if this was between 5 and 5.5 mEq/L
       $meas1 : Measurement(personId == $person.getPersonId() && measurementConceptId == 3023103 
-        && valueAsNumber >= 5 && valueAsNumber < 5.5 && unitConceptId == 9557
+        && valueAsNumber >= 5.5 && unitConceptId == 9557
         && measurementDateTime >= within48hours && measurementDateTime <= currentDate)
     then  
       // Create a state object for the current node in the decision tree to be used by other LHS
-      RHSState rhsNN = new RHSState("serum potassium within 48 hours", "yes", $rhs.getPerson());
+      RHSState rhsNN = new RHSState("high serum potassium within 48 hours", "yes", $rhs.getPerson());
       insertLogical(rhsNN);
       String s = String.format(
-          "\tPatient ID: %s; Current date: %s;\n\tPotassium level: %s; mEq/L;Lab date: %s;", 
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Risk of hyperkalemia likely.\n\tMitigating factor: (TODO).\n\tRecommendation: Avoid.\n\tExplanation: High serum potassium (%s mEq/L vs threshold of 5.5 mEq/L) within 48 hours (measurement taken: %s)",
           $person.getPersonId(),
-          currentDateStr,
           $meas1.getValueAsNumber(),
           $meas1.getMeasurementDateTime()
           );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tserum potassium between 5, 5.5 mEq/L within 48 hours", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tshigh serum potassium within 48 hours", currentDateStr, $person.getPersonId());
       System.out.println(s);          
 end
-
-// NOTE: just to be clear, the diagram wants to find if the K level 48 hours prior is between 5 and 5.5 and doesn't exceed 5.5 until the current alert date?
-
-// next, check if the current K level is high (threshold >=5.5 mEq/L)
-rule "K - K-SPARING DIURETIC -- Current Serum Potassium High"
-    when
-      // First check that patient was exposed to potassium and a diuretic
-      $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
-      $rhs2 : RHSState(stateName == "serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId())
-      // Take patient from RHS and check when their serum postassium labs were taken and if this was between 5 and 5.5 mEq/L
-      $meas1 : Measurement(personId == $person.getPersonId() && measurementConceptId == 3023103 
-        && valueAsNumber >= 5.5 && unitConceptId == 9557
-        && measurementDateTime >= currentDate && measurementDateTime < plus1day)
-    then  
-      // Create a state object for the current node in the decision tree to be used by other LHS
-      RHSState rhsNN = new RHSState("current serum potassium high", "yes", $rhs.getPerson());
-      insertLogical(rhsNN);
-      String s = String.format(
-          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Risk of hyperkalemia likely.\n\tMitigating factor: High serum potassium (%s mEq/L, compared to a threshold value of 5.5 mEq/L).\n\tRecommendation: Avoid.\n\tExplanation: High serum potassium is considered to be a risk factor that increases chance of hyperkalemia in patients on \n\tboth a potassium preparation and a K-sparing diuretic.", 
-          $person.getPersonId(),
-          $meas1.getValueAsNumber());
-      System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tserum potassium high", currentDateStr, $person.getPersonId());
-      System.out.println(s);          
-end
-
 
 // leaf node for high dosage of spironolactone (more than 25 mg/day) and current serum potassium is not high
 rule "K - K-SPARING DIURETIC -- SPIRONOLACTONE DOSAGE"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
-      $rhs2 : RHSState(stateName == "serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId())
-      not ($rhs3 : RHSState(stateName == "current serum potassium high" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+      not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 
       $clinDrugConcept1 : ConceptSetItem(csName == "Spironolactones Ingredients")
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -189,8 +161,7 @@ end
 rule "K - K-SPARING DIURETIC -- AMILORIDE DOSAGE"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
-      $rhs2 : RHSState(stateName == "serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId())
-      not ($rhs3 : RHSState(stateName == "current serum potassium high" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+      not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 
       $clinDrugConcept1 : ConceptSetItem(csName == "Amilorides Ingredients")
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
@@ -216,8 +187,7 @@ end
 rule "K - K-SPARING DIURETIC -- TRIAMTERENE DOSAGE"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
-      $rhs2 : RHSState(stateName == "serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId())
-      not ($rhs3 : RHSState(stateName == "current serum potassium high" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+      not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 
       $clinDrugConcept1 : ConceptSetItem(csName == "Triamterenes Ingredients")
       $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
