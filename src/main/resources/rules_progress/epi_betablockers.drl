@@ -224,7 +224,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- systemic epinephrine effects"
         && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
         && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId()
-        && numeratorValue >= 0.005)
+        && numeratorValue > 0.005)
     then
       RHSState rhsNN = new RHSState("epinephrine, beta-blocker, systemic epinephrine", "yes", $rhs.getPerson());
       insertLogical(rhsNN);
