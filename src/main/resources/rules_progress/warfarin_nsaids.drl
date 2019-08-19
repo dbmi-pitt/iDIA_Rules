@@ -113,12 +113,12 @@ end
 // NOTE: if patient not on PPI or Misoprostol, rule says to check if patient is "able" to start on appropriate PPI. Not able to determine this, so assuming any patient can start on PPI.
 rule "WARFARIN - NSAID -- No PPI or misoprostol"
     when
-        // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
       $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and NSAID" && state == "yes", $person : person)        
       not (RHSState(stateName == "proton pump inhibitor or misoprostol yes" && state == "yes" && person.getPersonId() == $person.getPersonId()))
 
   then    
-    // Creates a new RHS state that is used by other rules to double check that a patient did not reach at this leaf node
+      // Creates a new RHS state that is used by other rules to double check that a patient did not reach at this leaf node
       RHSState rhsNN = new RHSState("proton pump inhibitor or misoprostol no", "yes", $person);
       insertLogical(rhsNN);
       // This outputs the recommendations and rationale for the patient because this is a leaf node  
