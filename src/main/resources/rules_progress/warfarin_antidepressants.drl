@@ -188,6 +188,8 @@ rule "WARFARIN - SSRI+SNRI -- patient age >=64 years old"
           $person64YearsOld.getDateOfBirth(),
           ((double) ($person64YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365));
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\twarfarin and SSRI/SNRI exposure - yes risk for patient age >= 64 years old", currentDateStr, $person.getPersonId());
+      System.out.println(s);
 end
 
 /*
@@ -216,11 +218,13 @@ rule "WARFARIN - SSRI+SNRI -- OTHER DRUGS"
         $person.getPersonId(),
         $dexp1.getDrugConceptId());
       System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\twarfarin and SSRI/SNRI exposure - yes risk for another drug (%s) as a risk factor", currentDateStr, $person.getPersonId(), $dexp1.getDrugConceptName());
+      System.out.println(s);
 end
 
 /*
 basic concomitant and CONDITIONS risk factor
-history of CNS hemorraghic bleeding -- (TODO) need this concept set
+history of CNS hemorraghic bleeding -- (TODO) need this concept set?
 history of UGIB or peptic ulcer 
 */
 rule "WARFARIN - SSRI+SNRI -- CONDITIONS"
@@ -228,7 +232,7 @@ rule "WARFARIN - SSRI+SNRI -- CONDITIONS"
       // This checks the state of the patients to identify only those who were identified to be on both medications of interest
       $rhs1 : RHSState(stateName == "basic concomitant exposure of warfarin and SSRI/SNRI" && state == "yes", $person : person)
       // This checks to see if the patient has any of the conditions of interest
-      $condConcept1 : ConceptSetItem(csName == "History of GI Bleeds")  // TODO || csName == 
+      $condConcept1 : ConceptSetItem(csName == "History of GI Bleeds")
       $ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId())
     then  
       // This tags a given patient as "yes for risks"... There are three potential types of risks but all of them result in this same RHS state
@@ -238,7 +242,9 @@ rule "WARFARIN - SSRI+SNRI -- CONDITIONS"
         String s = String.format(
           "Matched drug exposures for the patient with a CONDITION as a risk factor - Patient ID: %s; Condition: %s.", 
           $person.getPersonId(),
-        $ce1.getConditionConceptId());
+          $ce1.getConditionConceptId());
+        System.out.println(s);
+        s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\twarfarin and SSRI/SNRI exposure - yes risk for a condition (concept ID %s) as a risk factor", currentDateStr, $person.getPersonId(), $ce1.getConditionConceptId());
         System.out.println(s);
 end
 
