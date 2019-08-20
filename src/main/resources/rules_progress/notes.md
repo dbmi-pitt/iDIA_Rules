@@ -2,13 +2,12 @@ TODO
 CEFTRIAXONE - CALCIUM
   All items in the Ceftriaxone & Calcium concept sets are injectible. Are they all therefore IV, or do we need another concept set?
   Clarify how to determine "simultaneous" administration of calcium / ceftriaxone on an IV? Is there a certain time window to look at, or should they be same datetime or same day? (currently using same datetime)
-    (*) e-mail Dan/Andrew/Nicole
 CLONIDINE - BB
   need "Timolols Systemic" concept set?
 EPI - BB
   How to tell if epinephrine is combined with local anesthetic?
     (*) A function of combo products / small doses (i.e. less than 0.01 mg/ml), ex. bupivacaine hcl. Can use this to break down different types of epinephrine (systemic vs. not systemic)
-      select c.concept_name, ds.amount_value, ds.numerator_value, ds.denominator_value, ds.ingredient_concept_id from ohdsi.concept_set cs
+      `select c.concept_name, ds.amount_value, ds.numerator_value, ds.denominator_value, ds.ingredient_concept_id from ohdsi.concept_set cs
       inner join ohdsi.concept_set_item i
       on i.concept_set_id = cs.concept_set_id
       inner join public.concept c
@@ -17,17 +16,15 @@ EPI - BB
       on ds.drug_concept_id = i.concept_id
       where cs.concept_set_name in ('Epinephrines')
       and ds.ingredient_concept_id = 1343916
-      order by ds.numerator_value asc;
+      order by ds.numerator_value asc;`
   need to create concept sets for "Systemic" injection of epinephrine?
 WARFARIN - ANTIDEPRESSANTS
   basic concomitant of warfarin and mirtazapine (concept set needed) or tricyclics, buproprion (concepts set needed) as leaf nodes that are outside of SSRI/SNRI
 WARFARIN - NSAIDS
   how to determine if patient is able to start on PPI?
-    (*) e-mail
 WARFARIN - SALICYLATES
   how to determine if aspirin is for "Prevention of thromboembolic events"?
     May potentially refer to low dose aspirin
-    (*) e-mail
   filter out "Salicylate Topical" / differentiate "Salicylate Systemic" routes of administration? Need to get additional concept set(s) to do this
 WARFARIN - SSRI+SNRI
   Still need concept sets for "History of CNS hemorrhaghic bleeding" conditions and "Anti-platelet medications" drugs
@@ -45,7 +42,6 @@ Fluconazole - Opioids
   eGFR Measurements (see above)
 K - K-SPARING
   Just to be clear, the diagram wants to find if the K level 48 hours prior is between 5 and 5.5 and doesn't exceed 5.5 until the current alert date?
-    (*) error in diagram pending update
 
 CONCEPT SET TODO's:
 History of CNS hemorraghic bleeding
