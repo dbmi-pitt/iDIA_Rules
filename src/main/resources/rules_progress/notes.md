@@ -1,12 +1,15 @@
-TODO
-CEFTRIAXONE - CALCIUM
-  All items in the Ceftriaxone & Calcium concept sets are injectible. Are they all therefore IV, or do we need another concept set?
-  Clarify how to determine "simultaneous" administration of calcium / ceftriaxone on an IV? Is there a certain time window to look at, or should they be same datetime or same day? (currently using same datetime)
-CLONIDINE - BB
-  need "Timolols Systemic" concept set?
-EPI - BB
-  How to tell if epinephrine is combined with local anesthetic?
-    (*) A function of combo products / small doses (i.e. less than 0.01 mg/ml), ex. bupivacaine hcl. Can use this to break down different types of epinephrine (systemic vs. not systemic)
+# NOTES
+## CEFTRIAXONE - CALCIUM
+  - All items in the Ceftriaxone & Calcium concept sets are injectible. Treating these all of these as IV.
+  - Data limitation: No clear way to determine "simultaneous" administration of calcium / ceftriaxone on an IV. Currently using same datetime
+
+## CLONIDINE - BB
+  - need "Timolols Systemic" concept set?
+  - Using "Clonidines Injectable" be used for "epidural"
+
+## EPI - BB
+  - How to tell if epinephrine is combined with local anesthetic?
+    - A function of combo products / small doses (i.e. less than 0.01 mg/ml), ex. bupivacaine hcl. Can use this to break down different types of epinephrine (systemic vs. not systemic)
       `select c.concept_name, ds.amount_value, ds.numerator_value, ds.denominator_value, ds.ingredient_concept_id from ohdsi.concept_set cs
       inner join ohdsi.concept_set_item i
       on i.concept_set_id = cs.concept_set_id
@@ -17,51 +20,42 @@ EPI - BB
       where cs.concept_set_name in ('Epinephrines')
       and ds.ingredient_concept_id = 1343916
       order by ds.numerator_value asc;`
-  need to create concept sets for "Systemic" injection of epinephrine?
-WARFARIN - ANTIDEPRESSANTS
-  basic concomitant of warfarin and mirtazapine (concept set needed) or tricyclics, buproprion (concepts set needed) as leaf nodes that are outside of SSRI/SNRI
-WARFARIN - NSAIDS
-  how to determine if patient is able to start on PPI?
-WARFARIN - SALICYLATES
-  how to determine if aspirin is for "Prevention of thromboembolic events"?
-    May potentially refer to low dose aspirin
-  filter out "Salicylate Topical" / differentiate "Salicylate Systemic" routes of administration? Need to get additional concept set(s) to do this
-WARFARIN - SSRI+SNRI
-  Still need concept sets for "History of CNS hemorrhaghic bleeding" conditions and "Anti-platelet medications" drugs
-ACE I/ARB - K-Sparing Diuretics
-  eGFR Measurements -- diagrams use "ml/hour" but databse uses "ml/min/1.73sq.m"
-    concept ID's:
-      3049187
-      3053283
-      3030354
-    LOINC:
-      48642-3
-      48643-1
-      33914-3
-Fluconazole - Opioids
-  eGFR Measurements (see above)
-K - K-SPARING
-  Just to be clear, the diagram wants to find if the K level 48 hours prior is between 5 and 5.5 and doesn't exceed 5.5 until the current alert date?
+  - Data limitations: "Patient in anaphylaxis", "Anaphylaxis prevention", "Dermatological or dental use", "Plastic surgery use" branches currently not considered since the database does not have any support for "Indications", and there are no patients in the dataset that have these conditions based on the current condition concept sets.
 
-CONCEPT SET TODO's:
+## WARFARIN - ANTIDEPRESSANTS
+
+## WARFARIN - NSAIDS
+  - Our data is not able to determine if a patient is able to start on PPI. Assuming that all patients are able to do so.
+
+## WARFARIN - SALICYLATES
+  - previous rule file had "Bismuth Subsalicylate" rule - but this branch is not depicted in either old or new diagrams. Still included this as its own independent branch.
+
+## WARFARIN - SSRI+SNRI
+
+## ACE I/ARB - K-Sparing Diuretics
+  - eGFR Measurements -- diagrams use "ml/hour" but databse uses "ml/min/1.73sq.m"
+    - concept ID's:
+      - 3049187
+      - 3053283
+      - 3030354
+    - LOINC:
+      - 48642-3
+      - 48643-1
+      - 33914-3
+
+## Fluconazole - Opioids
+  - eGFR Measurements (see above)
+  - "Outpatient?" branch currently not considered since it doesn't look like anyone in the banner data set has visit concept id of 9202 for "outpatient". Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit"
+
+## K - K-SPARING
+
+# POTENTIAL CONCEPT SET TODO's:
 History of CNS hemorraghic bleeding
-Mirtazapine
-Tricyclics
-Buproprion
-Anti-platelet medications
-Topical salicylates
-Systemic salicylates
-Systemic Timolols (?)
-Systemic Epinephrine (Injection?)
+Systemic Salicylates
+Systemic Timolols
+Epinephrine Injection
 
-NOTES:
+# OTHER NOTES:
 For daily doses,not sure we can rely on doseUnitSourceValue if we need to filter by unit.
-CLONIDINE - BB
-  Can "Clonidines Injectable" be used for "epidural"?
-EPI - BB
-  "Patient in anaphylaxis", "Anaphylaxis prevention", "Dermatological or dental use", "Plastic surgery use" branches currently not considered since the database does not have any support for "Indications", and there are no patients in the dataset that have these conditions based on the current condition concept sets.
-FLUCONAZOLE - OPIOIDS
-  "Outpatient?" branch currently not considered since it doesn't look like anyone in the banner data set has visit concept id of 9202 for "outpatient". Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit"
-WARFARIN - SALICYLATES
-  previous rule file had "Bismuth Subsalicylate" rule - but this branch is not depicted in either old or new diagrams. Still include?
+
 
