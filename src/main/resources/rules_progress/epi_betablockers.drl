@@ -44,8 +44,6 @@ global java.sql.Timestamp plus1day
 // Rules
 /////////// 
 
-// TODO epinephrine combined with local anesthetic.
-
 // The first rule is a basic check to identify all patients on any dosage or form of epinephrine and a beta-blocker at the same time (beta-blocker first)
 rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"  
     when
