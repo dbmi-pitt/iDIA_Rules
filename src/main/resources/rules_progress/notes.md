@@ -1,17 +1,19 @@
 # NOTES
-### CEFTRIAXONE - CALCIUM
+### Ceftriaxone - Calcium
   - All items in the Ceftriaxone & Calcium concept sets are injectible. Treating these all of these as IV.
-  - Data limitation: No clear way to determine "simultaneous" administration of calcium / ceftriaxone on an IV. Currently using same datetime
+  - Data limitations: 
+    - No clear way to determine "simultaneous" administration of calcium / ceftriaxone on an IV. Currently using same datetime.
 
-### CLONIDINE - BB
+### Clonidine - BB
   - need "Timolols Systemic" concept set?
   - Using "Clonidines Injectable" be used for "epidural"
 
-### EPI - BB
+### Epi - BB
   - How to tell if epinephrine is combined with local anesthetic?
     - A function of combo products / small doses (i.e. less than 0.01 mg/ml), ex. bupivacaine hcl. Can use this to break down different types of epinephrine (systemic vs. not systemic)
     
-      `select c.concept_name, ds.amount_value, ds.numerator_value, ds.denominator_value, ds.ingredient_concept_id from ohdsi.concept_set cs
+      `select c.concept_name, ds.amount_value, ds.numerator_value, ds.denominator_value, ds.ingredient_concept_id 
+      from ohdsi.concept_set cs
       inner join ohdsi.concept_set_item i
       on i.concept_set_id = cs.concept_set_id
       inner join public.concept c
@@ -21,17 +23,18 @@
       where cs.concept_set_name in ('Epinephrines')
       and ds.ingredient_concept_id = 1343916
       order by ds.numerator_value asc;`
-  - Data limitations: "Patient in anaphylaxis", "Anaphylaxis prevention", "Dermatological or dental use", "Plastic surgery use" branches currently not considered since the database does not have any support for "Indications", and there are no patients in the dataset that have these conditions based on the current condition concept sets.
+  - Data limitations: 
+    - "Patient in anaphylaxis", "Anaphylaxis prevention", "Dermatological or dental use", "Plastic surgery use" branches currently not considered since the database does not have any support for "Indications", and there are no patients in the dataset that have these conditions based on the current condition concept sets.
 
-### WARFARIN - ANTIDEPRESSANTS
+### Immuno - Fluconazole
 
-### WARFARIN - NSAIDS
+### Warfarin - NSAIDs
   - Our data is not able to determine if a patient is able to start on PPI. Assuming that all patients are able to do so.
 
-### WARFARIN - SALICYLATES
+### Warfarin - Salicylates
   - previous rule file had "Bismuth Subsalicylate" rule - but this branch is not depicted in either old or new diagrams. Still included this as its own independent branch.
 
-### WARFARIN - SSRI+SNRI
+### Warfarin - SSRI+SNRI
 
 ### ACE I/ARB - K-Sparing Diuretics
   - eGFR Measurements -- diagrams use "ml/hour" but databse uses "ml/min/1.73sq.m"
@@ -48,15 +51,13 @@
   - eGFR Measurements (see above)
   - "Outpatient?" branch currently not considered since it doesn't look like anyone in the banner data set has visit concept id of 9202 for "outpatient". Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit"
 
-### K - K-SPARING
+### K - K-Ksparing
 
-# POTENTIAL CONCEPT SET TODO's:
+## Potential Concept Set TODO's:
 History of CNS hemorraghic bleeding
 Systemic Salicylates
 Systemic Timolols
 Epinephrine Injection
 
-# OTHER NOTES:
-For daily doses,not sure we can rely on doseUnitSourceValue if we need to filter by unit.
-
-
+## General Notes:
+For daily doses, not sure we can rely on doseUnitSourceValue if we need to filter by unit.
