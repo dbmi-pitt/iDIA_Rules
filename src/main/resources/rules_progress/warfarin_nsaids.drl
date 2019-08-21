@@ -72,9 +72,10 @@ rule "WARFARIN - NSAID -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
+            "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -106,7 +107,7 @@ rule "WARFARIN - NSAID -- PPI or misoprostol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tyes proton pump inhibitor or misoprostol", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tyes proton pump inhibitor or misoprostol\t%s", currentDateStr, $person.getPersonId(), "yellow");
       System.out.println(s);
 end
 
@@ -126,6 +127,6 @@ rule "WARFARIN - NSAID -- No PPI or misoprostol"
         "Warfarin - NSAID interaction for patient: %s.\n\tClinical implication: Possible increased risk of bleeding\n\tRecommendation: Assess risk and take action if necessary. Start patient on proton pump inhibitor\n\tExplanation:  Proton pump inhibitors and misoprostol may reduce the risk of UGIB in patients receiving NSAIDs and warfarin.", 
         $person.getPersonId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tproton pump inhibitor or misoprostol no", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tWarfarin - NSAID interaction\tproton pump inhibitor or misoprostol no", currentDateStr, $person.getPersonId(), "yellow");
       System.out.println(s);
 end
