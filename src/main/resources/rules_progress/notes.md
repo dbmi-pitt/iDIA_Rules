@@ -37,7 +37,7 @@
 ### Warfarin - SSRI+SNRI
 
 ### ACE I/ARB - K-Sparing Diuretics
-  - eGFR Measurements -- diagrams use "ml/hour" but databse uses "ml/min/1.73sq.m"
+  - eGFR Measurements -- diagrams use "ml/hour" but database uses "ml/min/1.73sq.m"
     - concept ID's:
       - 3049187
       - 3053283
@@ -47,11 +47,13 @@
       - 48643-1
       - 33914-3
 
+### K - K-Sparing Diuretics
+
 ### Fluconazole - Opioids
   - eGFR Measurements (see above)
   - "Outpatient?" branch currently not considered since it doesn't look like anyone in the banner data set has visit concept id of 9202 for "outpatient". Everyone has visit_concept_id = 262 = "Emergency Room and Inpatient Visit"
 
-### K - K-Ksparing
+---
 
 ## Potential Concept Set TODO's:
 History of CNS hemorraghic bleeding

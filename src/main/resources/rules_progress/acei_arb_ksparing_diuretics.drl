@@ -72,9 +72,10 @@ rule "ACE I ARB - K-SPARING DIURETIC -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
+            "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -122,7 +123,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- No recent serum potassium"
           $person.getPersonId()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours\t%s", currentDateStr, $person.getPersonId(), "red");
       System.out.println(s);
 end
 
@@ -145,7 +146,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR <=60 ml/min
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, serum potassium < 5 mEq/L within 48 hours, eGFR <=60 ml/min", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, serum potassium < 5 mEq/L within 48 hours, eGFR <=60 ml/min\t%s", currentDateStr, $person.getPersonId(), "yellow");
       System.out.println(s);
 end
 
@@ -162,12 +163,12 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR >60 ml/min"
       RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes, eGFR >60 mL/min yes", "yes", $rhs.getPerson());
       insertLogical(rhsNN);
       String s = String.format(
-          "ACE I/ARB - K-sparing diruetic interaction for patient %s.\n\tClinical Implication: Increased risk of hyperkalemia possible.\n\tMitigating factor: (TODO).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Explanation: eGFR: %s ml/min/1.73sq.m;Lab date: %s;",
+          "ACE I/ARB - K-sparing diruetic interaction for patient %s.\n\tClinical Implication: Increased risk of hyperkalemia unlikely.\n\tMitigating factor: (TODO).\n\tRecommendation: No special precautions.\n\tExplanation: Explanation: eGFR: %s ml/min/1.73sq.m;Lab date: %s;",
           $person.getPersonId(),
           $meas1.getValueAsNumber(),
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours, eGFR >60 ml/min", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours, eGFR >60 ml/min\t%s", currentDateStr, $person.getPersonId(), "green");
       System.out.println(s);
 end

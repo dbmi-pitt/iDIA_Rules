@@ -72,9 +72,10 @@ rule "K - K-SPARING DIURETIC -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
+            "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -103,7 +104,7 @@ rule "K - K-SPARING DIURETIC -- EPLERENONE"
           $person.getPersonId(),
           $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and eplerenone", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and eplerenone\t%s", currentDateStr, $person.getPersonId(), "red");
       System.out.println(s);  
 end
 
@@ -127,12 +128,12 @@ rule "K - K-SPARING DIURETIC -- Recency of Lab Tests"
           $meas1.getMeasurementDateTime()
           );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tshigh serum potassium within 48 hours", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tshigh serum potassium within 48 hours\t%s", currentDateStr, $person.getPersonId(), "red");
       System.out.println(s);          
 end
 
 // leaf node for high dosage of spironolactone (more than 25 mg/day) and current serum potassium is not high
-rule "K - K-SPARING DIURETIC -- SPIRONOLACTONE DOSAGE"
+rule "K - K-SPARING DIURETIC -- SPIRONOLACTONE HIGH DOSAGE"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
       not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
@@ -153,12 +154,37 @@ rule "K - K-SPARING DIURETIC -- SPIRONOLACTONE DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and spironolactone high dosage", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and spironolactone high dosage\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      System.out.println(s);
+end
+
+rule "K - K-SPARING DIURETIC -- SPIRONOLACTONE NOT HIGH DOSAGE"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+      not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+
+      $clinDrugConcept1 : ConceptSetItem(csName == "Spironolactones Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
+      $clinDrugConcept2 : ConceptSetItem(csName == "Spironolactones")
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
+        && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage <= 25.0)  
+    then
+      RHSState rhsNN = new RHSState("potassium, spironolactone not high dosage", "yes", $rhs.getPerson());
+      insertLogical(rhsNN);
+      String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Risk of hyperkalemia unlikely.\n\tMitigating factor: (TODO).\n\tRecommendation: No special precautions.\n\tExplanation: Not high dose of Spironolactone = %s (Daily Dosage: %s mg/day Threshold Value: 25 mg/day). Current serum potassium level is not high", 
+          $person.getPersonId(),
+          $dexp1.getDrugConceptId(),
+          $dexp1.getDailyDosage());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and spironolactone not high dosage\t%s", currentDateStr, $person.getPersonId(), "green");
       System.out.println(s);
 end
 
 // leaf node for high dosage of amiloride (more than 10 mg/day) and current serum potassium is not high
-rule "K - K-SPARING DIURETIC -- AMILORIDE DOSAGE"
+rule "K - K-SPARING DIURETIC -- AMILORIDE HIGH DOSAGE"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
       not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
@@ -179,12 +205,37 @@ rule "K - K-SPARING DIURETIC -- AMILORIDE DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and amiloride high dosage", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and amiloride high dosage\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      System.out.println(s);  
+end
+
+rule "K - K-SPARING DIURETIC -- AMILORIDE NOT HIGH DOSAGE"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+      not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+
+      $clinDrugConcept1 : ConceptSetItem(csName == "Amilorides Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
+      $clinDrugConcept2 : ConceptSetItem(csName == "Amilorides")
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
+        && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage <= 10.0)  
+    then
+      RHSState rhsNN = new RHSState("potassium, amiloride not high dosage", "yes", $rhs.getPerson());
+      insertLogical(rhsNN);
+      String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Risk of hyperkalemia unlikely.\n\tMitigating factor: (TODO).\n\tRecommendation: No special precautions.\n\tExplanation: Not high dose of Amiloride = %s (Daily Dosage: %s mg/day Threshold Value: 10 mg/day). Current serum potassium level is not high", 
+          $person.getPersonId(),
+          $dexp1.getDrugConceptId(),
+          $dexp1.getDailyDosage());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and amiloride not high dosage\t%s", currentDateStr, $person.getPersonId(), "GREEN");
       System.out.println(s);  
 end
 
 // leaf node for high dosage of triamterene (more than 37.5 mg/day) and current serum potassium is not high
-rule "K - K-SPARING DIURETIC -- TRIAMTERENE DOSAGE"
+rule "K - K-SPARING DIURETIC -- TRIAMTERENE HIGH DOSAGE"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
       not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
@@ -205,6 +256,31 @@ rule "K - K-SPARING DIURETIC -- TRIAMTERENE DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and triamterene high dosage", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and triamterene high dosage\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      System.out.println(s);
+end
+
+rule "K - K-SPARING DIURETIC -- TRIAMTERENE NOT HIGH DOSAGE"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+      not ($rhs2 : RHSState(stateName == "high serum potassium within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+
+      $clinDrugConcept1 : ConceptSetItem(csName == "Triamterenes Ingredients")
+      $de1 : DrugEra(personId == $person.getPersonId() && drugConceptId == $clinDrugConcept1.getConceptId())        
+      $clinDrugConcept2 : ConceptSetItem(csName == "Triamterenes")
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate < plus1day && drugExposureEndDate >= currentDate
+        && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId()
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage <= 37.5)  
+    then
+      RHSState rhsNN = new RHSState("potassium, triamterene not high dosage", "yes", $rhs.getPerson());
+      insertLogical(rhsNN);
+      String s = String.format(
+          "K - K-sparing diuretic interaction for patient: %s.\n\tClinical implication: Risk of hyperkalemia unlikely.\n\tMitigating factor: (TODO).\n\tRecommendation: No special precautions.\n\tExplanation: Not high dose of Triamterene = %s (Daily Dosage: %s mg/day Threshold Value: 37.5 mg/day). Current serum potassium level is not high", 
+          $person.getPersonId(),
+          $dexp1.getDrugConceptId(),
+          $dexp1.getDailyDosage());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and triamterene not high dosage\t%s", currentDateStr, $person.getPersonId(), "green");
       System.out.println(s);
 end

@@ -81,9 +81,10 @@ rule "CITALOPRAM - QT-AGENT -- NO FILTER"
             $clinDrugConcept3.getConceptId(), 
             $clinDrugConcept4.getConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
+            "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -118,6 +119,31 @@ rule "CITALOPRAM -- Citalopram High Dosage"
         System.out.println(s);
 end
 
+rule "CITALOPRAM -- Not Citalopram High Dosage"
+    when
+        $clinDrugConcept1 : ConceptSetItem(csName == "Citaloprams Ingredients")
+        $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+
+        $clinDrugConcept2 : ConceptSetItem(csName == "Citaloprams") 
+        $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+            && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
+            && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId()
+            && dailyDosage < 60 )
+            //&& doseUnitSourceValue == 'mg') // TODO not sure we can rely on doseUnitSourceValue if we need to filter by unit.
+        $person : Person(personId == $de1.getPersonId())
+    then
+        RHSState rhsNN = new RHSState("citalopram, high dosage no", "yes", $person);
+        insertLogical(rhsNN);
+        String s = String.format(
+            "Citalopram for patient: %s.\n\tClinical implication: None \n\tMitigating factor: None\n\tRecommendation: No special precautions\n\tExplanation: Citalopram: %s, Citalopram Dosage: %s",
+            $de1.getPersonId(),
+            $dexp1.getDrugConceptId(), 
+            $dexp1.getDailyDosage());
+        System.out.println(s);
+        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage no\t%s", currentDateStr, $person.getPersonId(), "green");
+        System.out.println(s);
+end
+
 // Leaf node for citalopram high dosage WITHOUT another concomitant QT agent
 rule "CITALOPRAM -- Citalopram High Dosage, No QT-Agent"
     when
@@ -127,9 +153,9 @@ rule "CITALOPRAM -- Citalopram High Dosage, No QT-Agent"
         RHSState rhsNN = new RHSState("citalopram, high dosage yes, qt-agent no", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         String s = String.format(
-            "Citalopram High Dosage for patient: %s.\n\tClinical implication: Increased risk of prolonged QTc possible\n\tRecommendation: Minimize risk and monitor ECG\n\tMitigating factor: (TODO)\n\tExplanation: (TODO)", 
-          $person.getPersonId());
-        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes, qt-agent no", currentDateStr, $person.getPersonId());
+            "Citalopram High Dosage for patient: %s.\n\tClinical implication: Increased risk of prolonged QTc possible\n\tRecommendation: Minimize risk and monitor ECG\n\tMitigating factor: No other QT-Agent present\n\tExplanation: High citalopram dosage (>= threshold of 60 mg/day) but not in the presence of another QT-prolonging agent", 
+            $person.getPersonId());
+        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes, qt-agent no\t%s", currentDateStr, $person.getPersonId(), "yellow");
         System.out.println(s);
 end
 
@@ -142,9 +168,9 @@ rule "CITALOPRAM - QT-AGENT -- Citalopram High Dosage"
         RHSState rhsNN = new RHSState("citalopram, high dosage yes, qt-agent yes", "yes", $rhs.getPerson());
         insertLogical(rhsNN);
         String s = String.format(
-            "Citalopram - QT-Agent interaction for patient: %s.\n\tClinical implication: Increased risk of prolonged QTc likely\n\tRecommendation: Use only if benefit outweighs risk and monitor patient ECG\n\tMitigating factor: (TODO)\n\tExplanation: (TODO)", 
-          $person.getPersonId());
+            "Citalopram - QT-Agent interaction for patient: %s.\n\tClinical implication: Increased risk of prolonged QTc likely\n\tRecommendation: Use only if benefit outweighs risk and monitor patient ECG\n\tMitigating factor: (TODO)\n\tExplanation: High citalopram dosage (>= threshold of 60 mg/day) in the presence of another QT-prolonging agent", 
+            $person.getPersonId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes, qt-agent yes", currentDateStr, $person.getPersonId());
+        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes, qt-agent yes\t%s", currentDateStr, $person.getPersonId(),"red");
         System.out.println(s);
 end

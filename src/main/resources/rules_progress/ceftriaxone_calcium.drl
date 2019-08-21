@@ -72,9 +72,10 @@ rule "CEFTRIAXONE - CALCIUM -- NO FILTER "
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
+            "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -113,20 +114,20 @@ rule "CEFTRIAXONE - CALCIUM -- patient age <28 days old"
     then
       RHSState rhsCur = new RHSState("basic concomitant exposure of ceftriaxone and a calcium, patient age <28 days old", "yes", $person);
       String s = String.format(
-        "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical impliciation: Combination incompatible.\n\tMitigating factor: (TODO).\n\tRecommendation: Avoid!\n\tExplanation: Patient born %s; age in days is %s.",
+        "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical implication: Combination incompatible.\n\tMitigating factor: (TODO).\n\tRecommendation: Avoid!\n\tExplanation: Patient born %s; age in days is %s.",
         $rhs.getPerson().getPersonId(),
         $rhs.getPerson().getDateOfBirth(),
         ((double) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age LESS THAN 28 days old",
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age LESS THAN 28 days old\t%s",
           currentDateStr,
-          $rhs.getPerson().getPersonId()
+          $rhs.getPerson().getPersonId(),
+          "red"
       );
       System.out.println(s);
 end
 
-// leaf node for patient >= 28 days old, and ceftriaxone/calcium are simultaneously administrated in the same line
-// NOTE: All items in the Ceftriaxone & Calcium concept sets are injectible. Assume they are all IV?
+// leaf node for patient >= 28 days old, and ceftriaxone/calcium are *not* simultaneously administrated
 rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, simultaneous administration"
     when
       $rhs : RHSState(stateName == "basic concomitant exposure of ceftriaxone and a calcium, patient age >=28 days old" && state == "yes", $person : person)
@@ -149,18 +150,38 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, simultaneous administr
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
 
     then
-      RHSState rhsNN = new RHSState("simultaneous ceftriaxone and calcium, patient >= 28 days old", "yes", $person);
+      RHSState rhsNN = new RHSState("ceftriaxone and calcium, simultaneous yes, patient >= 28 days old", "yes", $person);
       insertLogical(rhsNN);
       String s = String.format(
-        "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical impliciation: Start another IV line.\n\tMitigating factor: (TODO).\n\tRecommendation: Avoid!\n\tExplanation: Both ceftriaxone and calcium administered on %s;Patient born %s; age in days is %s.",
+        "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical implication: Start another IV line.\n\tMitigating factor: (TODO).\n\tRecommendation: Avoid!\n\tExplanation: Both ceftriaxone and calcium administered on %s;Patient born %s; age in days is %s.",
         $rhs.getPerson().getPersonId(),
         $dexp1.getDrugExposureStartDate(),
         $rhs.getPerson().getDateOfBirth(),
         ((double) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tsimultaneous ceftriaxone and calcium administration, patient age AT LEAST 28 days old",
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tceftriaxone and calcium administration, simultaneous yes, patient age AT LEAST 28 days old\t%s",
           currentDateStr,
-          $rhs.getPerson().getPersonId()
+          $rhs.getPerson().getPersonId(),
+          "red"
+      );
+      System.out.println(s);
+end
+
+rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, not simultaneous administration"
+    when
+      $rhs : RHSState(stateName == "basic concomitant exposure of ceftriaxone and a calcium, patient age >=28 days old" && state == "yes", $person : person)
+      not($rhs3 : RHSState(stateName == "ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes, eGFR >60 ml/min no" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+    then
+      RHSState rhsNN = new RHSState("ceftriaxone and calcium, simultaneous no, patient >= 28 days old", "yes", $person);
+      insertLogical(rhsNN);
+      String s = String.format(
+        "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical implication: None \n\tMitigating factor: None\n\tRecommendation: No special precautions\n\tExplanation: Both ceftriaxone and calcium administered but not simultaneous",
+        $rhs.getPerson().getPersonId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tceftriaxone and calcium administration, simultaneous no, patient age AT LEAST 28 days old\t%s",
+          currentDateStr,
+          $rhs.getPerson().getPersonId(),
+          "green"
       );
       System.out.println(s);
 end

@@ -16,6 +16,8 @@ do
     sleep 1    
 done
 echo INFO: run completed. Assembling the resulting data and writing it to epi-beta-blocker-run-$1/full-banner-run.tsv
-grep -r "^DATA" epi-beta-blocker-run-$1/output* | sort | uniq | cut --complement -f1 > epi-beta-blocker-run-$1/full-banner-run.tsv
+grep -r "^DATA" epi-beta-blocker-run-$1/output* | sort | cut --complement -f1 > epi-beta-blocker-run-$1/full-banner-run.tsv
+echo INFO: Assembling the unique resulting data and writing it to epi-beta-blocker-run-$1/uniq-banner-run.tsv
+grep -r "^DATA" epi-beta-blocker-run-$1/output* | sort | uniq | cut --complement -f1 > epi-beta-blocker-run-$1/uniq-banner-run.tsv
 echo INFO: All done!
 
