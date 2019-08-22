@@ -79,10 +79,10 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tClonidine - Beta-blocker interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tClonidine - Beta-blocker interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "basic concomitant",
+            "false","basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -132,10 +132,10 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine Patch, Non-Selective Beta-Blockers"
           $dexp1.getDrugConceptId(),
           $dexp2.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, patch yes, non-selective beta-blocker\t%s\t%s\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, patch yes, non-selective beta-blocker\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "yellow",
+            "true","yellow",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -177,10 +177,10 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine (Oral or Epidural), Non-Selective B
           $dexp1.getDrugConceptId(),
           $dexp2.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, oral or epidural yes, non-selective beta-blocker\t%\t%s\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, oral or epidural yes, non-selective beta-blocker\t%\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "red",
+            "true","red",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -223,10 +223,10 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine (Patch), Timolol (Eye Drops)"
           $dexp1.getDrugConceptId(),
           $dexp2.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, patch yes, timolol, eye drops yes\t%s\t%s\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, patch yes, timolol, eye drops yes\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "yellow",
+            "true","yellow",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -268,10 +268,10 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine (Oral or Epidural), Timolol (Eye Dr
           $dexp1.getDrugConceptId(),
           $dexp2.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, oral or epidural yes, timolol, eye drops yes\t%s\t%s\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, oral or epidural yes, timolol, eye drops yes\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "red",
+            "true","red",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -316,10 +316,10 @@ rule "CLONIDINE - BETA-BLOCKERS -- Timolol (Eye Gels)"
           $dexp1.getDrugConceptId(),
           $dexp2.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, timolol, eye gels yes\t%s\t%s\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, timolol, eye gels yes\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "green",
+            "true","green",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -374,10 +374,10 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine, Selective Beta-Blockers"
           $dexp1.getDrugConceptId(),
           $dexp2.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, selective beta-blocker\t%s\t%s\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tclonidine and a beta-blocker interaction\tclonidine, selective beta-blocker\t%s\t%s\t%s\t%s\t%s\t%s",
           currentDateStr,
           $person.getPersonId(),
-          "green",
+          "true","green",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
           $dexp1.getLogInfo(),

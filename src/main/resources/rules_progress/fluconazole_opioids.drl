@@ -96,9 +96,10 @@ rule "FLUCONAZOLE - OPIOIDS -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
+            "false", "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -139,7 +140,7 @@ rule "FLUCONAZOLE - OPIOIDS -- INPATIENT STATUS"
         "Fluconazole - Oxycodone interaction for patient: %s.\n\tClinical implication: CNS depression unlikely.\n\tMitigating factor: Inpatient\n\tRecommendation: No special precautions.\n\tExplanation: Not an outpatient", 
         $person.getPersonId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tinpatient exposure to fluconazole and an opioid\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tinpatient exposure to fluconazole and an opioid\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s); 
 end
 
@@ -269,7 +270,7 @@ rule "FLUCONAZOLE - OPIOIDS -- FENTANYL - FLUCONAZOLE HIGH DOSAGE"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and fentanyl\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and fentanyl\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);            
 end
 
@@ -302,7 +303,7 @@ rule "FLUCONAZOLE - OPIOIDS -- FENTANYL - FLUCONAZOLE NOT HIGH DOSAGE"
         $person.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tnot high dose fluconazole and fentanyl\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tnot high dose fluconazole and fentanyl\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);           
 end
 
@@ -333,7 +334,7 @@ rule "FLUCONAZOLE - OPIOIDS -- OXYCODONE NOT HIGH DOSAGE"
         $dexp1.getDrugConceptId(),
         $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tfluconazole and not high dose oxycodone\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\tfluconazole and not high dose oxycodone\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);                     
 end
 
@@ -365,7 +366,7 @@ rule "FLUCONAZOLE - OPIOIDS -- OXYCODONE HIGH DOSAGE - FLUCONAZOLE HIGH DOSAGE"
         $de1.getPersonId(), 
         $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and high dose oxycodone\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and high dose oxycodone\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);                  
 end
 
@@ -398,6 +399,6 @@ rule "FLUCONAZOLE - OPIOIDS -- OXYCODONE HIGH DOSAGE - FLUCONAZOLE NOT HIGH DOSA
         $de1.getPersonId(), 
         $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and not high dose oxycodone\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tFluconazole - Opioid interaction\thigh dose fluconazole and not high dose oxycodone\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);                  
 end

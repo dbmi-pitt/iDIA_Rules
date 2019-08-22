@@ -72,10 +72,10 @@ rule "WARFARIN - TRICYCLIC OR BUPROPION -- NO FILTER"
         $clinDrugConcept3.getConceptId(), 
         $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure of warfarin and tricyclics or bupropion\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure of warfarin and tricyclics or bupropion\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "green",
+            "true", "green",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -117,10 +117,10 @@ rule "WARFARIN - MIRTAZAPINE -- NO FILTER"
         $clinDrugConcept3.getConceptId(), 
         $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure of warfarin and mirtazapine\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure of warfarin and mirtazapine\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "yellow",
+            "true", "yellow",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -162,10 +162,10 @@ rule "WARFARIN - SSRI+SNRI -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "basic concomitant",
+            "false", "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -186,12 +186,12 @@ rule "WARFARIN - SSRI+SNRI -- patient age >=64 years old"
       RHSState rhsCur = new RHSState("warfarin and SSRI/SNRI exposure - yes risk", "yes", $person);
       insertLogical(rhsCur);
       String s = String.format(
-        "\tMatched drug exposures for the patient with AGE as a risk factor: Patient ID: %s;\n\tPatient DoB: %s;\n\tPatient age in years >= threshold of 65: %s",
+        "\tMatched drug exposures for the patient with AGE as a risk factor: Patient ID: %s;\n\tPatient DoB: %s;\n\tPatient age in years >= threshold of 64: %s",
           $rhs.getPerson().getPersonId(),
           $person64YearsOld.getDateOfBirth(),
           ((double) ($person64YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\twarfarin and SSRI/SNRI exposure - yes risk for patient age >= 64 years old", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risk for patient age in years = %s (>= threshold of 64 years old)\t%s", currentDateStr, $person.getPersonId(), ((double) ($person64YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365), "false");
       System.out.println(s);
 end
 
@@ -221,7 +221,7 @@ rule "WARFARIN - SSRI+SNRI -- OTHER DRUGS"
         $person.getPersonId(),
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\twarfarin and SSRI/SNRI exposure - yes risk for another drug (%s) as a risk factor", currentDateStr, $person.getPersonId(), $dexp1.getDrugConceptName());
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risk for another drug (%s) as a risk factor\t%s", currentDateStr, $person.getPersonId(), $dexp1.getDrugConceptName(), "false");
       System.out.println(s);
 end
 
@@ -247,7 +247,7 @@ rule "WARFARIN - SSRI+SNRI -- CONDITIONS"
           $person.getPersonId(),
           $ce1.getConditionConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\twarfarin and SSRI/SNRI exposure - yes risk for a condition (concept ID %s) as a risk factor", currentDateStr, $person.getPersonId(), $ce1.getConditionConceptId());
+        s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risk for a condition (concept ID %s) as a risk factor\t%s", currentDateStr, $person.getPersonId(), $ce1.getConditionConceptId(), "false");
         System.out.println(s);
 end
 
@@ -267,7 +267,7 @@ rule "WARFARIN - SSRI+SNRI -- YES RISKS"
         "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased GI and non-GI bleeding risk is likely.\n\tContextual factor: Presence of age, condition, or drug-factor risks. \n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: If possible avoid drugs that increase bleeding risk (e.g., NSAIDs, aldosterone antagonists, aspirin, corticoids). \n\tTo reduce risk of GI bleeds consider adding a PPI and avoiding the SSRI/SNRI.", 
         $person.getPersonId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risks\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risks\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);        
 end
 
@@ -287,6 +287,6 @@ rule "WARFARIN - SSRI+SNRI -- NO RISKS"
         "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased GI and non-GI bleeding risk is possible.\n\tContextual factor: No age, condition, or drug-factor risks.\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: To reduce the bleeding risk, consider avoiding the SSRI/SNRI.", 
         $person.getPersonId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tno risks\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tno risks\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);          
 end

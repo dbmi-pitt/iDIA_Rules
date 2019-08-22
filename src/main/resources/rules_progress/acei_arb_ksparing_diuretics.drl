@@ -72,10 +72,10 @@ rule "ACE I ARB - K-SPARING DIURETIC -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "basic concomitant",
+            "false","basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -106,7 +106,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- Recency of Lab Tests"
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic\tserum potassium < 5 mEq/L within 48 hours", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic\tserum potassium < 5 mEq/L within 48 hours\t%s", currentDateStr, $person.getPersonId(), "false");
       System.out.println(s);          
 end
 
@@ -123,7 +123,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- No recent serum potassium"
           $person.getPersonId()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -146,7 +146,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR <=60 ml/min
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, serum potassium < 5 mEq/L within 48 hours, eGFR <=60 ml/min\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, serum potassium < 5 mEq/L within 48 hours, eGFR <=60 ml/min\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);
 end
 
@@ -169,6 +169,6 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR >60 ml/min"
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours, eGFR >60 ml/min\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours, eGFR >60 ml/min\t%s\t%s", currentDateStr, $person.getPersonId(), "true","green");
       System.out.println(s);
 end

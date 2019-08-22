@@ -72,10 +72,10 @@ rule "WARFARIN - SALICYLATES -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "basic concomitant",
+            "false", "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -117,10 +117,10 @@ rule "WARFARIN - SALICYLATES -- TOPICAL SALICYLATE"
         $dexp1.getDrugConceptId(),
         $dexp2.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and a topical salicylate\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and a topical salicylate\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "green",
+            "true", "green",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -149,7 +149,7 @@ rule "WARFARIN - SALICYLATES -- ASPIRIN"
           $de1.getPersonId(), 
           $clinDrugConcept2.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin\t%s", currentDateStr, $person.getPersonId(), "false");
       System.out.println(s);  
 end
 
@@ -171,7 +171,7 @@ rule "WARFARIN - SALICYLATES -- NO THROMBOEMBOLIC EVENTS"
         "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding probably unintentional.\n\tMitigating factor: (TODO)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: No history of thromboembolic events", 
         $person.getPersonId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin, prevention of thromboembolic events no\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin, prevention of thromboembolic events no\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -192,7 +192,7 @@ rule "WARFARIN - SALICYLATES -- THROMBOEMBOLIC EVENTS"
         $person.getPersonId(),
         $ce1.getConditionConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin, prevention of thromboembolic events yes\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin, prevention of thromboembolic events yes\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);
 end
 
@@ -219,7 +219,7 @@ rule "WARFARIN - SALICYLATES -- HIGH DOSAGE NON-ACETYLATED"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and a non-acetylated salicylate, high dosage salicylate yes\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and a non-acetylated salicylate, high dosage salicylate yes\t%s\t%s", currentDateStr, $person.getPersonId(),"true", "yellow");
       System.out.println(s);
 end
 
@@ -243,7 +243,7 @@ rule "WARFARIN - SALICYLATES -- NOT HIGH DOSAGE NON-ACETYLATED"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and a non-acetylated salicylate, high dosage salicylate no\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and a non-acetylated salicylate, high dosage salicylate no\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);
 end
 
@@ -272,7 +272,7 @@ rule "WARFARIN - SALICYLATES -- HIGH DOSAGE BISMUTH SUBSALICYLATE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and bismuth subsalicylate, high dosage salicylate yes\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and bismuth subsalicylate, high dosage salicylate yes\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -296,6 +296,6 @@ rule "WARFARIN - SALICYLATES -- NOT HIGH DOSAGE BISMUTH SUBSALICYLATE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and bismuth subsalicylate, high dosage salicylate no\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and bismuth subsalicylate, high dosage salicylate no\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);
 end

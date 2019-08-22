@@ -72,10 +72,10 @@ rule "CEFTRIAXONE - CALCIUM -- NO FILTER "
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "basic concomitant",
+            "false","basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -99,9 +99,10 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old"
           $person28DaysOld.getDateOfBirth(),
           ((double) ($person28DaysOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age AT LEAST 28 days old",
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age AT LEAST 28 days old\t%s",
           currentDateStr,
-          $rhs.getPerson().getPersonId()
+          $rhs.getPerson().getPersonId(),
+          "false"
       );
       System.out.println(s);
 end
@@ -119,10 +120,10 @@ rule "CEFTRIAXONE - CALCIUM -- patient age <28 days old"
         $rhs.getPerson().getDateOfBirth(),
         ((double) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age LESS THAN 28 days old\t%s",
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tbasic concomitant exposure, patient age LESS THAN 28 days old\t%s\t%s",
           currentDateStr,
           $rhs.getPerson().getPersonId(),
-          "red"
+          "true","red"
       );
       System.out.println(s);
 end
@@ -159,10 +160,10 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, simultaneous administr
         $rhs.getPerson().getDateOfBirth(),
         ((double) ($rhs.getPerson().getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24))));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tceftriaxone and calcium administration, simultaneous yes, patient age AT LEAST 28 days old\t%s",
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tceftriaxone and calcium administration, simultaneous yes, patient age AT LEAST 28 days old\t%s\t%s",
           currentDateStr,
           $rhs.getPerson().getPersonId(),
-          "red"
+          "TRUE","red"
       );
       System.out.println(s);
 end
@@ -178,10 +179,10 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, not simultaneous admin
         "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical implication: None \n\tMitigating factor: None\n\tRecommendation: No special precautions\n\tExplanation: Both ceftriaxone and calcium administered but not simultaneous",
         $rhs.getPerson().getPersonId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tceftriaxone and calcium administration, simultaneous no, patient age AT LEAST 28 days old\t%s",
+      s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tceftriaxone and calcium administration, simultaneous no, patient age AT LEAST 28 days old\t%s\t%s",
           currentDateStr,
           $rhs.getPerson().getPersonId(),
-          "green"
+          "true", "green"
       );
       System.out.println(s);
 end
