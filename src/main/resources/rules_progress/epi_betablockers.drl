@@ -83,10 +83,10 @@ rule "EPINEPHRINE - BETA-BLOCKERS - BB FIRST -- NO FILTER"
           $clinDrugConcept4.getConceptId(),
           ((double) ($dexp2.getDateDiffFromStartInMillis($dexp1.getDrugExposureStartDate()) / (3600 * 1000))));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tbasic concomitant exposure, bb first\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tbasic concomitant exposure, bb first\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "basic concomitant",
+            "false", "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -133,10 +133,10 @@ rule "EPINEPHRINE - BETA-BLOCKERS - EPI FIRST -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tbasic concomitant exposure, epi first\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tbasic concomitant exposure, epi first\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            null,
+            "false",null,
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -167,7 +167,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Epinephrine daily dosage 0.3 to 0.6 mg"
         $dexp1.getDrugConceptId(),
         $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, beta-blocker, epi daily dosage 0.3 to 0.6 mg", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, beta-blocker, epi daily dosage 0.3 to 0.6 mg\t%s", currentDateStr, $person.getPersonId(), "false");
       System.out.println(s); 
 end
 
@@ -204,10 +204,10 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- timing of administration"
         $clinDrugConcept4.getConceptId(),
         ((double) ($dexp2.getDateDiffFromStartInMillis($dexp1.getDrugExposureStartDate()) / (3600 * 1000))));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, beta-blocker, beta within 2 hours before epi\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, beta-blocker, beta within 2 hours before epi\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            null,
+            "false",null,
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -239,7 +239,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- systemic epinephrine effects"
         $dexp1.getDrugConceptId(),
         $dexp1.getNumeratorValue());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, beta-blocker, systemic epinephrine", currentDateStr, $person.getPersonId());
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, beta-blocker, systemic epinephrine\t%s", currentDateStr, $person.getPersonId(), "false");
       System.out.println(s); 
 end
 
@@ -268,7 +268,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, timolol, oral yes\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, timolol, oral yes\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);  
 end
 
@@ -297,7 +297,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Drops)"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, timolol, eye drops yes\t%s", currentDateStr, $person.getPersonId(), "yellow");
+        s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, timolol, eye drops yes\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
         System.out.println(s);    
 end
 
@@ -326,7 +326,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Eye Gels)"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, timolol, eye gels yes\t%s", currentDateStr, $person.getPersonId(), "green");
+        s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine, timolol, eye gels yes\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
         System.out.println(s);    
 end
 
@@ -353,7 +353,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Metoprolol"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and metoprolol\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and metoprolol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);          
 end
 
@@ -380,7 +380,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nebivolol"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and nebivolol\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and nebivolol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);              
 end
 
@@ -413,7 +413,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Atenolol"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and atenolol\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and atenolol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);    
 end
 
@@ -447,7 +447,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Bisoprolol"
           $dexp1.getDailyDosage(),
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and bisoprolol\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and bisoprolol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);  
 end
 
@@ -478,7 +478,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Betaxolol"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and betaxolol\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and betaxolol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);    
 end
 
@@ -509,7 +509,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Esmolol"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and esmolol\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and esmolol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);      
 end
 
@@ -536,7 +536,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Acebutolol"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and acebutolol\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and acebutolol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);      
 end
 
@@ -570,7 +570,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Carteolol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (carteolol)\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (carteolol)\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -597,7 +597,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Levobunolol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (levobunolol)\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (levobunolol)\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -624,7 +624,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Nadolol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (nadolol)\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (nadolol)\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -651,7 +651,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Penbutolol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (penbutolol)\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (penbutolol)\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -678,7 +678,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Pindolol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (pindolol)\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (pindolol)\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -705,7 +705,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Propranolol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (propanolol)\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (propanolol)\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -732,7 +732,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Sotalol"
         $de1.getPersonId(), 
         $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (sotalol)\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and non-selective beta-blocker (sotalol)\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);
 end
 
@@ -759,7 +759,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Carvedilol"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and carvedilol\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and carvedilol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);      
 end
 
@@ -786,6 +786,6 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Labetalol"
           $de1.getPersonId(), 
           $dexp1.getDrugConceptId());
         System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and labetalol\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tEpinephrine - Beta-blocker interaction\tepinephrine and labetalol\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);      
 end

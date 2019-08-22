@@ -72,10 +72,10 @@ rule "K - K-SPARING DIURETIC -- NO FILTER"
           $clinDrugConcept3.getConceptId(), 
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr,
             $person.getPersonId(),
-            "basic concomitant",
+            "false", "basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             $dexp1.getLogInfo(),
@@ -104,7 +104,7 @@ rule "K - K-SPARING DIURETIC -- EPLERENONE"
           $person.getPersonId(),
           $dexp1.getDrugConceptId());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and eplerenone\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and eplerenone\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);  
 end
 
@@ -128,7 +128,7 @@ rule "K - K-SPARING DIURETIC -- Recency of Lab Tests"
           $meas1.getMeasurementDateTime()
           );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tshigh serum potassium within 48 hours\t%s", currentDateStr, $person.getPersonId(), "red");
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tshigh serum potassium within 48 hours\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
       System.out.println(s);          
 end
 
@@ -154,7 +154,7 @@ rule "K - K-SPARING DIURETIC -- SPIRONOLACTONE HIGH DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and spironolactone high dosage\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and spironolactone high dosage\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);
 end
 
@@ -179,7 +179,7 @@ rule "K - K-SPARING DIURETIC -- SPIRONOLACTONE NOT HIGH DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and spironolactone not high dosage\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and spironolactone not high dosage\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);
 end
 
@@ -205,7 +205,7 @@ rule "K - K-SPARING DIURETIC -- AMILORIDE HIGH DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and amiloride high dosage\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and amiloride high dosage\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);  
 end
 
@@ -230,7 +230,7 @@ rule "K - K-SPARING DIURETIC -- AMILORIDE NOT HIGH DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and amiloride not high dosage\t%s", currentDateStr, $person.getPersonId(), "GREEN");
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and amiloride not high dosage\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);  
 end
 
@@ -256,7 +256,7 @@ rule "K - K-SPARING DIURETIC -- TRIAMTERENE HIGH DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and triamterene high dosage\t%s", currentDateStr, $person.getPersonId(), "yellow");
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and triamterene high dosage\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
       System.out.println(s);
 end
 
@@ -281,6 +281,6 @@ rule "K - K-SPARING DIURETIC -- TRIAMTERENE NOT HIGH DOSAGE"
           $dexp1.getDrugConceptId(),
           $dexp1.getDailyDosage());
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and triamterene not high dosage\t%s", currentDateStr, $person.getPersonId(), "green");
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic\tpotassium and triamterene not high dosage\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
       System.out.println(s);
 end
