@@ -115,7 +115,7 @@ rule "CITALOPRAM -- Citalopram High Dosage"
           $dexp1.getDrugConceptId(), 
           $dexp1.getDailyDosage());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes\t%s", currentDateStr, $person.getPersonId(),"false");
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage yes\t%s", currentDateStr, $person.getPersonId(),"false");
         System.out.println(s);
 end
 
@@ -140,7 +140,7 @@ rule "CITALOPRAM -- Not Citalopram High Dosage"
             $dexp1.getDrugConceptId(), 
             $dexp1.getDailyDosage());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage no\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage no\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
         System.out.println(s);
 end
 
@@ -171,6 +171,6 @@ rule "CITALOPRAM - QT-AGENT -- Citalopram High Dosage"
             "Citalopram - QT-Agent interaction for patient: %s.\n\tClinical implication: Increased risk of prolonged QTc likely\n\tRecommendation: Use only if benefit outweighs risk and monitor patient ECG\n\tMitigating factor: (TODO)\n\tExplanation: High citalopram dosage (>= threshold of 60 mg/day) in the presence of another QT-prolonging agent", 
             $person.getPersonId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes, qt-agent yes\t%s\t%s", currentDateStr, $person.getPersonId(),"true","red");
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage yes, qt-agent yes\t%s\t%s", currentDateStr, $person.getPersonId(),"true","red");
         System.out.println(s);
 end
