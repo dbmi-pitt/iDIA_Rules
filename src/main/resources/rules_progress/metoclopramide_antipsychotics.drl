@@ -92,6 +92,7 @@ rule "METOCLOPRAMIDE - ANTIPSYCHOTICS -- NO FILTER"
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
       RHSState rhsCur = new RHSState("concomitant exposure of metoclopramide and an antipsychotic or cholinesterase inhibitor", "yes", $person);
+      insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
         "Metoclopramide - Antipsychotics interaction for patient: %s.\n\tClinical implication: Increased risk of extrapyramidal symptoms likely.\n\tMitigating factor: Co-prescription of metoclopramide and an antipsychotic or a cholinesterase inhibitor (%s).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: Metoclopramide, antipsychotics, and cholinesterase inhibitors are all known in increase risk of tardive dyskinesia.", 

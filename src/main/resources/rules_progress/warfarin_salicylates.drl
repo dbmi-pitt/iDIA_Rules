@@ -65,6 +65,7 @@ rule "WARFARIN - SALICYLATES -- NO FILTER"
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
       RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and a salicylate", "yes", $person);
+      insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
           "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Anticoagulant: %s; Salicylate: %s;", 
@@ -110,6 +111,7 @@ rule "WARFARIN - SALICYLATES -- TOPICAL SALICYLATE"
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
       RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and a topical salicylate", "yes", $person);
+      insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
         "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding unlikely.\n\tMitigating factor: Presence of topical salicylate\n\tRecommendation: No special precautions.\n\tExplanation: Anticoagulant: %s; Topical Salicylate: %s;", 
@@ -211,7 +213,7 @@ rule "WARFARIN - SALICYLATES -- HIGH DOSAGE NON-ACETYLATED"
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage >= 3000)        
     then
       RHSState rhsNN = new RHSState("warfarin and a non-acetylated salicylate, high dosage salicylate yes", "yes", $person);
-        insertLogical(rhsNN);
+      insertLogical(rhsNN);
       // This outputs the recommendations and rationale for the patient because this is a leaf node
       String s = String.format(
           "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding possible.\n\tMitigating factor: High dosage of a non-acetylated salicylate (%s at %s mg/day, compared to a threshold value of 3000.0 mg/day).\n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: While non-acetylated salicylates do not affect platelets and would not interact with warfarin on that basis, high serum concentrations of salicylate can increase the INR.", 
@@ -264,7 +266,7 @@ rule "WARFARIN - SALICYLATES -- HIGH DOSAGE BISMUTH SUBSALICYLATE"
         && drugConceptId == $clinDrugConcept2.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId() && dailyDosage >= 7710)        
     then
       RHSState rhsNN = new RHSState("warfarin and bismuth subsalicylate, high dosage salicylate yes", "yes", $person);
-        insertLogical(rhsNN);
+      insertLogical(rhsNN);
       // This outputs the recommendations and rationale for the patient because this is a leaf node
       String s = String.format(
           "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding.\n\tMitigating factor: High dosage of Bismuth Subsalicylate (%s at %s mg/day, compared to a threshold value of 7710.0 mg/day).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: WWhile non-acetylated salicylates do not affect platelets and would not interact with warfarin on that basis, high serum concentrations of salicylate can increase the INR.", 

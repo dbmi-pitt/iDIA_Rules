@@ -114,6 +114,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age <28 days old"
       not ($rhs2 : RHSState(stateName == "basic concomitant exposure of ceftriaxone and a calcium, patient age >=28 days old" && state == "yes" && person.getPersonId() == $person.getPersonId()))
     then
       RHSState rhsCur = new RHSState("basic concomitant exposure of ceftriaxone and a calcium, patient age <28 days old", "yes", $person);
+      insertLogical(rhsCur);
       String s = String.format(
         "Ceftriaxone - Calcium interaction for patient: %s.\n\tClinical implication: Combination incompatible.\n\tMitigating factor: (TODO).\n\tRecommendation: Avoid!\n\tExplanation: Patient born %s; age in days is %s.",
         $rhs.getPerson().getPersonId(),

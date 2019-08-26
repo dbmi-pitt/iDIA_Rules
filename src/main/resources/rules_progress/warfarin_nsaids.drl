@@ -65,6 +65,7 @@ rule "WARFARIN - NSAID -- NO FILTER"
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
       RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and NSAID", "yes", $person);
+      insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
           "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Anticoagulant: %s; NSAID: %s;", 

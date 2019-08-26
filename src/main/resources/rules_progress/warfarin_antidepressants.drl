@@ -65,6 +65,7 @@ rule "WARFARIN - TRICYCLIC OR BUPROPION -- NO FILTER"
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
       RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and tricyclic or bupropion", "yes", $person);
+      insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
         "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased bleeding risk unlikely.\n\tContextual factor: \n\tRecommendation: No special precautions\n\tExplanation: Anticoagulant: %s; Tricyclic or Bupropion: %s;", 
@@ -110,6 +111,7 @@ rule "WARFARIN - MIRTAZAPINE -- NO FILTER"
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
       RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and mirtazapine", "yes", $person);
+      insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
         "Warfarin - SSRI/SNRI interaction for patient: %s.\n\tClinical implication: Increased GI and non-GI bleeding risk is possible.\n\tContextual factor: Presence of age, condition, or drug-factor risks. \n\tRecommendation: Assess risk and take action if necessary.\n\tExplanation: If possible avoid drugs that increase bleeding risk (e.g., NSAIDs, aldosterone antagonists, aspirin, corticoids). \n\tAnticoagulant: %s; Mirtazapine: %s;", 
@@ -155,6 +157,7 @@ rule "WARFARIN - SSRI+SNRI -- NO FILTER"
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
       RHSState rhsCur = new RHSState("basic concomitant exposure of warfarin and SSRI/SNRI", "yes", $person);
+      insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
           "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Anticoagulant: %s; SSRI/SNRI: %s;", 
