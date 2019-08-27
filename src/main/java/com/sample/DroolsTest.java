@@ -280,7 +280,7 @@ public class DroolsTest {
 			+ ",condition_concept_id"
 			+ ",condition_occurrence_count"
 			+ " FROM condition_era"
-			+ " WHERE CONDITION_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND CONDITION_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+			//+ " WHERE CONDITION_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND CONDITION_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
 		);
 	ceraQuery.last();
 	System.out.println("INFO: # of ceras: " + ceraQuery.getRow());

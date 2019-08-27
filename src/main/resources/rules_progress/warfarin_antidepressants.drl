@@ -194,7 +194,7 @@ rule "WARFARIN - SSRI+SNRI -- patient age >=64 years old"
           $person64YearsOld.getDateOfBirth(),
           ((double) ($person64YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365));
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risk for patient age in years = %s (>= threshold of 64 years old)\t%s", currentDateStr, $person.getPersonId(), ((double) ($person64YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365), "false");
+      s = String.format("DATA\t%s\t%s\tWarfarin - SSRI/SNRI interaction\tyes risk for patient age (>= threshold of 64 years old)\t%s", currentDateStr, $person.getPersonId(), ((double) ($person64YearsOld.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365), "false");
       System.out.println(s);
 end
 
