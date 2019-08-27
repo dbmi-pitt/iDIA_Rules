@@ -88,12 +88,16 @@ public class ExtendedDrugExposure extends DrugExposure {
         this.ingredientConceptName = ingredientName;
     }
 
+    public Long getDrugExposureId() {
+        return this.drugExposureId;
+    }
+
     public String getLogInfo() {
-        String s = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", 
+        String s = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", 
             this.getDrugConceptId(),
             this.getDrugConceptName(),
             this.getIngredientConceptName(),
-            this.routeSourceValue,
+            // this.routeSourceValue,
             this.getAmountValue(),
             this.getNumeratorValue(),
             this.getDailyDosage(),    
