@@ -72,7 +72,7 @@ rule "CITALOPRAM - QT-AGENT -- NO FILTER"
         // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
         $person : Person(personId == $de1.getPersonId())
     then
-        RHSState rhsCur = new RHSState("basic concomitant exposure of citalopram and a QT-agent", "yes", $person);
+        RHSState rhsCur = new RHSState("basic concomitant exposure of citalopram and a QT-agent", "yes", $person, $dexp1, $dexp2);
         insertLogical(rhsCur);
         // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
         String s = String.format(
@@ -87,8 +87,8 @@ rule "CITALOPRAM - QT-AGENT -- NO FILTER"
             "false","basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
-            $dexp1.getLogInfo(),
-            $dexp2.getLogInfo()
+            rhsCur.getDexp1().getLogInfo(),
+            rhsCur.getDexp2().getLogInfo()
         );
         System.out.println(s);
 end
@@ -107,15 +107,21 @@ rule "CITALOPRAM -- Citalopram High Dosage"
             //&& doseUnitSourceValue == 'mg') // TODO not sure we can rely on doseUnitSourceValue if we need to filter by unit.
         $person : Person(personId == $de1.getPersonId())
     then
-        RHSState rhsNN = new RHSState("citalopram, high dosage yes", "yes", $person);
+        RHSState rhsNN = new RHSState("citalopram, high dosage yes", "yes", $person, $dexp1, null);
         insertLogical(rhsNN);
         String s = String.format(
             "Found high citalopram daily dosage for the patient: Patient ID: %s; Citalopram: %s, Citalopram Dosage: %s", 
-          $de1.getPersonId(),
-          $dexp1.getDrugConceptId(), 
-          $dexp1.getDailyDosage());
+            $de1.getPersonId(),
+            $dexp1.getDrugConceptId(), 
+            $dexp1.getDailyDosage());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage yes\t%s", currentDateStr, $person.getPersonId(),"false");
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage yes\t%s\t%s\t%s\t%s\t%s", 
+            currentDateStr, 
+            $person.getPersonId(),
+            "false","",
+            $person.getGenderCUI(),
+            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+            $dexp1.getLogInfo());
         System.out.println(s);
 end
 
@@ -132,7 +138,7 @@ rule "CITALOPRAM -- Not Citalopram High Dosage"
             //&& doseUnitSourceValue == 'mg') // TODO not sure we can rely on doseUnitSourceValue if we need to filter by unit.
         $person : Person(personId == $de1.getPersonId())
     then
-        RHSState rhsNN = new RHSState("citalopram, high dosage no", "yes", $person);
+        RHSState rhsNN = new RHSState("citalopram, high dosage no", "yes", $person, $dexp1, null);
         insertLogical(rhsNN);
         String s = String.format(
             "Citalopram for patient: %s.\n\tClinical implication: None \n\tMitigating factor: None\n\tRecommendation: No special precautions\n\tExplanation: Citalopram: %s, Citalopram Dosage: %s",
@@ -140,7 +146,13 @@ rule "CITALOPRAM -- Not Citalopram High Dosage"
             $dexp1.getDrugConceptId(), 
             $dexp1.getDailyDosage());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage no\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "green");
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage no\t%s\t%s\t%s\t%s\t%s",
+            currentDateStr, 
+            $person.getPersonId(),
+            "true","green",
+            $person.getGenderCUI(),
+            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+            $dexp1.getLogInfo());
         System.out.println(s);
 end
 
@@ -150,12 +162,18 @@ rule "CITALOPRAM -- Citalopram High Dosage, No QT-Agent"
         $rhs : RHSState(stateName == "citalopram, high dosage yes" && state == "yes", $person : person)
         not ($rhs2 : RHSState(stateName == "basic concomitant exposure of citalopram and a QT-agent" && state == "yes" && person.getPersonId() == $person.getPersonId()))
     then
-        RHSState rhsNN = new RHSState("citalopram, high dosage yes, qt-agent no", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("citalopram, high dosage yes, qt-agent no", "yes", $rhs.getPerson(), $rhs.getDexp1(), null);
         insertLogical(rhsNN);
         String s = String.format(
             "Citalopram High Dosage for patient: %s.\n\tClinical implication: Increased risk of prolonged QTc possible\n\tRecommendation: Minimize risk and monitor ECG\n\tMitigating factor: No other QT-Agent present\n\tExplanation: High citalopram dosage (>= threshold of 60 mg/day) but not in the presence of another QT-prolonging agent", 
             $person.getPersonId());
-        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes, qt-agent no\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
+        s = String.format("DATA\t%s\t%s\tcitalopram, high dosage yes, qt-agent no\t%s\t%s\t%s\t%s\t%s",
+            currentDateStr, 
+            $person.getPersonId(),
+            "true","yellow",
+            $person.getGenderCUI(),
+            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+            rhsNN.getDexp1().getLogInfo());
         System.out.println(s);
 end
 
@@ -163,14 +181,21 @@ end
 rule "CITALOPRAM - QT-AGENT -- Citalopram High Dosage"
     when
         $rhs : RHSState(stateName == "basic concomitant exposure of citalopram and a QT-agent" && state == "yes", $person : person)
-        $rhs2 : RHSState(stateName == "citalopram, high dosage yes" && state == "yes" && person.getPersonId() == $person.getPersonId())
+        $rhs2 : RHSState(stateName == "citalopram, high dosage yes" && state == "yes" && person.getPersonId() == $person.getPersonId() && dexp1 == $rhs.getDexp1())
     then
-        RHSState rhsNN = new RHSState("citalopram, high dosage yes, qt-agent yes", "yes", $rhs.getPerson());
+        RHSState rhsNN = new RHSState("citalopram, high dosage yes, qt-agent yes", "yes", $rhs.getPerson(), $rhs.getDexp1(), $rhs.getDexp2());
         insertLogical(rhsNN);
         String s = String.format(
             "Citalopram - QT-Agent interaction for patient: %s.\n\tClinical implication: Increased risk of prolonged QTc likely\n\tRecommendation: Use only if benefit outweighs risk and monitor patient ECG\n\tMitigating factor: (TODO)\n\tExplanation: High citalopram dosage (>= threshold of 60 mg/day) in the presence of another QT-prolonging agent", 
             $person.getPersonId());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage yes, qt-agent yes\t%s\t%s", currentDateStr, $person.getPersonId(),"true","red");
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage yes, qt-agent yes\t%s\t%s\t%s\t%s\t%s\t%s",
+            currentDateStr, 
+            $person.getPersonId(),
+            "true","red",
+            $person.getGenderCUI(),
+            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+            rhsNN.getDexp1().getLogInfo(),
+            rhsNN.getDexp2().getLogInfo());
         System.out.println(s);
 end
