@@ -64,7 +64,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- NO FILTER"
     then
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
-      RHSState rhsCur = new RHSState("basic concomitant exposure of ACE I/ARB and a K-sparing diuretic", "yes", $person);
+      RHSState rhsCur = new RHSState("basic concomitant exposure of ACE I/ARB and a K-sparing diuretic", "yes", $person, $dexp1, $dexp2);
       insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(
@@ -79,8 +79,8 @@ rule "ACE I ARB - K-SPARING DIURETIC -- NO FILTER"
             "false","basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
-            $dexp1.getLogInfo(),
-            $dexp2.getLogInfo()
+            rhsCur.getDexp1().getLogInfo(),
+            rhsCur.getDexp2().getLogInfo()
       );
       System.out.println(s);
 end
@@ -97,7 +97,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- Recency of Lab Tests"
         && measurementDateTime >= within48hours && measurementDateTime < plus1day)
     then  
       // Create a state object for the current node in the decision tree to be used by other LHS
-      RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes", "yes", $rhs.getPerson());
+      RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes", "yes", $rhs.getPerson(), $rhs.getDexp1(), $rhs.getDexp2());
       insertLogical(rhsNN);
       String s = String.format(
           "Serum Potassium <5.0 mEq/L within 48 hours for Patient ID: %s; Current date: %s;\n\tPotassium level: %s mEq/L;Lab date: %s;", 
@@ -107,7 +107,14 @@ rule "ACE I ARB - K-SPARING DIURETIC -- Recency of Lab Tests"
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic\tserum potassium < 5 mEq/L within 48 hours\t%s", currentDateStr, $person.getPersonId(), "false");
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic\tserum potassium < 5 mEq/L within 48 hours\t%s\t%s\t%s\t%s\t%s\t%s",
+          currentDateStr,
+          $person.getPersonId(),
+          "false","",
+          $person.getGenderCUI(),
+          ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          rhsNN.getDexp1().getLogInfo(),
+          rhsNN.getDexp2().getLogInfo());
       System.out.println(s);          
 end
 
@@ -117,14 +124,21 @@ rule "ACE I ARB - K-SPARING DIURETIC -- No recent serum potassium"
       $rhs : RHSState(stateName == "basic concomitant exposure of ACE I/ARB and a K-sparing diuretic" && state == "yes", $person : person)
       not ($rhs2 : RHSState(stateName == "serum potassium <5.0 mEq/L within 48 hours" && state == "yes" && person.getPersonId() == $person.getPersonId()))
     then
-      RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours no", "yes", $rhs.getPerson());
+      RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours no", "yes", $rhs.getPerson(), $rhs.getDexp1(), $rhs.getDexp2());
       insertLogical(rhsNN);
       String s = String.format(
           "ACE I/ARB - K-sparing diruetic interaction for patient %s.\n\tClinical Implication: Increased risk of hyperkalemia possible.\n\tMitigating factor: (TODO).\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: (TODO).",
           $person.getPersonId()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "red");
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours\t%s\t%s\t%s\t%s\t%s\t%s",
+          currentDateStr,
+          $person.getPersonId(),
+          "true","red",
+          $person.getGenderCUI(),
+          ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          rhsNN.getDexp1().getLogInfo(),
+          rhsNN.getDexp2().getLogInfo());
       System.out.println(s);
 end
 
@@ -138,7 +152,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR <=60 ml/min
         && (measurementConceptId == 3049187 || measurementConceptId == 3053283 || measurementConceptId == 3030354)
         && valueAsNumber <= 60.0)
     then
-      RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes, eGFR >60 ml/min no", "yes", $rhs.getPerson());
+      RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes, eGFR >60 ml/min no", "yes", $rhs.getPerson(), $rhs.getDexp1(), $rhs.getDexp2());
       insertLogical(rhsNN);
       String s = String.format(
           "ACE I/ARB - K-sparing diruetic interaction for patient %s.\n\tClinical Implication: Increased risk of hyperkalemia possible.\n\tMitigating factor: (TODO).\n\tRecommendation: Monitor potassium levels, assess risk and take action if necessary.\n\tExplanation: eGFR: %s ml/min/1.73sq.m;Lab date: %s;",
@@ -147,7 +161,14 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR <=60 ml/min
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, serum potassium < 5 mEq/L within 48 hours, eGFR <=60 ml/min\t%s\t%s", currentDateStr, $person.getPersonId(), "true", "yellow");
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, serum potassium < 5 mEq/L within 48 hours, eGFR <=60 ml/min\t%s\t%s\t%s\t%s\t%s\t%s",
+          currentDateStr,
+          $person.getPersonId(),
+          "true","yellow",
+          $person.getGenderCUI(),
+          ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          rhsNN.getDexp1().getLogInfo(),
+          rhsNN.getDexp2().getLogInfo());
       System.out.println(s);
 end
 
@@ -161,7 +182,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR >60 ml/min"
         && (measurementConceptId == 3049187 || measurementConceptId == 3053283 || measurementConceptId == 3030354)
         && valueAsNumber > 60.0)
     then
-      RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes, eGFR >60 mL/min yes", "yes", $rhs.getPerson());
+      RHSState rhsNN = new RHSState("ace i/arb - diuretic, serum potassium <5.0 mEq/L within 48 hours yes, eGFR >60 mL/min yes", "yes", $rhs.getPerson(), $rhs.getDexp1(), $rhs.getDexp2());
       insertLogical(rhsNN);
       String s = String.format(
           "ACE I/ARB - K-sparing diruetic interaction for patient %s.\n\tClinical Implication: Increased risk of hyperkalemia unlikely.\n\tMitigating factor: (TODO).\n\tRecommendation: No special precautions.\n\tExplanation: Explanation: eGFR: %s ml/min/1.73sq.m;Lab date: %s;",
@@ -170,6 +191,13 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR >60 ml/min"
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours, eGFR >60 ml/min\t%s\t%s", currentDateStr, $person.getPersonId(), "true","green");
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours, eGFR >60 ml/min\t%s\t%s\t%s\t%s\t%s\t%s",
+          currentDateStr,
+          $person.getPersonId(),
+          "true","green",
+          $person.getGenderCUI(),
+          ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          rhsNN.getDexp1().getLogInfo(),
+          rhsNN.getDexp2().getLogInfo());
       System.out.println(s);
 end

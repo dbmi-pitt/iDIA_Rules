@@ -243,7 +243,7 @@ rule "EPINEPHRINE - BETA-BLOCKERS -- Timolol (Oral)"
         $dexp1 : ExtendedDrugExposure(drugExposureId == $rhs.getDexp2().getDrugExposureId()
           && personId == $person.getPersonId() 
           && drugConceptId != null && drugConceptId == $clinDrugConcept2.getConceptId() 
-          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())           
+          && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
     then
   // This creates a new "state" for any patients who are found to be on timolol eye drops
         RHSState rhsNN = new RHSState("epinephrine, timolol, oral yes", "yes", $rhs.getPerson(), $rhs.getDexp1(), $rhs.getDexp2());
