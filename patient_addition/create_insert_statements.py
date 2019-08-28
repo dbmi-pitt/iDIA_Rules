@@ -25,7 +25,7 @@ with open("data.csv", "rb") as infile, open("output.sql", "wb") as outfile:
       outfile.write(out_string)
       ceraId += 1
     elif row[0] == "D_EXP":
-      out_string = ("INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_end_date, drug_type_concept_id, quantity, days_supply, sig, indication_concept_id, route_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime) values (" + str(dexpId) + ", " + row[1] + ", " + row[3] + ", '" + row[4] + "', '" + row[5] + "', 38000175, " + row[8] + ", " + row[9] + ", '" + row[12] + "', " + row[13] + ", " + row[14] + ", '" + row[4] + " 00:00:00', '" + row[5] + " 00:00:00'" + ");\n")
+      out_string = ("INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_end_date, drug_type_concept_id, quantity, days_supply, sig, route_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime) values (" + str(dexpId) + ", " + row[1] + ", " + row[3] + ", '" + row[4] + "', '" + row[5] + "', 38000175, " + row[8] + ", " + row[9] + ", '" + row[12] + "', " + row[13] + ", '" + row[4] + " 00:00:00', '" + row[5] + " 00:00:00'" + ");\n")
       outfile.write(out_string)   
       dexpId += 1
     elif row[0] == "MEA":
