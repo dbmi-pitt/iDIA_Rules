@@ -91,7 +91,7 @@ rule "METOCLOPRAMIDE - ANTIPSYCHOTICS -- NO FILTER"
     then
       // This creates a new "state" for any patients who are found to be on both drugs...
       // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
-      RHSState rhsCur = new RHSState("concomitant exposure of metoclopramide and an antipsychotic or cholinesterase inhibitor", "yes", $person);
+      RHSState rhsCur = new RHSState("concomitant exposure of metoclopramide and an antipsychotic or cholinesterase inhibitor", "yes", $person, $dexp1, $dexp2);
       insertLogical(rhsCur);
       // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
       String s = String.format(

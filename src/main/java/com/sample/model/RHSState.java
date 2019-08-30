@@ -25,18 +25,21 @@ public class RHSState {
     }
 
     public RHSState( String stateName, String state, Person person, ExtendedDrugExposure dexp1, ExtendedDrugExposure dexp2) {
-    super();
-    this.stateName = stateName;
-    this.state = state;
-    this.person = person;
-    this.dexp1 = dexp1;
-    this.dexp2 = dexp2;   
+        super();
+        this.stateName = stateName;
+        this.state = state;
+        this.person = person;
+        this.dexp1 = dexp1;
+        this.dexp2 = dexp2;
     }
 
     public int hashCode()
     {
 	//int hashVal = 37*(stateName.hashCode() + state.hashCode() + person.getPersonId().hashCode() + dexp1.getExtendedDrugExposureId().hashCode() + dexp2.getExtendedDrugExposureId().hashCode());
-	int hashVal = 37*(stateName.hashCode() + state.hashCode() + person.getPersonId().hashCode());	
+    int hashVal = 37*(stateName.hashCode() + state.hashCode() + person.getPersonId().hashCode());
+    if (dexp1 != null && dexp2 != null){
+	   hashVal = 37*(stateName.hashCode() + state.hashCode() + person.getPersonId().hashCode() + dexp1.getDrugExposureId().hashCode() + dexp2.getDrugExposureId().hashCode());
+    }
 	return hashVal;
     }
 	

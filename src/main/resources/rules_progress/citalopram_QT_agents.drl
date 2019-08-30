@@ -87,8 +87,8 @@ rule "CITALOPRAM - QT-AGENT -- NO FILTER"
             "false","basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
-            rhsCur.getDexp1().getLogInfo(),
-            rhsCur.getDexp2().getLogInfo()
+            $dexp1.getLogInfo(),
+            $dexp2.getLogInfo()
         );
         System.out.println(s);
 end
