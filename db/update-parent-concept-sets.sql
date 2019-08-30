@@ -355,7 +355,7 @@ INSERT INTO ohdsi.temp_concept_set_item
 from ohdsi.concept_set cs
 inner join ohdsi.concept_set_item i
 on i.concept_set_id = cs.concept_set_id
-where cs.concept_set_name in ('Non-acetylated Salicylates','Aspirins', 'Topical Non-acetylated Salicylates'));
+where cs.concept_set_name in ('Non-acetylated Salicylates','Aspirins'));
 
 --delete currently existing parent concept set items so that duplicates don't accumulate
 DELETE FROM ohdsi.concept_set_item WHERE concept_set_id = 60430;
