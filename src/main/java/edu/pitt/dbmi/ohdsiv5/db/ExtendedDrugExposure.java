@@ -93,13 +93,13 @@ public class ExtendedDrugExposure extends DrugExposure {
     }
 
     public String getLogInfo() {
-        String s = String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", 
+        String s = String.format("%s\t%s\t%s\t%s\t%s\t%s", 
             this.getDrugConceptId(),
             this.getDrugConceptName(),
             this.getIngredientConceptName(),
             // this.routeSourceValue,
-            this.getAmountValue(),
-            this.getNumeratorValue(),
+            // this.getAmountValue(),
+            // this.getNumeratorValue(),
             this.getDailyDosage(),    
             this.getDrugExposureStartDate().toString(),
             this.getDrugExposureEndDate().toString()
