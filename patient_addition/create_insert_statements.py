@@ -29,6 +29,6 @@ with open("data.csv", "rb") as infile, open("output.sql", "wb") as outfile:
       outfile.write(out_string)   
       dexpId += 1
     elif row[0] == "MEA":
-      out_string = ("INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_date, measurement_type_concept_id, value_as_number, unit_concept_id) values (" + str(measId) + ", " + row[1] + ", " + row[3] + ", '" + row[4] + "', 45754907, " + row[6] + ", " + row[7] + ");\n")
+      out_string = ("INSERT INTO measurement (measurement_id, person_id, measurement_concept_id, measurement_datetime, measurement_type_concept_id, value_as_number, unit_concept_id) values (" + str(measId) + ", " + row[1] + ", " + row[3] + ", '" + row[4] + " 00:00:00', 45754907, " + row[6] + ", " + row[7] + ");\n")
       outfile.write(out_string)   
       measId += 1
