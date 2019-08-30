@@ -79,8 +79,8 @@ rule "ACE I ARB - K-SPARING DIURETIC -- NO FILTER"
             "false","basic concomitant",
             $person.getGenderCUI(),
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
-            rhsCur.getDexp1().getLogInfo(),
-            rhsCur.getDexp2().getLogInfo()
+            $dexp1.getLogInfo(),
+            $dexp2.getLogInfo()
       );
       System.out.println(s);
 end
@@ -113,8 +113,9 @@ rule "ACE I ARB - K-SPARING DIURETIC -- Recency of Lab Tests"
           "false","",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
-          rhsNN.getDexp1().getLogInfo(),
-          rhsNN.getDexp2().getLogInfo());
+          "MEAS - serum potassium = " + $meas1.getValueAsNumber() + "mEq/L",
+          "MEAS TAKEN - " + $meas1.getMeasurementDateTime()
+      );
       System.out.println(s);          
 end
 
@@ -138,7 +139,8 @@ rule "ACE I ARB - K-SPARING DIURETIC -- No recent serum potassium"
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
           rhsNN.getDexp1().getLogInfo(),
-          rhsNN.getDexp2().getLogInfo());
+          rhsNN.getDexp2().getLogInfo()
+      );
       System.out.println(s);
 end
 
@@ -168,7 +170,8 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR <=60 ml/min
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
           rhsNN.getDexp1().getLogInfo(),
-          rhsNN.getDexp2().getLogInfo());
+          rhsNN.getDexp2().getLogInfo()
+      );
       System.out.println(s);
 end
 
@@ -198,6 +201,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR >60 ml/min"
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
           rhsNN.getDexp1().getLogInfo(),
-          rhsNN.getDexp2().getLogInfo());
+          rhsNN.getDexp2().getLogInfo()
+      );
       System.out.println(s);
 end
