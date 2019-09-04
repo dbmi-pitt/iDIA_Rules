@@ -248,5 +248,9 @@ public class ExtendedDrugExposure extends DrugExposure {
         dailyDosage = amountValue * sigExpected;
         this.dailyDosage = dailyDosage;
     }
+    public void setSigComplexDailyDosage(Double numeratorValue, Double sigExpected) {
+        dailyDosage = numeratorValue * sigExpected;
+        this.dailyDosage = dailyDosage;
+    }
 }
  
