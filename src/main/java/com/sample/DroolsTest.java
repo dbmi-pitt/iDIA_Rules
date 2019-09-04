@@ -351,16 +351,25 @@ public class DroolsTest {
 
 		if(dexpQuery.getString("amount_value") != null && dexpQuery.getString("expected") != null){
 	      ex_dexp.setSigDailyDosage(dexpQuery.getDouble("amount_value"), dexpQuery.getDouble("expected"));
-	      System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptName() + " SET DAILY DOSAGE:\n\tsigDailyDosage " + ex_dexp.getDailyDosage() + " = amount " + dexpQuery.getDouble("amount_value") + " * sigExpected " + dexpQuery.getInt("expected"));
+	      System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: sigDailyDosage " + ex_dexp.getDailyDosage() + " = amount " + dexpQuery.getDouble("amount_value") + " * sigExpected " + dexpQuery.getInt("expected") + "[sig='" + dexpQuery.getString("sig") + "']");
+	  }
+	  else if(dexpQuery.getString("numerator_value") != null && dexpQuery.getString("denominator_value") != null && dexpQuery.getString("expected") != null){
+	  		// in the database the numerator value is already proportionate based on the denominator value if the denominator exists.
+	  		ex_dexp.setSigComplexDailyDosage(dexpQuery.getDouble("numerator_value"), dexpQuery.getDouble("expected"));
+	  		System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: sigComplexDailyDosage " + ex_dexp.getDailyDosage() + " = numerator " + dexpQuery.getDouble("numerator_value") + " * sigExpected " + dexpQuery.getInt("expected") + "[sig='" + dexpQuery.getString("sig") + "']");
 	  }
     else if(dexpQuery.getString("quantity") != null && dexpQuery.getString("days_supply") != null && dexpQuery.getString("amount_value") != null){
       	ex_dexp.setRegDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"), dexpQuery.getDouble("amount_value"));
-      	System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptName() + " SET DAILY DOSAGE:\n\tregDailyDosage " + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * amount " + dexpQuery.getDouble("amount_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
+      	System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: regDailyDosage " + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * amount " + dexpQuery.getDouble("amount_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
 
     }
     else if(dexpQuery.getString("quantity") != null && dexpQuery.getString("days_supply") != null && dexpQuery.getString("numerator_value") != null){
       	ex_dexp.setComplexDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"),dexpQuery.getDouble("numerator_value"));
-	    	System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptName() + " SET DAILY DOSAGE:\n\tcomplexDailyDosage" + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * numerator " + dexpQuery.getDouble("numerator_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
+	    	System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: complexDailyDosage" + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * numerator " + dexpQuery.getDouble("numerator_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
+    }
+    else {
+    		System.out.println("\tDEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE NOT SUCCESSFUL");
+    		// ex_dexp.setNullDailyDosage(dexpQuery.getDouble("amount_value"));
     }
     kSession.insert(ex_dexp);
     cnt++;
