@@ -156,34 +156,6 @@ end
 
 // patient on aspirin and it is not taken for prevention of thromboembolic events
 // determining this based on any history of related conditions via the concept set "History of Thromboembolic Events"
-rule "WARFARIN - SALICYLATES -- NO THROMBOEMBOLIC EVENTS"
-    when
-      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
-      $rhs : RHSState(stateName == "warfarin and aspirin" && state == "yes", $person : person)
-      // This checks to see if the patient does not have a history of thromboembolic events
-      $condConcept1 : ConceptSetItem(csName == "History of Thromboembolic Events") 
-      not ($ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId()))
-    then  
-      // This tags a given patient as "yes for risks"... There are three potential types of risks but all of them result in this same RHS state
-      RHSState rhsNN = new RHSState("warfarin and aspirin, prevention of thromboembolic events no", "yes", $person, $rhs.getDexp1(), $rhs.getDexp2());
-      insertLogical(rhsNN);
-      // Nothing hugely important to output here, just an update to show how many patients were at risk due to conditions
-      String s = String.format(
-        "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding probably unintentional.\n\tMitigating factor: (TODO)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: No history of thromboembolic events", 
-        $person.getPersonId());
-      System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin, prevention of thromboembolic events no\t%s\t%s\t%s\t%s\t%s\t%s",
-          currentDateStr,
-          $person.getPersonId(),
-          "true", "red",
-          $person.getGenderCUI(),
-          ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
-          rhsNN.getDexp1().getLogInfo(),
-          rhsNN.getDexp2().getLogInfo()
-      );
-      System.out.println(s);
-end
-
 rule "WARFARIN - SALICYLATES -- THROMBOEMBOLIC EVENTS"
     when
       // This checks the state of the patients to identify only those who were identified to be on both medications of interest
@@ -205,6 +177,35 @@ rule "WARFARIN - SALICYLATES -- THROMBOEMBOLIC EVENTS"
           currentDateStr,
           $person.getPersonId(),
           "true", "green",
+          $person.getGenderCUI(),
+          ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          rhsNN.getDexp1().getLogInfo(),
+          rhsNN.getDexp2().getLogInfo()
+      );
+      System.out.println(s);
+end
+
+rule "WARFARIN - SALICYLATES -- NO THROMBOEMBOLIC EVENTS"
+    when
+      // This checks the state of the patients to identify only those who were identified to be on both medications of interest
+      $rhs1 : RHSState(stateName == "warfarin and aspirin" && state == "yes", $person : person)
+      not ($rhs2 : RHSState(stateName == "warfarin and aspirin, prevention of thromboembolic events yes" && state == "yes" && person.getPersonId() == $person.getPersonId()))
+      // This checks to see if the patient does not have a history of thromboembolic events
+      $condConcept1 : ConceptSetItem(csName == "History of Thromboembolic Events") 
+      not ($ce1 : ConditionEra(PersonId == $person.getPersonId() && conditionConceptId == $condConcept1.getConceptId()))
+    then  
+      // This tags a given patient as "yes for risks"... There are three potential types of risks but all of them result in this same RHS state
+      RHSState rhsNN = new RHSState("warfarin and aspirin, prevention of thromboembolic events no", "yes", $person, $rhs1.getDexp1(), $rhs1.getDexp2());
+      insertLogical(rhsNN);
+      // Nothing hugely important to output here, just an update to show how many patients were at risk due to conditions
+      String s = String.format(
+        "Warfarin - Salicylate interaction for patient: %s.\n\tClinical implication: Increased risk of bleeding probably unintentional.\n\tMitigating factor: (TODO)\n\tRecommendation: Use only if benefit outweighs risk.\n\tExplanation: No history of thromboembolic events", 
+        $person.getPersonId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tWarfarin - Salicylate interaction\twarfarin and aspirin, prevention of thromboembolic events no\t%s\t%s\t%s\t%s\t%s\t%s",
+          currentDateStr,
+          $person.getPersonId(),
+          "true", "red",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
           rhsNN.getDexp1().getLogInfo(),
