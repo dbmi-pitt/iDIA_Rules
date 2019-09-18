@@ -347,7 +347,7 @@ rule "CLONIDINE - BETA-BLOCKERS -- Clonidine, Selective Beta-Blockers"
 
         $clinDrugConcept3 : ConceptSetItem(csName == "Clonidines Ingredients")
         $de2 : DrugEra(personId == $de1.getPersonId() && drugConceptId == $clinDrugConcept3.getConceptId())        
-        $clinDrugConcept4 : ConceptSetItem(csName == "Clonidines Topical")
+        $clinDrugConcept4 : ConceptSetItem(csName == "Clonidines")
         $dexp2 : ExtendedDrugExposure(drugExposureId == $rhs.getDexp1().getDrugExposureId()
           && personId == $person.getPersonId() 
           && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
