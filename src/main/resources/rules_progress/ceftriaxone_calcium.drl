@@ -193,7 +193,7 @@ rule "CEFTRIAXONE - CALCIUM -- patient age >=28 days old, not simultaneous admin
       s = String.format("DATA\t%s\t%s\tceftriaxone and a calcium interaction\tceftriaxone and calcium administration, simultaneous no, patient age AT LEAST 28 days old\t%s\t%s\t%s\t%s\t%s\t%s",
           currentDateStr,
           $person.getPersonId(),
-          "true","green",
+          "false", "green",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
           rhsNN.getDexp1().getLogInfo(),

@@ -91,7 +91,6 @@ rule "ACE I ARB - K-SPARING DIURETIC -- Recency of Lab Tests"
     when
       // First check that patient was exposed to potassium and a diuretic
       $rhs : RHSState(stateName == "basic concomitant exposure of ACE I/ARB and a K-sparing diuretic" && state == "yes", $person : person)
-      // Take patient from RHS and check when their serum postassium labs were taken and if this was between 5 and 5.5 mEq/L
       $meas1 : Measurement(personId == $person.getPersonId() && measurementConceptId == 3023103 
         && valueAsNumber < 5.0 && unitConceptId == 9557
         && measurementDateTime >= within48hours && measurementDateTime < plus1day)
@@ -197,7 +196,7 @@ rule "ACE I ARB - K-SPARING DIURETIC -- recent serum potassium, eGFR >60 ml/min"
       s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic, no serum potassium < 5 mEq/L within 48 hours, eGFR >60 ml/min\t%s\t%s\t%s\t%s\t%s\t%s",
           currentDateStr,
           $person.getPersonId(),
-          "true","green",
+          "false", "green",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
           rhsNN.getDexp1().getLogInfo(),
