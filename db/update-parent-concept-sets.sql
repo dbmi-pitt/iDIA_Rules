@@ -91,6 +91,64 @@ DROP TABLE ohdsi.temp_concept_set_item;
 
 COMMIT TRANSACTION;
 
+-- 9/25 - FINDING CONCEPTS INCLUDED IN BETA-BLOCKERS BUT NOT ITS "CHILD" CONCEPT-SETS:
+--826
+select count(distinct i.concept_id) from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+where cs.concept_set_name in ('Acebutolols','Atenolols','Bisoprolols','Esmolols','Metoprolols','Nebivolols','Betaxolols','Carvedilols','Labetalols','Carteolols','Levobunolols','Nadolols','Penbutolols','Pindolols','Propranolols','Sotalols','Timolols','Timolols Eye Drops', 'Timolols Eye Gels', 'Timolols Oral');
+
+--838
+select count(distinct i.concept_id) from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+where cs.concept_set_name in ('Beta-Blockers');
+
+--reveals the 12 concept id difference
+select cs.*, i.concept_id, c.concept_name from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+inner join concept c
+on c.concept_id = i.concept_id
+where cs.concept_set_name in ('Beta-Blockers')
+and i.concept_id not in (select i.concept_id from ohdsi.concept_set cs
+inner join ohdsi.concept_set_item i
+on i.concept_set_id = cs.concept_set_id
+where cs.concept_set_name in ('Acebutolols','Atenolols','Bisoprolols','Esmolols','Metoprolols','Nebivolols','Betaxolols','Carvedilols','Labetalols','Carteolols','Levobunolols','Nadolols','Penbutolols','Pindolols','Propranolols','Sotalols','Timolols','Timolols Eye Drops', 'Timolols Eye Gels', 'Timolols Oral'));
+/*
+40163948 -- added to carvedilol
+40163950 -- added to carvedilol
+40163952 -- added to carvedilol
+40163954 -- added to carvedilol
+40166817 -- added to metoprolol
+40166819 -- added to metoprolol
+40166821 -- added to metoprolol
+40166824 -- added to metoprolol
+40166826 -- added to metoprolol
+40166828 -- added to metoprolol
+40166830 -- added to metoprolol
+1346990 -- added to carvedilol
+*/
+-- update carvedilol
+insert into ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
+values
+(11987,40163948,0,0,0),
+(11987,40163950,0,0,0),
+(11987,40163952,0,0,0),
+(11987,40163954,0,0,0),
+(11987,1346990,0,0,0);
+
+-- update metoprolol
+insert into ohdsi.concept_set_item (concept_set_id, concept_id, is_excluded, include_descendants, include_mapped)
+values
+(8211,40166817,0,0,0),
+(8211,40166819,0,0,0),
+(8211,40166821,0,0,0),
+(8211,40166824,0,0,0),
+(8211,40166826,0,0,0),
+(8211,40166828,0,0,0),
+(8211,40166830,0,0,0);
+
 ##########################################################################################
 ## CLONIDINE
 ##########################################################################################

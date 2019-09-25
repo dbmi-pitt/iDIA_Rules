@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.16
 -- Dumped by pg_dump version 9.3.16
--- Started on 2019-08-02 10:36:35
+-- Started on 2019-09-13 08:44:56
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -202,6 +202,8 @@ COPY concept_set (concept_set_id, concept_set_name) FROM stdin;
 80935	COPY OF: Non-acetylated Salicylates
 49361	Bupropions Ingredients
 49362	Bupropions
+86957	Topical Non-acetylated Salicylates
+86958	History of Thromboembolic Events
 \.
 
 
@@ -214,7 +216,7 @@ ALTER TABLE ONLY concept_set
     ADD CONSTRAINT pk_concept_set PRIMARY KEY (concept_set_id);
 
 
--- Completed on 2019-08-02 10:36:35
+-- Completed on 2019-09-13 08:44:57
 
 --
 -- PostgreSQL database dump complete
