@@ -360,7 +360,7 @@ public class DroolsTest {
 	  }
     else if(dexpQuery.getString("quantity") != null && dexpQuery.getString("days_supply") != null && dexpQuery.getString("amount_value") != null){
       	ex_dexp.setRegDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"), dexpQuery.getDouble("amount_value"));
-      	System.out.println(("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: regDailyDosage " + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * amount " + dexpQuery.getDouble("amount_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
+      	System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: regDailyDosage " + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * amount " + dexpQuery.getDouble("amount_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
 
     }
     else if(dexpQuery.getString("quantity") != null && dexpQuery.getString("days_supply") != null && dexpQuery.getString("numerator_value") != null){
