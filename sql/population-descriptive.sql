@@ -5,7 +5,8 @@ select count(distinct person_id) from person;
 select count(drug_exposure_id) from drug_exposure;
 select count(visit_occurrence_id) from visit_occurrence;
 select count(condition_occurrence_id) from condition_occurrence;
-select count(distinct measurement_id) from measurement; -- TODO not loaded
+select count(distinct measurement_id) from measurement;
+select count(distinct observation_period_id) from observation_period;
 
 -- PERSON
 -- TODO limit to persons with visit in study period?
@@ -105,8 +106,8 @@ from (
 |1.7820931157978512                                                                                  |2.1596027492264669                                                                                  |1                   |67                  |
 */
 
---drugs per stay
---575482 drugs
+--number of drug exposures per stay
+--575482 drug exposures
 --519258 were started during a visit
 --
 select avg(num_drugs_started), stddev(num_drugs_started), min(num_drugs_started), max(num_drugs_started)
@@ -124,4 +125,18 @@ from (
 |17.2918845116387492                                                                                 |28.9700427210295145                                                                                 |1                   |980                 |
 */
 
--- TODO available measurement values. currently this table is not loaded due to a small number of foreign key issues
+-- number of measurements per stay
+select avg(num_measurements), stddev(num_measurements), min(num_measurements), max(num_measurements)
+from (
+  select v.person_id, v.visit_occurrence_id, count(measurement_id) as num_measurements 
+  from measurement m
+  inner join visit_occurrence v
+  on m.person_id = v.person_id
+  and m.measurement_datetime between v.visit_start_datetime and v.visit_end_datetime
+  group by v.visit_occurrence_id, v.person_id
+) m;
+/*
+|avg                                                                                                 |stddev                                                                                              |min                 |max                 |
+|----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|--------------------|--------------------|
+|17.5272288098375055                                                                                 |34.2664139602275375                                                                                 |1                   |1574                |
+*/
