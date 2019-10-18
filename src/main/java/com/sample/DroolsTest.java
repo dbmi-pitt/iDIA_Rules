@@ -306,7 +306,7 @@ public class DroolsTest {
 			+ " AND dexp.sig = sm.sig"
 			+ " AND dexp.drug_concept_id = cd.concept_id"
 			+ " AND dstr.ingredient_concept_id = ci.concept_id"
-			+ " AND dexp.person_id IN"
+			// + " AND dexp.person_id IN"
 			// + "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
 		);
 	dexpQuery.last();
