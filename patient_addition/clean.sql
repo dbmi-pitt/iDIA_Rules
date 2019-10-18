@@ -6,6 +6,7 @@ TRUNCATE TABLE public.condition_era;
 TRUNCATE TABLE public.drug_exposure;
 TRUNCATE TABLE public.measurement;
 TRUNCATE TABLE public.person;
+TRUNCATE TABLE public.f_person;
 
 /*
 DELETE FROM visit_occurrence WHERE person_id >= 1495;
