@@ -2,7 +2,7 @@
 SELECT de1.person_id, de1.drug_exposure_id AS k_dexp, de1.drug_concept_id AS k_id, c1.concept_name AS k_name, cs1.concept_name AS k_ingr, de1.drug_exposure_start_datetime AS k_start, de1.drug_exposure_end_datetime AS k_end, de1.quantity, de1.sig, de1.route_concept_id as k_route_id, de1.route_source_value as k_route,
 de2.drug_exposure_id AS diuretic_dexp, de2.drug_concept_id AS diuretic_id, c2.concept_name AS diuretic_name, cs2.concept_name AS diuretic_ingr, de2.drug_exposure_start_datetime AS diuretic_start, de2.drug_exposure_end_datetime AS diuretic_end, de2.quantity, de2.sig, de2.route_concept_id AS diuretic_route_id, de2.route_source_value AS diuretic_route,
 o.observation_period_start_date AS obs_start, o.observation_period_end_date AS obs_end
-FROM drug_exposure de1 -- immuno
+FROM drug_exposure de1 -- potassium
 INNER JOIN drug_exposure de2 ON de1.person_id = de2.person_id -- diuretic
 INNER JOIN observation_period o ON o.person_id = de1.person_id
 INNER JOIN concept c1 ON de1.drug_concept_id = c1.concept_id

@@ -120,7 +120,7 @@ public class DroolsTest {
 	////////////////////////////////////////////////////////////////////////////
 	Class.forName("org.postgresql.Driver");
 	String url = prop.getProperty("connectionURL") + "?currentSchema=" + prop.getProperty("schema");
-	// String url = "jdbc:postgresql://localhost:5432/idiarules?currentSchema=public";
+	// String url = "jdbc:postgresql://localhost:6432/idiarules?currentSchema=simulated";
 	Connection conn = DriverManager.getConnection(url, prop.getProperty("user"), prop.getProperty("password"));
 
 	int cnt = 0; // fact counter - counts what is iterated, not necessarily what is finally in working memory
@@ -217,7 +217,8 @@ public class DroolsTest {
 		 	+ ",unit_source_value"
 		 	+ ",value_source_value"
 		 	+ " FROM measurement"
-		 	+ " WHERE MEASUREMENT_DATE = TO_DATE('" + dateStr + "','yyyy-MM-dd')"
+		 	// + " WHERE MEASUREMENT_DATE = TO_DATE('" + dateStr + "','yyyy-MM-dd')"
+		 	// above line commented out since recent measurements may be considered that aren't necessarily on the same day.
 	 	);
 	measQuery.last();
 	System.out.println("INFO: # of meas: " + measQuery.getRow());
@@ -258,7 +259,7 @@ public class DroolsTest {
 			+ ",drug_concept_id"
 			+ ",drug_exposure_count"
 			+ " FROM drug_era"
-			+ " WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+			// + " WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
 		);
 	deraQuery.last();
 	System.out.println("INFO: # of deras: " + deraQuery.getRow());
@@ -306,7 +307,7 @@ public class DroolsTest {
 			+ " AND dexp.drug_concept_id = cd.concept_id"
 			+ " AND dstr.ingredient_concept_id = ci.concept_id"
 			+ " AND dexp.person_id IN"
-			+ "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
+			// + "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
 		);
 	dexpQuery.last();
 	System.out.println("INFO: # of dexps: " + dexpQuery.getRow());
