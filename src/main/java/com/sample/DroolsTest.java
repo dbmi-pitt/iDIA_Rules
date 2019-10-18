@@ -119,9 +119,10 @@ public class DroolsTest {
 	// QUERY AND LOAD
 	////////////////////////////////////////////////////////////////////////////
 	Class.forName("org.postgresql.Driver");
+	prop.setProperty("sslmode", "require");
 	String url = prop.getProperty("connectionURL") + "?currentSchema=" + prop.getProperty("schema");
 	// String url = "jdbc:postgresql://localhost:6432/idiarules?currentSchema=simulated";
-	Connection conn = DriverManager.getConnection(url, prop.getProperty("user"), prop.getProperty("password"));
+	Connection conn = DriverManager.getConnection(url, prop);
 
 	int cnt = 0; // fact counter - counts what is iterated, not necessarily what is finally in working memory
 	
@@ -217,8 +218,8 @@ public class DroolsTest {
 		 	+ ",unit_source_value"
 		 	+ ",value_source_value"
 		 	+ " FROM measurement"
-		 	// + " WHERE MEASUREMENT_DATE = TO_DATE('" + dateStr + "','yyyy-MM-dd')"
-		 	// above line commented out since recent measurements may be considered that aren't necessarily on the same day.
+		 	+ " WHERE measurement_date BETWEEN (TO_DATE('" + dateStr + "','yyyy-MM-dd') - INTERVAL '2 days') AND TO_DATE('" + dateStr + "','yyyy-MM-dd')"
+		 	// recent measurements within 48 hours may be considered that aren't necessarily on the same day.
 	 	);
 	measQuery.last();
 	System.out.println("INFO: # of meas: " + measQuery.getRow());
@@ -259,7 +260,7 @@ public class DroolsTest {
 			+ ",drug_concept_id"
 			+ ",drug_exposure_count"
 			+ " FROM drug_era"
-			// + " WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+			+ " WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
 		);
 	deraQuery.last();
 	System.out.println("INFO: # of deras: " + deraQuery.getRow());
@@ -281,7 +282,9 @@ public class DroolsTest {
 			+ ",condition_concept_id"
 			+ ",condition_occurrence_count"
 			+ " FROM condition_era"
-			//+ " WHERE CONDITION_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND CONDITION_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+			+ " WHERE CONDITION_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd')"
+			// + " AND CONDITION_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+			// condition occurs at any time in the past.
 		);
 	ceraQuery.last();
 	System.out.println("INFO: # of ceras: " + ceraQuery.getRow());
@@ -301,13 +304,13 @@ public class DroolsTest {
 	ResultSet dexpQuery = dexpSt.executeQuery(
 			"SELECT"
 			+ " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, cd.concept_name AS drug_name, ci.concept_name AS ingredient_name"
-			+ " FROM drug_exposure dexp, drug_strength dstr, sig_mapping sm, concept cd, concept ci"
-			+ " WHERE dexp.drug_concept_id = dstr.drug_concept_id"
-			+ " AND dexp.sig = sm.sig"
-			+ " AND dexp.drug_concept_id = cd.concept_id"
-			+ " AND dstr.ingredient_concept_id = ci.concept_id"
-			// + " AND dexp.person_id IN"
-			// + "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
+			+ " FROM drug_exposure dexp"
+			+ " INNER JOIN drug_strength dstr ON dexp.drug_concept_id = dstr.drug_concept_id"
+			+ " INNER JOIN concept cd ON dexp.drug_concept_id = cd.concept_id"
+			+ " INNER JOIN concept ci ON dstr.ingredient_concept_id = ci.concept_id"
+			+ " LEFT JOIN sig_mapping sm ON dexp.sig = sm.sig"
+			+ " AND dexp.person_id IN"
+			+ "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
 		);
 	dexpQuery.last();
 	System.out.println("INFO: # of dexps: " + dexpQuery.getRow());
@@ -355,7 +358,7 @@ public class DroolsTest {
 	      System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: sigDailyDosage " + ex_dexp.getDailyDosage() + " = amount " + dexpQuery.getDouble("amount_value") + " * sigExpected " + dexpQuery.getInt("expected") + "[sig='" + dexpQuery.getString("sig") + "']");
 	  }
 	  else if(dexpQuery.getString("numerator_value") != null && dexpQuery.getString("denominator_value") != null && dexpQuery.getString("expected") != null){
-	  		// in the database the numerator value is already proportionate based on the denominator value if the denominator exists.
+	  		//in the database the numerator value is already proportionate based on the denominator value if the denominator exists.
 	  		ex_dexp.setSigComplexDailyDosage(dexpQuery.getDouble("numerator_value"), dexpQuery.getDouble("expected"));
 	  		System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: sigComplexDailyDosage " + ex_dexp.getDailyDosage() + " = numerator " + dexpQuery.getDouble("numerator_value") + " * sigExpected " + dexpQuery.getInt("expected") + "[sig='" + dexpQuery.getString("sig") + "']");
 	  }
@@ -369,7 +372,7 @@ public class DroolsTest {
 	    	System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: complexDailyDosage" + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * numerator " + dexpQuery.getDouble("numerator_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
     }
     else {
-    		System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE NOT SUCCESSFUL");
+    		System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE NOT SUCCESSFUL -- sig text=" + dexpQuery.getString("sig"));
     		// ex_dexp.setNullDailyDosage(dexpQuery.getDouble("amount_value"));
     }
     kSession.insert(ex_dexp);
