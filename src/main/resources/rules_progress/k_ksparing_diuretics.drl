@@ -125,7 +125,7 @@ rule "K - K-SPARING DIURETIC -- Recency of Lab Tests"
       // Take patient from RHS and check when their serum postassium labs were taken and if this was between 5 and 5.5 mEq/L
       $meas1 : Measurement(personId == $person.getPersonId() 
         && measurementConceptId == 3023103 
-        && valueAsNumber >= 5.5 && unitConceptId == 9557
+        && valueAsNumber >= 5.5 && (unitConceptId == 8753 || unitConceptId == 9557) // was originally just 9557 for mEq/L but this isn't used in the data. 8753 is mmol/L which should be equivalent.
         && measurementDateTime >= within48hours && measurementDateTime < plus1day)
     then  
       // Create a state object for the current node in the decision tree to be used by other LHS
