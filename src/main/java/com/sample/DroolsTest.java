@@ -119,7 +119,6 @@ public class DroolsTest {
 	// QUERY AND LOAD
 	////////////////////////////////////////////////////////////////////////////
 	Class.forName("org.postgresql.Driver");
-	prop.setProperty("sslmode", "require");
 	String url = prop.getProperty("connectionURL") + "?currentSchema=" + prop.getProperty("schema");
 	// String url = "jdbc:postgresql://localhost:6432/idiarules?currentSchema=simulated";
 	Connection conn = DriverManager.getConnection(url, prop);
