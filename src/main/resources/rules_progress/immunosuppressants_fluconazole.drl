@@ -50,10 +50,10 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- NO FILTER"
       $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
       // Next, we identify the specific drug exposures for both immunosuppressant and the fluconazole
       $clinDrugConcept3 : ConceptSetItem(csName == "Immunosuppressants") 
+      $clinDrugConcept4 : ConceptSetItem(csName == "Fluconazoles")
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
           && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
-      $clinDrugConcept4 : ConceptSetItem(csName == "Fluconazoles")
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
           && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
           || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
@@ -74,13 +74,58 @@ rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- NO FILTER"
           $clinDrugConcept4.getConceptId());
       System.out.println(s);
       s = String.format("DATA\t%s\t%s\tImmunosuppressant - Fluconazole interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
-            currentDateStr,
-            $person.getPersonId(),
-            "false", "basic concomitant",
-            $person.getGenderCUI(),
-            ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
-            $dexp1.getLogInfo(),
-            $dexp2.getLogInfo()
+          currentDateStr,
+          $person.getPersonId(),
+          "false", "basic concomitant",
+          $person.getGenderCUI(),
+          ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          $dexp1.getLogInfo(),
+          $dexp2.getLogInfo()
+      );
+      System.out.println(s);
+end
+
+rule "IMMUNOSUPPRESSANT - FLUCONAZOLE -- NO FILTER, ALT"
+    when
+      // First, we look for patients exposed to immunosuppressant on the ingredient level
+      $clinDrugConcept1 : ConceptSetItem(csName == "Immunosuppressants Ingredients")
+      $de1 : DrugEra(drugConceptId == $clinDrugConcept1.getConceptId()) 
+      // Second, we similarly look for exposure to a fluconazole on the ingredient level
+      $clinDrugConcept2 : ConceptSetItem(csName == "Fluconazoles Ingredients")
+      $de2 : DrugEra(PersonId == $de1.getPersonId() && drugConceptId == $clinDrugConcept2.getConceptId())
+      // Next, we identify the specific drug exposures for both immunosuppressant and the fluconazole
+      $clinDrugConcept3 : ConceptSetItem(csName == "Immunosuppressants") 
+      $clinDrugConcept4 : ConceptSetItem(csName == "Fluconazoles")
+      $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
+        && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
+        && ((drugExposureStartDate >= $dexp2.getDrugExposureStartDate() && drugExposureStartDate <= $dexp2.getDrugExposureEndDate())
+        || (drugExposureEndDate >= $dexp2.getDrugExposureStartDate() && drugExposureEndDate <= $dexp2.getDrugExposureEndDate()))
+        && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId() 
+        && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
+      // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
+      $person : Person(personId == $de1.getPersonId())
+    then
+      // This creates a new "state" for any patients who are found to be on both drugs...
+      // This state can be used as an input on further rules to quickly filter to only those patients who have made it through previous rules
+      RHSState rhsCur = new RHSState("basic concomitant exposure of immunosuppressant and a fluconazole", "yes", $person, $dexp1, $dexp2);
+      insertLogical(rhsCur);
+      // The output string reports simply that a potential interaction was identified through concurrent drug exposures and lists the drug IDs
+      String s = String.format(
+          "Matched drug exposures for the patient at the clinical drug level: Patient ID: %s; Immunosuppressant: %s; Fluconazole: %s;", 
+          $de1.getPersonId(), 
+          $clinDrugConcept3.getConceptId(), 
+          $clinDrugConcept4.getConceptId());
+      System.out.println(s);
+      s = String.format("DATA\t%s\t%s\tImmunosuppressant - Fluconazole interaction\tbasic concomitant exposure\t%s\t%s\t%s\t%s\t%s\t%s",
+          currentDateStr,
+          $person.getPersonId(),
+          "false", "basic concomitant",
+          $person.getGenderCUI(),
+          ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          $dexp1.getLogInfo(),
+          $dexp2.getLogInfo()
       );
       System.out.println(s);
 end
