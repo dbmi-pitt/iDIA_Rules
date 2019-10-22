@@ -9,11 +9,9 @@ inner join concept c on c.concept_id = cs.concept_id
 where concept_set_id = 9160;
 
 SELECT de1.person_id, de1.drug_exposure_id AS clon_dexp, de1.drug_concept_id AS clon_id, c1.concept_name AS clon_name, cs1.concept_name AS clon_ingr, de1.drug_exposure_start_datetime AS clon_start, de1.drug_exposure_end_datetime AS clon_end, de1.quantity, de1.sig, de1.route_concept_id as clon_route_id, de1.route_source_value as clon_route,
-de2.drug_exposure_id AS bb_dexp, de2.drug_concept_id AS bb_id, c2.concept_name AS bb_name, cs2.concept_name AS bb_ingr, de2.drug_exposure_start_datetime AS beta_start, de2.drug_exposure_end_datetime AS beta_end, de2.quantity, de2.sig, de2.route_concept_id AS bb_route_id, de2.route_source_value AS bb_route,
-o.observation_period_start_date AS obs_start, o.observation_period_end_date AS obs_end
+de2.drug_exposure_id AS bb_dexp, de2.drug_concept_id AS bb_id, c2.concept_name AS bb_name, cs2.concept_name AS bb_ingr, de2.drug_exposure_start_datetime AS beta_start, de2.drug_exposure_end_datetime AS beta_end, de2.quantity, de2.sig, de2.route_concept_id AS bb_route_id, de2.route_source_value AS bb_route
 FROM drug_exposure de1 -- clonidine
 INNER JOIN drug_exposure de2 ON de1.person_id = de2.person_id -- bb
-INNER JOIN observation_period o ON o.person_id = de1.person_id
 INNER JOIN concept c1 ON de1.drug_concept_id = c1.concept_id
 INNER JOIN concept c2 ON de2.drug_concept_id = c2.concept_id
 INNER JOIN drug_strength ds1 ON ds1.drug_concept_id = de1.drug_concept_id
