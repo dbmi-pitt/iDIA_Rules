@@ -17,12 +17,10 @@ WHERE de1.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_
 AND de2.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 11441) -- qt-agents
 AND ds1.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 12114) -- citaloprams ingredients
 AND ds2.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 11466) -- qt-agents ingredients
-AND ((de2.drug_exposure_start_datetime >= de1.drug_exposure_start_datetime AND de2.drug_exposure_start_datetime <= de1.drug_exposure_end_datetime)
-OR (de2.drug_exposure_end_datetime >= de1.drug_exposure_start_datetime AND de2.drug_exposure_end_datetime <= de1.drug_exposure_end_datetime))
-AND (de2.drug_exposure_start_date <= o.observation_period_end_date AND de2.drug_exposure_end_date >= o.observation_period_start_date)
-AND (de1.drug_exposure_start_date <= o.observation_period_end_date AND de1.drug_exposure_end_date >= o.observation_period_start_date)
-AND (('2016-01-01' BETWEEN o.observation_period_start_date AND o.observation_period_end_date)
-OR ('2016-04-30' BETWEEN o.observation_period_start_date AND o.observation_period_end_date))
+AND ((de2.drug_exposure_start_datetime BETWEEN de1.drug_exposure_start_datetime AND de1.drug_exposure_end_datetime)
+  OR (de2.drug_exposure_end_datetime BETWEEN de1.drug_exposure_start_datetime AND de1.drug_exposure_end_datetime)
+  OR (de1.drug_exposure_start_datetime BETWEEN de2.drug_exposure_start_datetime AND de2.drug_exposure_end_datetime)
+  OR (de1.drug_exposure_end_datetime BETWEEN de2.drug_exposure_start_datetime AND de2.drug_exposure_end_datetime))
 AND de1.drug_exposure_id != de2.drug_exposure_id
 ORDER BY ds1.amount_value, sm1.expected DESC; -- sort by these characteristics to confirm that no dosage exceeds 60 mg/day
--- basic concomitant -- expect 620 rows from query. Rule got 416.
+-- basic concomitant -- 680 rows from query. Rule got 416.
