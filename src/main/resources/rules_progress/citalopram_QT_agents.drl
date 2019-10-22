@@ -183,7 +183,7 @@ rule "CITALOPRAM - QT-AGENT -- Not Citalopram High Dosage"
           && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId()
           && dailyDosage < 60)
     then
-        RHSState rhsNN = new RHSState("citalopram, high dosage no, qt-agent yes", "yes", $person, $dexp1, null);
+        RHSState rhsNN = new RHSState("citalopram, high dosage no, qt-agent yes", "yes", $person, $dexp1, $rhs.getDexp2());
         insertLogical(rhsNN);
         String s = String.format(
             "Citalopram for patient: %s.\n\tClinical implication: None \n\tMitigating factor: None\n\tRecommendation: No special precautions\n\tExplanation: Citalopram: %s, Citalopram Dosage: %s",
@@ -199,7 +199,6 @@ rule "CITALOPRAM - QT-AGENT -- Not Citalopram High Dosage"
             ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
             rhsNN.getDexp1().getLogInfo(),
             rhsNN.getDexp2().getLogInfo());
-        );
         System.out.println(s);
 end
 
