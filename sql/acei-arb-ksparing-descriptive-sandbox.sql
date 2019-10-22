@@ -1,10 +1,8 @@
 --set search_path to banner_etl;
 SELECT de1.person_id, de1.drug_exposure_id AS aa_dexp, de1.drug_concept_id AS aa_id, c1.concept_name AS aa_name, cs1.concept_name AS aa_ingr, de1.drug_exposure_start_datetime AS aa_start, de1.drug_exposure_end_datetime AS aa_end, de1.quantity, de1.sig, de1.route_concept_id as aa_route_id, de1.route_source_value as aa_route,
-de2.drug_exposure_id AS diuretic_dexp, de2.drug_concept_id AS diuretic_id, c2.concept_name AS diuretic_name, cs2.concept_name AS diuretic_ingr, de2.drug_exposure_start_datetime AS diuretic_start, de2.drug_exposure_end_datetime AS diuretic_end, de2.quantity, de2.sig, de2.route_concept_id AS diuretic_route_id, de2.route_source_value AS diuretic_route,
-o.observation_period_start_date AS obs_start, o.observation_period_end_date AS obs_end
+de2.drug_exposure_id AS diuretic_dexp, de2.drug_concept_id AS diuretic_id, c2.concept_name AS diuretic_name, cs2.concept_name AS diuretic_ingr, de2.drug_exposure_start_datetime AS diuretic_start, de2.drug_exposure_end_datetime AS diuretic_end, de2.quantity, de2.sig, de2.route_concept_id AS diuretic_route_id, de2.route_source_value AS diuretic_route
 FROM drug_exposure de1 -- acei/arb
 INNER JOIN drug_exposure de2 ON de1.person_id = de2.person_id -- diuretic
-INNER JOIN observation_period o ON o.person_id = de1.person_id
 INNER JOIN concept c1 ON de1.drug_concept_id = c1.concept_id
 INNER JOIN concept c2 ON de2.drug_concept_id = c2.concept_id
 INNER JOIN drug_strength ds1 ON ds1.drug_concept_id = de1.drug_concept_id

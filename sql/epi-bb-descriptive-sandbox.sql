@@ -1,11 +1,9 @@
 ﻿SET search_path TO banner_etl;
 
 SELECT de1.person_id, de1.drug_exposure_id AS epi_dexp, de1.drug_concept_id AS epi_id, c1.concept_name AS epi_name, cs1.concept_name AS epi_ingr, de1.drug_exposure_start_datetime AS epi_start, de1.drug_exposure_end_datetime AS epi_end,
-de2.drug_exposure_id AS bb_dexp, de2.drug_concept_id AS bb_id, c2.concept_name AS bb_name, cs2.concept_name AS bb_ingr, de2.drug_exposure_start_datetime AS bb_start, de2.drug_exposure_end_datetime AS bb_end, 
-o.observation_period_start_date AS obs_start, o.observation_period_end_date AS obs_end
+de2.drug_exposure_id AS bb_dexp, de2.drug_concept_id AS bb_id, c2.concept_name AS bb_name, cs2.concept_name AS bb_ingr, de2.drug_exposure_start_datetime AS bb_start, de2.drug_exposure_end_datetime AS bb_end 
 FROM drug_exposure de1 -- epinephrine
 INNER JOIN drug_exposure de2 ON de1.person_id = de2.person_id -- bb
-INNER JOIN observation_period o ON o.person_id = de1.person_id
 INNER JOIN concept c1 ON de1.drug_concept_id = c1.concept_id
 INNER JOIN concept c2 ON de2.drug_concept_id = c2.concept_id
 INNER JOIN drug_strength ds1 ON ds1.drug_concept_id = de1.drug_concept_id
@@ -17,9 +15,6 @@ AND de2.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_it
 AND ds1.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7584) -- epinephrines ingredients
 AND ds2.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7756) -- beta-blockers ingredients
 AND (de2.drug_exposure_start_datetime < de1.drug_exposure_start_datetime AND de2.drug_exposure_end_datetime >= de1.drug_exposure_start_datetime)
-AND (de2.drug_exposure_start_date <= o.observation_period_end_date AND de2.drug_exposure_end_date >= o.observation_period_start_date)
-AND (('2016-01-01' BETWEEN o.observation_period_start_date AND o.observation_period_end_date)
-OR ('2016-04-30' BETWEEN o.observation_period_start_date AND o.observation_period_end_date))
 AND de1.drug_exposure_id != de2.drug_exposure_id
 ORDER BY de1.drug_exposure_start_datetime ASC;
 -- basic concomitant = 178 rows
