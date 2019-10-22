@@ -191,7 +191,7 @@ rule "CITALOPRAM - QT-AGENT -- Not Citalopram High Dosage"
             $dexp1.getDrugConceptId(), 
             $dexp1.getDailyDosage());
         System.out.println(s);
-        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage no, qt-agent no\t%s\t%s\t%s\t%s\t%s",
+        s = String.format("DATA\t%s\t%s\tCitalopram - QT-Agent interaction\tcitalopram, high dosage no, qt-agent yes\t%s\t%s\t%s\t%s\t%s\t%s",
             currentDateStr, 
             $person.getPersonId(),
             "false", "green",
