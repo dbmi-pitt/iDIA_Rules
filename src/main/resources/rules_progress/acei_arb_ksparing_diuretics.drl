@@ -160,12 +160,14 @@ rule "ACE I ARB - K-SPARING DIURETIC -- Recency of Lab Tests"
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic\tserum potassium < 5 mEq/L within 48 hours\t%s\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic\tserum potassium < 5 mEq/L within 48 hours\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
           currentDateStr,
           $person.getPersonId(),
           "false","",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          rhsNN.getDexp1().getLogInfo(),
+          rhsNN.getDexp2().getLogInfo(),
           "MEAS - serum potassium = " + $meas1.getValueAsNumber() + "mEq/L",
           "MEAS TAKEN - " + $meas1.getMeasurementDateTime()
       );
