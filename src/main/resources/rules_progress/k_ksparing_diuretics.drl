@@ -175,6 +175,7 @@ rule "K - K-SPARING DIURETIC -- Recency of Lab Tests"
     when
       // First check that patient was exposed to potassium and a diuretic
       $rhs : RHSState(stateName == "basic concomitant exposure of K and a K-sparing diuretic" && state == "yes", $person : person)
+      not ($rhs2 : RHSState(stateName == "potassium, eplerenone" && state == "yes" && person.getPersonId() == $person.getPersonId())) // branch used for all diuretics except eplerenone
       // Take patient from RHS and check when their serum postassium labs were taken and if this was between 5 and 5.5 mEq/L
       $meas1 : Measurement(personId == $person.getPersonId() 
         && measurementConceptId == 3023103 
@@ -191,13 +192,15 @@ rule "K - K-SPARING DIURETIC -- Recency of Lab Tests"
           $meas1.getMeasurementDateTime()
       );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic interaction\thigh serum potassium within 48 hours\t%s\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tK - K-sparing diuretic interaction\thigh serum potassium within 48 hours\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
           currentDateStr,
           $person.getPersonId(),
           "true","red",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
-          "MEAS - serum potassium = " + $meas1.getValueAsNumber() + "mEq/L",
+          rhsNN.getDexp1().getLogInfo(),
+          rhsNN.getDexp2().getLogInfo(),
+          "MEAS - serum potassium = " + $meas1.getValueAsNumber() + " mEq/L",
           "MEAS TAKEN - " + $meas1.getMeasurementDateTime()
       );
       System.out.println(s);          
