@@ -38,7 +38,7 @@ public class RHSState {
 	//int hashVal = 37*(stateName.hashCode() + state.hashCode() + person.getPersonId().hashCode() + dexp1.getExtendedDrugExposureId().hashCode() + dexp2.getExtendedDrugExposureId().hashCode());
     int hashVal = 37*(stateName.hashCode() + state.hashCode() + person.getPersonId().hashCode());
     if (dexp1 != null && dexp2 != null){
-	   hashVal = 37*(stateName.hashCode() + state.hashCode() + person.getPersonId().hashCode() + dexp1.getDrugExposureId().hashCode() + dexp2.getDrugExposureId().hashCode());
+	   hashVal = 37*(stateName.hashCode() + state.hashCode() + person.getPersonId().hashCode() + dexp1.getLogInfo().hashCode() + dexp2.getLogInfo().hashCode()); // changed to use hash for getLogInfo instead of getDrugExposureId. For some currently known reason hashing getDrugExposureId would confuse some drug pairs as duplicates for a specific patient: SELECT * FROM drug_exposure WHERE drug_concept_id IN(40163460,40163473,40163510) and person_id = 14046582
     }
 	return hashVal;
     }
