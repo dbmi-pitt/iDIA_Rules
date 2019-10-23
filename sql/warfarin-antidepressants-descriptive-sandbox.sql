@@ -10,9 +10,9 @@ INNER JOIN concept cs1 ON ds1.ingredient_concept_id = cs1.concept_id
 INNER JOIN drug_strength ds2 ON ds2.drug_concept_id = de2.drug_concept_id
 INNER JOIN concept cs2 ON ds2.ingredient_concept_id = cs2.concept_id
 WHERE de1.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 5876)
-AND de2.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 6133)
+AND de2.drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id in (6133, 49381, 49362, 49331))
 AND ds1.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 7201) -- warfarin ingredients
-AND ds2.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 6119) -- ssri/snri ingredients
+AND ds2.ingredient_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id in (6119, 49363, 49361, 49329)) -- antidep ingredients
 AND ((de2.drug_exposure_start_datetime BETWEEN de1.drug_exposure_start_datetime AND de1.drug_exposure_end_datetime)
   OR (de2.drug_exposure_end_datetime BETWEEN de1.drug_exposure_start_datetime AND de1.drug_exposure_end_datetime)
   OR (de1.drug_exposure_start_datetime BETWEEN de2.drug_exposure_start_datetime AND de2.drug_exposure_end_datetime)
