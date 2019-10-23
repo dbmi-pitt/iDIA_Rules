@@ -215,7 +215,6 @@ end
 // basic check of any dosage or form of warfarin and an SSRI/SNRI at the same time
 rule "WARFARIN - SSRI+SNRI -- NO FILTER"
     when
-
       $rhs : RHSState(stateName == "basic concomitant exposure of warfarin and antidepressant" && state == "yes", $person : person)
 
       $clinDrugConcept1 : ConceptSetItem(csName == "SSRIs and SNRIs Ingredients")
@@ -238,17 +237,16 @@ rule "WARFARIN - SSRI+SNRI -- NO FILTER"
           rhsNN.getDexp1().getDrugConceptId(), 
           rhsNN.getDexp2().getDrugConceptId());
       System.out.println(s);
-      // commenting this out so that these aren't double counted in non-alert exposures
-      /*s = String.format("DATA\t%s\t%s\tWarfarin - Antidepressant interaction\tbasic concomitant exposure of warfarin and SSRI/SNRI\t%s\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tWarfarin - Antidepressant interaction\tbasic concomitant exposure of warfarin and SSRI/SNRI\t%s\t%s\t%s\t%s\t%s\t%s",
           currentDateStr,
           $person.getPersonId(),
-          "false", "basic concomitant",
+          "false", "",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
           rhsNN.getDexp1().getLogInfo(),
           rhsNN.getDexp2().getLogInfo()
       );
-      System.out.println(s);*/
+      System.out.println(s);
 end
 
 // basic concomitant and PATIENT AGE risk factor of patient being >= 64 years old
