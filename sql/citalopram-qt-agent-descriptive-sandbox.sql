@@ -21,4 +21,4 @@ AND ((de2.drug_exposure_start_datetime BETWEEN de1.drug_exposure_start_datetime 
   OR (de1.drug_exposure_end_datetime BETWEEN de2.drug_exposure_start_datetime AND de2.drug_exposure_end_datetime))
 AND de1.drug_exposure_id != de2.drug_exposure_id
 ORDER BY ds1.amount_value, sm1.expected DESC; -- sort by these characteristics to confirm that no dosage exceeds 60 mg/day
--- basic concomitant -- 680 rows from query. Rule got 416.
+-- basic concomitant -- 680 rows from query.

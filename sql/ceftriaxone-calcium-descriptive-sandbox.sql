@@ -20,3 +20,12 @@ AND ((de2.drug_exposure_start_datetime BETWEEN de1.drug_exposure_start_datetime 
 AND de1.drug_exposure_id != de2.drug_exposure_id
 ORDER BY person_id ASC;
 -- no concomitant exposures from neither query nor the rule output
+
+-- there are no ceftriaxone exposures in the data according to the concept set:
+
+-- just ceftriaxone
+SELECT o.concept_id, c.concept_name FROM ohdsi.concept_set_item o
+INNER JOIN concept c ON c.concept_id = o.concept_id
+WHERE concept_set_id = 10565;
+SELECT * FROM drug_exposure WHERE drug_concept_id IN (select distinct concept_id from ohdsi.concept_set_item where concept_set_id = 10566);
+
