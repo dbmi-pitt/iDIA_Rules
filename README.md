@@ -42,16 +42,12 @@ __RUN VIA JAVA__
 
 __RUN VIA BASH__
 
-First, make a folder for the output:
+Run the bash script "runRules.sh" and pass in the argument "simulated" or "banner"
 
-```mkdir banner-run-{MMDDYYYY}```
+```bash runRules.sh simulated```
+```bash runRules.sh banner```
 
-Fill in {MMDDYYYY} with today's date
+Output is then written to a folder "simulated-run" or "banner-run" depending on which argument was used. This folder location should be at the base of the project.
 
-Run the bash command via:
-
-```bash runOverBanner.sh {MMDDYYYY}```
-
-Use today's date that you previously used to create the banner-run-{MMDDYYYY} folder. 
 
 
