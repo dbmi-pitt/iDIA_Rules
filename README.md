@@ -44,8 +44,10 @@ __RUN VIA BASH__
 
 Run the bash script "runRules.sh" and pass in the argument "simulated" or "banner"
 
-```bash runRules.sh simulated```
-```bash runRules.sh banner```
+```
+bash runRules.sh simulated
+bash runRules.sh banner
+```
 
 Output is then written to a folder "simulated-run" or "banner-run" depending on which argument was used. This folder location should be at the base of the project.
 
