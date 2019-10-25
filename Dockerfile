@@ -1,14 +1,14 @@
-FROM alpine/git
+# Labels the first stage as clone
+FROM alpine/git as clone
 WORKDIR /app
-RUN git clone https://github.com/rkboyce/iDIA_Rules.git
+RUN git clone -b ec-sql-modifiedclasses --single-branch https://github.com/rkboyce/iDIA_Rules.git
 
-ENV date 10221029
-# since this is in the same directory maybe dont need /iDEA-Rules
-ENV config_file config.properties
-
-FROM maven:3.5-jdk-8-alpine
+# Labels the second stage as build
+FROM maven:3.5-jdk-8-alpine as build
 WORKDIR /app
-COPY --from=0 /app/iDIA_Rules /app 
+
+# References the first stage using the label
+COPY --from=clone /app/iDIA_Rules /app
 
 RUN mvn install:install-file -Dfile=./lib/opencsv-2.3.jar -DgroupId=org.opencsv -DartifactId=opencsv -Dversion=2.3 -Dpackaging=jar
 RUN mvn install:install-file -Dfile=./lib/hibernate-core-3.3.0.SP1.jar -DgroupId=hibernate -DartifactId=hibernate -Dversion=3.3.0 -Dpackaging=jar
@@ -20,13 +20,19 @@ RUN mvn install
 
 # Might not be necessary
 FROM openjdk:8-jre-alpine
-#WORKDIR /iDEA-Rules/
 
 # Need to add PostgreSQL commands
 
-COPY config.properties ${config_file}
+WORKDIR /app
+COPY config.properties /app/config.properties
 
-RUN mkdir banner-run-${date}
+RUN mkdir simulated-run-output
 
 WORKDIR /app
-CMD ["runOverBanner.sh"] [${date}]
+COPY --from=clone /app/iDIA_Rules/runOverBanner.sh /app
+RUN apk update && apk add bash
+RUN ["chmod", "+x", "/app/runOverBanner.sh"]
+RUN bash runOverBanner.sh output
+# WORKDIR /app
+# ENTRYPOINT ["/usr/bin/bash", "-c", "/app/runOverBanner.sh output"]
+# ENTRYPOINT ["/app/runOverBanner.sh output"]
