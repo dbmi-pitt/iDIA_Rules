@@ -36,7 +36,22 @@ mvn install:install-file -Dfile=./lib/antlr.jar -DgroupId=antlr -DartifactId=ant
 Then you should be able to run:
 ```mvn install```
 
-__RUN__
+__RUN VIA JAVA__
 
 ```java -Xmx1536 -jar target/droolstest-1.0.jar```
+
+__RUN VIA BASH__
+
+First, make a folder for the output:
+
+```mkdir banner-run-{MMDDYYYY}```
+
+Fill in {MMDDYYYY} with today's date
+
+Run the bash command via:
+
+```bash runOverBanner.sh {MMDDYYYY}```
+
+Use today's date that you previously used to create the banner-run-{MMDDYYYY} folder. 
+
 

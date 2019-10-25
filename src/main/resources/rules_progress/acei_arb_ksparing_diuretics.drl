@@ -55,8 +55,12 @@ rule "ACE I ARB - K-SPARING DIURETIC -- NO FILTER"
         && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
         && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-        && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
-        || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
+        && (
+          (drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate())
+          || ($dexp1.getDrugExposureStartDate() >= drugExposureStartDate && $dexp1.getDrugExposureStartDate() <= drugExposureEndDate)
+          || ($dexp1.getDrugExposureEndDate() >= drugExposureStartDate && $dexp1.getDrugExposureEndDate() <= drugExposureEndDate)
+        )
         && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
       // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
@@ -100,8 +104,12 @@ rule "ACE I ARB - K-SPARING DIURETIC -- NO FILTER, ALT"
         && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
         && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-        && ((drugExposureStartDate >= $dexp2.getDrugExposureStartDate() && drugExposureStartDate <= $dexp2.getDrugExposureEndDate())
-        || (drugExposureEndDate >= $dexp2.getDrugExposureStartDate() && drugExposureEndDate <= $dexp2.getDrugExposureEndDate()))
+        && (
+          (drugExposureStartDate >= $dexp2.getDrugExposureStartDate() && drugExposureStartDate <= $dexp2.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp2.getDrugExposureStartDate() && drugExposureEndDate <= $dexp2.getDrugExposureEndDate())
+          || ($dexp2.getDrugExposureStartDate() >= drugExposureStartDate && $dexp2.getDrugExposureStartDate() <= drugExposureEndDate)
+          || ($dexp2.getDrugExposureEndDate() >= drugExposureStartDate && $dexp2.getDrugExposureEndDate() <= drugExposureEndDate)
+        )
         && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId() 
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
       // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
@@ -152,12 +160,14 @@ rule "ACE I ARB - K-SPARING DIURETIC -- Recency of Lab Tests"
           $meas1.getMeasurementDateTime()
         );
       System.out.println(s);
-      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic\tserum potassium < 5 mEq/L within 48 hours\t%s\t%s\t%s\t%s\t%s\t%s",
+      s = String.format("DATA\t%s\t%s\tACE I/ARB - K-sparing diuretic\tserum potassium < 5 mEq/L within 48 hours\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",
           currentDateStr,
           $person.getPersonId(),
           "false","",
           $person.getGenderCUI(),
           ((double) ($person.getDobDateDiffInMillis(currentDate) / (1000 * 3600 * 24)) / 365),
+          rhsNN.getDexp1().getLogInfo(),
+          rhsNN.getDexp2().getLogInfo(),
           "MEAS - serum potassium = " + $meas1.getValueAsNumber() + "mEq/L",
           "MEAS TAKEN - " + $meas1.getMeasurementDateTime()
       );

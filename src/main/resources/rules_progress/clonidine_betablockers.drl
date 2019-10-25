@@ -61,8 +61,12 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER"
         && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
         && drugConceptId == $clinDrugConcept3.getConceptId() && ingredientConceptId == $clinDrugConcept1.getConceptId())
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-        && ((drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
-        || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate()))
+        && (
+          (drugExposureStartDate >= $dexp1.getDrugExposureStartDate() && drugExposureStartDate <= $dexp1.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp1.getDrugExposureStartDate() && drugExposureEndDate <= $dexp1.getDrugExposureEndDate())
+          || ($dexp1.getDrugExposureStartDate() >= drugExposureStartDate && $dexp1.getDrugExposureStartDate() <= drugExposureEndDate)
+          || ($dexp1.getDrugExposureEndDate() >= drugExposureStartDate && $dexp1.getDrugExposureEndDate() <= drugExposureEndDate)
+        )
         && drugConceptId != null && drugConceptId == $clinDrugConcept4.getConceptId() 
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept2.getConceptId())
       // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
@@ -107,9 +111,15 @@ rule "CLONIDINE - BETA-BLOCKERS -- NO FILTER, ALT"
       $dexp2 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
         && drugExposureStartDate != null && drugExposureStartDate >= currentDate && drugExposureStartDate < plus1day
         && drugConceptId == $clinDrugConcept4.getConceptId() && ingredientConceptId == $clinDrugConcept2.getConceptId())
+      // TODO - correct $dexp1 timeline to match person 91871173 scenario:
+      // clon from 1/22 to 1/27, bb from 1/23 to 1/23. This is not captured below.
       $dexp1 : ExtendedDrugExposure(personId != null && personId == $de1.getPersonId()
-        && ((drugExposureStartDate >= $dexp2.getDrugExposureStartDate() && drugExposureStartDate <= $dexp2.getDrugExposureEndDate())
-        || (drugExposureEndDate >= $dexp2.getDrugExposureStartDate() && drugExposureEndDate <= $dexp2.getDrugExposureEndDate()))
+        && (
+          (drugExposureStartDate >= $dexp2.getDrugExposureStartDate() && drugExposureStartDate <= $dexp2.getDrugExposureEndDate())
+          || (drugExposureEndDate >= $dexp2.getDrugExposureStartDate() && drugExposureEndDate <= $dexp2.getDrugExposureEndDate())
+          || ($dexp2.getDrugExposureStartDate() >= drugExposureStartDate && $dexp2.getDrugExposureStartDate() <= drugExposureEndDate)
+          || ($dexp2.getDrugExposureEndDate() >= drugExposureStartDate && $dexp2.getDrugExposureEndDate() <= drugExposureEndDate)
+        )
         && drugConceptId != null && drugConceptId == $clinDrugConcept3.getConceptId() 
         && ingredientConceptId != null && ingredientConceptId == $clinDrugConcept1.getConceptId())
       // This creates the patient as an object that can be used in the RHS state in the right hand side of the rule
