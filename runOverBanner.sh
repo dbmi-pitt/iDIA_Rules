@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 ## for testing
 # for i in 2016-01-01 2016-01-02 2016-01-03 2016-01-04;
