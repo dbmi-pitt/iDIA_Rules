@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 if [ "$1" = "simulated" ]; then
   dates=( 2008-02-13 2008-02-14 ) ## simulated data public schema dates
