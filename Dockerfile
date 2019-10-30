@@ -24,8 +24,9 @@ RUN mvn install
 
 # Need to add PostgreSQL commands
 
-#RUN mkdir simulated-run-output
-RUN mkdir banner-run-output
+#RUN mkdir simulated-run
+RUN mkdir banner-run
 
-RUN ["chmod", "+x", "/app/runOverBanner.sh"]
-ENTRYPOINT ["/bin/bash", "-c", "/app/runOverBanner.sh output"]
+RUN ["chmod", "+x", "/app/runRules.sh"]
+ENTRYPOINT ["/bin/bash", "-c", "/app/runRules.sh banner"]
+# run /bin/bash
