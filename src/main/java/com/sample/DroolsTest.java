@@ -17,20 +17,21 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+import org.apache.log4j.Logger;
 
 public class DroolsTest {
 	private static List<String> configOptions = new ArrayList<>(Arrays.asList("user", "password", "connectionURL", "schema", "ruleFolder"));
+	final static Logger logger = Logger.getLogger(DroolsTest.class);
 
 	@SuppressWarnings({ "unchecked" })
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
     String dateStr = args[0];
 	if(dateStr == null){
-	    System.out.println("ERROR: Pass a date that will be used to extract data to run the rule engine in the format YYY-MM-DD");
+	    logger.error("ERROR: Pass a date that will be used to extract data to run the rule engine in the format YYY-MM-DD");
 	    System.exit(1);
 	} else {
-	    System.out.println("INFO: Running rule engine with data from date: " + dateStr);
+	    logger.info("INFO: Running rule engine with data from date: " + dateStr);
 	}
 
 	String rule_folder = "";
@@ -60,17 +61,17 @@ public class DroolsTest {
 			if(argument.contains("=")) {
 				String[] configuration = argument.split("=");
 				if(configOptions.contains(configuration[0])) {
-					System.out.println("INFO: Using configuration: " + configuration[0] + " = " + configuration[1]);
+					logger.info("Using configuration: " + configuration[0] + " = " + configuration[1]);
 					userConfiguration.put(configuration[0], configuration[1]);
 				}
 			} else {
-				 System.out.println("ERROR: Pass a configuration in the format ruleFolder=ksession-progress");
+				 logger.error("Pass a configuration in the format ruleFolder=ksession-progress");
 	   			 System.exit(1);
 			}
 		}
 	}
   
-	System.out.println("INFO: Rule engine session open!");
+	logger.info("Rule engine session open!");
 
 	//////////////////////////////
 	// Set up Drools KIE
@@ -130,7 +131,7 @@ public class DroolsTest {
 
 	int cnt = 0; // fact counter - counts what is iterated, not necessarily what is finally in working memory
 	
-	System.out.println("Gathering data...");
+	logger.info("Gathering data...");
 	Statement personSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	ResultSet personQuery = personSt.executeQuery(
 			"SELECT " 
@@ -144,7 +145,7 @@ public class DroolsTest {
 			+ " FROM person"
 		);
 	personQuery.last(); // cursor to last row to get # of results
-	System.out.println("INFO: # of persons: " + personQuery.getRow());
+	logger.info("# of persons: " + personQuery.getRow());
 	personQuery.beforeFirst(); // reset cursor so that iterators below will work.
 
 	while (personQuery.next()){
@@ -166,7 +167,7 @@ public class DroolsTest {
 			+ " ON cs.concept_set_id = csi.concept_set_id"
 		);
 	csQuery.last(); 
-	System.out.println("INFO: # of conceptTpls: " + csQuery.getRow()); 
+	logger.info("# of conceptTpls: " + csQuery.getRow());
 	csQuery.beforeFirst();
 	while (csQuery.next()){
 	    kSession.insert( new ConceptSetItem(csQuery.getString("concept_set_name"), csQuery.getInt("concept_id")) );
@@ -185,7 +186,7 @@ public class DroolsTest {
 			+ " WHERE visit_start_date <= (TO_DATE('" + dateStr + "','yyyy-MM-dd')) AND visit_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
 		);
 	voQuery.last();
-	System.out.println("INFO: # of visits: " + voQuery.getRow());
+	logger.info("# of visits: " + voQuery.getRow());
 	voQuery.beforeFirst();
 	while (voQuery.next()){
 		VisitOccurrence vo = new VisitOccurrence(
@@ -226,7 +227,7 @@ public class DroolsTest {
 		 	// recent measurements within 48 hours may be considered that aren't necessarily on the same day.
 	 	);
 	measQuery.last();
-	System.out.println("INFO: # of meas: " + measQuery.getRow());
+	logger.info("# of meas: " + measQuery.getRow());
 	measQuery.beforeFirst();
 	while (measQuery.next()){
 		Measurement meas = new Measurement(
@@ -267,7 +268,7 @@ public class DroolsTest {
 			+ " WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
 		);
 	deraQuery.last();
-	System.out.println("INFO: # of deras: " + deraQuery.getRow());
+	logger.info("# of deras: " + deraQuery.getRow());
 	deraQuery.beforeFirst();
 	while (deraQuery.next()){
 		Timestamp start = Timestamp.valueOf(deraQuery.getString("drug_era_start_date"));
@@ -291,7 +292,7 @@ public class DroolsTest {
 			// condition occurs at any time in the past.
 		);
 	ceraQuery.last();
-	System.out.println("INFO: # of ceras: " + ceraQuery.getRow());
+	logger.info("# of ceras: " + ceraQuery.getRow());
 	ceraQuery.beforeFirst();
 	while (ceraQuery.next()){
 		Timestamp start = Timestamp.valueOf(ceraQuery.getString("condition_era_start_date"));
@@ -317,7 +318,7 @@ public class DroolsTest {
 			+ "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
 		);
 	dexpQuery.last();
-	System.out.println("INFO: # of dexps: " + dexpQuery.getRow());
+	logger.info("# of dexps: " + dexpQuery.getRow());
 	dexpQuery.beforeFirst();
 
 	while (dexpQuery.next()){
