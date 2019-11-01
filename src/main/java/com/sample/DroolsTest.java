@@ -1,45 +1,28 @@
 package com.sample;
 
+import com.sample.model.ConceptSetItem;
+import edu.pitt.dbmi.ohdsiv5.db.*;
 import org.kie.api.KieBase;
-import org.kie.internal.builder.conf.RuleEngineOption;
+import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
+import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.api.logger.KieRuntimeLogger;
-import org.kie.api.KieBaseConfiguration; 
-import org.kie.api.event.kiebase.KieBaseEventManager;
+import org.kie.internal.builder.conf.RuleEngineOption;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.text.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
-import com.sample.model.ConceptSetItem;
-
-import edu.pitt.dbmi.ohdsiv5.db.Concept;
-import edu.pitt.dbmi.ohdsiv5.db.ConceptRelationship;
-import edu.pitt.dbmi.ohdsiv5.db.ConditionOccurrence;
-import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
-import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
-import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
-import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
-import edu.pitt.dbmi.ohdsiv5.db.Measurement;
-import edu.pitt.dbmi.ohdsiv5.db.Observation;
-import edu.pitt.dbmi.ohdsiv5.db.ObservationPeriod;
-import edu.pitt.dbmi.ohdsiv5.db.ProcedureOccurrence;
-import edu.pitt.dbmi.ohdsiv5.db.Person;
-import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
-import edu.pitt.dbmi.ohdsiv5.db.VisitOccurrence;
 
 
 public class DroolsTest {
+	private static List<String> configOptions = new ArrayList<>(Arrays.asList("user", "password", "connectionURL", "schema", "ruleFolder"));
 
-    @SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ "unchecked" })
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
     String dateStr = args[0];
@@ -70,6 +53,22 @@ public class DroolsTest {
 		}
 	}
 
+	Map<String, String> userConfiguration = new HashMap<>();
+	if(args.length > 1) {
+		for(int i = 1; i<args.length; i++) {
+			String argument = args[i];
+			if(argument.contains("=")) {
+				String[] configuration = argument.split("=");
+				if(configOptions.contains(configuration[0])) {
+					System.out.println("INFO: Using configuration: " + configuration[0] + " = " + configuration[1]);
+					userConfiguration.put(configuration[0], configuration[1]);
+				}
+			} else {
+				 System.out.println("ERROR: Pass a configuration in the format ruleFolder=ksession-progress");
+	   			 System.exit(1);
+			}
+		}
+	}
   
 	System.out.println("INFO: Rule engine session open!");
 
@@ -82,7 +81,13 @@ public class DroolsTest {
 	KieBaseConfiguration kconfig = ks.newKieBaseConfiguration();
 		// kconfig.setOption(RuleEngineOption.RETEOO);
         kconfig.setOption(RuleEngineOption.PHREAK);
-        KieBase kbase = kContainer.newKieBase("rules_progress", kconfig);
+
+        KieBase kbase;
+		if (userConfiguration.containsKey("ruleFolder")) {
+			kbase = kContainer.newKieBase(userConfiguration.get("ruleFolder"), kconfig);
+		} else {
+			kbase = kContainer.newKieBase("rules_progress", kconfig);
+		}
         KieSession kSession = kbase.newKieSession();
 	KieRuntimeLogger kieLogger = ks.getLoggers().newFileLogger(kSession, "audit");
 	
