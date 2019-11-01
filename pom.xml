@@ -120,6 +120,8 @@
           <compilerArgs>
             <arg>-verbose</arg>
           </compilerArgs>
+            <source>8</source>
+            <target>8</target>
         </configuration>
       </plugin>
       
