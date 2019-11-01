@@ -55,11 +55,6 @@
 
 ---
 
-## Potential Concept Set TODO's:
-History of CNS hemorraghic bleeding
-Systemic Salicylates
-Systemic Timolols
-Epinephrine Injection
-
 ## General Notes:
 For daily doses, not sure we can rely on doseUnitSourceValue if we need to filter by unit.
+Measurement units proved unreliable. Commented these out where measurements are used.
