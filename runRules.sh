@@ -21,8 +21,8 @@ do
     sleep 1    
 done
 echo INFO: run completed. Assembling the resulting data and writing it to $1-run/full-$1-run.tsv
-grep -r "^DATA" $1-run/output* | sort | cut --complement -f1 > $1-run/full-$1-run.tsv
+grep -r "^DATA" $1-run/output* | sort | gcut --complement -f1 > $1-run/full-$1-run.tsv
 echo INFO: Assembling the unique resulting data and writing it to $1-run/uniq-$1-run.tsv
-grep -r "^DATA" $1-run/output* | sort | uniq | cut --complement -f1 > $1-run/uniq-$1-run.tsv
+grep -r "^DATA" $1-run/output* | sort | uniq | gcut --complement -f1 > $1-run/uniq-$1-run.tsv
 echo INFO: All done!
 
