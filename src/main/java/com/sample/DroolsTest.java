@@ -131,7 +131,7 @@ public class DroolsTest {
         if (userConfiguration.containsKey("schema")) {
             schema = userConfiguration.get("schema");
         } else {
-            schema = prop.getProperty("connectionURL");
+            schema = prop.getProperty("schema");
         }
         String url = connectionURL + "?currentSchema=" + schema;
         Connection conn = DriverManager.getConnection(url, prop);
