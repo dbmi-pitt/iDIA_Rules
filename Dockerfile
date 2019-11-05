@@ -21,12 +21,16 @@ RUN mvn install:install-file -Dfile=./lib/ehcache-core-2.1.0.jar -DgroupId=ehcac
 RUN mvn install:install-file -Dfile=./lib/antlr.jar -DgroupId=antlr -DartifactId=antlr -Dversion=unknown -Dpackaging=jar
 RUN mvn install
 
-
-# Need to add PostgreSQL commands
-
-#RUN mkdir simulated-run
-RUN mkdir banner-run
+RUN apk update && apk add coreutils
 
 RUN ["chmod", "+x", "/app/runRules.sh"]
-ENTRYPOINT ["/bin/bash", "-c", "/app/runRules.sh banner"]
-# run /bin/bash
+ENTRYPOINT ["/app/runRules.sh"]
+
+# Allows user to specify the run of either "simulated" or "banner"
+CMD []
+
+# Running:
+# -v mounts the container and then the user can specify the local filepath to copy contents from container
+# -m sets the memory for the container
+# can override properties such as schema, ruleFolder, connectionURL, etc.
+# docker run -m 8g -v ~/simulated-run:/app/simulated-run -it --rm maxsibilla/idia_rules simulated schema=simulated
