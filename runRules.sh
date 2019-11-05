@@ -17,7 +17,7 @@ do
     echo INFO: Running engine on data extracted for $i;
     echo INFO: Output for this run will be written to $1-run/output-$i/idia-rules-run-$i.txt;
     mkdir $1-run/output-$i;
-    java -Xmx8192m -jar target/droolstest-1.0.jar $i ${@:2} > $1-run/output-$i/idia-rules-run-$i.txt
+    java -Xms4g -Xmx8g -jar target/droolstest-1.0.jar $i ${@:2} > $1-run/output-$i/idia-rules-run-$i.txt
     sleep 1    
 done
 echo INFO: run completed. Assembling the resulting data and writing it to $1-run/full-$1-run.tsv
