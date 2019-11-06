@@ -10,3 +10,5 @@ javacore*
 *~
 config.properties
 testrun.txt
+/simulated*/
+/banner*/
