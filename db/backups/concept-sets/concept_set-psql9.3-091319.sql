@@ -30,7 +30,7 @@ CREATE TABLE concept_set (
 );
 
 
-ALTER TABLE ohdsi.concept_set OWNER TO mdia;
+-- ALTER TABLE ohdsi.concept_set OWNER TO mdia;
 
 --
 -- TOC entry 2530 (class 0 OID 16490)
