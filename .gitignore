@@ -10,3 +10,7 @@ javacore*
 *~
 config.properties
 testrun.txt
+*.iml
+*.log
+**/.DS_Store
+.idea/
