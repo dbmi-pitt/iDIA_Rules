@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DroolsTest {
-    private static List<String> configOptions = new ArrayList<>(Arrays.asList("user", "password", "connectionURL", "schema", "ruleFolder"));
+    private static List<String> configOptions = new ArrayList<>(Arrays.asList("user", "password", "connectionURL", "schema", "ruleFolder, sslmode"));
     final static Logger logger = Logger.getLogger(DroolsTest.class);
 
     @SuppressWarnings({"unchecked"})
@@ -121,7 +121,7 @@ public class DroolsTest {
         // QUERY AND LOAD
         ////////////////////////////////////////////////////////////////////////////
         Class.forName("org.postgresql.Driver");
-        String connectionURL, schema, user, password;
+        String connectionURL, schema;
         if(userConfiguration.containsKey("connectionURL")) {
             connectionURL = userConfiguration.get("connectionURL");
         } else {
@@ -135,19 +135,19 @@ public class DroolsTest {
         }
 
         if(userConfiguration.containsKey("user")) {
-            user = userConfiguration.get("user");
-        } else {
-            user = prop.getProperty("user");
+            prop.setProperty("user", userConfiguration.get("user"));
         }
 
         if(userConfiguration.containsKey("password")) {
-            password = userConfiguration.get("password");
-        } else {
-            password = prop.getProperty("password");
+            prop.setProperty("password", userConfiguration.get("password"));
+        }
+
+        if(userConfiguration.containsKey("sslmode")) {
+            prop.setProperty("sslmode", userConfiguration.get("sslmode"));
         }
 
         String url = connectionURL + "?currentSchema=" + schema;
-        Connection conn = DriverManager.getConnection(url, user, password);
+        Connection conn = DriverManager.getConnection(url, prop);
 
         int cnt = 0; // fact counter - counts what is iterated, not necessarily what is finally in working memory
 
