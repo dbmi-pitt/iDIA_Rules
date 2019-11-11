@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DroolsTest {
-    private static List<String> configOptions = new ArrayList<>(Arrays.asList("user", "password", "connectionURL", "schema", "ruleFolder, sslmode"));
+    private static List<String> configOptions = new ArrayList<>(Arrays.asList("user", "password", "connectionURL", "schema", "ruleFolder", "sslmode"));
     final static Logger logger = Logger.getLogger(DroolsTest.class);
 
     @SuppressWarnings({"unchecked"})
