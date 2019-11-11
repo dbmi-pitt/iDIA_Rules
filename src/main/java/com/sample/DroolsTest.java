@@ -89,7 +89,7 @@ public class DroolsTest {
             kbase = kContainer.newKieBase("rules_progress", kconfig);
         }
         KieSession kSession = kbase.newKieSession();
-        KieRuntimeLogger kieLogger = ks.getLoggers().newFileLogger(kSession, "audit");
+//        KieRuntimeLogger kieLogger = ks.getLoggers().newFileLogger(kSession, "audit");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -121,7 +121,7 @@ public class DroolsTest {
         // QUERY AND LOAD
         ////////////////////////////////////////////////////////////////////////////
         Class.forName("org.postgresql.Driver");
-        String connectionURL, schema;
+        String connectionURL, schema, user, password;
         if(userConfiguration.containsKey("connectionURL")) {
             connectionURL = userConfiguration.get("connectionURL");
         } else {
@@ -133,8 +133,21 @@ public class DroolsTest {
         } else {
             schema = prop.getProperty("schema");
         }
+
+        if(userConfiguration.containsKey("user")) {
+            user = userConfiguration.get("user");
+        } else {
+            user = prop.getProperty("user");
+        }
+
+        if(userConfiguration.containsKey("password")) {
+            password = userConfiguration.get("password");
+        } else {
+            password = prop.getProperty("password");
+        }
+
         String url = connectionURL + "?currentSchema=" + schema;
-        Connection conn = DriverManager.getConnection(url, prop);
+        Connection conn = DriverManager.getConnection(url, user, password);
 
         int cnt = 0; // fact counter - counts what is iterated, not necessarily what is finally in working memory
 
@@ -404,7 +417,7 @@ public class DroolsTest {
         }
         System.out.println("INFO: number of rules fired (-1 on error):" + nrules);
 
-        kieLogger.close();
+//        kieLogger.close();
         kSession.dispose();
         kSession.destroy();
 
