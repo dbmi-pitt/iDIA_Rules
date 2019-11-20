@@ -51,5 +51,20 @@ bash runRules.sh banner
 
 Output is then written to a folder "simulated-run" or "banner-run" depending on which argument was used. This folder location should be at the base of the project.
 
+__DOCKER CONTAINER__
+
+A [Docker container](https://hub.docker.com/r/ddicds/idia_rules) for this project can be pulled using the command:
+```docker pull ddicds/idia_rules``` 
+
+The following command can be used to run the docker container over the default synthetic population:
+
+```docker run -v ~/simulated-run/:/app/simulated-run -it --rm ddicds/idia_rules:localdb simulated```
+
+To run the rules over a custom database connection and/or specify a particular rule  to isolate in the run, the following additional arguments can be added to the above command:
+
+```connectionURL={URL} ruleFolder={TODO provide a list of rules} schema={schema} user={user} password={password} sslmode=require ```
+
+The sslmode argument is optional and its presence is dependent on the specific configuration of the database that the user wishes to connect to. 
+
 
 
