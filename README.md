@@ -66,7 +66,7 @@ To run the rules over a custom database connection and/or specify a particular r
 
 The sslmode argument is optional and its presence is dependent on the specific configuration of the database that the user wishes to connect to. 
 
-**ruleFolder argument options**
+ruleFolder argument options:
 * rules_acei_arb_ksparing_diuretics
 * rules_ceftriaxone_calcium
 * rules_citalopram_QT_agents
@@ -78,4 +78,5 @@ The sslmode argument is optional and its presence is dependent on the specific c
 * rules_warfarin_antidepressants
 * rules_warfarin_nsaids
 * rules_warfarin_salicylates
+
 All rules are run by default if no argument is specified.
