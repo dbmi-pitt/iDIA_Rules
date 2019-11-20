@@ -62,9 +62,20 @@ The following command can be used to run the docker container over the default s
 
 To run the rules over a custom database connection and/or specify a particular rule  to isolate in the run, the following additional arguments can be added to the above command:
 
-```connectionURL={URL} ruleFolder={TODO provide a list of rules} schema={schema} user={user} password={password} sslmode=require ```
+```connectionURL={URL} ruleFolder={rule options listed below} schema={schema} user={user} password={password} sslmode=require ```
 
 The sslmode argument is optional and its presence is dependent on the specific configuration of the database that the user wishes to connect to. 
 
-
-
+**ruleFolder argument options**
+* rules_acei_arb_ksparing_diuretics
+* rules_ceftriaxone_calcium
+* rules_citalopram_QT_agents
+* rules_clonidine_betablockers
+* rules_epi_betablockers
+* rules_fluconazole_opioids
+* rules_immunosuppressants_fluconazole
+* rules_k_ksparing_diuretics
+* rules_warfarin_antidepressants
+* rules_warfarin_nsaids
+* rules_warfarin_salicylates
+All rules are run by default if no argument is specified.
