@@ -127,7 +127,6 @@ FROM (
   CASE
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 18 THEN 'Under 18 years old'
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 18 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 30 THEN '18 to 29 years old'
-    WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 18 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 30 THEN '18 to 29 years old'
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 30 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 40 THEN '30 to 39 years old'
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 40 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 50 THEN '40 to 49 years old'
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 50 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 60 THEN '50 to 59 years old'

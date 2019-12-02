@@ -2,14 +2,14 @@
 select count(distinct person_id)
 from visit_occurrence 
 where (visit_start_datetime between '2016-01-01'::date and '2016-03-31'::date 
-and visit_end_datetime between '2016-01-01'::date and '2016-03-31'::date)
+or visit_end_datetime between '2016-01-01'::date and '2016-03-31'::date)
 and (visit_end_datetime - visit_start_datetime) >= (24 || ' hours')::interval
 and visit_start_datetime != visit_end_datetime;
 
 select person_id, count(distinct visit_occurrence_id) AS cnt
 from visit_occurrence 
 where (visit_start_datetime between '2016-01-01'::date and '2016-03-31'::date 
-and visit_end_datetime between '2016-01-01'::date and '2016-03-31'::date)
+or visit_end_datetime between '2016-01-01'::date and '2016-03-31'::date)
 and (visit_end_datetime - visit_start_datetime) >= (24 || ' hours')::interval
 and visit_start_datetime != visit_end_datetime
 group by person_id
@@ -27,8 +27,10 @@ where person_id in (
   from visit_occurrence 
   where (visit_start_datetime between '2016-01-01'::date and '2016-03-31'::date 
   or visit_end_datetime between '2016-01-01'::date and '2016-03-31'::date)
+  and (visit_end_datetime - visit_start_datetime) >= (24 || ' hours')::interval
   and visit_start_datetime != visit_end_datetime
 );
+-- 162147
 
 select count(distinct measurement_id) from measurement
 where measurement_datetime between '2016-01-01'::date and '2016-03-31'::date;
@@ -123,7 +125,6 @@ FROM (
   CASE
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 18 THEN 'Under 18 years old'
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 18 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 30 THEN '18 to 29 years old'
-    WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 18 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 30 THEN '18 to 29 years old'
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 30 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 40 THEN '30 to 39 years old'
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 40 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 50 THEN '40 to 49 years old'
     WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 50 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 60 THEN '50 to 59 years old'
@@ -156,6 +157,28 @@ GROUP BY age_group;
 |90 years old and older                                                                              |205                 |2.23360209195903246900                                                                              |
 |Under 18 years old                                                                                  |930                 |10.13292656352146437100                                                                             |
 */
+
+-- condensed age intervals
+SELECT age_group, count(distinct person_id), (count(distinct person_id)::decimal / (select count(distinct person_id) from visit_occurrence where (visit_start_datetime between '2016-01-01'::date and '2016-03-31'::date or visit_end_datetime between '2016-01-01'::date and '2016-03-31'::date) and (visit_end_datetime - visit_start_datetime) >= (24 || ' hours')::interval and visit_start_datetime != visit_end_datetime)) * 100 as percentage
+FROM (
+  SELECT
+  person_id, to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY') AS dob,
+  CASE
+    WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 18 THEN 'Under 18 years old'
+    WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 18 AND (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) < 60 THEN '18 to 60 years old'
+    WHEN (('2016-03-31'::date - to_date(CONCAT(month_of_birth,' ',day_of_birth,' ',year_of_birth), 'm d YYYY')) / 365.0) >= 60 THEN '60 years old and older'
+  END AS age_group
+  FROM person
+  where person_id in (
+    select distinct person_id
+    from visit_occurrence 
+    where (visit_start_datetime between '2016-01-01'::date and '2016-03-31'::date 
+    or visit_end_datetime between '2016-01-01'::date and '2016-03-31'::date)
+    and (visit_end_datetime - visit_start_datetime) >= (24 || ' hours')::interval
+    and visit_start_datetime != visit_end_datetime
+  )
+) a
+GROUP BY age_group;
 
 ##########################################################################################
 ## VISITS
