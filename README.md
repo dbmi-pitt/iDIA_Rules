@@ -2,7 +2,7 @@ This is a sample application to demonstrates using Drools rules
 against the OHDSI data structure for the AHRQ funded Individualized
 Drug Interaction Alerts (IDIA) project (https://goo.gl/t4eqGw). 
 
-__SETUP__
+## Setup
 
 You must change the following in the `config.properties` file.
 
@@ -51,7 +51,7 @@ bash runRules.sh banner
 
 Output is then written to a folder "simulated-run" or "banner-run" depending on which argument was used. This folder location should be at the base of the project.
 
-__DOCKER CONTAINER__
+## Docker Container
 
 A [Docker container](https://hub.docker.com/r/ddicds/idia_rules) for this project can be pulled using the command:
 ```docker pull ddicds/idia_rules``` 
