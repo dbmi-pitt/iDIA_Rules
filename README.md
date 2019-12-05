@@ -60,11 +60,17 @@ The following command can be used to run the docker container over the default s
 
 ```docker run -v ~/simulated-run/:/app/simulated-run -it --rm ddicds/idia_rules:localdb simulated```
 
+The "-v" flag is used to mount the running docker container and will create a directory called "simulated-run" in the user's home folder that the docker container will write both the output for each day of the run and the aggregated results.
+
 To run the rules over a custom database connection and/or specify a particular rule  to isolate in the run, the following additional arguments can be added to the above command:
 
 ```connectionURL={URL} ruleFolder={rule options listed below} schema={schema} user={user} password={password} sslmode=require ```
 
 The sslmode argument is optional and its presence is dependent on the specific configuration of the database that the user wishes to connect to. 
+
+The ruleFolder argument is useful to specify the run by focusing on a particular rule. This argument can be used independently as such:
+
+```docker run -v ~/simulated-run/:/app/simulated-run -it --rm ddicds/idia_rules:localdb simulated ruleFolder=rules_warfarin_antidepressants```
 
 ruleFolder argument options:
 * rules_acei_arb_ksparing_diuretics
@@ -80,3 +86,6 @@ ruleFolder argument options:
 * rules_warfarin_salicylates
 
 All rules are run by default if no argument is specified.
+
+This container was tested using Docker version 19.03.5 on Mac OS and Ubuntu Linux. 
+For additional questions and discussions please visit: https://forums.dikb.org/t/docker-container-for-the-individualized-drug-interaction-alerts-idia-project/228
