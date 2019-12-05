@@ -1,27 +1,15 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
 import java.sql.Date;
+import java.util.Calendar;
+import java.sql.Timestamp;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 // NOTE: not all rows are mapped
 
-@Entity
-@Table(name="PERSON")
 
-public class Person  implements java.io.Serializable {
+public class Person  {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	Long personId;
@@ -33,133 +21,130 @@ public class Person  implements java.io.Serializable {
 	Integer locationId;
 	String genderSourceCode;
 	String raceSourceCode;
-        Integer ethnicityCUI;
-        String ethnicitySourceCode;
+    Integer ethnicityCUI;
+    String ethnicitySourceCode;
+  Timestamp dateOfBirth;
     // Constructors
 
-    /** default constructor */
+    // default constructor
     public Person() {
     }
 
-    /** @return the personId */
-        @Id
-        @Column(name="PERSON_ID", nullable = false, insertable = true, updatable = false)  
-	public Long getPersonId() {
-		return personId;
-        }
+    public Person(Long personId, Integer yearOfBirth, Integer genderCUI, Integer raceCUI, Integer ethnicityCUI) {
+        this.personId = personId;
+        this.yearOfBirth = yearOfBirth;
+        this.genderCUI = genderCUI;
+        this.raceCUI = raceCUI;
+        this.ethnicityCUI = ethnicityCUI;
+    }
 
-    /** @param personId the personId to set */
-	public void setPersonId(Long personId) {
+    public Long getPersonId() {
+		return personId;
+    }
+
+    public void setPersonId(Long personId) {
 		this.personId = personId;
 	}
 
-    /** @return the yearOfBirth */
-	@Column(name="YEAR_OF_BIRTH", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-	public Integer getYearOfBirth() {
+  public void setDateOfBirth() {
+    if (this.yearOfBirth != null && this.monthOfBirth != null && this.dayOfBirth != null) {
+      Calendar b = Calendar.getInstance();
+      b.set(Calendar.YEAR, this.yearOfBirth);
+      b.set(Calendar.MONTH, this.monthOfBirth);
+      b.set(Calendar.DAY_OF_MONTH, this.dayOfBirth);
+      Timestamp dob = new Timestamp(b.getTimeInMillis());
+      this.dateOfBirth = dob;
+    }
+  }
+  public Timestamp getDateOfBirth() {
+    return this.dateOfBirth;
+  }
+
+  public Double getDobDateDiffInMillis(Timestamp otherDate) {
+    if (this.dateOfBirth != null) {
+      double diff = (otherDate.getTime() - this.dateOfBirth.getTime());
+      return diff;
+    }
+    else return null;
+  }
+
+    public Integer getYearOfBirth() {
 		return yearOfBirth;
 	}
 
-    /** @param yearOfBirth the yearOfBirth to set */
-	public void setYearOfBirth(Integer yearOfBirth) {
+     public void setYearOfBirth(Integer yearOfBirth) {
 		this.yearOfBirth = yearOfBirth;
 	}
 	
-    /** @return the monthOfBirth */
-	@Column(name="MONTH_OF_BIRTH", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-	public Integer getMonthOfBirth() {
+    public Integer getMonthOfBirth() {
 		return monthOfBirth;
 	}
 
-    /** @param monthOfBirth the monthOfBirth to set */
-	public void setMonthOfBirth(Integer monthOfBirth) {
+    public void setMonthOfBirth(Integer monthOfBirth) {
 		this.monthOfBirth = monthOfBirth;
 	}
 	
-    /** @return the dayOfBirth */
-	@Column(name="DAY_OF_BIRTH", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-	public Integer getDayOfBirth() {
+    public Integer getDayOfBirth() {
 		return dayOfBirth;
 	}
 
-    /** @param dayOfBirth the dayOfBirth to set */
-	public void setDayOfBirth(Integer dayOfBirth) {
+    public void setDayOfBirth(Integer dayOfBirth) {
 		this.dayOfBirth = dayOfBirth;
 	}	
 	
-    /** @return the genderCUI */
-	@Column(name="GENDER_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-	public Integer getGenderCUI() {
+    public Integer getGenderCUI() {
 		return genderCUI;
 	}
 	
-    /** @param genderCUI the genderCUI to set */
-	public void setGenderCUI(Integer genderCUI) {
+    public void setGenderCUI(Integer genderCUI) {
 		this.genderCUI = genderCUI;
 	}
 	
-    /** @return the raceCUI */
-	@Column(name="RACE_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-	public Integer getRaceCUI() {
+    public Integer getRaceCUI() {
 		return raceCUI;
 	}
 
-    /** @param raceCUI the raceCUI to set */
-	public void setRaceCUI(Integer raceCUI) {
+    public void setRaceCUI(Integer raceCUI) {
 		this.raceCUI = raceCUI;
 	}
 
-    /** @return the locationId */
-	@Column(name="LOCATION_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-	public Integer getLocationId() {
+    public Integer getLocationId() {
 		return locationId;
 	}
 
-    /** @param locationId the locationId to set */
-	public void setLocationId(Integer locationId) {
+    public void setLocationId(Integer locationId) {
 		this.locationId = locationId;
 	}
 
-    /** @return the genderSourceCode */
-	@Column(name="GENDER_SOURCE_VALUE", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-	public String getGenderSourceCode() {
+    public String getGenderSourceCode() {
 		return genderSourceCode;
 	}
 
-    /** @param enthnicityCUI the ethnicityCUI to set */
-        public void setEthnicityCUI(Integer ethnicityCUI) {
-                this.ethnicityCUI = ethnicityCUI;
-        }
+    public void setEthnicityCUI(Integer ethnicityCUI) {
+        this.ethnicityCUI = ethnicityCUI;
+    }
 
-    /** @return the ethnicityCUI */
-        @Column(name="ETHNICITY_CONCEPT_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=8, scale=0)
-        public Integer getEthnicityCUI() {
-	        return ethnicityCUI;
-        } 
+    public Integer getEthnicityCUI() {
+        return ethnicityCUI;
+    } 
 
-    /** @param ethnicitySourceCode the ethnicitySourceCode to set */
-        public void setEthnicitySourceCode(String ethnicitySourceCode) {
-       	        this.ethnicitySourceCode = ethnicitySourceCode;
-         }
+    public void setEthnicitySourceCode(String ethnicitySourceCode) {
+   	    this.ethnicitySourceCode = ethnicitySourceCode;
+    }
 
-    /** @return the enthnicitySourceValue */
-        @Column(name="ETHNICITY_SOURCE_VALUE", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-        public String getEthnicitySourceCode() {
-	        return ethnicitySourceCode;
-        }
+    public String getEthnicitySourceCode() {
+        return ethnicitySourceCode;
+    }
 
-    /** @param genderSourceCode the genderSourceCode to set */
-	public void setGenderSourceCode(String genderSourceCode) {
+    public void setGenderSourceCode(String genderSourceCode) {
 		this.genderSourceCode = genderSourceCode;
 	}
 
-    /** @return the raceSourceCode */
-	@Column(name="RACE_SOURCE_VALUE", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0)
-	public String getRaceSourceCode() {
+    public String getRaceSourceCode() {
 		return raceSourceCode;
 	}
 
-    /** @param raceSourceCode the raceSourceCode to set */
-	public void setRaceSourceCode(String raceSourceCode) {
+    public void setRaceSourceCode(String raceSourceCode) {
 		this.raceSourceCode = raceSourceCode;
 	}
 }

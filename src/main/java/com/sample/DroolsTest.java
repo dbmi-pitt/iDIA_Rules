@@ -1,286 +1,442 @@
 package com.sample;
 
+import com.sample.model.ConceptSetItem;
+import edu.pitt.dbmi.ohdsiv5.db.*;
+import org.apache.log4j.Logger;
+import org.kie.api.KieBase;
+import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
+import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-//import org.drools.runtime.rule.WorkingMemory;
-
-// import com.sample.model.Risk;
-// import com.sample.model.RiskScore;
+import org.kie.internal.builder.conf.RuleEngineOption;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.text.*;
-
-import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
-import com.sample.model.ConceptSetItem;
-
-import edu.pitt.dbmi.ohdsiv5.db.util.HibernateUtil;
-import edu.pitt.dbmi.ohdsiv5.db.Concept;
-import edu.pitt.dbmi.ohdsiv5.db.ConceptRelationship;
-import edu.pitt.dbmi.ohdsiv5.db.ConditionOccurrence;
-import edu.pitt.dbmi.ohdsiv5.db.ConditionEra;
-import edu.pitt.dbmi.ohdsiv5.db.DrugExposure;
-import edu.pitt.dbmi.ohdsiv5.db.DrugEra;
-import edu.pitt.dbmi.ohdsiv5.db.DrugStrength;
-import edu.pitt.dbmi.ohdsiv5.db.Measurement;
-import edu.pitt.dbmi.ohdsiv5.db.Observation;
-import edu.pitt.dbmi.ohdsiv5.db.ObservationPeriod;
-import edu.pitt.dbmi.ohdsiv5.db.ProcedureOccurrence;
-import edu.pitt.dbmi.ohdsiv5.db.Person;
-import edu.pitt.dbmi.ohdsiv5.db.ExtendedDrugExposure;
-import edu.pitt.dbmi.ohdsiv5.db.VisitOccurrence;
-
 
 public class DroolsTest {
-    static SessionFactory session = HibernateUtil.getSession().getSessionFactory();  
+    private static List<String> configOptions = new ArrayList<>(Arrays.asList("user", "password", "connectionURL", "schema", "ruleFolder", "sslmode"));
+    final static Logger logger = Logger.getLogger(DroolsTest.class);
 
-    private static void openDbSession() {
-	session.openSession();
+    @SuppressWarnings({"unchecked"})
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+
+        String dateStr = args[0];
+        if (dateStr == null) {
+            logger.error("ERROR: Pass a date that will be used to extract data to run the rule engine in the format YYY-MM-DD");
+            System.exit(1);
+        } else {
+            logger.info("INFO: Running rule engine with data from date: " + dateStr);
+        }
+
+        String rule_folder = "";
+        Properties prop = new Properties();
+        InputStream input = null;
+        try {
+            input = new FileInputStream("config.properties");
+            prop.load(input);
+            rule_folder = prop.getProperty("ruleFolder");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        Map<String, String> userConfiguration = new HashMap<>();
+        if (args.length > 1) {
+            for (int i = 1; i < args.length; i++) {
+                String argument = args[i];
+                if (argument.contains("=")) {
+                    String[] configuration = argument.split("=");
+                    if (configOptions.contains(configuration[0])) {
+                        logger.info("Using configuration: " + configuration[0] + " = " + configuration[1]);
+                        userConfiguration.put(configuration[0], configuration[1]);
+                    }
+                } else {
+                    logger.error("Pass a configuration in the format ruleFolder=rules_progress");
+                    System.exit(1);
+                }
+            }
+        }
+
+        logger.info("Rule engine session open!");
+
+        //////////////////////////////
+        // Set up Drools KIE
+        //////////////////////////////
+        KieServices ks = KieServices.Factory.get();
+        KieContainer kContainer = ks.getKieClasspathContainer();
+
+        KieBaseConfiguration kconfig = ks.newKieBaseConfiguration();
+        // kconfig.setOption(RuleEngineOption.RETEOO);
+        kconfig.setOption(RuleEngineOption.PHREAK);
+
+        KieBase kbase;
+        if (userConfiguration.containsKey("ruleFolder")) {
+            kbase = kContainer.newKieBase(userConfiguration.get("ruleFolder"), kconfig);
+        } else {
+            kbase = kContainer.newKieBase("rules_progress", kconfig);
+        }
+        KieSession kSession = kbase.newKieSession();
+//        KieRuntimeLogger kieLogger = ks.getLoggers().newFileLogger(kSession, "audit");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            // calendar object still useful here for subtracting days
+            kSession.setGlobal("currentDateStr", dateStr);
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(sdf.parse(dateStr));
+            Calendar cal3 = Calendar.getInstance();
+            cal3.setTime(sdf.parse(dateStr));
+            cal3.add(Calendar.DAY_OF_YEAR, -2);
+            Calendar cal4 = Calendar.getInstance();
+            cal4.setTime(sdf.parse(dateStr));
+            cal4.add(Calendar.DAY_OF_YEAR, -28);
+            Calendar cal5 = Calendar.getInstance();
+            cal5.setTime(sdf.parse(dateStr));
+            cal5.add(Calendar.DAY_OF_YEAR, 1);
+            cal5.set(Calendar.HOUR, 0);
+            cal5.set(Calendar.MINUTE, 0);
+            cal5.set(Calendar.SECOND, 0); // midnight of the next day
+            kSession.setGlobal("currentDate", new Timestamp(cal2.getTimeInMillis()));
+            kSession.setGlobal("within48hours", new Timestamp(cal3.getTimeInMillis()));
+            kSession.setGlobal("within28days", new Timestamp(cal4.getTimeInMillis()));
+            kSession.setGlobal("plus1day", new Timestamp(cal5.getTimeInMillis()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ////////////////////////////////////////////////////////////////////////////
+        // QUERY AND LOAD
+        ////////////////////////////////////////////////////////////////////////////
+        Class.forName("org.postgresql.Driver");
+        String connectionURL, schema;
+        if(userConfiguration.containsKey("connectionURL")) {
+            connectionURL = userConfiguration.get("connectionURL");
+        } else {
+            connectionURL = prop.getProperty("connectionURL");
+        }
+
+        if (userConfiguration.containsKey("schema")) {
+            schema = userConfiguration.get("schema");
+        } else {
+            schema = prop.getProperty("schema");
+        }
+
+        if(userConfiguration.containsKey("user")) {
+            prop.setProperty("user", userConfiguration.get("user"));
+        }
+
+        if(userConfiguration.containsKey("password")) {
+            prop.setProperty("password", userConfiguration.get("password"));
+        }
+
+        if(userConfiguration.containsKey("sslmode")) {
+            prop.setProperty("sslmode", userConfiguration.get("sslmode"));
+        }
+
+        String url = connectionURL + "?currentSchema=" + schema;
+        Connection conn = DriverManager.getConnection(url, prop);
+
+        int cnt = 0; // fact counter - counts what is iterated, not necessarily what is finally in working memory
+
+        logger.info("Gathering data...");
+        Statement personSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet personQuery = personSt.executeQuery(
+                "SELECT "
+                        + "person_id"
+                        + ",gender_concept_id"
+                        + ",year_of_birth"
+                        + ",month_of_birth"
+                        + ",day_of_birth"
+                        + ",race_concept_id"
+                        + ",ethnicity_concept_id"
+                        + " FROM person"
+        );
+        personQuery.last(); // cursor to last row to get # of results
+        logger.info("# of persons: " + personQuery.getRow());
+        personQuery.beforeFirst(); // reset cursor so that iterators below will work.
+
+        while (personQuery.next()) {
+            Person p = new Person(personQuery.getLong("person_id"), personQuery.getInt("year_of_birth"), personQuery.getInt("gender_concept_id"), personQuery.getInt("race_concept_id"), personQuery.getInt("ethnicity_concept_id"));
+            p.setMonthOfBirth(personQuery.getInt("month_of_birth"));
+            p.setDayOfBirth(personQuery.getInt("day_of_birth"));
+            p.setDateOfBirth();
+            kSession.insert(p);
+            cnt++;
+        }
+
+        Statement csSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet csQuery = csSt.executeQuery(
+                "SELECT"
+                        + " concept_set_name"
+                        + ",concept_id"
+                        + " FROM ohdsi.concept_set cs"
+                        + " INNER JOIN ohdsi.concept_set_item csi"
+                        + " ON cs.concept_set_id = csi.concept_set_id"
+        );
+        csQuery.last();
+        logger.info("# of conceptTpls: " + csQuery.getRow());
+        csQuery.beforeFirst();
+        while (csQuery.next()) {
+            kSession.insert(new ConceptSetItem(csQuery.getString("concept_set_name"), csQuery.getInt("concept_id")));
+            cnt++;
+        }
+
+        Statement voSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet voQuery = voSt.executeQuery(
+                "SELECT"
+                        + " visit_occurrence_id"
+                        + ",person_id"
+                        + ",visit_start_date"
+                        + ",visit_end_date"
+                        + ",visit_concept_id"
+                        + " FROM visit_occurrence"
+                        + " WHERE visit_start_date <= (TO_DATE('" + dateStr + "','yyyy-MM-dd')) AND visit_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+        );
+        voQuery.last();
+        logger.info("# of visits: " + voQuery.getRow());
+        voQuery.beforeFirst();
+        while (voQuery.next()) {
+            VisitOccurrence vo = new VisitOccurrence(
+                    voQuery.getLong("visit_occurrence_id"),
+                    voQuery.getLong("person_id"),
+                    voQuery.getTimestamp("visit_start_date"),
+                    voQuery.getTimestamp("visit_end_date"),
+                    voQuery.getInt("visit_concept_id")
+            );
+            kSession.insert(vo);
+            cnt++;
+        }
+
+        Statement measSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet measQuery = measSt.executeQuery(
+                "SELECT"
+                        + " measurement_id"
+                        + ",person_id"
+                        + ",measurement_concept_id"
+                        + ",measurement_date"
+                        + ",measurement_datetime"
+                        + ",measurement_time"
+                        + ",measurement_type_concept_id"
+                        + ",operator_concept_id"
+                        + ",value_as_number"
+                        + ",value_as_concept_id"
+                        + ",unit_concept_id"
+                        + ",range_low"
+                        + ",range_high"
+                        + ",provider_id"
+                        + ",visit_occurrence_id"
+                        + ",measurement_source_value"
+                        + ",measurement_source_concept_id"
+                        + ",unit_source_value"
+                        + ",value_source_value"
+                        + " FROM measurement"
+                        + " WHERE measurement_date BETWEEN (TO_DATE('" + dateStr + "','yyyy-MM-dd') - INTERVAL '2 days') AND TO_DATE('" + dateStr + "','yyyy-MM-dd')"
+                // recent measurements within 48 hours may be considered that aren't necessarily on the same day.
+        );
+        measQuery.last();
+        logger.info("# of meas: " + measQuery.getRow());
+        measQuery.beforeFirst();
+        while (measQuery.next()) {
+            Measurement meas = new Measurement(
+                    measQuery.getInt("measurement_id"),
+                    measQuery.getInt("person_id"),
+                    measQuery.getInt("measurement_concept_id"),
+                    measQuery.getDate("measurement_date"),
+                    measQuery.getTimestamp("measurement_datetime"),
+                    measQuery.getString("measurement_time"),
+                    measQuery.getInt("measurement_type_concept_id"),
+                    measQuery.getInt("operator_concept_id"),
+                    measQuery.getBigDecimal("value_as_number"),
+                    measQuery.getInt("value_as_concept_id"),
+                    measQuery.getInt("unit_concept_id"),
+                    measQuery.getBigDecimal("range_low"),
+                    measQuery.getBigDecimal("range_high"),
+                    measQuery.getInt("provider_id"),
+                    measQuery.getInt("visit_occurrence_id"),
+                    measQuery.getString("measurement_source_value"),
+                    measQuery.getInt("measurement_source_concept_id"),
+                    measQuery.getString("unit_source_value"),
+                    measQuery.getString("value_source_value")
+            );
+            kSession.insert(meas);
+            cnt++;
+        }
+
+        Statement deraSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet deraQuery = deraSt.executeQuery(
+                "SELECT"
+                        + " drug_era_id"
+                        + ",to_char(drug_era_start_date, 'yyyy-MM-dd HH24:MI:SS') as drug_era_start_date"
+                        + ",person_id"
+                        + ",to_char(drug_era_end_date, 'yyyy-MM-dd HH24:MI:SS') as drug_era_end_date"
+                        + ",drug_concept_id"
+                        + ",drug_exposure_count"
+                        + " FROM drug_era"
+                        + " WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+        );
+        deraQuery.last();
+        logger.info("# of deras: " + deraQuery.getRow());
+        deraQuery.beforeFirst();
+        while (deraQuery.next()) {
+            Timestamp start = Timestamp.valueOf(deraQuery.getString("drug_era_start_date"));
+            Timestamp end = Timestamp.valueOf(deraQuery.getString("drug_era_end_date"));
+            kSession.insert(new DrugEra(deraQuery.getLong("drug_era_id"), start, deraQuery.getLong("person_id"), end, deraQuery.getInt("drug_concept_id"), deraQuery.getInt("drug_exposure_count")));
+            cnt++;
+        }
+
+        Statement ceraSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet ceraQuery = ceraSt.executeQuery(
+                "SELECT"
+                        + " condition_era_id"
+                        + ",to_char(condition_era_start_date, 'yyyy-MM-dd HH24:MI:SS') as condition_era_start_date"
+                        + ",to_char(condition_era_end_date, 'yyyy-MM-dd HH24:MI:SS') as condition_era_end_date"
+                        + ",person_id"
+                        + ",condition_concept_id"
+                        + ",condition_occurrence_count"
+                        + " FROM condition_era"
+                        + " WHERE CONDITION_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd')"
+                // + " AND CONDITION_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))"
+                // condition occurs at any time in the past.
+        );
+        ceraQuery.last();
+        logger.info("# of ceras: " + ceraQuery.getRow());
+        ceraQuery.beforeFirst();
+        while (ceraQuery.next()) {
+            Timestamp start = Timestamp.valueOf(ceraQuery.getString("condition_era_start_date"));
+            Timestamp end = Timestamp.valueOf(ceraQuery.getString("condition_era_end_date"));
+            kSession.insert(new ConditionEra(ceraQuery.getLong("condition_era_id"), start, end, ceraQuery.getLong("person_id"), ceraQuery.getInt("condition_concept_id"), ceraQuery.getInt("condition_occurrence_count")));
+            cnt++;
+        }
+
+        Statement dexpSt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+	/* If datetime fields are not available use: 
+	to_char(dexp.drug_exposure_start_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_start_date, to_char(dexp.drug_exposure_end_date, 'yyyy-MM-dd HH24:MI:SS') as drug_exposure_end_date
+	Instead of drug_exposure_start_datetime, drug_exposure_end_datetime
+	*/
+        ResultSet dexpQuery = dexpSt.executeQuery(
+                "SELECT"
+                        + " dexp.drug_exposure_id, dexp.person_id, dexp.drug_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime, dexp.drug_type_concept_id, dexp.stop_reason, dexp.refills, dexp.quantity, dexp.days_supply, dexp.sig, sm.expected, sm.min, sm.max, dexp.route_concept_id, dexp.lot_number, dexp.provider_id, dexp.visit_occurrence_id, dexp.drug_source_value, dexp.drug_source_concept_id, dexp.route_source_value, dexp.dose_unit_source_value, dstr.ingredient_concept_id, dstr.amount_value, dstr.amount_unit_concept_id, dstr.numerator_value, dstr.numerator_unit_concept_id, dstr.denominator_value, dstr.denominator_unit_concept_id, cd.concept_name AS drug_name, ci.concept_name AS ingredient_name"
+                        + " FROM drug_exposure dexp"
+                        + " INNER JOIN drug_strength dstr ON dexp.drug_concept_id = dstr.drug_concept_id"
+                        + " INNER JOIN concept cd ON dexp.drug_concept_id = cd.concept_id"
+                        + " INNER JOIN concept ci ON dstr.ingredient_concept_id = ci.concept_id"
+                        + " LEFT JOIN sig_mapping sm ON dexp.sig = sm.sig"
+                        + " AND dexp.person_id IN"
+                        + "(SELECT DISTINCT de.person_id FROM drug_era AS de WHERE drug_era_start_date <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND drug_era_end_date >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))"
+        );
+        dexpQuery.last();
+        logger.info("# of dexps: " + dexpQuery.getRow());
+        dexpQuery.beforeFirst();
+
+        while (dexpQuery.next()) {
+            ExtendedDrugExposure ex_dexp = new ExtendedDrugExposure(
+                    dexpQuery.getLong("drug_exposure_id"), // drugExposureId
+                    dexpQuery.getTimestamp("drug_exposure_start_datetime"), // Timestamp drugExposureStartDate
+                    dexpQuery.getTimestamp("drug_exposure_end_datetime"), // Timestamp drugeExposureEndDate
+                    dexpQuery.getLong("person_id"), // personId
+                    dexpQuery.getInt("drug_concept_id"), // drugConceptId
+                    dexpQuery.getInt("drug_type_concept_id"), // drugTypeConceptId
+                    dexpQuery.getString("stop_reason"), // stopReason
+                    dexpQuery.getShort("refills"), // refills
+                    dexpQuery.getInt("quantity"), // drugQuantity
+                    dexpQuery.getShort("days_supply"), // daysSupply
+                    dexpQuery.getString("sig"), // sig
+                    dexpQuery.getInt("expected"), // sigExpected
+                    dexpQuery.getInt("min"), // sigMin
+                    dexpQuery.getInt("max"), // sigMax
+                    dexpQuery.getInt("route_concept_id"), // routeConceptId
+                    dexpQuery.getString("lot_number"), // lotNumber
+                    dexpQuery.getInt("provider_id"), // providerId
+                    dexpQuery.getLong("visit_occurrence_id"), // visitOccurrenceId
+                    dexpQuery.getString("drug_source_value"), // drugSourceValue
+                    dexpQuery.getInt("drug_source_concept_id"), // drugSourceConceptId
+                    dexpQuery.getString("route_source_value"), // routeSourceValue
+                    dexpQuery.getString("dose_unit_source_value"), // doseUnitSourceValue
+                    dexpQuery.getInt("ingredient_concept_id"), // ingredientConceptId
+                    dexpQuery.getDouble("amount_value"), // amountValue
+                    dexpQuery.getInt("amount_unit_concept_id"), // amountUnitConceptId
+                    dexpQuery.getDouble("numerator_value"), // numeratorValue
+                    dexpQuery.getInt("numerator_unit_concept_id"), // numeratorUnitConceptId
+                    dexpQuery.getDouble("denominator_value"), // denominatorValue
+                    dexpQuery.getInt("denominator_unit_concept_id"), // denominatorUnitConceptId
+                    0.00, // dailyDosage - default value 0.00, set below
+                    // dexpQuery.getInt("indication_concept_id"),  // indicationConceptId
+                    dexpQuery.getString("drug_name"),
+                    dexpQuery.getString("ingredient_name")
+            );
+
+            if (dexpQuery.getString("amount_value") != null && dexpQuery.getString("expected") != null) {
+                ex_dexp.setSigDailyDosage(dexpQuery.getDouble("amount_value"), dexpQuery.getDouble("expected"));
+                System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: sigDailyDosage " + ex_dexp.getDailyDosage() + " = amount " + dexpQuery.getDouble("amount_value") + " * sigExpected " + dexpQuery.getInt("expected") + "[sig='" + dexpQuery.getString("sig") + "']");
+            } else if (dexpQuery.getString("numerator_value") != null && dexpQuery.getString("denominator_value") != null && dexpQuery.getString("expected") != null) {
+                //in the database the numerator value is already proportionate based on the denominator value if the denominator exists.
+                ex_dexp.setSigComplexDailyDosage(dexpQuery.getDouble("numerator_value"), dexpQuery.getDouble("expected"));
+                System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: sigComplexDailyDosage " + ex_dexp.getDailyDosage() + " = numerator " + dexpQuery.getDouble("numerator_value") + " * sigExpected " + dexpQuery.getInt("expected") + "[sig='" + dexpQuery.getString("sig") + "']");
+            } else if (dexpQuery.getString("quantity") != null && dexpQuery.getString("days_supply") != null && dexpQuery.getString("amount_value") != null) {
+                ex_dexp.setRegDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"), dexpQuery.getDouble("amount_value"));
+                System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: regDailyDosage " + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * amount " + dexpQuery.getDouble("amount_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
+
+            } else if (dexpQuery.getString("quantity") != null && dexpQuery.getString("days_supply") != null && dexpQuery.getString("numerator_value") != null) {
+                ex_dexp.setComplexDailyDosage(dexpQuery.getInt("quantity"), dexpQuery.getShort("days_supply"), dexpQuery.getDouble("numerator_value"));
+                System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE: complexDailyDosage" + ex_dexp.getDailyDosage() + " = quant " + dexpQuery.getInt("quantity") + " * numerator " + dexpQuery.getDouble("numerator_value") + " / daysSupply " + dexpQuery.getShort("days_supply"));
+            } else {
+                System.out.println("\tPERSON=" + dexpQuery.getLong("person_id") + " DEXP DRUG " + ex_dexp.getDrugConceptName() + " -- ID=" + ex_dexp.getDrugConceptId() + " SET DAILY DOSAGE NOT SUCCESSFUL -- sig text=" + dexpQuery.getString("sig"));
+                // ex_dexp.setNullDailyDosage(dexpQuery.getDouble("amount_value"));
+            }
+            kSession.insert(ex_dexp);
+            cnt++;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////
+        // CREATE OBJECTS...
+        ////////////////////////////////////////////////////////////////////////////
+
+        System.out.println("Done gathering and loading data...");
+
+
+        System.out.println("Firing rules for assessment...");
+        int nrules = -1;
+        try {
+            nrules = kSession.fireAllRules();
+        } catch (Throwable t) {
+            System.out.println("Firing rules triggered an exception:");
+            t.printStackTrace();
+        }
+        System.out.println("INFO: number of rules fired (-1 on error):" + nrules);
+
+//        kieLogger.close();
+        kSession.dispose();
+        kSession.destroy();
+
+        personQuery.close();
+        personSt.close();
+        csQuery.close();
+        csSt.close();
+        voQuery.close();
+        voSt.close();
+        measQuery.close();
+        measSt.close();
+        deraQuery.close();
+        deraSt.close();
+        ceraQuery.close();
+        ceraSt.close();
+        dexpQuery.close();
+        dexpSt.close();
+
+        System.out.println("INFO: Rule engine session closed!");
+
     }
-
-    private static void closeDbSession() {
-	session.close();
-    }
-    
-    @SuppressWarnings({ "unchecked" })
-    public static void main(String[] args) throws ClassNotFoundException {
-	    	
-	String rule_folder = "";  	
-	Properties prop = new Properties();
-	InputStream input = null;
-	try {
-		input = new FileInputStream("config.properties");
-		// load a properties file
-		prop.load(input);
-		// get the property value and print it out
-		rule_folder = prop.getProperty("ruleFolder");
-	} catch (IOException ex) {
-		ex.printStackTrace();
-	} finally {
-		if (input != null) {
-			try {
-				input.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}    	
-	
-	System.out.println("Gathering data...");
-	openDbSession();
-	System.out.println("INFO: Hibernate session open!");
-
-	Session hibernateSession = session.getCurrentSession();
-	hibernateSession.beginTransaction();
-
-	//***** simple debugging query *****
-	//List<Long> personIds = (List<Long>) hibernateSession.createQuery("SELECT personId FROM Person WHERE personId in (3,63,123,183)").list();
-	//System.out.println("INFO: personIds: " + personIds.toString());
-
-	//**** Pull data to be loaded into Drools working memory *****
-	// pull data from a specific date
-	String dateStr = "2008-02-13";
-
-	// Get concept ids and names from the defined concept sets. There is currently no hibernate mapping for this.
-	SQLQuery query = hibernateSession.createSQLQuery("SELECT concept_set_name,concept_id FROM ohdsi.concept_set cs INNER JOIN ohdsi.concept_set_item csi ON cs.concept_set_id = csi.concept_set_id");
-	query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-	List csItemResults =  query.list();
-	System.out.println("INFO: number of conceptTpls: " + csItemResults.size()); // this is a list of Map objects  [{concept_id=40163566, concept_set_name=Anticoagulants}, {concept_id=40163560, concept_set_name=Anticoagulants}, ...}
-
-	// The dataset records drug exposures as single day events and then creates drug era for exposures with <= 30 day gaps. So, we have to query first the drug eras (wich are coded as ingredients) and then the drug exposures (coded as clinical drugs) 
-	List<DrugEra> deras = (List<DrugEra>) hibernateSession.createQuery("FROM DrugEra WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))").list();
-	System.out.println("INFO: number of deras: " + deras.size());
-
-	// The query for drug exposures is limited to exposures for those persons with drug eras overlapping the target date
-	// List<DrugExposure> dexps = (List<DrugExposure>) hibernateSession.createQuery("FROM DrugExposure dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
-	// System.out.println("INFO: number of dexps for persons with drug eras during the date range: " + dexps.size());
-
-	// The query for person data is limited to exposures for those persons with drug eras overlapping the target date
-	List<Person> persons = (List<Person>) hibernateSession.createQuery("FROM Person AS p WHERE p.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
-	System.out.println("INFO: number of persons with drug eras during the date range: " + persons.size());
-
-	// The query for condition eras is limited to condition eras overlapping the target date and drug eras overlapping the target date
-	List<ConditionEra> ceras = (List<ConditionEra>) hibernateSession.createQuery("FROM ConditionEra AS cera WHERE cera.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))) AND cera.conditionEraStartDate <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND cera.conditionEraEndDate >= TO_DATE('" + dateStr + "','yyyy-MM-dd')").list();
-	System.out.println("INFO: number of ceras for persons with drug eras during the date range and with conditions that similarly overlap: " + ceras.size());
-
-	// The query to get drug strength - overlaps with the drugs that are in the above queries?
-	// List<DrugStrength> dstrs = (List<DrugStrength>) hibernateSession.createQuery("FROM DrugStrength AS dstr WHERE dstr.drugConceptId IN (SELECT DISTINCT dexp.drugConceptId FROM DrugExposure AS dexp WHERE dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))))").list();
-	// System.out.println("INFO: number of dstrs for persons with drug eras during the date range: " + dstrs.size());
-
-	// The query to get drug strength - overlaps with the drugs that are in the above queries
-	List<Measurement> msnts = (List<Measurement>) hibernateSession.createQuery("FROM Measurement as msnt WHERE msnt.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
-	System.out.println("INFO: number of measurements for persons with drug eras during the date range: " + msnts.size());
-
-	// The query to get visit occurrences - also overlaps with the drugs in the above queries
-	List<VisitOccurrence> voccs = (List<VisitOccurrence>) hibernateSession.createQuery("FROM VisitOccurrence as vocc WHERE vocc.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd'))) AND vocc.visitStartDate <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND vocc.visitEndDate >= TO_DATE('" + dateStr + "','yyyy-MM-dd')").list();
-	System.out.println("INFO: number of visit occurrences for persons with drug eras during the date range: " + voccs.size());
-	
-	// Query to create the "extended drug exposure" that includes drug strength
-	List<Object> temps = (List<Object>) hibernateSession.createQuery("SELECT dexp.drugExposureId, dexp.personId, dexp.drugConceptId, to_char(dexp.drugExposureStartDate, 'yyyy-MM-dd') as drugExposureStartDate, to_char(dexp.drugExposureEndDate, 'yyyy-MM-dd') as drugExposureEndDate,dexp.drugExposureTypeConceptId, dexp.stopReason, dexp.refills, dexp.drugQuantity, dexp.daysSupply, dexp.sig, dexp.routeConceptId, dexp.effectiveDrugDose, dexp.doseUnitConceptId, dexp.lotNumber, dexp.providerId, dexp.visitOccurrenceId, dexp.drugSourceValue, dexp.drugSourceConceptId, dexp.routeSourceValue, dexp.doseUnitSourceValue, dstr.amountValue, dstr.amountUnitConceptId, dstr.numeratorValue, dstr.numeratorUnitConceptId, dstr.denominatorValue, dstr.denominatorUnitConceptId, dstr.ingredientConceptId FROM DrugExposure dexp, DrugStrength dstr WHERE dexp.drugConceptId = dstr.drugConceptId AND dexp.personId IN (SELECT DISTINCT de.personId FROM DrugEra AS de WHERE DRUG_ERA_START_DATE <= TO_DATE('" + dateStr + "','yyyy-MM-dd') AND DRUG_ERA_END_DATE >= (TO_DATE('" + dateStr + "','yyyy-MM-dd')))").list();
-	
-	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	List<ExtendedDrugExposure> ex_dexps = new ArrayList<ExtendedDrugExposure>();	
-	Iterator itr = temps.iterator();
-	while(itr.hasNext())
-	{
-	    Object[] obj = (Object[]) itr.next();
-	    ExtendedDrugExposure ex_dexp = new ExtendedDrugExposure();
-	    ex_dexp.setDrugExposureId(Long.parseLong(String.valueOf(obj[0])));
-	    ex_dexp.setPersonId(Long.parseLong(String.valueOf(obj[1])));
-	    ex_dexp.setDrugConceptId(Integer.parseInt(String.valueOf(obj[2])));
-	    try 
-	    {
-		java.util.Date date = df.parse(String.valueOf(obj[3]));
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		ex_dexp.setDrugExposureStartDate(cal);
-	    } 
-	    catch (ParseException e) 
-	    {
-		e.printStackTrace();}
-	    if(String.valueOf(obj[4]) != "null"){
-	      try 
-	      {
-		  java.util.Date date2 = df.parse(String.valueOf(obj[4]));
-		  Calendar cal2 = Calendar.getInstance();
-		  cal2.setTime(date2);
-		  ex_dexp.setDrugExposureEndDate(cal2);
-	      } 
-	      catch (ParseException e) 
-	      {
-		  e.printStackTrace();}}
-	    ex_dexp.setDrugExposureTypeConceptId(Integer.parseInt(String.valueOf(obj[5])));
-	    ex_dexp.setStopReason(String.valueOf(obj[6]));
-	    if(String.valueOf(obj[7]) != "null"){
-		ex_dexp.setRefills(Short.parseShort(String.valueOf(obj[7])));}
-	    if(String.valueOf(obj[8]) != "null"){
-	      ex_dexp.setDrugQuantity(Integer.parseInt(String.valueOf(obj[8])));}	   
-	    if(String.valueOf(obj[9]) != "null"){
-	      ex_dexp.setDaysSupply(Short.parseShort(String.valueOf(obj[9])));}
-	    ex_dexp.setSig(String.valueOf(obj[10]));
-	    if(String.valueOf(obj[11]) != "null"){
-		ex_dexp.setRouteConceptId(Integer.parseInt(String.valueOf(obj[11])));}
-	    if(String.valueOf(obj[12]) != "null"){
-		ex_dexp.setEffectiveDrugDose(Integer.parseInt(String.valueOf(obj[12])));}
-	    if(String.valueOf(obj[13]) != "null"){
-		ex_dexp.setDoseUnitConceptId(Integer.parseInt(String.valueOf(obj[13])));}
-	    ex_dexp.setLotNumber(String.valueOf(obj[14]));
-	    if(String.valueOf(obj[15]) != "null"){
-		ex_dexp.setProviderId(Integer.parseInt(String.valueOf(obj[15])));}
-	    if(String.valueOf(obj[16]) != "null"){
-		ex_dexp.setVisitOccurrenceId(Long.parseLong(String.valueOf(obj[16])));}
-	    ex_dexp.setDrugSourceValue(String.valueOf(obj[17]));
-	    if(String.valueOf(obj[18]) != "null"){
-		ex_dexp.setDrugSourceConceptId(Integer.parseInt(String.valueOf(obj[18])));}
-	    ex_dexp.setRouteSourceValue(String.valueOf(obj[19]));
-	    ex_dexp.setDoseUnitSourceValue(String.valueOf(obj[20]));
-	    if(String.valueOf(obj[21]) != "null"){
-	      ex_dexp.setAmountValue(Double.parseDouble(String.valueOf(obj[21])));}
-	    if(String.valueOf(obj[22]) != "null"){
-	      ex_dexp.setAmountUnitConceptId(Integer.parseInt(String.valueOf(obj[22])));}	    
-	    if(String.valueOf(obj[23]) != "null"){
-	      ex_dexp.setNumeratorValue(Double.parseDouble(String.valueOf(obj[23])));}	
-	    if(String.valueOf(obj[24]) != "null"){
-	      ex_dexp.setNumeratorUnitConceptId(Integer.parseInt(String.valueOf(obj[24])));}	    
-	    if(String.valueOf(obj[25]) != "null"){
-	      ex_dexp.setDenominatorValue(Double.parseDouble(String.valueOf(obj[25])));}
-	    if(String.valueOf(obj[26]) != "null"){
-	      ex_dexp.setDenominatorUnitConceptId(Integer.parseInt(String.valueOf(obj[26])));}	      
-	    if(String.valueOf(obj[8]) != "null" && String.valueOf(obj[9]) != "null" && String.valueOf(obj[21]) != "null"){
-	      ex_dexp.setRegDailyDosage(Integer.parseInt(String.valueOf(obj[8])), Short.parseShort(String.valueOf(obj[9])), Double.parseDouble(String.valueOf(obj[21])));}
-	    else if(String.valueOf(obj[8]) != "null" && String.valueOf(obj[9]) != "null" && String.valueOf(obj[23]) != "null"){
-	      ex_dexp.setComplexDailyDosage(Integer.parseInt(String.valueOf(obj[8])), Short.parseShort(String.valueOf(obj[9])), Double.parseDouble(String.valueOf(obj[23])));}
-	    else{
-	      ex_dexp.setNullDailyDosage(0.00);}	      
-	    ex_dexp.setIngredientConceptId(Integer.parseInt(String.valueOf(obj[27])));
-	    ex_dexps.add(ex_dexp);
-	}	
-	System.out.println("INFO: number of ex_dexps for persons with drug eras during the date range: " + ex_dexps.size());	   
-	
-	System.out.println("Done gathering data...");
-	int total_cnt = (csItemResults.size() + deras.size() + persons.size() + ceras.size() + msnts.size() + ex_dexps.size() + voccs.size());
-	//-------------------------------------------------
-
-	// Run the rule engine
-	KieServices ks = KieServices.Factory.get();
-	KieContainer kContainer = ks.getKieClasspathContainer();
-	
-	System.out.println("INFO: Rule engine session open!");	
-	KieSession kSession = kContainer.newKieSession(rule_folder); // This is the line that should be edited to change what rules are fired!
-	kSession.setGlobal("hibernateSession", hibernateSession);
-	
-	try 
-	{
-	  Calendar cal2 = Calendar.getInstance();
-	  cal2.setTime(df.parse(dateStr));
-	  kSession.setGlobal("currentDate", cal2);
-	  Calendar cal3 = Calendar.getInstance();
-	  cal3.setTime(df.parse(dateStr));
-	  cal3.add(Calendar.DAY_OF_YEAR, -2);	  
-	  kSession.setGlobal("within48hours", cal3);
-	  Calendar cal4 = Calendar.getInstance();
-	  cal4.setTime(df.parse(dateStr));
-	  cal4.add(Calendar.DAY_OF_YEAR, -28);
-	  kSession.setGlobal("within28days", cal4);
-	} 
-	catch (ParseException e) 
-	{
-	  e.printStackTrace();
-	}
-		   
-	// Load all the facts
-	System.out.println("Asserting facts...");
-	int cnt = 0;
-	Iterator iter = csItemResults.iterator();
-	while (iter.hasNext()){
-	    Map map = (Map) iter.next();
-	    kSession.insert( new ConceptSetItem((String) map.get("concept_set_name"), (Integer) map.get("concept_id")));
-	    cnt++;
-	}	
-	for (DrugEra dera : deras) {           	
-	    kSession.insert((DrugEra) hibernateSession.get(DrugEra.class, dera.getDrugEraId()));            	
-	    cnt++;
-	}
-	for (Person p : persons) {           	
-	    kSession.insert((Person) hibernateSession.get(Person.class, p.getPersonId()));            	
-	    cnt++;
-	}	
-	for (ConditionEra cera : ceras) {           	
-	    kSession.insert((ConditionEra) hibernateSession.get(ConditionEra.class, cera.getConditionEraId()));            	
-	    cnt++;
-	}	
-	for (Measurement msnt : msnts){
-	    kSession.insert((Measurement) hibernateSession.get(Measurement.class, msnt.getMeasurementId()));
-	    cnt++;
-	}
-	for (VisitOccurrence vocc : voccs){
-	    kSession.insert((VisitOccurrence) hibernateSession.get(VisitOccurrence.class, vocc.getVisitOccurrenceId()));
-	    cnt++;
-	}
-	for (ExtendedDrugExposure ex_dexp : ex_dexps){
-	    kSession.insert((ExtendedDrugExposure) ex_dexp);
-	    cnt++;
-	}
-	System.out.println("Number of facts asserted: " + cnt);	
-	System.out.println("Total number of facts that should've been asserted: " + total_cnt);
-            
-	System.out.println("Firing rules for assessment...");
-	// fire rules
-	kSession.fireAllRules();            
-             
-	closeDbSession();
-	System.out.println("INFO: Hibernate session closed!");
-	
-	kSession.dispose();
-	System.out.println("INFO: Rule engine session closed!"); 
-            
-    }       
 }

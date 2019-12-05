@@ -1,20 +1,11 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import java.util.Calendar;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.sql.Timestamp;
 
 
-@Entity
-@Table(name="CONDITION_ERA")
 
-public class ConditionEra  implements java.io.Serializable {
+
+public class ConditionEra  {
 
     // Constructors
 
@@ -22,8 +13,9 @@ public class ConditionEra  implements java.io.Serializable {
     public ConditionEra() {
     }
 
-    public ConditionEra(Calendar conditionEraStartDate, Calendar conditionEraEndDate, Long personId, Integer conditionConceptID, Integer conditionOccurrenceCount) {
+    public ConditionEra(Long conditionEraId, Timestamp conditionEraStartDate, Timestamp conditionEraEndDate, Long personId, Integer conditionConceptID, Integer conditionOccurrenceCount) {
 	super();
+    this.conditionEraId = conditionEraId;
 	this.conditionEraStartDate = conditionEraStartDate;
 	this.conditionEraEndDate = conditionEraEndDate;
 	this.personId = personId;
@@ -32,11 +24,7 @@ public class ConditionEra  implements java.io.Serializable {
     }
    
     // Property accessors
-    @Id
-    @Column(name = "CONDITION_ERA_ID", nullable = false, insertable = false, updatable = false)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="HIBERNATE_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="HIBERNATE_SEQUENCE_GENERATOR", sequenceName="HIBERNATE_SEQUENCE", initialValue = 1, allocationSize = 1)
-    Long conditionEraId;
+                    Long conditionEraId;
     public Long getConditionEraId() {
         return this.conditionEraId;
     }    
@@ -44,8 +32,7 @@ public class ConditionEra  implements java.io.Serializable {
         this.conditionEraId = id;
     }
 
-   @Column(name="PERSON_ID", unique=false, nullable=false, insertable=true, updatable=true, precision=12, scale=0) 
-    Long personId;
+       Long personId;
     public Long getPersonId() {
 	return personId;
     }
@@ -54,28 +41,25 @@ public class ConditionEra  implements java.io.Serializable {
     }
 
 
-    @Column(name="CONDITION_ERA_START_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7) 
-    Calendar conditionEraStartDate;
-    public void setConditionEraStartDate(Calendar conditionEraStartDate) {
+        Timestamp conditionEraStartDate;
+    public void setConditionEraStartDate(Timestamp conditionEraStartDate) {
 	this.conditionEraStartDate = conditionEraStartDate;
     }    
-    public Calendar getConditionEraStartDate() {
+    public Timestamp getConditionEraStartDate() {
 	return conditionEraStartDate;
     }
 
 
 
-    @Column(name="CONDITION_ERA_END_DATE", unique=false, nullable=true, insertable=true, updatable=true, length=7) 
-    Calendar conditionEraEndDate;
-    public void setConditionEraEndDate(Calendar conditionEraEndDate) {
+        Timestamp conditionEraEndDate;
+    public void setConditionEraEndDate(Timestamp conditionEraEndDate) {
 	this.conditionEraEndDate = conditionEraEndDate;
     }    
-    public Calendar getConditionEraEndDate() {
+    public Timestamp getConditionEraEndDate() {
 	return conditionEraEndDate;
     }
 
-    @Column(name="CONDITION_CONCEPT_ID", unique=false, nullable=true, insertable=true, updatable=true, precision=8, scale=0) 
-    Integer conditionConceptID;
+        Integer conditionConceptID;
     public void setConditionConceptId(Integer condId) { 
 	this.conditionConceptID = condId;
     }
@@ -83,8 +67,7 @@ public class ConditionEra  implements java.io.Serializable {
 	return conditionConceptID;
     }
 
-    @Column(name="CONDITION_OCCURRENCE_COUNT", unique=false, nullable=true, insertable=true, updatable=true, precision=4, scale=0)
-    Integer conditionOccurrenceCount;
+        Integer conditionOccurrenceCount;
     public void setConditionOccurrenceCount(Integer conditionOccurrenceCount) { 
 	this.conditionOccurrenceCount = conditionOccurrenceCount;
     }

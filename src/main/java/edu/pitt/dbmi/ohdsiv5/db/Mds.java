@@ -1,23 +1,19 @@
 package edu.pitt.dbmi.ohdsiv5.db;
 
-import javax.persistence.MappedSuperclass;
 
 /**
- * @author Jeremy Jao
- * 08.26.2014
+ *  * 08.26.2014
  * 
  * This is the Mds interface. This will include every possible method in
  * MDS2 and MDS3. However, what is not in MDS2 or MDS3 will just return 
  * a null value.
  */ 
 
-@MappedSuperclass
 public interface Mds {
 	
 	/**
 	 * gets the ID of the row given
-	 * @return the ID as a Long
-	 */ 
+	 * 	 */ 
 	public Long getId();
 	
 	/**
@@ -27,8 +23,7 @@ public interface Mds {
 	
 	/**
 	 * Gets the patient ID as a String
-	 * @return the patient ID
-	 */
+	 * 	 */
 	public String getPatientId();
 	
 	/**
@@ -37,8 +32,7 @@ public interface Mds {
 	public void setPatientId(String patientId);
 	
 	/**
-	 * @return the date of the event that happened
-	 */
+	 * 	 */
 	public String getDateOfEvent();
 	
 	/**
@@ -48,8 +42,7 @@ public interface Mds {
 	
 	/**
 	 * Gets the gender of patient
-	 * @return the gender of the patient as a String
-	 */
+	 * 	 */
 	public String getGender();
 	public void setGender(String gender);
 
@@ -79,8 +72,7 @@ public interface Mds {
 	public String getAshd();
 	 /**
 	  * Sets the ICD-9 of ashd
-	  * @param ashd the ICD-9 of ashd to be set
-	  */
+	  * 	  */
 	public void setAshd(String ashd);
 	
 	public String getMaritalstatus();
@@ -130,13 +122,11 @@ public interface Mds {
 	
 	/**
 	 * gets the cognitiveSkills variable
-	 * @return cognitive skills ICD-9 or null if it doesn't exist
-	 */
+	 * 	 */
 	public String getCognitiveskills();
 	/**
 	 * Sets the cognitiveSkills variable
-	 * @param cognitiveSkills the code of cognitiveSkills to be set
-	 */
+	 * 	 */
 	public void setCognitiveskills(String cognitiveSkills);
 	
 	public String getAnxiety();
@@ -211,8 +201,7 @@ public interface Mds {
 	 ////* get the icd-9 of hyponatremia
 	 ////* 
 	 ////* In MDS3 not MDS2
-	 ////* @return the ICD-9 of Hyponatremia as a String
-	 ////*/ 
+	 ////* 	 ////*/ 
 	////public String getHyponatremia();
 	
 	/////**
@@ -228,8 +217,7 @@ public interface Mds {
 	 ////* 
 	 ////* in MDS3 not MDS2
 	 ////* 
-	 ////* @return the ICD-9 of Hyperlipidemia as a String
-	 ////*/
+	 ////* 	 ////*/
 	////public String getHyperlipidemia();
 	
 	/////**
@@ -244,8 +232,7 @@ public interface Mds {
 	/////**
 	 ////* MDS3 getter for hypo/hyperthyroidism
 	 ////* 
-	 ////* @return the ICD-9 of Thyroid disorder
-	 ////*/
+	 ////* 	 ////*/
 	////public String getThyroiddisorder();
 	
 	/////**
@@ -256,8 +243,7 @@ public interface Mds {
 	/////**
 	 ////* MDS2 getter for hyperthyroidism
 	 ////* 
-	 ////* @return the ICD-9 of hyperthyroidism
-	 ////*/
+	 ////* 	 ////*/
 	////public String getHyperthyroidism();
 	
 	/////**
@@ -268,8 +254,7 @@ public interface Mds {
 	/////**
 	 ////* MDS2 getter for hypothyroidism
 	 ////* 
-	 ////* @return the ICD-9 for hypothyroidism
-	 ////*/ 
+	 ////* 	 ////*/ 
 	////public String getHypothyroidism();
 	
 	/////**
@@ -297,8 +282,7 @@ public interface Mds {
 	
 	/////**
 	 ////* In MDS3 not MDS2
-	 ////* @return the ICD-9 of Huntington's Disease
-	 ////*/
+	 ////* 	 ////*/
 	////public String getHuntingtonsDisease();
 	
 	/////**
@@ -310,8 +294,7 @@ public interface Mds {
 	
 	/////**
 	 ////* In MDS3 not MDS2
-	 ////* @return the ICD-9 for Tourette's Syndrome
-	 ////*/
+	 ////* 	 ////*/
 	////public String getTourettessyndrome();
 	
 	/////**
@@ -336,8 +319,7 @@ public interface Mds {
 	/////**
 	 //* MDS3 getter for falls since admission
 	 //* 
-	 //* @return the SNOMED for falls since admission
-	 //*/ 
+	 //* 	 //*/ 
 	//public String getFallssinceadmission();
 	
 	/////**

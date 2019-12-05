@@ -1,0 +1,21 @@
+config.properties~
+*.dmp
+*.phd
+*.txt~
+*.md~
+*.java~
+*.class
+target/*
+javacore*
+*~
+config.properties
+testrun.txt
+<<<<<<< HEAD
+*.iml
+*.log
+**/.DS_Store
+.idea/
+=======
+/simulated*/
+/banner*/
+>>>>>>> a4e9f9f9eba05851c6f647449611bb80721fefaf
