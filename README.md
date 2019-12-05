@@ -54,7 +54,7 @@ Output is then written to a folder "simulated-run" or "banner-run" depending on 
 ## Docker Container
 
 A [Docker container](https://hub.docker.com/r/ddicds/idia_rules) for this project can be pulled using the command:
-```docker pull ddicds/idia_rules``` 
+```docker pull ddicds/idia_rules:localdb``` 
 
 The following command can be used to run the docker container over the default synthetic population:
 
