@@ -23,6 +23,8 @@ with open("data.csv", "rb") as infile, open("output.sql", "wb") as outfile:
     elif row[0] == "C_ERA":
       out_string = ("INSERT INTO condition_era (condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date) values (" + str(ceraId) + ", " + row[1] + ", " + row[3] + ", '" + row[4] + "', '" + row[5] + "');\n")
       outfile.write(out_string)
+      out_string = ("INSERT INTO condition_occurrence (condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_end_date, condition_type_concept_id) values (" + str(ceraId) + ", " + row[1] + ", " + row[3] + ", '" + row[4] + "', '" + row[5] + "', 32020);\n")
+      outfile.write(out_string)
       ceraId += 1
     elif row[0] == "D_EXP":
       out_string = ("INSERT INTO drug_exposure (drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_end_date, drug_type_concept_id, quantity, days_supply, sig, route_concept_id, drug_exposure_start_datetime, drug_exposure_end_datetime) values (" + str(dexpId) + ", " + row[1] + ", " + row[3] + ", '" + row[4] + "', '" + row[5] + "', 38000175, " + row[8] + ", " + row[9] + ", '" + row[12] + "', " + row[13] + ", '" + row[4] + " 00:00:00', '" + row[5] + " 00:00:00'" + ");\n")
